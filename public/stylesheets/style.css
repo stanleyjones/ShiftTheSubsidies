@@ -1,0 +1,142 @@
+/*
+		Stylesheet for ShiftTheSubsidies.org
+		http://diligentcreative.com/
+*/
+
+/*	Imports (Reset, Type)
+- - - - - - - - - - - - - - - - - - - - */
+
+	@import "reset.css";
+	@import "type.css";
+	
+	@font-face {font-family:Diavlo; src:url(style/fonts/Diavlo_LIGHT_II_37.otf) format("opentype"); font-weight:normal;}
+	@font-face {font-family:Diavlo; src:url(style/fonts/Diavlo_BOLD_II_37.otf) format("opentype"); font-weight:bold;} 
+	/* A font by Jos Buivenga (exljbris) -> www.exljbris.com */
+
+/*	Standard HTML Elements
+- - - - - - - - - - - - - - - - - - - - */
+
+	html,body {height:100%; background:#963 url(images/body.png) bottom repeat-x fixed;}
+	
+	a {color:#d72; text-decoration:none;}
+	a:hover {color:#f96;}
+	
+	input {border:0;}
+	input[type=submit]:hover {cursor:pointer;}
+	input::-moz-focus-inner {border:0; padding:0;}
+
+
+/* Elements by Class
+- - - - - - - - - - - - - - - - - - - - */
+
+	/* Buttons */
+	
+	a.button, input.button, ul.buttons a {padding:4px; color:#eee; background:#666; background-position:5px; background-repeat:no-repeat; border:1px solid rgba(255,255,255,0.125); border-radius:10px; -moz-border-radius:10px; text-shadow:0 1px 1px rgba(0,0,0,.5); -webkit-box-shadow:0 1px 1px rgba(0,0,0,0.5); text-decoration:none;}
+	a.button:hover, input.button:hover, ul.buttons a:hover {color:#fff; background-color:#777; cursor:pointer;}
+
+	a.button.donate, ul.buttons a[title=donate] {padding-left:25px; background-image:url(lib/css/icons/currency.png);}
+	a.button.act, ul.buttons a[title=act] {padding-left:25px; background-image:url(lib/css/icons/flag.png);}
+	
+	/* Icons */
+	
+	a.icon {display:inline-block; width:16px; height:16px; text-indent:-9999px;}
+	a.feed {background:url(lib/css/icons/feed-small.png) center no-repeat;}
+
+	a.icon.mail {background-image:url(lib/css/icons/mail.png);}
+
+	/* Search Form */
+	
+	form.search input {margin:0; padding:4px; text-align:center;}
+	form.search input[type="text"] {height:20px; width:auto; font-size:10px; border:1px solid rgba(255,255,255,0.25); border-radius:10px 0 0 10px; -moz-border-radius:10px 0 0 10px;}
+	form.search input[type="submit"] {height:30px; line-height:20px; border-radius:0 10px 10px 0; -moz-border-radius:0 10px 10px 0;}
+
+	/* Date Ribbon */
+	.post .date {padding:2px 5px 2px 5px; text-align:center; background:url(lib/css/images/date.png) top left no-repeat;}
+	.post .date .month {display:block; height:12px; color:#039; font-size:12px; font-weight:bold; line-height:12px; text-transform:uppercase; text-shadow:0 1px 1px rgba(255,255,255,0.25);}
+	.post .date .day {display:block; height:28px; color:#039; font-size:28px; font-weight:bold; line-height:20px; text-shadow:0 1px 1px rgba(255,255,255,0.25);}
+
+	/* Tag Lists */
+	ul.tags {padding:0; list-style:none; overflow:auto;}
+	ul.tags li {float:left; margin-right:2px; text-transform:uppercase;}
+	ul.tags li a {display:block; padding:2px; color:#999; background:#ddd; font-size:10px; line-height:12px; border-radius:2px; -moz-border-radius:2px;}
+	ul.tags li a:hover {color:#69f; background:#ddd;}
+
+	/* Post Lists */
+	li.post {position:relative; clear:left; margin:0; padding:10px; min-height:80px; background:url(lib/css/images/fade.png) bottom repeat-x;}
+	li.post h3 {margin:0;}
+	li.post.big h3 {margin-left:20px;}
+	li.post img {float:left; margin:0 10px 10px -5px; height:100px; width:100px;}
+	li.post .date {position:absolute; top:5px; left:-25px; height:60px; width:40px;}
+	li.post .entry-meta {margin-bottom:10px; font-size:10px;}
+	li.post.big .entry-meta {margin-left:20px;}
+	li.post .more {color:#666; font-size:0.8em; text-transform:uppercase;}
+	li.post .more a {font-size:1em; text-transform:none;}
+	
+	/* WordPress Classes */
+	.alignleft {float:left; margin-right:10px;}
+	.alignright {float:right; margin-left:10px;}
+	.wp-caption-text {margin:0 10px 10px 10px; text-align:center; font-variant:small-caps;}
+
+/*	Elements by ID
+- - - - - - - - - - - - - - - - - - - - */
+
+	/* OCI Universal Header */
+
+	#wrapper {position:relative; min-height:100%; width:970px; margin:0 auto; padding-bottom:120px; background:#fff; -webkit-box-shadow:0 0 5px rgba(0,0,0,0.5); -moz-box-shadow:0 0 5px rgba(0,0,0,0.5); overflow:visible;}
+	#content {width:950px; padding:10px;}
+	
+	#oci_nav {height:50px; background:#eee url(lib/css/images/oci_header.png) repeat-x; -webkit-box-shadow:0 2px 2px rgba(0,0,0,0.5); -moz-box-shadow:0 2px 2px rgba(0,0,0,0.5);}
+	#oci_nav h1 {float:left; height:50px; width:150px; margin:0;}
+	#oci_nav h1 a {display:block; height:100%; width:auto;}
+	#oci_nav ul {float:right; margin:0; list-style:none;}
+	#oci_nav li {float:left; width:150px; margin:10px 10px 10px 0;}
+	#oci_nav li a {display:block; height:30px; line-height:30px; font-family:"Diavlo"; font-size:14px; text-align:center; text-decoration:none; text-shadow:0 1px 1px rgba(255,255,255,0.5); color:#666; background:#ddd; border-radius:10px; -moz-border-radius:10px; -webkit-box-shadow:0 1px 1px rgba(255,255,255,0.5); -moz-box-shadow:0 1px 1px rgba(255,255,255,0.5);}
+	#oci_nav li a:hover {background-color:#dda;}
+	body.hidenav #oci_nav li {display:none;}
+	
+	#site_nav {padding:10px; height:30px; background:#333 url(lib/css/images/site_nav.png) repeat-x;}
+	#site_nav h2 {line-height:20px; font-family:Diavlo; font-weight:normal;}
+	#site_nav h2 a {color:#27d; text-decoration:none;}
+	#site_nav p {clear:left; margin-top:-20px; color:#666; font-size:10px; line-height:10px;}
+	#site_nav ul {float:right; width:auto; margin:0; list-style:none;}
+	#site_nav li {float:left; margin:0;}
+	#site_nav li a {display:block; margin-left:10px; width:118px; line-height:20px;}
+
+	#site_title {float:left;}
+	
+	#searchform {float:right; margin:7px 10px; font-size:10px;}
+	#searchform input[type="text"] {display:block; float:left; height:10px; width:150px; text-align:center;}
+	#searchform input[type="submit"] {width:70px; height:20px; line-height:10px;}
+
+	/* Top Nav - Pages, Subscribe, Social Networks */
+
+	#top_nav {margin:10px 10px 0 10px; height:35px; background:#111 url(lib/css/images/top_nav.png) center repeat-x; border:1px solid #222;}
+	#top_nav ul {margin:0; padding:0;}
+		#top_nav li {position:relative; z-index:99; list-style:none; float:left;}
+		#top_nav li a {display:block; height:35px; width:80px; text-align:center; line-height:35px; border-right:1px solid #222;}
+		#top_nav li a:hover {background:#333;}
+			#top_nav li ul {display:none; background:#333; border:1px solid #000; border-top:0;}
+			#top_nav li:hover ul {position:absolute; top:35px; left:-1px; display:block; z-index:99;}
+			#top_nav li li {float:none;}
+			#top_nav li li a {width:140px; text-align:left; padding:0 10px; border-right:0;}
+	#top_nav #social {float:right; margin:0 10px 0 0;}
+	#top_nav #social a {display:inline-block; padding:10px 3px 0 0;}
+
+	#subscribe {float:right; width:auto; font-size:12px;}
+	#subscribe input[type="text"] {margin:0; width:220px; padding:10px 5px; background:#fff; border:0; border-radius:10px 0 0 10px; -moz-border-radius:10px 0 0 10px; text-align:center;}
+	#subscribe input[type="submit"] {margin:0; width:80px; height:32px; line-height:25px; border-radius:0 10px 10px 0; -moz-border-radius:0 10px 10px 0;}
+
+	#content h2 {margin:5px 0; color:#fff; font-size:10px; line-height:10px; text-transform:uppercase;}
+
+	/* Content */
+	
+	#page {background:#fff; border-radius:10px; -moz-border-radius:10px; padding:20px;}
+	#page .entry-title {font-size:24px; font-family:Diavlo;}
+	#post .entry-title {font-size:24px; font-weight:bold; font-family:Diavlo;}
+	
+	#sharebar {margin:-20px -20px 20px; padding:10px; background:#ddd; text-align:right;}
+	#sharebar a {padding-right:20px; background:url(lib/css/icons/share.png) right no-repeat;}
+
+	/* Footer */
+	
+	#footer {position:absolute; bottom:0; min-height:100px; width:950px; padding:10px; clear:both; color:#666; background:#333; border-top:1px solid #555; text-align:center;}

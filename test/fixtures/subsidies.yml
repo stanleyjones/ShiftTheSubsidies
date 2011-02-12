@@ -1,0 +1,23 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  amount: 1
+  currency: MyString
+  date: 2011-02-11 14:15:59
+  institution: one
+  entity: one
+  project: one
+  kind: MyString
+  approved: false
+  source: MyString
+
+two:
+  amount: 1
+  currency: MyString
+  date: 2011-02-11 14:15:59
+  institution: two
+  entity: one
+  project: two
+  kind: MyString
+  approved: false
+  source: MyString

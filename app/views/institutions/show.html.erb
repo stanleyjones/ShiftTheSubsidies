@@ -1,0 +1,12 @@
+<p id="notice"><%= notice %></p>
+
+<h1><%= @institution.name %> (<%= @institution.abbreviation %>)</h1>
+<p><%= @institution.kind %></p>
+
+<p>
+	<b>Subsidies awarded:</b>
+	<%= number_to_currency(@institution.amount_awarded) %> to <%= @institution.projects.size %> projects
+</p>
+
+<%= link_to 'Edit', edit_institution_path(@institution) %> |
+<%= link_to 'Back', institutions_path %>

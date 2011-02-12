@@ -1,0 +1,19 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: MyString
+  country: MyString
+  description: MyText
+  notes: MyText
+  tags: MyString
+  identifier: MyString
+  sector: one
+
+two:
+  name: MyString
+  country: MyString
+  description: MyText
+  notes: MyText
+  tags: MyString
+  identifier: MyString
+  sector: two

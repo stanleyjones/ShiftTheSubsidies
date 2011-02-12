@@ -6,9 +6,18 @@
   <%= javascript_include_tag :defaults %>
   <%= csrf_meta_tag %>
 </head>
-<body>
+<body><div id="wrapper">
 
-<%= yield %>
+<%= render :partial => 'layouts/header' %>
 
+<section id="content" class="container">
+
+	<%= yield %>
+
+</section><!-- #content -->
+
+<%= render :partial => 'layouts/footer' %>
+
+</div><!-- #wrapper -->
 </body>
 </html>
