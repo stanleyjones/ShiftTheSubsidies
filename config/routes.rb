@@ -1,4 +1,14 @@
 ShiftTheSubsidies::Application.routes.draw do
+  resources :subsidies
+
+  resources :projects
+
+  resources :sectors
+
+  resources :entities
+
+  resources :institutions
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -48,7 +58,7 @@ ShiftTheSubsidies::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  # root :to => "welcome#index"
+   root :to => "institutions#index"
 
   # See how all your routes lay out with "rake routes"
 
