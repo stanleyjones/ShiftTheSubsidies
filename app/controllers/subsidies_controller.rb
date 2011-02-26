@@ -1,4 +1,6 @@
 class SubsidiesController < ApplicationController
+	skip_before_filter :authorize, :only => :index
+
   # GET /subsidies
   # GET /subsidies.xml
   def index

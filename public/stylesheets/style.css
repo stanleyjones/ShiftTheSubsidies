@@ -9,6 +9,8 @@
 	@import "reset.css";
 	@import "type.css";
 	
+	@import "http://priceofoil.org/oci/header.css";
+	
 	@font-face {font-family:Diavlo; src:url(style/fonts/Diavlo_LIGHT_II_37.otf) format("opentype"); font-weight:normal;}
 	@font-face {font-family:Diavlo; src:url(style/fonts/Diavlo_BOLD_II_37.otf) format("opentype"); font-weight:bold;} 
 	/* A font by Jos Buivenga (exljbris) -> www.exljbris.com */
@@ -34,11 +36,8 @@
 
 	/* Buttons */
 	
-	a.button, input.button, ul.buttons a {padding:4px; color:#eee; background:#666; background-position:5px; background-repeat:no-repeat; border:1px solid rgba(255,255,255,0.125); border-radius:10px; -moz-border-radius:10px; text-shadow:0 1px 1px rgba(0,0,0,.5); -webkit-box-shadow:0 1px 1px rgba(0,0,0,0.5); text-decoration:none;}
-	a.button:hover, input.button:hover, ul.buttons a:hover {color:#fff; background-color:#777; cursor:pointer;}
-
-	a.button.donate, ul.buttons a[title=donate] {padding-left:25px; background-image:url(lib/css/icons/currency.png);}
-	a.button.act, ul.buttons a[title=act] {padding-left:25px; background-image:url(lib/css/icons/flag.png);}
+	a.button, input.button, ul.buttons a {padding:4px; color:#eee; background:#999; background-position:5px; background-repeat:no-repeat; border:1px solid rgba(255,255,255,0.125); border-radius:10px; -moz-border-radius:10px; text-shadow:0 1px 1px transparent; text-decoration:none;}
+	a.button:hover, input.button:hover, ul.buttons a:hover {color:#fff; background-color:#888; cursor:pointer;-webkit-box-shadow:0 1px 1px rgba(0,0,0,0.5) inset;}
 	
 	/* Icons */
 	
@@ -85,6 +84,8 @@
 	#content h2 {margin:5px 0; color:#fff; font-size:10px; line-height:10px; text-transform:uppercase;}
 
 	/* Content */
+
+	#content h1, #content h2, #content h3, #content h4 {font-family:Diavlo;}
 	
 	#page {background:#fff; border-radius:10px; -moz-border-radius:10px; padding:20px;}
 	#page .entry-title {font-size:24px; font-family:Diavlo;}

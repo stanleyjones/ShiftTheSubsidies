@@ -2,21 +2,21 @@
 
 <table>
   <tr>
+    <th>Visible?</th>
     <th>Abbreviation</th>
     <th>Name</th>
-    <th>Kind</th>
-    <th>Fiscal Year</th>
-    <th>Visible?</th>
+    <th>Group</th>
+    <th>Awarded</th>
     <th></th>
   </tr>
 
 <% @institutions.each do |institution| %>
   <tr>
+    <td><% if institution.visible? %>&bull;<% end %></td>
     <td><%= institution.abbreviation %></td>
     <td><%= institution.name %></td>
-    <td><%= institution.kind %></td>
-    <td><%= month_name(institution.fiscal_year) %></td>
-    <td><%= institution.visible %></td>
+    <td><% if !institution.institution_group.blank? %><%= institution.institution_group.name %><% end %></td>
+    <td>$<%= number_to_human(institution.amount_awarded) %></td>
     <td>
     	<%= link_to 'Show', institution, :class => "show icon" %>
     	<%= link_to 'Edit', edit_institution_path(institution), :class => "edit icon" %>

@@ -1,4 +1,6 @@
 class ProjectsController < ApplicationController
+	skip_before_filter :authorize, :only => :index
+
   # GET /projects
   # GET /projects.xml
   def index

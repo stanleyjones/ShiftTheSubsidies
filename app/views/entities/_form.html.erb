@@ -19,6 +19,10 @@
     <%= f.label :kind %><br />
     <%= f.select :kind, ['Company','Government','Group'] %>
   </div>
+  <div class="field">
+    <%= f.label :groups %><br />
+		<%= f.collection_select :group_ids, Entity.where({:kind => "group"}).all, :id, :name, {}, :multiple => true %>
+  </div>  
   <div class="actions">
     <%= f.submit %>
   </div>

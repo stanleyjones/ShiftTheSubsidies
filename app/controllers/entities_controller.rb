@@ -1,4 +1,6 @@
 class EntitiesController < ApplicationController
+	skip_before_filter :authorize, :only => :index
+
   # GET /entities
   # GET /entities.xml
   def index

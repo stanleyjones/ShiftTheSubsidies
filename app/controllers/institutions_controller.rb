@@ -1,12 +1,18 @@
 class InstitutionsController < ApplicationController
+	skip_before_filter :authorize, :only => [:index, :show]
+
   # GET /institutions
   # GET /institutions.xml
   def index
-    @institutions = Institution.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @institutions }
+		unless @user
+	    @institutions = Institution.where({:visible => true})
+			render :action => "graph"
+		else
+	    @institutions = Institution.all
+	    respond_to do |format|
+  	    format.html # index.html.erb
+    	  format.xml  { render :xml => @institutions }
+    	end
     end
   end
 

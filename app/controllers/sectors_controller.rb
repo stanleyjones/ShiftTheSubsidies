@@ -1,4 +1,6 @@
 class SectorsController < ApplicationController
+	skip_before_filter :authorize, :only => :index
+
   # GET /sectors
   # GET /sectors.xml
   def index

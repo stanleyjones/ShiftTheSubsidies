@@ -1,12 +1,19 @@
 ShiftTheSubsidies::Application.routes.draw do
+
+	controller :sessions do
+		get "login" => :new
+		post "login" => :create
+		#delete "logout" => :destroy
+	end
+	 
+	match 'logout' => 'sessions#destroy'
+	
+  resources :users
+  resources :institution_groups
   resources :subsidies
-
   resources :projects
-
   resources :sectors
-
   resources :entities
-
   resources :institutions
 
   # The priority is based upon order of creation:

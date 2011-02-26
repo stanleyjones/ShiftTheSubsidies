@@ -1,0 +1,27 @@
+<h1>Listing Institution Groups</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Country</th>
+    <th>Region</th>
+    <th></th>
+  </tr>
+
+<% @institution_groups.each do |institution_group| %>
+  <tr>
+    <td><%= institution_group.name %></td>
+    <td><%= institution_group.country %></td>
+    <td><%= institution_group.region %></td>
+    <td>
+    	<%= link_to 'Show', institution_group, :class => "show icon" %>
+    	<%= link_to 'Edit', edit_institution_group_path(institution_group), :class => "edit icon" %>
+    	<%= link_to 'Destroy', institution_group, :confirm => 'Are you sure?', :method => :delete, :class => "destroy icon" %>
+    </td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Institution Group', new_institution_group_path, :class => "new button" %>

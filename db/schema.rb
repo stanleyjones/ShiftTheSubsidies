@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110211221559) do
+ActiveRecord::Schema.define(:version => 20110224213823) do
 
   create_table "entities", :force => true do |t|
     t.string   "name",       :null => false
@@ -19,14 +19,28 @@ ActiveRecord::Schema.define(:version => 20110211221559) do
     t.datetime "updated_at"
   end
 
-  create_table "institutions", :force => true do |t|
-    t.string   "name",                            :null => false
-    t.string   "abbreviation"
-    t.string   "kind"
-    t.integer  "fiscal_year",  :default => 1
-    t.boolean  "visible",      :default => false
+  create_table "entity_groups", :id => false, :force => true do |t|
+    t.integer "group_id",  :null => false
+    t.integer "member_id", :null => false
+  end
+
+  create_table "institution_groups", :force => true do |t|
+    t.string   "name",       :null => false
+    t.string   "country"
+    t.string   "region"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "institutions", :force => true do |t|
+    t.string   "name",                                    :null => false
+    t.string   "abbreviation"
+    t.string   "kind"
+    t.integer  "fiscal_year",          :default => 1
+    t.boolean  "visible",              :default => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "institution_group_id"
   end
 
   create_table "projects", :force => true do |t|
@@ -58,6 +72,14 @@ ActiveRecord::Schema.define(:version => 20110211221559) do
     t.string   "kind"
     t.boolean  "approved",       :default => false
     t.string   "source"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "users", :force => true do |t|
+    t.string   "name",            :null => false
+    t.string   "hashed_password", :null => false
+    t.string   "salt",            :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

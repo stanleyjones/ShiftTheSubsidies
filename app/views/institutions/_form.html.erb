@@ -20,11 +20,16 @@
     <%= f.text_field :abbreviation %>
   </div>
   <div class="field">
+    <%= f.label :institution_group %><br />
+    <%= f.collection_select :institution_group_id, InstitutionGroup.all, :id, :name, {:include_blank => true} %>
+    or <%= link_to "Add a new institution group.", new_institution_group_path %>
+  </div>
+  <div class="field">
     <%= f.label :kind %><br />
     <%= f.select :kind, ['Multilateral','Bilateral','Export Credit'] %>
   </div>
   <div class="field">
-    <%= f.label :fiscal_year, "Fiscal Year Begins On..." %><br />
+    <%= f.label :fiscal_year, "Fiscal Year Begins In..." %><br />
     <%= select_month(@institution.fiscal_year, :prefix => "institution", :field_name => "fiscal_year") %>
   </div>
   <div class="field">

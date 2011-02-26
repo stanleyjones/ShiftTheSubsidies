@@ -4,6 +4,8 @@
   <tr>
     <th>Name</th>
     <th>Kind</th>
+    <th>Groups</th>
+    <th>Members</th>
     <th></th>
   </tr>
 
@@ -11,6 +13,8 @@
   <tr>
     <td><%= entity.name %></td>
     <td><%= entity.kind %></td>
+    <td><%= entity.groups.size %></td>
+    <td><%= entity.members.size %></td>
     <td>
     	<%= link_to 'Show', entity, :class => "show icon" %>
     	<%= link_to 'Edit', edit_entity_path(entity), :class => "edit icon" %>
