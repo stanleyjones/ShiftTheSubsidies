@@ -8,6 +8,7 @@ class SectorsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
+      format.json # index.json.erb
       format.xml  { render :xml => @sectors }
     end
   end

@@ -1,0 +1,8 @@
+{
+	"entities":[
+	<% # List all entities %>
+	<% @entities.each do |entity| %>
+		{"name":"<%= entity.name %>","url":"<%= url_for entity %>"}<% unless entity == @entities.last %>,<% end %>
+	<% end %>
+	]
+}

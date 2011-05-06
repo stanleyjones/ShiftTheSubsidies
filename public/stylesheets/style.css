@@ -112,6 +112,7 @@
 	#content h1, #content h2, #content h3, #content h4 {font-family:Diavlo;}
 
 	#tableview {padding:20px;}
+	#tableview table {clear:both;}
 	
 	#page {background:#fff; border-radius:10px; -moz-border-radius:10px; padding:20px;}
 	#page .entry-title {font-size:24px; font-family:Diavlo;}

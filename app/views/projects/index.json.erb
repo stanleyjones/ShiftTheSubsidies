@@ -1,0 +1,13 @@
+{
+	"projects":[
+	<% # List all projects %>
+<% @projects.each do |project| %>	{
+		"name": "<%= project.name %>",
+		"sector": "<% if project.sector %><%= project.sector.name %><% end %>",
+		"country": "<%= project.country %>",
+		"tags": "<%= project.tags %>",
+		"url": "<%= url_for project %>"
+	}<% unless project == @projects.last %>,<% end %>
+	<% end %>
+	]
+}

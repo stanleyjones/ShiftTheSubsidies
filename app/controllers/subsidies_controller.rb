@@ -8,6 +8,7 @@ class SubsidiesController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
+      format.json # index.json.erb
       format.xml  { render :xml => @subsidies }
     end
   end
@@ -19,6 +20,7 @@ class SubsidiesController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
+      format.json # show.json.erb
       format.xml  { render :xml => @subsidy }
     end
   end

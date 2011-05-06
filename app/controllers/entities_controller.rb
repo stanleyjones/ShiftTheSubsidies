@@ -8,6 +8,7 @@ class EntitiesController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
+      format.json # index.json.erb
       format.xml  { render :xml => @entities }
     end
   end
@@ -19,6 +20,7 @@ class EntitiesController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
+      format.json # show.json.erb
       format.xml  { render :xml => @entity }
     end
   end

@@ -1,0 +1,32 @@
+<table id="sectors">
+	<thead>
+		<tr>
+    	<th>Name</th>
+    	<th>Category</th>
+    	<th></th>
+		</tr>
+  </thead>
+	<tbody>
+	<tr colspan="3"><td>Loading data...</td></tr>
+	</tbody>
+</table>
+
+<script>
+$(document).ready(function() {
+	$('#sectors').dataTable({
+		"bProcessing": true,
+		"sAjaxSource": "<%= request.url %>.json",
+		"sAjaxDataProp": "sectors",
+		"aoColumns": [
+			{"mDataProp":"name"},
+			{"mDataProp":"category"},
+			{"fnRender":function(oObj) { <% if @user %>return '<a class="edit icon" href="'+oObj.aData['url']+'/edit/">Edit</a>';<% else %>return "";<% end %> }}
+		],
+		"sPaginationType": "full_numbers"
+	});
+} );
+</script>
+
+<% if @user %><p class="buttons">
+	<%= link_to 'New Sector', new_sector_path, :class => "new button" %>
+</p><% end %>

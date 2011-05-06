@@ -1,0 +1,14 @@
+{
+	"subsidies":[
+	<% # List all subsidies %>
+<% @subsidies.each do |subsidy| %>	{
+		"date": "<% if subsidy.date %><%= subsidy.date.strftime("%b %Y") %><% end %>",
+		"amount": <%= subsidy.amount %>,
+		"from": "<% if subsidy.institution %><%= subsidy.institution.name %><% end %>",
+		"to": "<% if subsidy.entity %><%= subsidy.entity.name %><% end %>",
+		"for": "<% if subsidy.project %><%= subsidy.project.name %><% end %>",
+		"url": "<%= url_for subsidy %>"
+	}<% unless subsidy == @subsidies.last %>,<% end %>
+	<% end %>
+	]
+}

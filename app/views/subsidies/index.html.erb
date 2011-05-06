@@ -1,33 +1,9 @@
-<h1>Listing subsidies</h1>
+<%= render :partial => "menubar" %>
 
-<table>
-  <tr>
-    <th>Date</th>
-    <th>Amount</th>
-    <th>Kind</th>
-    <th>From</th>
-    <th>To</th>
-    <th>For</th>
-    <th></th>
-  </tr>
+<div id="graphview" class="view">
+	<%# render :partial => "scatter" %>
+</div>
 
-<% @subsidies.each do |subsidy| %>
-  <tr>
-    <td><% if subsidy.date %><%= subsidy.date.strftime("%b %Y") %><% end %></td>
-    <td><%= number_to_currency(subsidy.amount) %> <%= subsidy.currency.upcase %></td>
-    <td><%= subsidy.kind %></td>
-    <td><% if subsidy.institution %><%= link_to subsidy.institution.abbreviation, subsidy.institution %><% end %></td>
-    <td><% if subsidy.entity %><%= link_to subsidy.entity.name, subsidy.entity %><% end %></td>
-    <td><% if subsidy.project %><%= link_to subsidy.project.name, subsidy.project %><% end %></td>
-    <td>
-    	<%= link_to 'Show', subsidy, :class => "show icon" %>
-    	<%= link_to 'Edit', edit_subsidy_path(subsidy), :class => "edit icon" %>
-    	<%= link_to 'Destroy', subsidy, :confirm => 'Are you sure?', :method => :delete, :class => "destroy icon" %>
-    </td>
-  </tr>
-<% end %>
-</table>
-
-<br />
-
-<%= link_to 'New Subsidy', new_subsidy_path, :class => "new button" %>
+<div id="tableview" class="view">
+	<%= render :partial => "table" %>
+</div>

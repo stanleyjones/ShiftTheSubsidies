@@ -1,29 +1,9 @@
-<h1>Listing entities</h1>
+<%= render :partial => "menubar" %>
 
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Kind</th>
-    <th>Groups</th>
-    <th>Members</th>
-    <th></th>
-  </tr>
+<div id="graphview" class="view">
+	<% #render :partial => "scatter" %>
+</div>
 
-<% @entities.each do |entity| %>
-  <tr>
-    <td><%= entity.name %></td>
-    <td><%= entity.kind %></td>
-    <td><%= entity.groups.size %></td>
-    <td><%= entity.members.size %></td>
-    <td>
-    	<%= link_to 'Show', entity, :class => "show icon" %>
-    	<%= link_to 'Edit', edit_entity_path(entity), :class => "edit icon" %>
-    	<%= link_to 'Destroy', entity, :confirm => 'Are you sure?', :method => :delete, :class => "destroy icon" %>
-    </td>
-  </tr>
-<% end %>
-</table>
-
-<br />
-
-<%= link_to 'New Entity', new_entity_path, :class => "new button" %>
+<div id="tableview" class="view">
+	<%= render :partial => "table" %>
+</div>
