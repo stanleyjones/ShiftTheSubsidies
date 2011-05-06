@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110224213823) do
+ActiveRecord::Schema.define(:version => 20110430013227) do
 
   create_table "entities", :force => true do |t|
     t.string   "name",       :null => false
@@ -63,17 +63,18 @@ ActiveRecord::Schema.define(:version => 20110224213823) do
   end
 
   create_table "subsidies", :force => true do |t|
-    t.integer  "amount"
-    t.string   "currency",       :default => "USD"
-    t.date     "date",                              :null => false
+    t.integer  "amount_usd"
+    t.string   "currency",        :default => "USD"
+    t.date     "date"
     t.integer  "institution_id"
     t.integer  "entity_id"
     t.integer  "project_id"
     t.string   "kind"
-    t.boolean  "approved",       :default => false
+    t.boolean  "approved",        :default => false
     t.string   "source"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "amount_original"
   end
 
   create_table "users", :force => true do |t|

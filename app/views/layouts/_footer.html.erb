@@ -1,9 +1,12 @@
 <footer>
 	<%= link_to "Subsidies", subsidies_path %> | 
 	<%= link_to "Institutions", institutions_path %> | 
-	<%= link_to "Institution Groups", institution_groups_path %> | 
 	<%= link_to "Entities", entities_path %> | 
 	<%= link_to "Sectors", sectors_path %> | 
-	<%= link_to "Projects", projects_path %>
-	<br>Logged in as <%= @user.name %>. <%= link_to "Log out.", logout_url, :method => :delete %>
+	<%= link_to "Projects", projects_path %><br>
+	<% if @user %>
+		Logged in as <%= @user.name %>. <%= link_to "Log out.", logout_url, :method => :delete %>
+	<% else %>
+		<%= link_to "Log in.", login_url %>
+	<% end %>
 </footer>

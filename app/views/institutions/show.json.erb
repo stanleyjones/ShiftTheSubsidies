@@ -1,0 +1,32 @@
+{
+	"nodes":[
+	<% # First list institution %>
+		{"name":"<%= @institution.name %>","group":"institution","url":"<%= url_for @institution %>"},
+		
+	<% # Then list all projects funded by the institution
+		@institution.projects.each do |project| %>
+		{"name":"<%= project.name %>","group":"project","url":"<%= url_for project %>"},
+	<% end %>
+	
+	<% # Then list all entities receiving funding for a project
+		@institution.entities.each do |entity| %>
+		{"name":"<%= entity.name %>","group":"entity","url":"<%= url_for entity %>"}<% unless entity == @institution.entities.last %>,<% end %>
+	<% end %>
+	],
+	
+	"links":[
+	<% # First link institution to projects through subsidies
+		@institution.projects.each_with_index do |project,index| %>
+		{"source":0,"target":<%= index + 1 %>,"value":1,"notes":"<%= @institution.name %> - <%= project.name %>"},
+	<% end %>
+	
+	<% # Then link each projects to its entities
+		@institution.projects.each_with_index do |project,pindex|
+			@institution.entities.each_with_index do |entity,eindex|
+				if entity.projects.include? project %>
+					{"source":<%= pindex + 1 %>,"target":<%= eindex + @institution.projects.size + 1 %>,"value":1,"notes":"<%= project.name %> - <%= entity.name %>"}<% unless entity == project.entities.last and project == @institution.projects.last %>,<% end %>
+				<% end
+			end
+		end %>
+	]
+}

@@ -1,0 +1,8 @@
+{
+	"institutions":[
+	<% # List all institutions %>
+	<% @institutions.each do |institution| %>
+		{"name":"<%= institution.name %>","abbreviation":"<%= institution.abbreviation %>","awarded":<%= institution.awarded %>,"ratio":<%= institution.ratio %>,"url":"<%= url_for institution %>"}<% unless institution == @institutions.last %>,<% end %>
+	<% end %>
+	]
+}

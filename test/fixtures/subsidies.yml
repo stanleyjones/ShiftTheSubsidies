@@ -1,8 +1,8 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
-  amount: 1
-  currency: MyString
+  amount_usd: 1
+  currency: USD
   date: 2011-02-11 14:15:59
   institution: one
   entity: one
@@ -12,8 +12,8 @@ one:
   source: MyString
 
 two:
-  amount: 1
-  currency: MyString
+  amount_usd: 1
+  currency: USD
   date: 2011-02-11 14:15:59
   institution: two
   entity: one

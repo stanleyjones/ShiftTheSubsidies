@@ -2,7 +2,6 @@
 
 <table>
   <tr>
-    <th>ID</th>
     <th>Name</th>
     <th>Sector</th>
     <th>Country</th>
@@ -12,9 +11,8 @@
 
 <% @projects.each do |project| %>
   <tr>
-    <td><%= project.identifier %></td>
     <td><%= project.name %></td>
-    <td><%= project.sector.name %></td>
+    <td><% if project.sector %><%= project.sector.name %><% end %></td>
     <td><%= project.country %></td>
     <td><%= project.tags %></td>
     <td>

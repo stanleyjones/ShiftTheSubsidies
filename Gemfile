@@ -9,5 +9,6 @@ group :test do
 end
 
 group :development do
-	gem 'mysql2'
+	gem 'mysql2', '0.2.6'
+	gem 'ruby-prof'
 end

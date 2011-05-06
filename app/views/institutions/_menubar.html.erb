@@ -1,0 +1,13 @@
+<header id="menubar">
+	<h1 id="view_title">
+		<% if @institution %>
+			<% if @institution.abbreviation %><%= @institution.abbreviation %><% else %><%= @institution.name %><% end %>
+		<% else %>
+			Institutions
+	<% end %></h1>
+	<ul id="mode">
+		<li><button class="graph" onclick="viewmode('graph');">Graph</button></li>
+		<li><button class="table" onclick="viewmode('table');">Table</button></li>
+	</ul>
+</header><!-- #menubar -->
+<script>$(document).ready(function() {viewmode(<% if @user %>'table'<% else %>'graph'<% end %>);});</script>

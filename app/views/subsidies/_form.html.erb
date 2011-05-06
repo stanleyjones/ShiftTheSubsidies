@@ -25,7 +25,7 @@
   </div>
   <div class="field">
     <%= f.label :institution_id %><br />
-    <%= f.select :institution_id, Institution.all.collect {|i| [ i.name, i.id ] } %>
+    <%= f.select :institution_id, Institution.all.collect {|i| [ "#{i.name} (#{i.abbreviation})", i.id ] } %>
     or <%= link_to "Add a new institution.", new_institution_path %>
   </div>
   <div class="field">

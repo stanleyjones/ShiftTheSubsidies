@@ -1,0 +1,83 @@
+<div id="graph"></div>
+
+<script>
+	
+	// Graph
+	var w = 970, h = 640;
+	var graph = d3.select("#graph").append("svg:svg").attr("width", w).attr("height", h);
+	
+	// Functions
+	var fill = d3.scale.ordinal().domain(['institution','project','entity']).range(["#333","#666","#f00"]);;
+	var scale_r = d3.scale.ordinal().domain(['institution','project','entity']).range([25,5,10]);
+	
+	// Force-Directed	
+	d3.json("<%= request.url %>.json", function(json) {
+		
+		var force = d3.layout.force()
+			.nodes(json.nodes)
+			.links(json.links)
+			.distance(25)
+			.charge(-50)
+			.size([w,h])
+			.start();
+		
+		var link = graph.selectAll("line.link")
+		  .data(json.links)
+			.enter().append("svg:line")
+			  .attr("class", "link")
+			  .style("stroke-width", function(d) { return d.value; })
+			  .attr("x1", function(d) { return d.source.x; })
+			  .attr("y1", function(d) { return d.source.y; })
+			  .attr("x2", function(d) { return d.target.x; })
+			  .attr("y2", function(d) { return d.target.y; });
+		  
+		var node = graph.selectAll("circle.node")
+			.data(json.nodes)
+			.enter().append("svg:circle")
+				.attr("class", function(d) { return "node " + d.group; })
+				.attr("cx", function(d) { return d.x; })
+				.attr("cy", function(d) { return d.y; })
+				.attr("r", function(d) { return scale_r(d.group); })
+				.on("click", function(d) { location.href = d.url; })
+				.on("mouseover", function(d) { });
+		
+		var label = graph.selectAll("text.label")
+			.data(json.nodes);
+		label.enter().append("svg:text")
+			.attr("class","label")
+			.attr("x", function(d) { return d.x; })
+			.attr("y", function(d) { return d.y; });
+		
+		var label = graph.selectAll("text.label")
+			.text(function(d) { return d.name; })
+			.attr("text-anchor","middle");
+		
+		node.append("svg:title")
+			.text(function(d) { return d.name; });	
+		
+		force.on("tick", function() {
+			link.attr("x1", function(d) { return d.source.x; })
+				.attr("y1", function(d) { return d.source.y; })
+				.attr("x2", function(d) { return d.target.x; })
+				.attr("y2", function(d) { return d.target.y; });
+			node.attr("cx", function(d) { return d.x; })
+				.attr("cy", function(d) { return d.y; });
+			label.attr("x", function(d) { return d.x; })
+				.attr("y", function(d) { return d.y ; });
+		});
+		
+	});
+	
+</script>
+
+<style>
+	#graph circle {stroke:#fff; stroke-width:2;}
+		#graph circle:hover {opacity:1;}
+		#graph circle.institution {fill:#111;}
+		#graph circle.project {fill:#630;}
+		#graph circle.entity {fill:#666;}
+	#graph text {fill:#ccc; font-size:18px;}
+		#graph text.label {fill:#111; display:block; opacity:0;}
+		#graph text.label:hover {opacity:1; cursor:pointer;}
+	#graph line {stroke:#630;}
+</style>

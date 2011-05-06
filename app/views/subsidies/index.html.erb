@@ -13,12 +13,12 @@
 
 <% @subsidies.each do |subsidy| %>
   <tr>
-    <td><%= subsidy.date.strftime("%b %Y") %></td>
+    <td><% if subsidy.date %><%= subsidy.date.strftime("%b %Y") %><% end %></td>
     <td><%= number_to_currency(subsidy.amount) %> <%= subsidy.currency.upcase %></td>
     <td><%= subsidy.kind %></td>
-    <td><%= link_to subsidy.institution.abbreviation, subsidy.institution %></td>
-    <td><%= link_to subsidy.entity.name, subsidy.entity %></td>
-    <td><%= link_to subsidy.project.name, subsidy.project %></td>
+    <td><% if subsidy.institution %><%= link_to subsidy.institution.abbreviation, subsidy.institution %><% end %></td>
+    <td><% if subsidy.entity %><%= link_to subsidy.entity.name, subsidy.entity %><% end %></td>
+    <td><% if subsidy.project %><%= link_to subsidy.project.name, subsidy.project %><% end %></td>
     <td>
     	<%= link_to 'Show', subsidy, :class => "show icon" %>
     	<%= link_to 'Edit', edit_subsidy_path(subsidy), :class => "edit icon" %>

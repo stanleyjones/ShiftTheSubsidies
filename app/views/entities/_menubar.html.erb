@@ -1,0 +1,18 @@
+<header id="menubar">
+	<h1 id="view_title">Institutions</h1>
+	<ul id="mode">
+		<li><button class="graph" onclick="viewmode('graph');">Graph</button></li>
+		<li><button class="table" onclick="viewmode('table');">Table</button></li>
+	</ul>
+	<ul id="popovers">
+		<li>
+			<button onclick="Effect.toggle('list_select','appear',{duration:0.125});">List</button>
+			<ul id="list_select" class="popover" style="display:none;">
+				<li>List View Element #1</li>
+				<li>List View Element #2</li>
+				<li>List View Element #3</li>
+			</ul>
+		</li>
+		<li><button>Search</button></li>
+	</ul>
+</header><!-- #menubar -->

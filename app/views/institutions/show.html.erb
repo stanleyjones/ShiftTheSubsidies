@@ -1,12 +1,29 @@
-<p id="notice"><%= notice %></p>
+<%= render :partial => "menubar" %>
 
-<h1><%= @institution.name %> (<%= @institution.abbreviation %>)</h1>
-<p><%= @institution.kind %></p>
+<div id="graphview" class="view">
+	<%= render :partial => "subsidies/force", :object => @subsidies %>
+</div>
 
-<p>
-	<b>Subsidies awarded:</b>
-	<%= number_to_currency(@institution.amount_awarded) %> to <%= @institution.projects.size %> projects
-</p>
-
-<%= link_to 'Edit', edit_institution_path(@institution) %> |
-<%= link_to 'Back', institutions_path %>
+<div id="tableview" class="view">
+	<table>
+		<thead>
+			<th>Amount</th>
+			<th>From (Institution)</th>
+			<th>To (Entity)</th>
+			<th>For (Project)</th>
+			<% if @user %><th></th><% end %>
+		</thead>
+		<% @subsidies.each do |subsidy| %>
+		<tr>
+			<td><%= number_to_human(subsidy.amount) %></td>
+			<td><% if subsidy.institution %><%= subsidy.institution.name %><% else %><i>blank</i><% end %></td>
+			<td><% if subsidy.entity %><%= subsidy.entity.name %><% else %><i>blank</i><% end %></td>
+			<td><% if subsidy.project %><%= subsidy.project.name %><% else %><i>blank</i><% end %></td>
+			<% if @user %><td>
+	    	<%= link_to 'Edit', edit_subsidy_path(subsidy), :class => "edit icon" %>
+  	  	<%= link_to 'Destroy', subsidy, :confirm => 'Are you sure?', :method => :delete, :class => "destroy icon" %>
+			</td><% end %>
+		</tr>
+		<% end %>
+	</table>
+</div>
