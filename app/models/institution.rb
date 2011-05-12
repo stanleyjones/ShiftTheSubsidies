@@ -26,7 +26,7 @@ class Institution < ActiveRecord::Base
 	def ratio
 		renewable_amount = 0
 		self.subsidies.each do |s|
-			if s.project and s.project.sector and s.project.sector.category == "Renewable"
+			if s.project and s.project.sector and s.project.sector.category == "Clean"
 				renewable_amount += s.amount
 			end
 		end

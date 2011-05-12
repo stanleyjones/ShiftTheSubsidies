@@ -6,7 +6,7 @@
 
 	// Functions
 	scale_x = d3.scale.linear().domain([0,1]).range([100,w-100]);
-	scale_r = d3.scale.linear().domain([0,3000000000]).range([25,100]);
+	scale_r = d3.scale.linear().domain([0,5000000000]).range([25,100]);
 	
 	d3.json('<%= request.url %>.json', function(json) {
 	

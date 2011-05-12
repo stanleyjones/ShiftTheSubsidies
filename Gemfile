@@ -3,6 +3,7 @@ source 'http://rubygems.org'
 gem 'rails', '3.0.3'
 gem 'carmen'
 gem 'money'
+gem 'taps'
 
 group :test do
 	gem 'sqlite3-ruby', :require => 'sqlite3'
