@@ -2,7 +2,7 @@
 	"subsidies":[
 	<% # List all subsidies %>
 <% @subsidies.each do |subsidy| %>	{
-		"date": "<% if subsidy.date %><%= subsidy.date.strftime("%b %Y") %><% end %>",
+		"date": "<% if subsidy.date %><%= subsidy.date.strftime("%B %d, %Y") %><% end %>",
 		"amount": <%= subsidy.amount %>,
 		"from": "<% if subsidy.institution %><%= subsidy.institution.name %><% end %>",
 		"to": "<% if subsidy.entity %><%= subsidy.entity.name %><% end %>",

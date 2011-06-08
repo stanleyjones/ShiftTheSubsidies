@@ -17,7 +17,7 @@
   </div>
   <div class="field">
     <%= f.label :country %><br />
-    <%= f.select :country, country_options_for_select( @project.country ) %>
+    <%= f.select :country, country_options_for_select( @project.country ), {:include_blank => 'Select a Country'} %>
   </div>
   <div class="field">
     <%= f.label :description, "Description (public)" %><br />
