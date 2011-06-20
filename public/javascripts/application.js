@@ -8,6 +8,22 @@ function viewmode(v) {
 	$('button.'+v).addClass('active');
 }
 
+jQuery.fn.dataTableExt.oSort['currency-asc'] = function(a,b) {
+	var x = a == "-" ? 0 : a.replace( /,/g, "" );
+	var y = b == "-" ? 0 : b.replace( /,/g, "" );
+	x = x.substring( 1 );	y = y.substring( 1 );
+	x = parseFloat( x );	y = parseFloat( y );
+	return x - y;
+};
+
+jQuery.fn.dataTableExt.oSort['currency-desc'] = function(a,b) {
+	var x = a == "-" ? 0 : a.replace( /,/g, "" );
+	var y = b == "-" ? 0 : b.replace( /,/g, "" );
+	x = x.substring( 1 );	y = y.substring( 1 );
+	x = parseFloat( x );	y = parseFloat( y );
+	return y - x;
+};
+
 fnServerObjectToArray = function (aElements) {
 	return function (sSource, aoData, fnCallback) {
 		$.ajax({

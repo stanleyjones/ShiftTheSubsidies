@@ -1,6 +1,5 @@
-<h1>Editing project</h1>
+<header id="menubar"><h1>Editing Project</h1></header>
 
 <%= render 'form' %>
 
-<%= link_to 'Show', @project %> |
-<%= link_to 'Back', projects_path %>
+<%= link_to "Delete this project", @project, :confirm => "Are you sure?", :method => :delete, :class => "delete button" %>

@@ -18,6 +18,7 @@
   <div class="field">
     <%= f.label :currency %><br />
     <%= f.select :currency, currency_options_for_select( @subsidy.currency ), {:include_blank => "Select original currency"} %>
+    <%# f.select :currency, options_for_select( Money::Currency::TABLE.collect { |c| [ c[:name], c[:iso_code] ]} ), {:include_blank => "Select original currency"} %>
   </div>
   <div class="field">
     <%= f.label :date %><br />
@@ -25,17 +26,17 @@
   </div>
   <div class="field">
     <%= f.label :institution_id %><br />
-    <%= f.select :institution_id, Institution.all.collect {|i| [ "#{i.name} (#{i.abbreviation})", i.id ] } %>
+    <%= f.select :institution_id, Institution.all.collect {|i| [ "#{i.name} (#{i.abbreviation})", i.id ] }.sort %>
     or <%= link_to "Add a new institution.", new_institution_path %>
   </div>
   <div class="field">
     <%= f.label :entity_id %><br />
-    <%= f.select :entity_id, Entity.all.collect {|e| [ e.name, e.id ] }  %>
+    <%= f.select :entity_id, Entity.all.collect {|e| [ e.name, e.id ] }.sort  %>
     or <%= link_to "Add a new entity.", new_entity_path %>
   </div>
   <div class="field">
     <%= f.label :project_id %><br />
-    <%= f.select :project_id, Project.all.collect {|p| [ p.name, p.id ] }  %>
+    <%= f.select :project_id, Project.all.collect {|p| [ p.name, p.id ] }.sort  %>
     or <%= link_to "Add a new project.", new_project_path %>
   </div>
   <div class="field">
@@ -51,6 +52,6 @@
     <%= f.text_field :source %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit %> or <%= link_to "Cancel", subsidies_path %>
   </div>
 <% end %>

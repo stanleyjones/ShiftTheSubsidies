@@ -17,7 +17,7 @@
   </div>
   <div class="field">
     <%= f.label :country %><br />
-    <%= f.select :country, country_options_for_select( @project.country ), {:include_blank => 'Select a Country'} %>
+    <%= f.select :country, options_for_select( Carmen::country_names, @project.country ), {:include_blank => 'Select a Country'} %>
   </div>
   <div class="field">
     <%= f.label :description, "Description (public)" %><br />
@@ -38,9 +38,9 @@
   <div class="field">
     <%= f.label :sector_id %><br />
     <%= f.select :sector_id, Sector.all.collect {|s| [ s.name, s.id ] }, {:include_blank => 'None'} %>
-    <%= link_to "Add a new sector.", new_sector_path %>
+    or <%= link_to "Add a new sector.", new_sector_path %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit %> or <%= link_to "Cancel", projects_url %>
   </div>
 <% end %>

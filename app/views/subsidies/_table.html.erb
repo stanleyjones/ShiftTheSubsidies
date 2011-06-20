@@ -17,16 +17,16 @@
 <script>
 $(document).ready(function() {
 	$('#subsidies').dataTable({
-		"bProcessing": true,
-		"sAjaxSource": "<%= request.url %>.json",
-		"sAjaxDataProp": "subsidies",
+		"bProcessing":true,
+		"sAjaxSource":"<%= request.url %>.json",
+		"sAjaxDataProp":"subsidies",
 		"aoColumns": [
-			{"mDataProp":"amount"},
-			{"mDataProp":"from"},
-			{"mDataProp":"to"},
-			{"mDataProp":"for"},
-			{"mDataProp":"date"},
-			{"fnRender":function(oObj) { <% if @user %>return '<a class="edit icon" href="'+oObj.aData['url']+'/edit/">Edit</a>';<% else %>return "";<% end %> }}
+			{ "mDataProp":"amount", "sType":"currency", "sWidth":"100px", "asSorting":["desc","asc"] },
+			{ "fnRender":function(oObj) { return '<a href="'+oObj.aData['institution_url']+'">'+oObj.aData['from']+'</a>'; }},
+			{ "fnRender":function(oObj) { return '<a href="'+oObj.aData['entity_url']+'">'+oObj.aData['to']+'</a>'; }},
+			{ "fnRender":function(oObj) { return '<a href="'+oObj.aData['project_url']+'">'+oObj.aData['for']+'</a>'; }},
+			{ "mDataProp":"date", "sWidth":"75px" },
+			{ "bSortable":false, "sWidth":"25px", "fnRender":function(oObj) { <% if @user %>return '<a class="edit icon" href="'+oObj.aData['subsidy_url']+'/edit/">Edit</a>';<% else %>return "";<% end %>}}
 		],
 		"sPaginationType": "full_numbers"
 	});

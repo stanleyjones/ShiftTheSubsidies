@@ -1,6 +1,5 @@
-<h1>Editing subsidy</h1>
+<header id="menubar"><h1>Editing Subsidy</h1></header>
 
 <%= render 'form' %>
 
-<%= link_to 'Show', @subsidy %> |
-<%= link_to 'Back', subsidies_path %>
+<%= link_to "Delete this subsidy", subsidy_url, :confirm => 'Are you sure?', :method => :delete, :class => "delete button" %>

@@ -4,6 +4,7 @@ gem 'rails', '3.0.3'
 gem 'carmen'
 gem 'money'
 gem 'taps'
+gem 'jquery-rails', '>= 1.0.3'
 
 group :test do
 	gem 'sqlite3-ruby', :require => 'sqlite3'

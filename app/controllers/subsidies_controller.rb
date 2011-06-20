@@ -48,7 +48,7 @@ class SubsidiesController < ApplicationController
 
     respond_to do |format|
       if @subsidy.save
-        format.html { redirect_to(@subsidy, :notice => 'Subsidy was successfully created.') }
+        format.html { redirect_to(subsidies_url, :notice => 'Subsidy was successfully created.') }
         format.xml  { render :xml => @subsidy, :status => :created, :location => @subsidy }
       else
         format.html { render :action => "new" }
@@ -64,7 +64,7 @@ class SubsidiesController < ApplicationController
 
     respond_to do |format|
       if @subsidy.update_attributes(params[:subsidy])
-        format.html { redirect_to(@subsidy, :notice => 'Subsidy was successfully updated.') }
+        format.html { redirect_to(subsidies_url, :notice => 'Subsidy was successfully updated.') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
