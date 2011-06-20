@@ -22,7 +22,7 @@ $(document).ready(function() {
 			{"fnRender":function(oObj) { return '<a href="'+oObj.aData['url']+'">'+oObj.aData['name']+' ('+oObj.aData['abbreviation']+')</a>'; }},
 			{"mDataProp":"awarded"},
 			{"mDataProp":"ratio"},
-			{"fnRender":function(oObj) { <% if @user %>return '<a class="edit icon" href="'+oObj.aData['url']+'/edit/">Edit</a>';<% else %>return "";<% end %> }}
+			{"bSortable":false, "sWidth":"25px", "fnRender":function(oObj) { <% if @user %>return '<a class="edit icon" href="'+oObj.aData['url']+'/edit/">Edit</a>';<% else %>return "";<% end %> }}
 		],
 		"sPaginationType": "full_numbers"
 	});

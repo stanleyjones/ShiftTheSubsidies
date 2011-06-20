@@ -24,7 +24,7 @@ $(document).ready(function() {
 			{"mDataProp":"sector"},
 			{"mDataProp":"country"},
 			{"mDataProp":"tags"},
-			{"fnRender":function(oObj) { <% if @user %>return '<a class="edit icon" href="'+oObj.aData['url']+'/edit/">Edit</a>';<% else %>return "";<% end %> }}
+			{"bSortable":false, "sWidth":"25px", "fnRender":function(oObj) { <% if @user %>return '<a class="edit icon" href="'+oObj.aData['url']+'/edit/">Edit</a>';<% else %>return "";<% end %> }}
 		],
 		"sPaginationType": "full_numbers"
 	});
