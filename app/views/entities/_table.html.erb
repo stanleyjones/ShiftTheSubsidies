@@ -1,6 +1,13 @@
 <table id="entities">
 	<thead>
-		<tr><th>Name</th><th></th></tr>
+		<tr>
+			<th>Received (USD)</th>
+			<th>Projects</th>
+			<th>Name</th>
+			<th>Clean Energy</th>
+			<th>Energy Access</th>
+			<th></th>
+		</tr>
   </thead>
 	<tbody>
 	</tbody>
@@ -13,8 +20,12 @@ $(document).ready(function() {
 		"sAjaxSource": "<%= request.url %>.json",
 		"sAjaxDataProp": "entities",
 		"aoColumns": [
-			{"fnRender":function(oObj) { return '<a href="'+oObj.aData['url']+'">'+oObj.aData['name']+'</a>'; }},
-			{"bSortable":false, "sWidth":"25px", "fnRender":function(oObj) { <% if @user %>return '<a class="edit icon" href="'+oObj.aData['url']+'/edit/">Edit</a>';<% else %>return "";<% end %> }}
+			{ "mDataProp":"received", "sType":"currency", "sWidth":"100px", "asSorting":["desc","asc"] },
+			{"sWidth":"50px", "mDataProp":"projects"},
+			{"fnRender":function(oObj) { return '<a href="'+oObj.aData['entity_url']+'">'+oObj.aData['name']+'</a>'; }},
+			{"sWidth":"100px", "mDataProp":"percent_clean"},
+			{"sWidth":"100px", "mDataProp":"percent_access"},
+			{"bSortable":false, "sWidth":"25px", "fnRender":function(oObj) { <% if @user %>return '<a class="edit icon" href="'+oObj.aData['entity_url']+'/edit/">Edit</a>';<% else %>return "";<% end %> }}
 		],
 		"sPaginationType": "full_numbers"
 	});

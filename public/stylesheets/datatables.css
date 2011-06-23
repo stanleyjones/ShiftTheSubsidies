@@ -60,9 +60,18 @@
 }
 
 .dataTables_filter {
+	margin-top:-55px;
 	width: 50%;
 	float: right;
 	text-align: right;
+	color:transparent;
+}
+
+.dataTables_filter input {
+	margin:0; padding:5px;
+	border:0;
+	border-radius:10px;
+	box-shadow:0 2px 2px rgba(0,0,0,0.25) inset;	
 }
 
 .dataTables_info {
@@ -312,7 +321,7 @@ td.details {
 }
 
 .paging_full_numbers span.paginate_active {
-	background-color: #99B3FF;
+	background-color: #ff0;
 }
 
 table.display tr.even.row_selected td {
@@ -538,3 +547,5 @@ div.box {
 	border: 1px solid #8080FF;
 	background-color: #E5E5FF;
 }
+
+table td span.desc {color:#999; font-style: italic;}

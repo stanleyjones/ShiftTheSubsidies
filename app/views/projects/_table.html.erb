@@ -1,16 +1,14 @@
 <table id="projects">
 	<thead>
 		<tr>
+			<th>Received (USD)</th>
     	<th>Name</th>
-    	<th>Sector</th>
     	<th>Country</th>
-    	<th>Tags</th>
+    	<th>Sector</th>
+    	<th>Energy Access</th>
     	<th></th>
 		</tr>
   </thead>
-	<tbody>
-	<tr colspan="3"><td>Loading data...</td></tr>
-	</tbody>
 </table>
 
 <script>
@@ -20,11 +18,12 @@ $(document).ready(function() {
 		"sAjaxSource": "<%= request.url %>.json",
 		"sAjaxDataProp": "projects",
 		"aoColumns": [
-			{"mDataProp":"name"},
-			{"mDataProp":"sector"},
-			{"mDataProp":"country"},
-			{"mDataProp":"tags"},
-			{"bSortable":false, "sWidth":"25px", "fnRender":function(oObj) { <% if @user %>return '<a class="edit icon" href="'+oObj.aData['url']+'/edit/">Edit</a>';<% else %>return "";<% end %> }}
+			{"mDataProp":"received", "sType":"currency", "sWidth":"100px", "asSorting":["desc","asc"] },
+			{"fnRender":function(oObj) { return '<a href="'+oObj.aData['project_url']+'">'+oObj.aData['name']+'</a>'; }},
+			{"sWidth":"100px", "mDataProp":"country"},
+			{"sWidth":"100px", "mDataProp":"sector"},
+			{"sWidth":"100px", "mDataProp":"access"},
+			{"bSortable":false, "sWidth":"25px", "fnRender":function(oObj) { <% if @user %>return '<a class="edit icon" href="'+oObj.aData['project_url']+'/edit/">Edit</a>';<% else %>return "";<% end %> }}
 		],
 		"sPaginationType": "full_numbers"
 	});

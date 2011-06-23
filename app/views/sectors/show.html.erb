@@ -1,11 +1,11 @@
-<p id="notice"><%= notice %></p>
+<header id="menubar"><h1><%= @sector.name %></h1></header>
 
-<h1><%= @sector.name %></h1>
+<h3>Category</h3>
+
 <p><%= @sector.category %></p>
 
-<ul>
-	<%= render :partial => "projects/list", :collection => @sector.projects %>
-</ul>
+<h3>Projects:</h3>
 
-<%= link_to 'Edit', edit_sector_path(@sector) %> |
-<%= link_to 'Back', sectors_path %>
+<div id="tableview" class="view">
+	<%= render :partial => "projects/table" %>
+</div>

@@ -1,7 +1,7 @@
 {
 	"subsidies":[
 	<% # List all @subsidies %>
-<% @subsidies.each do |subsidy| %>	{
+	<% @subsidies.each do |subsidy| %>{
 		"amount": "<%= number_to_currency( subsidy.amount ) %>",
 		"date": "<% if subsidy.date %><%= subsidy.date.strftime("%Y-%m-%d") %><% end %>",
 		"from": "<% if subsidy.institution %><%= subsidy.institution.name %><% end %>",

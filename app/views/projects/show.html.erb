@@ -1,9 +1,8 @@
+<header id="menubar"><h1>Project</h1></header>
+
 <p id="notice"><%= notice %></p>
 
-<p>
-  <b>Name:</b>
-  <%= @project.name %>
-</p>
+<h3><%= @project.name %></h3>
 
 <p>
   <b>Country:</b>
@@ -21,20 +20,15 @@
 </p>
 
 <p>
-  <b>Tags:</b>
-  <%= @project.tags %>
-</p>
-
-<p>
-  <b>Identifier:</b>
-  <%= @project.identifier %>
-</p>
-
-<p>
   <b>Sector:</b>
   <%= @project.sector.name %>
 </p>
 
-
-<%= link_to 'Edit', edit_project_path(@project) %> |
-<%= link_to 'Back', projects_path %>
+<p>
+	<b>Institutions funding this project</b>
+	<ul>
+	<% @project.institutions.each do |i| %>
+	<li><%= link_to i.name, institution_url(i) %></li>
+	<% end %>
+	</ul>
+</p>

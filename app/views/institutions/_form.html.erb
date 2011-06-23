@@ -17,7 +17,11 @@
   </div>
   <div class="field">
     <%= f.label :abbreviation %><br />
-    <%= f.text_field :abbreviation %>
+    <%= f.text_field :abbreviation, :size => 8 %>
+  </div>
+  <div class="field">
+    <%= f.label :description %><br />
+    <%= f.text_field :description %>
   </div>
   <div class="field">
     <%= f.label :institution_group %><br />

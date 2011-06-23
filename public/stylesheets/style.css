@@ -115,7 +115,7 @@
 	#content h1, #content h2, #content h3, #content h4 {font-family:Diavlo;}
 
 	#tableview {padding:20px;}
-	#tableview table {clear:both;}
+	#tableview table {clear:both; width:100%;}
 	
 	#content form {margin-top:25px;}
 	#content form a {color:#c60;}
@@ -144,8 +144,8 @@
 	
 	footer {position:absolute; bottom:0; min-height:0px; width:950px; padding:10px; clear:both; color:#666; background:#333; border-top:1px solid #555; text-align:center;}
 	
-	footer ul {margin:-10px -10px 10px -10px; padding:0; width:970px; overflow:auto;}
-	footer ul li {float:left; width:20%;}
-	footer ul li a {display:block; width:100%; line-height:50px; background:#444;}
-	footer ul li a:hover {background:#555;}
-	footer nav ul li {display:block; float:left;}
+	nav#sections {border-top:1px solid #999; background:#ccc;}
+	nav#sections ul {margin:0; padding:0; width:970px; overflow:hidden; text-align:center;}
+	nav#sections ul li {float:left; width:20%;}
+	nav#sections ul li a {display:block; width:100%; line-height:30px; color:#666; background:#ccc; text-shadow:1px 1px rgba(255,255,255,0.5);}
+	nav#sections ul li a:hover {color:#555; background:#bbb; box-shadow:0 0 2px rgba(0,0,0,0.5) inset; -moz-box-shadow:0 0 2px rgba(0,0,0,0.5) inset;}

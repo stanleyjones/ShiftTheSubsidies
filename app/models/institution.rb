@@ -23,21 +23,31 @@ class Institution < ActiveRecord::Base
 		amount_awarded
 	end
 
-	def ratio
-		renewable_amount = 0
+	def percent_clean
+		clean = 0
 		self.subsidies.each do |s|
 			if s.project and s.project.sector and s.project.sector.category == "Clean"
-				renewable_amount += s.amount
+				clean += s.amount
 			end
 		end
-		return renewable_amount * 1.0 / [amount_awarded,1].max
+		return clean * 1.0 / [amount_awarded,1].max
+	end
+	
+	def percent_access
+		access = 0
+		self.subsidies.each do |s|
+			if s.project and s.project.tags and s.project.tags == "Energy Access"
+				access += s.amount
+			end
+		end
+		return access * 1.0 / [amount_awarded,1].max
 	end
 	
 	def ratio_scale
-		sorted = Institution.all.sort {|a,b| b.ratio <=> a.ratio }
-		most = sorted.first.ratio
-		least = sorted.last.ratio
-		return (ratio * 1.0 - least) / (most - least)
+		sorted = Institution.all.sort {|a,b| b.percent_clean <=> a.percent_clean }
+		most = sorted.first.percent_clean
+		least = sorted.last.percent_clean
+		return (percent_clean * 1.0 - least) / (most - least)
 	end
 	
 	def scale

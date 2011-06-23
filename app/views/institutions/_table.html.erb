@@ -1,9 +1,10 @@
 <table id="institutions">
 	<thead>
 		<tr>
+			<th>Awarded (USD)</th>
 			<th>Institution</th>
-			<th>$ Awarded (USD)</th>
-			<th>Clean/Dirty</th>
+			<th>Clean Energy</th>
+			<th>Energy Access</th>
 			<th></th>
 		</tr>
   </thead>
@@ -19,10 +20,11 @@ $(document).ready(function() {
 		"sAjaxSource": "<%= request.url %>.json",
 		"sAjaxDataProp": "institutions",
 		"aoColumns": [
-			{"fnRender":function(oObj) { return '<a href="'+oObj.aData['url']+'">'+oObj.aData['name']+' ('+oObj.aData['abbreviation']+')</a>'; }},
-			{"mDataProp":"awarded"},
-			{"mDataProp":"ratio"},
-			{"bSortable":false, "sWidth":"25px", "fnRender":function(oObj) { <% if @user %>return '<a class="edit icon" href="'+oObj.aData['url']+'/edit/">Edit</a>';<% else %>return "";<% end %> }}
+			{ "mDataProp":"awarded", "sType":"currency", "sWidth":"100px", "asSorting":["desc","asc"] },
+			{"fnRender":function(oObj) { return '<a href="'+oObj.aData['institution_url']+'">'+oObj.aData['name']+'</a> ('+oObj.aData['abbreviation']+')<br><span class="desc">'+oObj.aData['description']+'</span>'; }},
+			{"sWidth":"100px", "mDataProp":"percent_clean"},
+			{"sWidth":"100px", "mDataProp":"percent_access"},
+			{"bSortable":false, "sWidth":"25px", "fnRender":function(oObj) { <% if @user %>return '<a class="edit icon" href="'+oObj.aData['institution_url']+'/edit/">Edit</a>';<% else %>return "";<% end %> }}
 		],
 		"sPaginationType": "full_numbers"
 	});

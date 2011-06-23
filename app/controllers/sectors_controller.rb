@@ -17,9 +17,11 @@ class SectorsController < ApplicationController
   # GET /sectors/1.xml
   def show
     @sector = Sector.find(params[:id])
+    @projects = @sector.projects
 
     respond_to do |format|
       format.html # show.html.erb
+      format.json # index.json.erb
       format.xml  { render :xml => @sector }
     end
   end

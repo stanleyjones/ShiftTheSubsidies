@@ -2,12 +2,11 @@
 	"projects":[
 	<% # List all projects %>
 <% @projects.each do |project| %>	{
-		"received":"<%= number_to_currency( project.received ) %>",
 		"name": "<%= project.name %>",
 		"sector": "<% if project.sector %><%= project.sector.name %><% end %>",
 		"country": "<%= project.country %>",
-		"access": "<%= project.access %>",
-		"project_url": "<%= url_for project %>"
+		"tags": "<%= project.tags %>",
+		"url": "<%= url_for project %>"
 	}<% unless project == @projects.last %>,<% end %>
 	<% end %>
 	]

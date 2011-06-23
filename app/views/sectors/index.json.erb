@@ -1,10 +1,12 @@
 {
 	"sectors":[
-	<% # List all sectors %>
-<% @sectors.each do |sector| %>	{
+	<% # List all @sectors %>
+	<% @sectors.each do |sector| %>{
+		"received":"<%= number_to_currency( sector.received ) %>",
+		"projects":<%= sector.projects.size %>,
 		"name": "<%= sector.name %>",
 		"category": "<%= sector.category %>",
-		"url": "<%= url_for sector %>"
+		"sector_url": "<%= url_for sector %>"
 	}<% unless sector == @sectors.last %>,<% end %>
 	<% end %>
 	]
