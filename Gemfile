@@ -11,7 +11,8 @@ gem 'carmen'
 gem 'money'
 gem 'google_currency'
 
-# Push/pull database to Heroku
+# Deploy to Heroku
+gem 'heroku'
 gem 'taps'
 
 group :test do
