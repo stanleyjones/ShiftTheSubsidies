@@ -1,11 +1,18 @@
 source 'http://rubygems.org'
 
 gem 'rails', '3.0.3'
-gem "rake", "0.8.7"
-gem 'carmen'
-gem 'money'
-gem 'taps'
+gem 'rake', '0.8.7'
 gem 'jquery-rails', '>= 1.0.3'
+
+# Countries
+gem 'carmen'
+
+# Currency conversions
+gem 'money'
+gem 'google_currency'
+
+# Push/pull database to Heroku
+gem 'taps'
 
 group :test do
 	gem 'sqlite3-ruby', :require => 'sqlite3'

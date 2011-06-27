@@ -115,7 +115,7 @@
 	#content h1, #content h2, #content h3, #content h4 {font-family:Diavlo;}
 
 	#tableview {padding:20px;}
-	#tableview table {clear:both; width:100%;}
+	#tableview table {clear:both; width:100% !important;}
 	
 	#content form {margin-top:25px;}
 	#content form a {color:#c60;}

@@ -22,11 +22,25 @@ class Entity < ActiveRecord::Base
 	end
 	
 	def percent_clean
-		0.5
+		clean = 0
+		self.subsidies.each do |s|
+			if s.project and s.project.sector and s.project.sector.category == "Clean"
+				clean += s.amount
+			end
+		end
+		return clean * 1.0 / [amount_received,1].max
 	end
+
 	
 	def percent_access
-		0.5
+		access = 0
+		self.subsidies.each do |s|
+			#if s.project and s.project.tags and s.project.tags == "Energy Access"
+			if s.project and s.project.energy_access
+				access += s.amount
+			end
+		end
+		return access * 1.0 / [amount_received,1].max
 	end
 		
 end

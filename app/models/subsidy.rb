@@ -1,6 +1,11 @@
+require 'money'
+require 'money/bank/google_currency'
+Money.default_bank = Money::Bank::GoogleCurrency.new
+
 class Subsidy < ActiveRecord::Base
 
-	validate :amount_usd, :numericality => true
+#	validate :amount_usd, :numericality => true
+#	validate :amount_original, :numericality => true
 	validate :currency, :presence => true
 	validate :institution, :presence => true, :associated => true
 	validate :entity, :presence => true, :associated => true
@@ -13,8 +18,16 @@ class Subsidy < ActiveRecord::Base
   belongs_to :project
   
   def amount
-  	#[TODO] Currently returns USD or 0, should convert amount_original if not USD
-  	amount_usd || 0
+  	if amount_original and Money::Currency.find(currency)
+  		amount = amount_original.to_money(currency)
+  		amount = amount.exchange_to('USD')
+			return amount.cents
+  		amount.dollars
+  	elsif amount_usd and currency == "USD"
+  		amount_usd
+  	else
+  		0
+  	end
   end
   
 end

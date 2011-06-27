@@ -36,7 +36,8 @@ class Institution < ActiveRecord::Base
 	def percent_access
 		access = 0
 		self.subsidies.each do |s|
-			if s.project and s.project.tags and s.project.tags == "Energy Access"
+			#if s.project and s.project.tags and s.project.tags == "Energy Access"
+			if s.project and s.project.energy_access
 				access += s.amount
 			end
 		end

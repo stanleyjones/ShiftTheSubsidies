@@ -33,8 +33,10 @@ GEM
     carmen (0.2.8)
     erubis (2.6.6)
       abstract (>= 1.0.0)
+    google_currency (1.2.0)
+      money (~> 3.5)
     i18n (0.6.0)
-    jquery-rails (1.0.11)
+    jquery-rails (1.0.12)
       railties (~> 3.0)
       thor (~> 0.14)
     mail (2.2.19)
@@ -91,6 +93,7 @@ PLATFORMS
 
 DEPENDENCIES
   carmen
+  google_currency
   jquery-rails (>= 1.0.3)
   money
   mysql2 (= 0.2.6)

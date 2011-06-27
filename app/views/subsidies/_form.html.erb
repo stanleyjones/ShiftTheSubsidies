@@ -12,14 +12,14 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :amount_usd, "Amount (USD)" %><br />
-    <%= f.text_field :amount_usd %>
+    <%= f.label :amount_original, "Amount (Original)" %><br />
+    <%= f.text_field :amount_original %>
   </div>
   <div class="field">
     <%= f.label :currency %><br />
     <%= f.select :currency, currency_options_for_select( @subsidy.currency ), {:include_blank => "Select original currency"} %>
-    <%# f.select :currency, options_for_select( Money::Currency::TABLE.collect { |c| [ c[:name], c[:iso_code] ]} ), {:include_blank => "Select original currency"} %>
   </div>
+  
   <div class="field">
     <%= f.label :date %><br />
     <%= f.date_select :date %>
