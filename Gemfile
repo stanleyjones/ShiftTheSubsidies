@@ -2,6 +2,7 @@ source 'http://rubygems.org'
 
 gem 'rails', '3.0.3'
 gem 'jquery-rails', '>= 1.0.3'
+gem 'json_pure'
 
 # Countries
 gem 'carmen'
