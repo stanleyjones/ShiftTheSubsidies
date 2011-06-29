@@ -15,7 +15,7 @@
 
 	d3.json("<%= request.url %>.json", function(json) {
 		var node = graph.selectAll("g.node")
-			.data(bubble(bubblize(json.subsidies))
+			.data(bubble(bubblize(json.entities))
 				.filter(function(d) { return !d.children; }))
 		.enter().append("svg:g")
 			.attr("class","node")
@@ -23,8 +23,8 @@
 			
 		node.append("svg:circle")
 			.attr("r", function(d) { return d.r; })
-			.attr("class", function(d) { return d.data.category; })
-			.on("click", function(d) { location.href = d.data.subsidy_url; });
+			.style("fill", function(d) { return d3.interpolateRgb("#963", "#6f6")(d.data.percent_clean/100); })
+			.on("click", function(d) { location.href = d.data.entity_url; });
 
 
 //		node.append("svg:text")

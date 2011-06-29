@@ -21,9 +21,8 @@ class Subsidy < ActiveRecord::Base
   	if amount_original and Money::Currency.find(currency)
   		amount = amount_original.to_money(currency)
   		amount = amount.exchange_to('USD')
-			return amount.cents
-  		amount.dollars
-  	elsif amount_usd and currency == "USD"
+  		return amount.dollars
+  	elsif amount_usd
   		amount_usd
   	else
   		0

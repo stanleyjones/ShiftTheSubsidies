@@ -28,7 +28,8 @@
 		
 		node.append("svg:circle")
 			.attr("r", function(d) { return d.r; })
-			.style("fill", function(d) { return "#ccc"; });
+			.style("fill", function(d) { return "#ccc"; })
+			.on("click", function(d) { location.href = d.institution_url; });
 		 
 		node.append("svg:text")
 			.attr("text-anchor", "middle")

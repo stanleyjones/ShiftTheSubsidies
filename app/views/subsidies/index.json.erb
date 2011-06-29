@@ -10,6 +10,7 @@
 		"from": "<% if subsidy.institution %><%= subsidy.institution.name %><% end %>",
 		"to": "<% if subsidy.entity %><%= subsidy.entity.name %><% end %>",
 		"for": "<% if subsidy.project %><%= subsidy.project.name %><% end %>",
+		"category": "<% if subsidy.project and subsidy.project.sector %><%= subsidy.project.sector.category %><% end %>",
 		"institution_url": "<% if subsidy.institution %><%= url_for subsidy.institution %><% end %>",
 		"entity_url": "<% if subsidy.entity %><%= url_for subsidy.entity %><% end %>",
 		"project_url": "<% if subsidy.project %><%= url_for subsidy.project %><% end %>",
