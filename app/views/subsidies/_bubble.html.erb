@@ -1,4 +1,4 @@
-<div id="graph"></div>
+<div id="graph"><div id="loader">Loading...</div></div>
 
 <script>
 	var w = 970, h = 640;
@@ -29,8 +29,11 @@
 
 //		node.append("svg:text")
 //			.text(function(d) { return d.data.amount_raw; });
+
+		d3.select("#loader").remove();
 			
 	});
+
 	
 	function bubblize( data ) {
 		var bubbles = [];

@@ -111,6 +111,8 @@
 
 	/* Content */
 
+	#loader {height:50px; width:100%; margin-top:25%; background:url(images/loader.gif) center no-repeat; text-indent:-9999px;}
+
 	#content {position:relative;}
 	#content h1, #content h2, #content h3, #content h4 {font-family:Diavlo;}
 
