@@ -5,8 +5,6 @@ one:
   country: MyString
   description: MyText
   notes: MyText
-  tags: MyString
-  identifier: MyString
   sector: one
 
 two:
@@ -14,6 +12,4 @@ two:
   country: MyString
   description: MyText
   notes: MyText
-  tags: MyString
-  identifier: MyString
   sector: two

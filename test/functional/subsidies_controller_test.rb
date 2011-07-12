@@ -21,7 +21,7 @@ class SubsidiesControllerTest < ActionController::TestCase
       post :create, :subsidy => @subsidy.attributes
     end
 
-    assert_redirected_to subsidy_path(assigns(:subsidy))
+    assert_redirected_to subsidies_path
   end
 
   test "should show subsidy" do
@@ -36,7 +36,7 @@ class SubsidiesControllerTest < ActionController::TestCase
 
   test "should update subsidy" do
     put :update, :id => @subsidy.to_param, :subsidy => @subsidy.attributes
-    assert_redirected_to subsidy_path(assigns(:subsidy))
+    assert_redirected_to subsidies_path
   end
 
   test "should destroy subsidy" do
