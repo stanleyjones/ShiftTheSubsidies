@@ -1,5 +1,6 @@
 class EntitiesController < ApplicationController
 	skip_before_filter :authorize, :only => :index
+	caches_action :index, :unless => @user
 
   # GET /entities
   # GET /entities.xml
@@ -48,6 +49,7 @@ class EntitiesController < ApplicationController
 
     respond_to do |format|
       if @entity.save
+      	expire_action :index
         format.html { redirect_to(@entity, :notice => 'Entity was successfully created.') }
         format.xml  { render :xml => @entity, :status => :created, :location => @entity }
       else
@@ -64,6 +66,7 @@ class EntitiesController < ApplicationController
 
     respond_to do |format|
       if @entity.update_attributes(params[:entity])
+      	expire_action :index
         format.html { redirect_to(@entity, :notice => 'Entity was successfully updated.') }
         format.xml  { head :ok }
       else
@@ -78,7 +81,7 @@ class EntitiesController < ApplicationController
   def destroy
     @entity = Entity.find(params[:id])
     @entity.destroy
-
+		expire_action :index
     respond_to do |format|
       format.html { redirect_to(entities_url) }
       format.xml  { head :ok }

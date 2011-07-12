@@ -1,5 +1,6 @@
 class SubsidiesController < ApplicationController
 	skip_before_filter :authorize, :only => :index
+	caches_action :index, :unless => @user
 
   # GET /subsidies
   # GET /subsidies.xml
@@ -48,6 +49,7 @@ class SubsidiesController < ApplicationController
 
     respond_to do |format|
       if @subsidy.save
+      	expire_action :index
         format.html { redirect_to(subsidies_url, :notice => 'Subsidy was successfully created.') }
         format.xml  { render :xml => @subsidy, :status => :created, :location => @subsidy }
       else
@@ -64,6 +66,7 @@ class SubsidiesController < ApplicationController
 
     respond_to do |format|
       if @subsidy.update_attributes(params[:subsidy])
+      	expire_action :index
         format.html { redirect_to(subsidies_url, :notice => 'Subsidy was successfully updated.') }
         format.xml  { head :ok }
       else
@@ -78,7 +81,7 @@ class SubsidiesController < ApplicationController
   def destroy
     @subsidy = Subsidy.find(params[:id])
     @subsidy.destroy
-
+   	expire_action :index
     respond_to do |format|
       format.html { redirect_to(subsidies_url) }
       format.xml  { head :ok }

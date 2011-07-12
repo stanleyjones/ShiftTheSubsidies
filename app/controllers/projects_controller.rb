@@ -1,5 +1,6 @@
 class ProjectsController < ApplicationController
 	skip_before_filter :authorize, :only => :index
+	caches_action :index, :unless => @user
 
   # GET /projects
   # GET /projects.xml
@@ -47,6 +48,7 @@ class ProjectsController < ApplicationController
 
     respond_to do |format|
       if @project.save
+      	expire_action :index
         format.html { redirect_to(@project, :notice => 'Project was successfully created.') }
         format.xml  { render :xml => @project, :status => :created, :location => @project }
       else
@@ -63,6 +65,7 @@ class ProjectsController < ApplicationController
 
     respond_to do |format|
       if @project.update_attributes(params[:project])
+      	expire_action :index
         format.html { redirect_to(@project, :notice => 'Project was successfully updated.') }
         format.xml  { head :ok }
       else
@@ -77,7 +80,7 @@ class ProjectsController < ApplicationController
   def destroy
     @project = Project.find(params[:id])
     @project.destroy
-
+   	expire_action :index
     respond_to do |format|
       format.html { redirect_to(projects_url) }
       format.xml  { head :ok }

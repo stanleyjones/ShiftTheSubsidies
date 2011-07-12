@@ -1,4 +1,4 @@
-<div id="graph"></div>
+<div id="graph"><div id="loader">Loading...</div></div>
 
 <script>
 	var w = 970, h = 640;
@@ -31,7 +31,7 @@
 			.attr("text-anchor","middle")
 			.text(function(d) { return d.data.name; });
 */
-
+		d3.select("#loader").remove();
 	});
 	
 	function bubblize( data ) {

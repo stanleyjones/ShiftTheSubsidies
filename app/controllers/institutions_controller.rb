@@ -1,5 +1,6 @@
 class InstitutionsController < ApplicationController
 	skip_before_filter :authorize, :only => [:index, :show]
+	caches_action :index, :unless => @user
 
   # GET /institutions
   # GET /institutions.xml
@@ -59,6 +60,7 @@ class InstitutionsController < ApplicationController
 
     respond_to do |format|
       if @institution.save
+      	expire_action :index
         format.html { redirect_to(@institution, :notice => 'Institution was successfully created.') }
         format.xml  { render :xml => @institution, :status => :created, :location => @institution }
       else
@@ -75,6 +77,7 @@ class InstitutionsController < ApplicationController
 
     respond_to do |format|
       if @institution.update_attributes(params[:institution])
+      	expire_action :index
         format.html { redirect_to(@institution, :notice => 'Institution was successfully updated.') }
         format.xml  { head :ok }
       else
@@ -89,6 +92,7 @@ class InstitutionsController < ApplicationController
   def destroy
     @institution = Institution.find(params[:id])
     @institution.destroy
+    expire_action :index
 
     respond_to do |format|
       format.html { redirect_to(institutions_url) }

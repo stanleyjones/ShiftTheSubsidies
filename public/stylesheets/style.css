@@ -107,18 +107,12 @@
 	header#menubar ul#modals {left:5px;}
 	header#menubar ul#popovers {right:5px;}
 
-	#content h2 {margin:5px 0; color:#fff; font-size:10px; line-height:10px; text-transform:uppercase;}
-
 	/* Content */
-
-	#loader {height:50px; width:100%; margin-top:25%; background:url(images/loader.gif) center no-repeat; text-indent:-9999px;}
 
 	#content {position:relative;}
 	#content h1, #content h2, #content h3, #content h4 {font-family:Diavlo;}
+	#content h2 {margin:5px 0; color:#fff; font-size:10px; line-height:10px; text-transform:uppercase;}
 
-	#tableview {padding:20px;}
-	#tableview table {clear:both; width:100% !important;}
-	
 	#content form {margin-top:25px;}
 	#content form a {color:#c60;}
 	#content form a:hover {color:#f90;}
@@ -141,6 +135,21 @@
 	
 	#sharebar {margin:-20px -20px 20px; padding:10px; background:#ddd; text-align:right;}
 	#sharebar a {padding-right:20px; background:url(lib/css/icons/share.png) right no-repeat;}
+	
+		/* Graphs */
+		
+		#loader {height:50px; width:100%; margin-top:25%; background:url(images/loader.gif) center no-repeat; text-indent:-9999px;}
+
+		#graph circle {stroke:#fff; opacity:0.75;}
+			#graph circle:hover {opacity:1;}
+		#graph text {fill:#fff; font-family:Diavlo,"Helvetica Neue", Arial, Helvetica, sans-serif;}
+	
+		
+		
+		/* Tables */
+		
+		#tableview {padding:20px;}
+		#tableview table {clear:both; width:100% !important;}
 
 	/* Footer */
 	

@@ -1,4 +1,4 @@
-<div id="graph"></div>
+<div id="graph"><div id="loader">Loading...</div></div>
 
 <script>
 	var w = 970, h = 640;
@@ -35,13 +35,6 @@
 			.attr("text-anchor","middle")
 			.text(function(d) { return d.abbreviation; });
 
+		d3.select("#loader").remove();
 	});
-	
-
 </script>
-
-<style>
-	#graph circle {stroke:#fff; opacity:0.75;}
-		#graph circle:hover {opacity:1;}
-	#graph text {fill:#fff; font-family:Diavlo;}
-</style>
