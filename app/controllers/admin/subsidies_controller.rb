@@ -1,6 +1,6 @@
-class SubsidiesController < ApplicationController
-	skip_before_filter :authorize, :only => :index
-	#caches_action :index
+class Admin::SubsidiesController < ApplicationController
+	#skip_before_filter :authorize, :only => :index
+	#caches_action :index, :unless => @user
 
   # GET /subsidies
   # GET /subsidies.xml

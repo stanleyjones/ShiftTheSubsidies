@@ -8,15 +8,8 @@
 
 	@import "reset.css";
 	@import "type.css";
-	
 	@import "http://priceofoil.org/oci/header.css";
 	
-/*
-	@font-face {font-family:Diavlo; src:url(style/fonts/Diavlo_LIGHT_II_37.otf) format("opentype"); font-weight:normal;}
-	@font-face {font-family:Diavlo; src:url(style/fonts/Diavlo_BOLD_II_37.otf) format("opentype"); font-weight:bold;} 
-*/
-	/* A font by Jos Buivenga (exljbris) -> www.exljbris.com */
-
 /*	Standard HTML Elements
 - - - - - - - - - - - - - - - - - - - - */
 
@@ -140,11 +133,16 @@
 		
 		#loader {height:50px; width:100%; margin-top:25%; background:url(images/loader.gif) center no-repeat; text-indent:-9999px;}
 
-		#graph circle {stroke:#fff; opacity:0.75;}
-			#graph circle:hover {opacity:1;}
-		#graph text {fill:#fff; font-family:Diavlo,"Helvetica Neue", Arial, Helvetica, sans-serif;}
-	
+		#graph circle {fill:#ccc; stroke:#fff; stroke-width:2; opacity:0.5; -webkit-transition:all 0.5s;}
+			#graph circle:hover {opacity:0.6; cursor:pointer; stroke:#ff0;}
 		
+		#graph circle.Fossil {fill:#963;}
+		#graph circle.Clean {fill:#0f0;}
+
+		#graph text {fill:#000; font-family:Diavlo,"Helvetica Neue", Arial, Helvetica, sans-serif;}
+		#graph text.label {dominant-baseline:middle; text-anchor:middle; font-size:18px; text-shadow:0 1px 1px rgba(0,0,0,0.5);}
+		
+		#graph line {stroke:#ccc;}
 		
 		/* Tables */
 		

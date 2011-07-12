@@ -1,6 +1,6 @@
 class SectorsController < ApplicationController
 	skip_before_filter :authorize, :only => :index
-	caches_action :index, :unless => @user
+	#caches_action :index, :unless => @user
 
   # GET /sectors
   # GET /sectors.xml
@@ -50,7 +50,7 @@ class SectorsController < ApplicationController
 
     respond_to do |format|
       if @sector.save
-      	expire_action :index
+      	expire_action :action => :index
         format.html { redirect_to(@sector, :notice => 'Sector was successfully created.') }
         format.xml  { render :xml => @sector, :status => :created, :location => @sector }
       else
@@ -67,7 +67,7 @@ class SectorsController < ApplicationController
 
     respond_to do |format|
       if @sector.update_attributes(params[:sector])
-      	expire_action :index
+      	expire_action :action => :index
         format.html { redirect_to(@sector, :notice => 'Sector was successfully updated.') }
         format.xml  { head :ok }
       else
@@ -82,7 +82,7 @@ class SectorsController < ApplicationController
   def destroy
     @sector = Sector.find(params[:id])
     @sector.destroy
-		expire_action :index
+   	expire_action :action => :index
     respond_to do |format|
       format.html { redirect_to(sectors_url) }
       format.xml  { head :ok }

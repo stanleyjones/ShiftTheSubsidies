@@ -16,6 +16,10 @@ ShiftTheSubsidies::Application.routes.draw do
   resources :entities
   resources :institutions
 
+#	namespace :admin do
+#		resources :subsidies, :projects, :sectors, :entities, :institutions
+#	end
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

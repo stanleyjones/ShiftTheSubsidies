@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   protected
   
   	def authorize
-  		unless get_user
+  		unless @user
   			redirect_to login_url, :notice => "Please log in"
   		end
   	end

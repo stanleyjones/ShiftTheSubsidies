@@ -21,15 +21,17 @@
 			.attr("class","node")
 			.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 			
+		node.append("svg:text")
+			.attr("class", "label")
+			.attr("style", function(d) { return "font-size:"+(d.r / 4) + "px"; })
+			.text(function(d) { return d.data.name; });
+
 		node.append("svg:circle")
 			.attr("r", function(d) { return d.r; })
 			.attr("class", function(d) { return d.data.category; })
 			.on("click", function(d) { location.href = d.data.sector_url; });
 
-		node.append("svg:text")
-			.attr("text-anchor","middle")
-			.text(function(d) { return d.data.name; });
-
+		d3.select("#loader").remove();
 	});
 	
 	function bubblize( data ) {
@@ -44,16 +46,3 @@
 	}
 	
 </script>
-
-<style>
-	#graph circle {stroke:#fff; stroke-width:2;opacity:0.8;}
-		#graph circle:hover {opacity:1; cursor: pointer;}
-
-		#graph circle {fill:#963;}
-		#graph circle.Clean {fill:#0f0;}
-		
-	#graph text {fill:#fff; font-size:18px; font-family:Diavlo; text-shadow:0 1px 2px #000;}
-		#graph text.label {fill:#111; display:block; opacity:0;}
-		#graph text.label:hover {opacity:1; cursor:pointer;}
-	#graph line {stroke:#630;}
-</style>

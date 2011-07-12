@@ -11,30 +11,26 @@
 	
 	d3.json('<%= request.url %>.json', function(json) {
 	
+	// Nodes
+	var node = graph.selectAll("g.node")
+			.data((json.institutions)
+  			.filter(function(d) { return (d.awarded_raw > 0); }))
+		.enter().append("svg:g")
+			.attr("class","node")
+			.attr("transform", function(d) { return "translate(" + scale_x(d.percent_clean) + "," + scale_y(d.percent_access) + ")"; });
+
+	// Labels
+	node.append("svg:text")
+		.attr("class", "label")
+		.attr("style", function(d) { return "font-size:" + (scale_r(d.awarded_raw) / 3) + "px"; })
+		.text(function(d) { return d.abbreviation; });
+
 	// Circles
-	graph.selectAll("circle")
-		.data((json.institutions)
-  			.filter(function(d) { return (d.awarded_raw > 0); }))
-		.enter().append("svg:circle")
-			.attr("cx", function(d) { return scale_x(d.percent_clean); })
-			.attr("cy", function(d) { return scale_y(d.percent_access); })
-			.attr("r", function(d) { return scale_r(d.awarded_raw); })
-			.style("fill", function(d) { return d3.interpolateRgb("#963", "#6f6")(d.percent_clean/100); })
-			.on("click", function(d) { location.href = d.institution_url; });
-			
-			//console.log( json.institutions );
-
-	// Labels	
-
-	graph.selectAll("text")
-		.data((json.institutions)
-  			.filter(function(d) { return (d.awarded_raw > 0); }))
-		.enter().append("svg:text")
-			.attr("x", function(d) { return scale_x(d.percent_clean); })
-			.attr("y", function(d) { return scale_y(d.percent_access); })
-			.attr("text-anchor","middle")
-			.text(function(d) { return d.abbreviation; });
-
+	node.append("svg:circle")
+		.attr("r", function(d) { return scale_r(d.awarded_raw); })
+		.style("fill", function(d) { return d3.interpolateRgb("#963", "#0f0")(d.percent_clean/100); })
+		.on("click", function(d) { location.href = d.institution_url; });
+	
 		d3.select("#loader").remove();
 	});
 </script>
