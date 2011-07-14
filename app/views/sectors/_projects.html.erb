@@ -14,7 +14,7 @@
 $(document).ready(function() {
 	$('#projects').dataTable({
 		"bProcessing": true,
-		"sAjaxSource": "<%= request.url %>.json",
+		"sAjaxSource": "<%= sector_projects_url( @sector ) %>.json",
 		"sAjaxDataProp": "projects",
 		"aoColumns": [
 			{"mDataProp":"received", "sType":"currency", "sWidth":"100px", "asSorting":["desc","asc"] },

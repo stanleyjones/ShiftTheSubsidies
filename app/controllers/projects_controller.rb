@@ -5,8 +5,12 @@ class ProjectsController < ApplicationController
   # GET /projects
   # GET /projects.xml
   def index
-    @projects = Project.all
-
+  	if params[:sector_id] and @sector = Sector.find(params[:sector_id])
+  		@projects = @sector.projects
+  	else
+	    @projects = Project.all
+		end
+		
     respond_to do |format|
       format.html # index.html.erb
       format.json # index.json.erb

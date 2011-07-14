@@ -9,14 +9,21 @@ ShiftTheSubsidies::Application.routes.draw do
 	match 'logout' => 'sessions#destroy'
 	
   resources :users
+
   resources :institution_groups
+ 
   resources :subsidies
+  
   resources :projects
-  resources :sectors
+
   resources :entities
   
   resources :institutions do
   	resources :subsidies
+  end
+
+  resources :sectors do
+  	resources :projects
   end
   
 
