@@ -14,7 +14,11 @@ ShiftTheSubsidies::Application.routes.draw do
   resources :projects
   resources :sectors
   resources :entities
-  resources :institutions
+  
+  resources :institutions do
+  	resources :subsidies
+  end
+  
 
 #	namespace :admin do
 #		resources :subsidies, :projects, :sectors, :entities, :institutions

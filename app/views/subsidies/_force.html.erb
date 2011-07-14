@@ -1,4 +1,4 @@
-<div id="graph"></div>
+<div id="graph"><div id="loader">Loading...</div></div>
 
 <script>
 	var w = 970, h = 640;
@@ -6,7 +6,7 @@
 	
 	// Functions
 	var fill = d3.scale.ordinal().domain(['institution','project','entity']).range(["#333","#666","#f00"]);;
-	var scale_r = d3.scale.ordinal().domain(['institution','project','entity']).range([25,5,10]);
+	var scale_r = d3.scale.ordinal().domain(['institution','project','entity']).range([50,10,25]);
 	
 	// Force-Directed	
 	d3.json("<%= request.url %>.json", function(json) {
@@ -14,7 +14,7 @@
 		var force = d3.layout.force()
 			.nodes(json.nodes)
 			.links(json.links)
-			.distance(25)
+			.distance(100)
 			.charge(-100)
 			.size([w,h])
 			.start();
@@ -64,18 +64,12 @@
 				.attr("y", function(d) { return d.y ; });
 		});
 		
+		d3.select("#loader").remove();
 	});
 	
 </script>
 
 <style>
-	#graph circle {stroke:#fff; stroke-width:2;}
-		#graph circle:hover {opacity:1;}
-		#graph circle.institution {fill:#111;}
-		#graph circle.project {fill:#630;}
-		#graph circle.entity {fill:#666;}
-	#graph text {fill:#ccc; font-size:18px;}
-		#graph text.label {fill:#111; display:block; opacity:0;}
-		#graph text.label:hover {opacity:1; cursor:pointer;}
-	#graph line {stroke:#630;}
+	#graph text.label {opacity:0; -webkit-transition:all 0.5s;}
+	#graph text.label:hover {opacity:1; cursor:pointer;}
 </style>

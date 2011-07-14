@@ -5,8 +5,12 @@ class SubsidiesController < ApplicationController
   # GET /subsidies
   # GET /subsidies.xml
   def index
-    @subsidies = Subsidy.all
-
+  	if params[:institution_id] and @institution = Institution.find(params[:institution_id])
+  		@subsidies = @institution.subsidies
+  	else
+	    @subsidies = Subsidy.all
+		end
+		
     respond_to do |format|
       format.html # index.html.erb
       format.json # index.json.erb
