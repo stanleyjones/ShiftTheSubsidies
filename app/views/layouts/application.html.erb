@@ -10,7 +10,7 @@
 
 <body><div id="wrapper">
 
-<%= render :partial => 'layouts/header' %>
+<%#= render :partial => 'layouts/header' %>
 <%= render :partial => 'layouts/navbar' %>
 
 <section id="content" class="container">
@@ -20,6 +20,7 @@
 </section><!-- #content -->
 
 <%= render :partial => 'layouts/footer' %>
+<% if @user %><%= render :partial => 'layouts/adminbar' %><% end %>
 
 </div><!-- #wrapper -->
 </body>

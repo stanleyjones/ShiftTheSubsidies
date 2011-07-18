@@ -1,0 +1,18 @@
+<header id="menubar"><h1>Admin Dashboard</h1></header>
+
+<div class="page">
+
+	<p>Logged in as <%= @user.name %>.</p>
+
+	<h3>Subsidies</h3>
+	<p><%= link_to "#{Subsidy.all.count} subsidies", admin_subsidies_url %></p>
+
+	<h3>Institutions</h3>
+	<p><%= link_to "#{Institution.all.count} institutions", admin_institutions_url %></p>
+
+	<h3>Entities</h3>
+	<p><%= link_to "#{Entity.all.count} entities", admin_entities_url %></p>
+
+	<p class="buttons"><%= link_to "Clear Frontend Cache", admin_clear_url, :class => "button" %></p>
+
+</div>

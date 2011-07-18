@@ -1,35 +1,36 @@
 ShiftTheSubsidies::Application.routes.draw do
 
-	controller :sessions do
-		get "login" => :new
-		post "login" => :create
-		#delete "logout" => :destroy
-	end
-	 
-	match 'logout' => 'sessions#destroy'
+	# Frontend - no login, no editing, cached
+
+  resources :subsidies, :only => ['index','show']
+  resources :entities, :only => ['index','show']
+  resources :projects, :only => ['index','show']
+
+  resources :institutions, :only => ['index','show'] do
+  	resources :subsidies, :only => :index
+  end
+
+  resources :sectors, :only => ['index', 'show'] do
+  	resources :projects, :only => :index
+  end
+
+	# User Logins
 	
   resources :users
 
-  resources :institution_groups
- 
-  resources :subsidies
+	controller :sessions do
+		get "login" => :new
+		post "login" => :create
+	end
+	match 'logout' => 'sessions#destroy'
   
-  resources :projects
-
-  resources :entities
+  # Backend - requires login, editing, not cached
   
-  resources :institutions do
-  	resources :subsidies
-  end
-
-  resources :sectors do
-  	resources :projects
-  end
-  
-
-#	namespace :admin do
-#		resources :subsidies, :projects, :sectors, :entities, :institutions
-#	end
+	namespace :admin do
+		root :to => 'welcome#dashboard'
+		get 'clear' => 'welcome'
+		resources :subsidies, :institutions, :entities, :sectors, :projects, :institution_groups
+	end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

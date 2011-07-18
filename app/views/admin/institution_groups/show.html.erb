@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @institution_group.name %>
+</p>
+
+<p>
+  <b>Country:</b>
+  <%= @institution_group.country %>
+</p>
+
+<p>
+  <b>Region:</b>
+  <%= @institution_group.region %>
+</p>
+
+
+<%= link_to 'Edit', edit_institution_group_path(@institution_group) %> |
+<%= link_to 'Back', institution_groups_path %>

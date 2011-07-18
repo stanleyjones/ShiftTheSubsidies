@@ -24,8 +24,13 @@ $(document).ready(function() {
 			{"fnRender":function(oObj) { return '<a href="'+oObj.aData['institution_url']+'">'+oObj.aData['name']+'</a> ('+oObj.aData['abbreviation']+')<br><span class="desc">'+oObj.aData['description']+'</span>'; }},
 			{"sWidth":"100px", "mDataProp":"percent_clean"},
 			{"sWidth":"100px", "mDataProp":"percent_access"},
+			{"bSortable":false, "sWidth":"25px", "fnRender":function(oObj) { <% if @user %>return '<a class="edit icon" href="'+oObj.aData['institution_url']+'/edit/">Edit</a>';<% else %>return "";<% end %> }}
 		],
 		"sPaginationType": "full_numbers"
 	});
 } );
 </script>
+
+<% if @user %><p class="buttons">
+	<%= link_to 'New Institution', new_admin_institution_path, :class => "new button" %>
+</p><% end %>

@@ -1,0 +1,36 @@
+<div id="graph"><div id="loader">Loading...</div></div>
+
+<script>
+	var w = 970, h = 640;
+	var graph = d3.select("#graph").append("svg:svg").attr("width", w).attr("height", h);
+
+	// Functions
+	scale_x = d3.scale.linear().domain([0,100]).range([100,w-100]);
+	scale_y = d3.scale.linear().domain([0,100]).range([h-100,100]);
+	scale_r = d3.scale.linear().domain([0,1E10]).range([25,100]);
+	
+	d3.json('<%= request.url %>.json', function(json) {
+	
+	// Nodes
+	var node = graph.selectAll("g.node")
+			.data((json.institutions)
+  			.filter(function(d) { return (d.awarded_raw > 0); }))
+		.enter().append("svg:g")
+			.attr("class","node")
+			.attr("transform", function(d) { return "translate(" + scale_x(d.percent_clean) + "," + scale_y(d.percent_access) + ")"; });
+
+	// Labels
+	node.append("svg:text")
+		.attr("class", "label")
+		.attr("style", function(d) { return "font-size:" + (scale_r(d.awarded_raw) / 3) + "px"; })
+		.text(function(d) { return d.abbreviation; });
+
+	// Circles
+	node.append("svg:circle")
+		.attr("r", function(d) { return scale_r(d.awarded_raw); })
+		.style("fill", function(d) { return d3.interpolateRgb("#963", "#0f0")(d.percent_clean/100); })
+		.on("click", function(d) { location.href = d.institution_url; });
+	
+		d3.select("#loader").remove();
+	});
+</script>

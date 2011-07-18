@@ -1,7 +1,7 @@
 class SubsidiesController < ApplicationController
-	skip_before_filter :authorize, :only => :index
-	#caches_action :index
-
+	skip_before_filter :authorize
+	caches_action :index, :show
+	
   # GET /subsidies
   # GET /subsidies.xml
   def index
@@ -30,65 +30,4 @@ class SubsidiesController < ApplicationController
     end
   end
 
-  # GET /subsidies/new
-  # GET /subsidies/new.xml
-  def new
-    @subsidy = Subsidy.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @subsidy }
-    end
-  end
-
-  # GET /subsidies/1/edit
-  def edit
-    @subsidy = Subsidy.find(params[:id])
-  end
-
-  # POST /subsidies
-  # POST /subsidies.xml
-  def create
-    @subsidy = Subsidy.new(params[:subsidy])
-
-    respond_to do |format|
-      if @subsidy.save
-   			expire_action :action => :index
-        format.html { redirect_to(subsidies_url, :notice => 'Subsidy was successfully created.') }
-        format.xml  { render :xml => @subsidy, :status => :created, :location => @subsidy }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @subsidy.errors, :status => :unprocessable_entity }
-      end
-    end
-  end
-
-  # PUT /subsidies/1
-  # PUT /subsidies/1.xml
-  def update
-    @subsidy = Subsidy.find(params[:id])
-
-    respond_to do |format|
-      if @subsidy.update_attributes(params[:subsidy])
-   			expire_action :action => :index
-        format.html { redirect_to(subsidies_url, :notice => 'Subsidy was successfully updated.') }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @subsidy.errors, :status => :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /subsidies/1
-  # DELETE /subsidies/1.xml
-  def destroy
-    @subsidy = Subsidy.find(params[:id])
-    @subsidy.destroy
-   	expire_action :action => :index
-    respond_to do |format|
-      format.html { redirect_to(subsidies_url) }
-      format.xml  { head :ok }
-    end
-  end
 end
