@@ -26,7 +26,7 @@
   <div class="field">
     <%= f.label :institution_group %><br />
     <%= f.collection_select :institution_group_id, InstitutionGroup.all, :id, :name, {:include_blank => true} %>
-    or <%= link_to "Add a new institution group.", new_institution_group_path %>
+    or <%= link_to "Add a new institution group.", new_admin_institution_group_path %>
   </div>
   <div class="field">
     <%= f.label :kind %><br />
@@ -41,7 +41,7 @@
     <%= f.check_box :visible %>
   </div>
   <div class="actions">
-    <%= f.submit %> or <%= link_to "Cancel", institutions_url %>
+    <%= f.submit %> or <%= link_to "Cancel", admin_institutions_url %>
     <br>
   </div>
 <% end %>

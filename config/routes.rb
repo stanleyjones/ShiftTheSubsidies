@@ -4,20 +4,19 @@ ShiftTheSubsidies::Application.routes.draw do
 
   resources :subsidies, :only => ['index','show']
   resources :entities, :only => ['index','show']
-  resources :projects, :only => ['index','show']
-
+  resources :projects, :only => ['index','show'] do
+  	get 'sector'
+  end
   resources :institutions, :only => ['index','show'] do
   	resources :subsidies, :only => :index
   end
-
   resources :sectors, :only => ['index', 'show'] do
   	resources :projects, :only => :index
   end
 
-	# User Logins
+	# Logins
 	
   resources :users
-
 	controller :sessions do
 		get "login" => :new
 		post "login" => :create

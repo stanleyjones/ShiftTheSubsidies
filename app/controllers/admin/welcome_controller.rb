@@ -1,5 +1,6 @@
 class Admin::WelcomeController < ApplicationController
 
+	layout 'admin'
 
 	def dashboard
 		

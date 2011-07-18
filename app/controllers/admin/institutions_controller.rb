@@ -1,6 +1,6 @@
 class Admin::InstitutionsController < ApplicationController
-	#skip_before_filter :authorize, :only => [:index, :show]
-	#caches_action :index, :unless => @user
+
+	layout 'admin'
 
   # GET /institutions
   # GET /institutions.xml

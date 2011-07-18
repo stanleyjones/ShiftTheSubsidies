@@ -27,17 +27,17 @@
   <div class="field">
     <%= f.label :institution_id %><br />
     <%= f.select :institution_id, Institution.all.collect {|i| [ "#{i.name} (#{i.abbreviation})", i.id ] }.sort %>
-    or <%= link_to "Add a new institution.", new_institution_path %>
+    or <%= link_to "Add a new institution.", new_admin_institution_path %>
   </div>
   <div class="field">
     <%= f.label :entity_id %><br />
     <%= f.select :entity_id, Entity.all.collect {|e| [ e.name, e.id ] }.sort  %>
-    or <%= link_to "Add a new entity.", new_entity_path %>
+    or <%= link_to "Add a new entity.", new_admin_entity_path %>
   </div>
   <div class="field">
     <%= f.label :project_id %><br />
     <%= f.select :project_id, Project.all.collect {|p| [ p.name, p.id ] }.sort  %>
-    or <%= link_to "Add a new project.", new_project_path %>
+    or <%= link_to "Add a new project.", new_admin_project_path %>
   </div>
   <div class="field">
     <%= f.label :kind %><br />
@@ -52,6 +52,6 @@
     <%= f.text_field :source %>
   </div>
   <div class="actions">
-    <%= f.submit %> or <%= link_to "Cancel", subsidies_path %>
+    <%= f.submit %> or <%= link_to "Cancel", admin_subsidies_path %>
   </div>
 <% end %>

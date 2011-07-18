@@ -59,7 +59,8 @@
 	/* OCI Universal Header */
 
 	#wrapper {position:relative; min-height:100%; width:970px; margin:0 auto; padding-bottom:0px; background:#fff; -webkit-box-shadow:0 0 5px rgba(0,0,0,0.5); -moz-box-shadow:0 0 5px rgba(0,0,0,0.5); overflow:visible;}
-	#content {width:970px; padding-bottom:100px;}
+	#content {width:970px; padding-bottom:0px;}
+	body.admin #content {padding-bottom:100px;}
 	
 	#searchform {float:right; margin:7px 10px; font-size:10px;}
 	#searchform input[type="text"] {display:block; float:left; height:10px; width:150px; text-align:center;}

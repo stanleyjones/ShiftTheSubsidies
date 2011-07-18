@@ -25,13 +25,8 @@ $(document).ready(function() {
 			{"fnRender":function(oObj) { return '<a href="'+oObj.aData['entity_url']+'">'+oObj.aData['name']+'</a>'; }},
 			{"sWidth":"100px", "mDataProp":"percent_clean"},
 			{"sWidth":"100px", "mDataProp":"percent_access"},
-			{"bSortable":false, "sWidth":"25px", "fnRender":function(oObj) { <% if @user %>return '<a class="edit icon" href="'+oObj.aData['entity_url']+'/edit/">Edit</a>';<% else %>return "";<% end %> }}
 		],
 		"sPaginationType": "full_numbers"
 	});
 } );
 </script>
-
-<% if @user %><p class="buttons">
-	<%= link_to 'New Entity', new_entity_path, :class => "new button" %>
-</p><% end %>

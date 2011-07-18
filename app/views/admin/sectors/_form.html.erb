@@ -1,4 +1,4 @@
-<%= form_for(@sector) do |f| %>
+<%= form_for([:admin,@sector]) do |f| %>
   <% if @sector.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@sector.errors.count, "error") %> prohibited this sector from being saved:</h2>

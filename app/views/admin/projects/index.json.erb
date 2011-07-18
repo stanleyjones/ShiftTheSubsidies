@@ -9,7 +9,7 @@
 		"category": "<% if project.sector %><%= project.sector.category %><% end %>",
 		"country": "<%= project.country %>",
 		"access": "<%= project.access %>",
-		"project_url": "<%= url_for project %>"
+		"project_url": "<%= url_for [:admin,project] %>"
 	}<% unless project == @projects.last %>,<% end %>
 	<% end %>
 	]

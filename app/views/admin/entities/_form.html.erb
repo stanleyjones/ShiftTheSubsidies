@@ -24,6 +24,6 @@
 		<%= f.collection_select :group_ids, Entity.where({:kind => "group"}).all, :id, :name, {}, :multiple => true %>
   </div>  
   <div class="actions">
-    <%= f.submit %> or <%= link_to "Cancel", entities_url %>
+    <%= f.submit %> or <%= link_to "Cancel", admin_entities_url %>
   </div>
 <% end %>

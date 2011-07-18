@@ -1,7 +1,7 @@
 class SubsidiesController < ApplicationController
-	skip_before_filter :authorize
+	skip_before_filter :authorize, :only => [:index, :show]
 	caches_action :index, :show
-	
+
   # GET /subsidies
   # GET /subsidies.xml
   def index

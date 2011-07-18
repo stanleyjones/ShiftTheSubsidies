@@ -28,7 +28,7 @@
 	<b>Institutions funding this project</b>
 	<ul>
 	<% @project.institutions.each do |i| %>
-	<li><%= link_to i.name, institution_url(i) %></li>
+	<li><%= link_to i.name, admin_institution_url(i) %></li>
 	<% end %>
 	</ul>
 </p>

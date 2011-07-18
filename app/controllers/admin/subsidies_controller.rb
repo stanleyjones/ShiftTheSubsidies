@@ -1,5 +1,7 @@
 class Admin::SubsidiesController < ApplicationController
 
+	layout 'admin'
+
   # GET /subsidies
   # GET /subsidies.xml
   def index

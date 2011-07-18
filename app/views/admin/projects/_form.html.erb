@@ -34,9 +34,9 @@
   <div class="field">
     <%= f.label :sector_id %><br />
     <%= f.select :sector_id, Sector.all.collect {|s| [ s.name, s.id ] }, {:include_blank => 'None'} %>
-    or <%= link_to "Add a new sector.", new_sector_path %>
+    or <%= link_to "Add a new sector.", new_admin_sector_path %>
   </div>
   <div class="actions">
-    <%= f.submit %> or <%= link_to "Cancel", projects_url %>
+    <%= f.submit %> or <%= link_to "Cancel", admin_projects_url %>
   </div>
 <% end %>

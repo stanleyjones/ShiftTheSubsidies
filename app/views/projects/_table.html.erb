@@ -23,13 +23,8 @@ $(document).ready(function() {
 			{"sWidth":"100px", "mDataProp":"country"},
 			{"sWidth":"100px", "mDataProp":"sector"},
 			{"sWidth":"50px", "fnRender":function(oObj) { return oObj.aData['access']; }},
-			{"bSortable":false, "sWidth":"25px", "fnRender":function(oObj) { <% if @user %>return '<a class="edit icon" href="'+oObj.aData['project_url']+'/edit/">Edit</a>';<% else %>return "";<% end %> }}
 		],
 		"sPaginationType": "full_numbers"
 	});
 } );
 </script>
-
-<% if @user %><p class="buttons">
-	<%= link_to 'New Project', new_project_path, :class => "new button" %>
-</p><% end %>

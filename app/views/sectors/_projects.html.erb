@@ -3,6 +3,7 @@
 		<tr>
 			<th>Received (USD)</th>
     	<th>Name</th>
+    	<th>Sector</th>
     	<th>Country</th>
     	<th>Energy Access</th>
     	<th></th>
@@ -12,22 +13,19 @@
 
 <script>
 $(document).ready(function() {
-	$('#projects').dataTable({
+	oTable = $('#projects').dataTable({
 		"bProcessing": true,
-		"sAjaxSource": "<%= sector_projects_url( @sector ) %>.json",
+		"sAjaxSource": "<%= projects_url %>.json",
 		"sAjaxDataProp": "projects",
 		"aoColumns": [
 			{"mDataProp":"received", "sType":"currency", "sWidth":"100px", "asSorting":["desc","asc"] },
 			{"fnRender":function(oObj) { return '<a href="'+oObj.aData['project_url']+'">'+oObj.aData['name']+'</a>'; }},
+			{"fnRender":function(oObj) { return '<a href="'+oObj.aData['sector_url']+'">'+oObj.aData['sector']+'</a>'; }},
 			{"sWidth":"100px", "mDataProp":"country"},
 			{"sWidth":"50px", "fnRender":function(oObj) { return oObj.aData['access']; }},
-			{"bSortable":false, "sWidth":"25px", "fnRender":function(oObj) { <% if @user %>return '<a class="edit icon" href="'+oObj.aData['project_url']+'/edit/">Edit</a>';<% else %>return "";<% end %> }}
 		],
 		"sPaginationType": "full_numbers"
 	});
+	oTable.fnFilter( '^<%= @sector.name %>$',2,true );
 } );
 </script>
-
-<% if @user %><p class="buttons">
-	<%= link_to 'New Project', new_project_path, :class => "new button" %>
-</p><% end %>
