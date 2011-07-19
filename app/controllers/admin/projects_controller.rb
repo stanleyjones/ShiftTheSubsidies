@@ -53,7 +53,7 @@ class Admin::ProjectsController < ApplicationController
     respond_to do |format|
       if @project.save
       	expire_action :action => :index
-        format.html { redirect_to(@project, :notice => 'Project was successfully created.') }
+        format.html { redirect_to([:admin, @project], :notice => 'Project was successfully created.') }
         format.xml  { render :xml => @project, :status => :created, :location => @project }
       else
         format.html { render :action => "new" }
@@ -70,7 +70,7 @@ class Admin::ProjectsController < ApplicationController
     respond_to do |format|
       if @project.update_attributes(params[:project])
       	expire_action :action => :index
-        format.html { redirect_to(@project, :notice => 'Project was successfully updated.') }
+        format.html { redirect_to([:admin, @project], :notice => 'Project was successfully updated.') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -86,7 +86,7 @@ class Admin::ProjectsController < ApplicationController
     @project.destroy
 		expire_action :action => :index
     respond_to do |format|
-      format.html { redirect_to(projects_url) }
+      format.html { redirect_to(admin_projects_url) }
       format.xml  { head :ok }
     end
   end

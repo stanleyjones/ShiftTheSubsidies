@@ -50,7 +50,7 @@ class Admin::EntitiesController < ApplicationController
     respond_to do |format|
       if @entity.save
       	expire_action :action => :index
-        format.html { redirect_to(@entity, :notice => 'Entity was successfully created.') }
+        format.html { redirect_to([:admin, @entity], :notice => 'Entity was successfully created.') }
         format.xml  { render :xml => @entity, :status => :created, :location => @entity }
       else
         format.html { render :action => "new" }
@@ -67,7 +67,7 @@ class Admin::EntitiesController < ApplicationController
     respond_to do |format|
       if @entity.update_attributes(params[:entity])
       	expire_action :action => :index
-        format.html { redirect_to(@entity, :notice => 'Entity was successfully updated.') }
+        format.html { redirect_to([:admin, @entity], :notice => 'Entity was successfully updated.') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -83,7 +83,7 @@ class Admin::EntitiesController < ApplicationController
     @entity.destroy
    	expire_action :action => :index
     respond_to do |format|
-      format.html { redirect_to(entities_url) }
+      format.html { redirect_to(admin_entities_url) }
       format.xml  { head :ok }
     end
   end

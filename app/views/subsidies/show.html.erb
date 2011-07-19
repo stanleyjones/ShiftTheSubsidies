@@ -1,50 +1,9 @@
-<p id="notice"><%= notice %></p>
+<div class="page">
 
-<p>
-  <b>Amount:</b>
-  <%= @subsidy.amount %>
-</p>
+	<p id="notice"><%= notice %></p>
 
-<p>
-  <b>Currency:</b>
-  <%= @subsidy.currency %>
-</p>
+	<p><%= @subsidy.kind %> for <%= number_to_currency(@subsidy.amount) %><%= @subsidy.currency %> made from <%= @subsidy.institution.name %> to <%= @subsidy.entity.name %> for <%= @subsidy.project.name %>. Approved on <%= @subsidy.date %>.</p>
 
-<p>
-  <b>Date:</b>
-  <%= @subsidy.date %>
-</p>
+	<p><b>Source:</b> <%= @subsidy.source %></p>
 
-<p>
-  <b>Institution:</b>
-  <%= @subsidy.institution.name %>
-</p>
-
-<p>
-  <b>Entity:</b>
-  <%= @subsidy.entity.name %>
-</p>
-
-<p>
-  <b>Project:</b>
-  <%= @subsidy.project.name %>
-</p>
-
-<p>
-  <b>Kind:</b>
-  <%= @subsidy.kind %>
-</p>
-
-<p>
-  <b>Approved:</b>
-  <%= @subsidy.approved %>
-</p>
-
-<p>
-  <b>Source:</b>
-  <%= @subsidy.source %>
-</p>
-
-
-<%= link_to 'Edit', edit_subsidy_path(@subsidy) %> |
-<%= link_to 'Back', subsidies_path %>
+</div>

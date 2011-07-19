@@ -6,7 +6,8 @@
 	
 	// Functions
 	var fill = d3.scale.ordinal().domain(['institution','project','entity']).range(["#333","#666","#f00"]);;
-	var scale_r = d3.scale.ordinal().domain(['institution','project','entity']).range([50,10,25]);
+	var scale_r = d3.scale.ordinal().domain(['institution','project','entity']).range([50,5,25]);
+	var scale_s = d3.scale.linear().domain([1,1e9]).range([1,15]);
 	
 	// Force-Directed	
 	d3.json("<%= request.url %>.json", function(json) {
@@ -15,7 +16,7 @@
 			.nodes(json.nodes)
 			.links(json.links)
 			.distance(100)
-			.charge(-100)
+			.charge(-200)
 			.size([w,h])
 			.start();
 		
@@ -23,7 +24,7 @@
 		  .data(json.links)
 			.enter().append("svg:line")
 			  .attr("class", "link")
-			  .style("stroke-width", function(d) { return d.value; })
+			  .style("stroke-width", function(d) { return scale_s( d.value ); })
 			  .attr("x1", function(d) { return d.source.x; })
 			  .attr("y1", function(d) { return d.source.y; })
 			  .attr("x2", function(d) { return d.target.x; })
@@ -70,6 +71,11 @@
 </script>
 
 <style>
+	#graph circle.institution {fill:#333; opacity:1;}
+	#graph circle.project {opacity:1; stroke:none;}
+	
 	#graph text.label {opacity:0; -webkit-transition:all 0.5s;}
 	#graph text.label:hover {opacity:1; cursor:pointer;}
+
+	#graph line.link {stroke-linecap:round;}
 </style>

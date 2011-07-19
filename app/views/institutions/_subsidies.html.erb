@@ -21,13 +21,8 @@ $(document).ready(function() {
 			{ "fnRender":function(oObj) { return '<a href="'+oObj.aData['entity_url']+'">'+oObj.aData['to']+'</a>'; }},
 			{ "fnRender":function(oObj) { return '<a href="'+oObj.aData['project_url']+'">'+oObj.aData['for']+'</a>'; }},
 			{ "mDataProp":"date", "sWidth":"75px" },
-			{ "bSortable":false, "sWidth":"25px", "fnRender":function(oObj) { <% if @user %>return '<a class="edit icon" href="'+oObj.aData['subsidy_url']+'/edit/">Edit</a>';<% else %>return "";<% end %>}}
 		],
 		"sPaginationType": "full_numbers"
 	});
 } );
 </script>
-
-<% if @user %><p class="buttons">
-	<%= link_to 'New Subsidy', new_subsidy_path, :class => "new button" %>
-</p><% end %>

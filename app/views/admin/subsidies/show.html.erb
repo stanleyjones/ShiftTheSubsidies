@@ -1,50 +1,11 @@
-<p id="notice"><%= notice %></p>
+<div class="page">
 
-<p>
-  <b>Amount:</b>
-  <%= @subsidy.amount %>
-</p>
+	<p id="notice"><%= notice %></p>
 
-<p>
-  <b>Currency:</b>
-  <%= @subsidy.currency %>
-</p>
+	<p><% if !@subsidy.kind.empty? %><%= @subsidy.kind %><% else %>Subsidy<% end %> for $<%= number_to_human(@subsidy.amount) %> (USD) made from <%= link_to @subsidy.institution.name, @subsidy.institution %> to <%= link_to @subsidy.entity.name, @subsidy.entity %> for <%= link_to @subsidy.project.name, @subsidy.project %>. Approved on <%= @subsidy.date %>.</p>
 
-<p>
-  <b>Date:</b>
-  <%= @subsidy.date %>
-</p>
+	<p><b>Source:</b> <%= @subsidy.source %></p>
 
-<p>
-  <b>Institution:</b>
-  <%= @subsidy.institution.name %>
-</p>
+	<p><%= link_to 'Back', subsidies_url %></p>
 
-<p>
-  <b>Entity:</b>
-  <%= @subsidy.entity.name %>
-</p>
-
-<p>
-  <b>Project:</b>
-  <%= @subsidy.project.name %>
-</p>
-
-<p>
-  <b>Kind:</b>
-  <%= @subsidy.kind %>
-</p>
-
-<p>
-  <b>Approved:</b>
-  <%= @subsidy.approved %>
-</p>
-
-<p>
-  <b>Source:</b>
-  <%= @subsidy.source %>
-</p>
-
-
-<%= link_to 'Edit', edit_admin_subsidy_path(@subsidy) %> |
-<%= link_to 'Back', admin_subsidies_path %>
+</div>

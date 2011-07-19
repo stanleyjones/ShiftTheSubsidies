@@ -2,6 +2,7 @@
 	<thead>
 		<tr>
     	<th>Amount (USD)</th>
+    	<th>From</th>
     	<th>To</th>
     	<th>For</th>
     	<th>Date</th>
@@ -12,12 +13,13 @@
 
 <script>
 $(document).ready(function() {
-	$('#subsidies').dataTable({
+	oTable = $('#subsidies').dataTable({
 		"bProcessing":true,
 		"sAjaxSource":"<%= institution_subsidies_url(@institution) %>.json",
 		"sAjaxDataProp":"subsidies",
 		"aoColumns": [
 			{ "mDataProp":"amount", "sType":"currency", "sWidth":"100px", "asSorting":["desc","asc"] },
+			{ "fnRender":function(oObj) { return oObj.aData['from']; }},
 			{ "fnRender":function(oObj) { return '<a href="'+oObj.aData['entity_url']+'">'+oObj.aData['to']+'</a>'; }},
 			{ "fnRender":function(oObj) { return '<a href="'+oObj.aData['project_url']+'">'+oObj.aData['for']+'</a>'; }},
 			{ "mDataProp":"date", "sWidth":"75px" },
@@ -25,9 +27,10 @@ $(document).ready(function() {
 		],
 		"sPaginationType": "full_numbers"
 	});
+	oTable.fnFilter( '^<%= @institution.name %>$',1,true );
 } );
 </script>
 
 <% if @user %><p class="buttons">
-	<%= link_to 'New Subsidy', new_subsidy_path, :class => "new button" %>
+	<%= link_to 'New Subsidy', new_admin_subsidy_path, :class => "new button" %>
 </p><% end %>

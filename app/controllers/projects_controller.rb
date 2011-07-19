@@ -13,14 +13,6 @@ class ProjectsController < ApplicationController
     end
   end
   
-  def sector
-  	if params[:sector_id] and @sector = Sector.find(params[:sector_id])
-  		@projects = @sector.projects
-  	else
-  		@projects = Projects.all
-  	end
-  end
-  
   # GET /projects/1
   # GET /projects/1.xml
   def show

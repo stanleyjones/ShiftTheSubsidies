@@ -50,7 +50,7 @@ class Admin::SubsidiesController < ApplicationController
     respond_to do |format|
       if @subsidy.save
    			expire_action :action => :index
-        format.html { redirect_to(subsidies_url, :notice => 'Subsidy was successfully created.') }
+        format.html { redirect_to(admin_subsidies_url, :notice => 'Subsidy was successfully created.') }
         format.xml  { render :xml => @subsidy, :status => :created, :location => @subsidy }
       else
         format.html { render :action => "new" }
@@ -67,7 +67,7 @@ class Admin::SubsidiesController < ApplicationController
     respond_to do |format|
       if @subsidy.update_attributes(params[:subsidy])
    			expire_action :action => :index
-        format.html { redirect_to(subsidies_url, :notice => 'Subsidy was successfully updated.') }
+        format.html { redirect_to(admin_subsidies_url, :notice => 'Subsidy was successfully updated.') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -83,7 +83,7 @@ class Admin::SubsidiesController < ApplicationController
     @subsidy.destroy
    	expire_action :action => :index
     respond_to do |format|
-      format.html { redirect_to(subsidies_url) }
+      format.html { redirect_to(admin_subsidies_url) }
       format.xml  { head :ok }
     end
   end
