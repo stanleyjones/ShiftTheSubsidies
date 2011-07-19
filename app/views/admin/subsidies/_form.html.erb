@@ -1,4 +1,4 @@
-<%= form_for(@subsidy) do |f| %>
+<%= form_for([:admin,@subsidy]) do |f| %>
   <% if @subsidy.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@subsidy.errors.count, "error") %> prohibited this subsidy from being saved:</h2>
