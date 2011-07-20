@@ -1,4 +1,4 @@
-<%= form_for(@entity) do |f| %>
+<%= form_for([:admin,@entity]) do |f| %>
   <% if @entity.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@entity.errors.count, "error") %> prohibited this entity from being saved:</h2>

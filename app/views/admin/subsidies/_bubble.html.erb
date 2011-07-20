@@ -1,25 +1,29 @@
 <div id="graph"><div id="loader">Loading...</div></div>
 
 <script>
+// Setup
 	var w = 970, h = 640;
 	var graph = d3.select("#graph").append("svg:svg").attr("width", w).attr("height", h);
-	
-	// Functions
 	var scale = d3.scale.linear();
-	
-	// Bubble Chart	
-	var bubble = d3.layout.pack()
-		.sort(null)
-		.value(function(d) { return (d.amount_raw > 0) ? d.amount_raw / 1000 : 1; })
+	var bubble = d3.layout.pack().sort(null)
+		.value(function(d) { return (d.amount_raw > 0) ? d.amount_raw / 1000 * Math.random() : 1; })
 		.size([w,h]);
 
+// Init
 	d3.json("<%= request.url %>.json", function(json) {
+		draw(json.subsidies);
+		setInterval(function() { redraw(json.subsidies);	}, 5000);
+		d3.select("#loader").remove();
+	});
+		
+// Animation
+	function draw(data) {
 		var node = graph.selectAll("g.node")
-			.data(bubble(bubblize(json.subsidies))
+			.data(bubble(bubblize(data))
 				.filter(function(d) { return !d.children; }))
-		.enter().append("svg:g")
-			.attr("class","node")
-			.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+			.enter().append("svg:g")
+				.attr("class","node")
+				.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 			
 		node.append("svg:text")
 			.attr("class", "label")
@@ -30,19 +34,29 @@
 			.attr("class", function(d) { return d.data.category; })
 			.attr("r", function(d) { return d.r; })
 			.on("click", function(d) { location.href = d.data.subsidy_url; });
-
-		d3.select("#loader").remove();
-	});
-
+	}
 	
+	function redraw(data) {
+	
+		var node = graph.selectAll("g.node")
+			.data(bubble(bubblize(data)).filter(function(d) { return !d.children; }));
+		
+		node.transition()
+			.duration(1000)
+			.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
+			.selectAll("circle")
+				.attr("r", function(d) { return d.r; });
+						
+		console.log( 'redrew' );
+	}
+	
+// Functions
 	function bubblize( data ) {
 		var bubbles = [];
-		
 		for (var b in data) {
 			var bubble = data[b];
 			bubbles.push(bubble);
 		}
-		//console.log(bubbles);
 		return {children: bubbles};
 	}
 	
