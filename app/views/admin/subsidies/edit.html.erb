@@ -2,4 +2,4 @@
 
 <%= render 'form' %>
 
-<%= link_to "Delete this subsidy", subsidy_url, :confirm => 'Are you sure?', :method => :delete, :class => "delete button" %>
+<%= link_to "Delete this subsidy", [:admin,@subsidy], :confirm => 'Are you sure?', :method => :delete, :class => "delete button" %>

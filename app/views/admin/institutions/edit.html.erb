@@ -4,4 +4,4 @@
 
 <%= render 'form' %>
 
-<%= link_to "Delete this Institution", @institution, :confirm => "Are you sure?", :method => :delete, :class => "delete button" %>
+<%= link_to "Delete this Institution", [:admin,@institution], :confirm => "Are you sure?", :method => :delete, :class => "delete button" %>

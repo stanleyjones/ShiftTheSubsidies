@@ -2,4 +2,4 @@
 
 <%= render 'form' %>
 
-<%= link_to "Delete this project", @project, :confirm => "Are you sure?", :method => :delete, :class => "delete button" %>
+<%= link_to "Delete this project", [:admin,@project], :confirm => "Are you sure?", :method => :delete, :class => "delete button" %>

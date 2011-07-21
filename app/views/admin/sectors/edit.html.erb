@@ -1,6 +1,5 @@
-<h1>Editing sector</h1>
+<header id="menubar"><h1>Editing sector</h1></header>
 
 <%= render 'form' %>
 
-<%= link_to 'Show', @sector %> |
-<%= link_to 'Back', sectors_path %>
+<%= link_to "Delete this sector", [:admin,@sector], :confirm => "Are you sure?", :method => :delete, :class => "delete button" %>
