@@ -1,3 +1,6 @@
+require 'money'
+require 'money/bank/google_currency'
+
 module SubsidiesHelper
 
 	Money.default_bank = Money::Bank::GoogleCurrency.new
@@ -8,7 +11,6 @@ module SubsidiesHelper
 		:separator       => ".",
 		:delimiter       => ","
 	}
-	#Money.add_rate('USD','UAC',0.66)
 
 	def currency_options_for_select( selected = nil )
 		currencies = Money::Currency::TABLE.keys

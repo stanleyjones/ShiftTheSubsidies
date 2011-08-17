@@ -1,5 +1,3 @@
-require 'money'
-require 'money/bank/google_currency'
 include SubsidiesHelper
 
 class Subsidy < ActiveRecord::Base
