@@ -1,6 +1,6 @@
 require 'money'
 require 'money/bank/google_currency'
-Money.default_bank = Money::Bank::GoogleCurrency.new
+include SubsidiesHelper
 
 class Subsidy < ActiveRecord::Base
 
@@ -20,10 +20,12 @@ class Subsidy < ActiveRecord::Base
   def amount
   	if amount_original and Money::Currency.find(currency)
   		amount = amount_original.to_money(currency)
-  		amount = amount.exchange_to('USD')
+	  	amount = amount.exchange_to('USD')
   		return amount.dollars
   	elsif amount_usd
   		amount_usd
+  	elsif currency == "UAC"
+  		return amount_original * 0.66
   	else
   		0
   	end
