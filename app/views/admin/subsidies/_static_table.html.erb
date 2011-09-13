@@ -1,0 +1,37 @@
+<table id="subsidies">
+	<thead>
+		<tr>
+    	<th>Amount (USD)</th>
+    	<th>From</th>
+    	<th>To</th>
+    	<th>For</th>
+    	<th>Date</th>
+    	<th></th>
+		</tr>
+  </thead>
+  <tbody>
+  <% @subsidies.each do |s| %>
+  	<tr>
+  		<td><%= number_to_human( s.amount, :format => "%n%u", :units => {:unit => "USD", :thousand => "k", :million => "M", :billion => "B"} ) %></td>
+  		<td><% if s.institution %><%= link_to s.institution.name, s.institution %><% end %></td>
+  		<td><% if s.entity %><%= link_to s.entity.name, s.entity %><% end %></td>
+  		<td><% if s.project %><%= link_to s.project.name, s.project %><% end %></td>
+  		<td><% if s.date %><%= s.date.strftime("%Y-%m-%d") %><% end %></td>
+  		<td><%= link_to 'Edit', edit_admin_subsidy_url(s), :class => 'edit icon' %></td>
+  	</tr>
+  <% end %>
+  </tbody>
+</table>
+
+<script>
+$(document).ready(function() {
+	$('#subsidies').dataTable({
+		"bProcessing":true,
+		"sPaginationType": "full_numbers"
+	});
+});
+</script>
+
+<% if @user %><p class="buttons">
+	<%= link_to 'New Subsidy', new_admin_subsidy_path, :class => "new button" %>
+</p><% end %>

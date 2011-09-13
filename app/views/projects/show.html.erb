@@ -15,10 +15,12 @@
   	<%= @project.description %>
 	</p>
 
+	<% if @project.sector %>
 	<p>
 	  <b>Sector:</b>
 	  <%= @project.sector.name %>
 	</p>
+	<% end %>
 
 	<p>
 		<b>Institutions funding this project</b>

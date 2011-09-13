@@ -60,6 +60,7 @@
 
 	#wrapper {position:relative; min-height:100%; width:970px; margin:0 auto; padding-bottom:0px; background:#fff; -webkit-box-shadow:0 0 5px rgba(0,0,0,0.5); -moz-box-shadow:0 0 5px rgba(0,0,0,0.5); overflow:visible;}
 	#content {width:970px; padding-bottom:0px;}
+	body.admin:before {display:block; height:25px; content:"Admin Mode"; color:#c00; background:#f00; text-align:center; line-height:25px;}
 	body.admin #content {padding-bottom:100px;}
 	
 	#searchform {float:right; margin:7px 10px; font-size:10px;}
@@ -123,7 +124,15 @@
 	#content a.button.delete {display:block; position:relative; width:120px; margin:10px 0 0 -60px; left:50%; background:#ccc; text-align:center;}
 	#content a.button.delete:hover {background:#900;}
 	
+	#content #info {position:absolute; top:45px; left:0; padding:20px; width:25%; color:#fff; background:rgba(0,0,0,0.5); border-bottom-right-radius:10px;}
+	#content #caption {position:absolute; bottom:-40px; left:20px; color:#999; font-size:14px; text-align:center;}
+	
 	.page {padding:20px;}
+	.page p {clear:both;}
+	
+	.page .block {float:left; width:260px; margin:0 10px 20px 0; padding:20px; background:#eee;}
+	#content .block h2 {color:#999;}
+
 	
 	#page {background:#fff; border-radius:10px; -moz-border-radius:10px; padding:20px;}
 	#page .entry-title {font-size:24px; font-family:Diavlo;}

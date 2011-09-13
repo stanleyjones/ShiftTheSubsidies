@@ -4,6 +4,7 @@
 <% @projects.each do |project| %>	{
 		"received":"<%= number_to_currency( project.received ) %>",
 		"amount_raw": <%= project.received %>,
+		"amount_human": "$<%= number_to_human( project.received, :format => "%n%u", :units => {:unit => "USD", :thousand => "k", :million => "M", :billion => "B"} ) %>",
 		"name": "<%= project.name %>",
 		"sector": "<% if project.sector %><%= project.sector.name %><% end %>",
 		"category": "<% if project.sector %><%= project.sector.category %><% end %>",

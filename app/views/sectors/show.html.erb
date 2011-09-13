@@ -1,5 +1,15 @@
 <header id="menubar"><h1><%= @sector.name %></h1></header>
 
+<div id="info">
+	<h1><%= @sector.name %></h1>
+	<p>Sector description.</p>
+</div>
+
+<div id="graphview" class="view">
+	<%= render :partial => "project_bubbles", :object => @projects %>
+	<p id="caption">Projects in the <%= @sector.name %> sector, scaled by funding.</p>
+</div>
+
 <div id="tableview" class="view">
 	<%= render :partial => "projects" %>
 </div>

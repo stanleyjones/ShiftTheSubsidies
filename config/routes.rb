@@ -3,12 +3,15 @@ ShiftTheSubsidies::Application.routes.draw do
 	# Frontend - no login, no editing, cached
 
   resources :subsidies, :only => ['index','show']
-  resources :entities, :only => ['index','show']
+  resources :entities, :only => ['index','show'] do
+  	resources :subsidies, :only => :index
+  end
   resources :projects, :only => ['index','show'] do
   	get 'sector'
   end
   resources :institutions, :only => ['index','show'] do
   	resources :subsidies, :only => :index
+  	resources :projects, :only => :index
   end
   resources :sectors, :only => ['index', 'show'] do
   	resources :projects, :only => :index
@@ -28,7 +31,13 @@ ShiftTheSubsidies::Application.routes.draw do
 	namespace :admin do
 		root :to => 'welcome#dashboard'
 		get 'clear' => 'welcome'
-		resources :subsidies, :institutions, :entities, :sectors, :projects, :institution_groups
+		resources :subsidies, :entities, :projects, :institution_groups
+		resources :institutions do
+  		resources :subsidies
+  	end
+  	resources :sectors do
+  		resources :projects
+  	end
 	end
 
   # The priority is based upon order of creation:

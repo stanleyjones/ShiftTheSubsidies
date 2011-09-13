@@ -1,7 +1,7 @@
 <div id="graph"><div id="loader">Loading...</div></div>
 
 <script>
-	var w = 970, h = 800;
+	var w = 970, h = 640;
 	var graph = d3.select("#graph").append("svg:svg").attr("width", w).attr("height", h);
 	
 	// Functions
@@ -13,7 +13,7 @@
 		.value(function(d) { return (d.amount_raw > 0) ? d.amount_raw / 1000 : 1; })
 		.size([w,h]);
 
-	d3.json("<%= request.url %>.json", function(json) {
+	d3.json("<%= request.url %>/subsidies.json", function(json) {
 		var node = graph.selectAll("g.node")
 			.data(bubble(bubblize(json.subsidies))
 				.filter(function(d) { return !d.children; }))

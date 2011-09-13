@@ -1,13 +1,11 @@
-<div class="page">
-	<p id="notice"><%= notice %></p>
+<%# render :partial => "menubar" %>
 
-	<p>
-  	<b>Name:</b>
-  	<%= @entity.name %>
-	</p>
+<div id="info">
+	<h1><%= @entity.name %></h1>
+	<p><%= @entity.kind %></p>
+</div>
 
-	<p>
-	  <b>Kind:</b>
-	  <%= @entity.kind %>
-	</p>
+<div id="graphview" class="view">
+	<%= render :partial => "subsidy_bubbles", :object => @subsidies %>
+	<p id="caption">Subsidies received by <%= @entity.name %>, scaled by amount.</p>
 </div>

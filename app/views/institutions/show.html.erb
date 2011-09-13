@@ -1,7 +1,13 @@
 <%= render :partial => "menubar" %>
 
+<div id="info">
+	<h1><%= @institution.name %></h1>
+	<p><%= @institution.description %></p>
+</div>
+
 <div id="graphview" class="view">
-	<%= render :partial => "subsidies/force", :object => @subsidies %>
+	<%= render :partial => "project_bubbles", :object => @projects %>
+	<p id="caption">Projects of <%= @institution.shortname %> scaled by amount and colored by sector.</p>
 </div>
 
 <div id="tableview" class="view">

@@ -15,7 +15,7 @@
 $(document).ready(function() {
 	oTable = $('#subsidies').dataTable({
 		"bProcessing":true,
-		"sAjaxSource":"<%= institution_subsidies_url(@institution) %>.json",
+		"sAjaxSource":"<%= admin_institution_subsidies_url(@institution) %>.json",
 		"sAjaxDataProp":"subsidies",
 		"aoColumns": [
 			{ "mDataProp":"amount", "sType":"currency", "sWidth":"100px", "asSorting":["desc","asc"] },

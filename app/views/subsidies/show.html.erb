@@ -1,8 +1,22 @@
 <div class="page">
 
 	<p id="notice"><%= notice %></p>
-
-	<p><%= @subsidy.kind %> for <%= number_to_currency(@subsidy.amount) %><%= @subsidy.currency %> made from <%= @subsidy.institution.name %> to <%= @subsidy.entity.name %> for <%= @subsidy.project.name %>. Approved on <%= @subsidy.date %>.</p>
+	
+	<div class="institution block">
+		From
+		<h1><%= @subsidy.institution.abbreviation %></h1>
+		<h2><%= @subsidy.institution.name %></h2>
+	</div>
+	<div class="amount block">
+		To
+		<h1><%= number_to_currency(@subsidy.amount) %></h1>
+		<h2><%= @subsidy.kind %></h2>
+	</div>
+	<div class="entity block">
+		For
+		<h1><%= @subsidy.entity.name %></h1>
+		<h2><%= @subsidy.project.name %></h2>
+	</div>
 
 	<p><b>Source:</b> <%= @subsidy.source %></p>
 

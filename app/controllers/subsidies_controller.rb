@@ -1,32 +1,30 @@
 class SubsidiesController < ApplicationController
 	skip_before_filter :authorize, :only => [:index, :show]
-	caches_action :index, :show
+	#caches_action :index, :show
 
-  # GET /subsidies
-  # GET /subsidies.xml
   def index
+  	# [TODO] Two seperate methods, for caching purposes
   	if params[:institution_id] and @institution = Institution.find(params[:institution_id])
-  		@subsidies = @institution.subsidies
+  		@subsidies = @institution.subsidies.where(:approved => true)
+  	elsif params[:entity_id] and @entity = Entity.find(params[:entity_id])
+  		@subsidies = @entity.subsidies.where(:approved => true)
   	else
-	    @subsidies = Subsidy.all
-		end
-		
-    respond_to do |format|
+  		@subsidies = []
+   		Subsidy.where(:approved => true).each do |subsidy|
+	    	if subsidy.valid? then @subsidies << subsidy; end
+  		end
+    end
+		respond_to do |format|
       format.html # index.html.erb
       format.json # index.json.erb
-      format.xml  { render :xml => @subsidies }
     end
   end
 
-  # GET /subsidies/1
-  # GET /subsidies/1.xml
   def show
     @subsidy = Subsidy.find(params[:id])
-
     respond_to do |format|
       format.html # show.html.erb
       format.json # show.json.erb
-      format.xml  { render :xml => @subsidy }
     end
   end
 
