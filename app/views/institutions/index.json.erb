@@ -2,13 +2,13 @@
 	"institutions":[
 	<% # List all @institutions %>
 	<% @institutions.each do |institution| %>{
-		"awarded":"<%= number_to_currency( institution.awarded ) %>",
-		"awarded_raw": <%= institution.awarded %>,
+		"awarded":"<%= number_to_currency( institution.amount_awarded( institution.subsidies,@start_date,@end_date )) %>",
+		"awarded_raw": <%= institution.amount_awarded( institution.subsidies,@start_date,@end_date ) %>,
 		"name":"<%= institution.name %>",
 		"abbreviation":"<%= institution.abbreviation %>",
 		"description":"<%= institution.description %>",
-		"percent_clean": <%= number_with_precision( institution.percent_clean * 100, :precision => 2 ) %>,
-		"percent_access": <%= number_with_precision( institution.percent_access * 100, :precision => 2 ) %>,
+		"percent_clean": <%= number_with_precision( institution.percent_clean * 100, :precision => 0 ) %>,
+		"percent_access": <%= number_with_precision( institution.percent_access * 100, :precision => 0 ) %>,
 		"institution_url":"<%= url_for institution %>"
 	}<% unless institution == @institutions.last %>,<% end %>
 	<% end %>

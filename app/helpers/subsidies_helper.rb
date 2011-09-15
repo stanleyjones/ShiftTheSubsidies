@@ -23,4 +23,16 @@ module SubsidiesHelper
 		return options_for_select(currency_options, :selected => selected )
 	end
 	
+	def number_to_short( amount )
+		return "$#{ number_to_human( amount, :format => "%n%u", :units => {:unit => "USD", :thousand => "k", :million => "M", :billion => "B"} )}"
+	end
+
+	def total_amount( collection = Subsidies.all )
+		amount = 0
+		collection.each do |s|
+			amount += s.amount.to_i
+		end
+		amount
+	end
+
 end

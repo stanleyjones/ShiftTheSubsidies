@@ -4,6 +4,7 @@
 	<% @entities.each do |entity| %>{
 		"received":"<%= number_to_currency( entity.received ) %>",
 		"amount_raw": <%= entity.received %>,
+		"amount_human": "<%= number_to_short( entity.received ) %>",
 		"projects":<%= entity.projects.size %>,
 		"name":"<%= entity.name %>",
 		"kind":"<%= entity.kind %>",

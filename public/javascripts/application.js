@@ -8,6 +8,10 @@ function viewmode(v) {
 	$('button.'+v).addClass('active');
 }
 
+function popover(e) {
+	$('#'+e).slideToggle();
+}
+
 jQuery.fn.dataTableExt.oSort['currency-asc'] = function(a,b) {
 	var x = a == "-" ? 0 : a.replace( /,/g, "" );
 	var y = b == "-" ? 0 : b.replace( /,/g, "" );

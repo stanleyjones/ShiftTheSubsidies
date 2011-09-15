@@ -10,6 +10,7 @@
 		"category": "<% if project.sector %><%= project.sector.category %><% end %>",
 		"country": "<%= project.country %>",
 		"access": "<%= project.access %>",
+		"icon": "<%= project.icon %>",
 		"project_url": "<%= url_for project %>"
 	}<% unless project == @projects.last %>,<% end %>
 	<% end %>

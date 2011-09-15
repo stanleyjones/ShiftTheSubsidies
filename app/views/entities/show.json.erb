@@ -1,0 +1,25 @@
+{
+	"nodes":[
+	<% # Then list all projects under by the entity
+		@entity.projects.each do |p| %>
+		{"name":"<%= p.name %>","group":"project","size":<%= p.received %>,"ratio":<%= p.clean ? 1 : 0 %>,"url":"<%= url_for p %>"},
+	<% end %>
+	
+	<% # Then list institutions funding each project
+		@entity.institutions.each do |i| %>
+		{"name":"<%= i.shortname %>","group":"institution","size":<%= i.awarded_to( @entity ) %>,"ratio":<%= i.percent_clean %>,"url":"<%= url_for i %>"}<% unless i == @entity.institutions.last %>,<% end %>
+	<% end %>
+	],
+	
+	"links":[
+	
+	<% # Then link each project to its institution
+		@entity.projects.each_with_index do |p,pindex|
+			@entity.institutions.each_with_index do |i,iindex|
+				if i.projects.include? p %>
+		{"name":"<%= number_to_short( p.received ) %>","source":<%= pindex %>,"target":<%= iindex + @entity.projects.size %>,"value":<%= p.received %>,"notes":"<%= p.name %> - <%= i.name %>"}<% unless i == p.institutions.last and p == @entity.projects.last %>,<% end %>
+				<% end
+			end
+		end %>
+	]
+}

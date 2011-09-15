@@ -1,13 +1,12 @@
-<%= render :partial => "menubar" %>
-
-<div id="info">
-	<h1><%= @institution.name %></h1>
-	<p><%= @institution.description %></p>
-</div>
+<%= render :partial => "layouts/menubar", :locals => {:title => @institution.shortname} %>
 
 <div id="graphview" class="view">
+	<div id="info">
+		<h1><%= @institution.name %></h1>
+		<p><%= @institution.description %></p>
+	</div>
 	<%= render :partial => "project_bubbles", :object => @projects %>
-	<p id="caption">Projects of <%= @institution.shortname %> scaled by amount and colored by sector.</p>
+	<p id="caption"><b>Above:</b> <span class="clean">Clean energy</span> and <span class="fossil">fossil fuel</span> project portfolio of <%= @institution.shortname %>, scaled by dollar amount.</p>
 </div>
 
 <div id="tableview" class="view">

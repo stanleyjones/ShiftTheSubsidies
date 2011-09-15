@@ -7,6 +7,7 @@
 		"projects":<%= sector.projects.size %>,
 		"name": "<%= sector.name %>",
 		"category": "<%= sector.category %>",
+		"icon":"<%= sector.icon %>",
 		"sector_url": "<%= url_for sector %>"
 	}<% unless sector == @sectors.last %>,<% end %>
 	<% end %>

@@ -21,10 +21,20 @@
 			.attr("class","node")
 			.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 			
+		node.append("svg:image")
+			.attr("class", "circle")
+			.attr("xlink:href", function(d) { return d.data.icon; })
+			.attr("x", function(d) { return "-" + d.r / 2 + "px"; })
+			.attr("y", function(d) { return "-" + d.r / 2 + "px"; })
+			.attr("width", function(d) { return d.r + "px"; })
+			.attr("height", function(d) { return d.r + "px"; });
+
+/*
 		node.append("svg:text")
 			.attr("class", "label")
 			.attr("style", function(d) { return "font-size:"+(d.r / 4) + "px"; })
 			.text(function(d) { return d.data.name; });
+*/
 
 		node.append("svg:circle")
 			.attr("r", function(d) { return d.r; })

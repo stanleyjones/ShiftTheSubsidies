@@ -1,5 +1,13 @@
 ShiftTheSubsidies::Application.routes.draw do
 
+	# Static - no login, cached
+	
+	controller :static do
+		get 'index'
+		get 'about'
+		get 'methodology'
+	end
+
 	# Frontend - no login, no editing, cached
 
   resources :subsidies, :only => ['index','show']
@@ -12,6 +20,9 @@ ShiftTheSubsidies::Application.routes.draw do
   resources :institutions, :only => ['index','show'] do
   	resources :subsidies, :only => :index
   	resources :projects, :only => :index
+  	collection do
+  		post 'index'
+  	end
   end
   resources :sectors, :only => ['index', 'show'] do
   	resources :projects, :only => :index
@@ -89,7 +100,7 @@ ShiftTheSubsidies::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-   root :to => "institutions#index"
+   root :to => "static#index"
 
   # See how all your routes lay out with "rake routes"
 

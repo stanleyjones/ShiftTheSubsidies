@@ -1,23 +1,27 @@
+<%= render :partial => "layouts/menubar", :locals => {:title => "Subsidy", :modes => false} %>
+
 <div class="page">
 
-	<p id="notice"><%= notice %></p>
-	
-	<div class="institution block">
-		From
-		<h1><%= @subsidy.institution.abbreviation %></h1>
-		<h2><%= @subsidy.institution.name %></h2>
+	<h2>Amount</h2>
+	<p class="amount"><%= number_to_currency( @subsidy.amount ) %></p>	
+
+	<div class="block">
+		<h2>From</h2>
+		<h1><%= link_to @subsidy.institution.name, @subsidy.institution %></h1>
+		<p><%= @subsidy.kind %></p>
 	</div>
-	<div class="amount block">
-		To
-		<h1><%= number_to_currency(@subsidy.amount) %></h1>
-		<h2><%= @subsidy.kind %></h2>
+	<div class="block">
+		<h2>To</h2>
+		<h1><%= link_to @subsidy.entity.name, @subsidy.entity %></h1>
+		<p><%= @subsidy.entity.kind %></p>
 	</div>
-	<div class="entity block">
-		For
-		<h1><%= @subsidy.entity.name %></h1>
-		<h2><%= @subsidy.project.name %></h2>
+	<div class="block">
+		<h2>For</h2>
+		<h1><%= link_to @subsidy.project.name, @subsidy.project %></h1>
+		<p><%= @subsidy.project.country %></p>
 	</div>
 
+	<p><b>Approved:</b> <% if @subsidy.date and @subsidy.approved? %><%= @subsidy.date.strftime("%B %e, %Y") %><% else %>Pending<% end %></p>
 	<p><b>Source:</b> <%= @subsidy.source %></p>
 
 </div>

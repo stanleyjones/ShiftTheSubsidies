@@ -5,6 +5,7 @@ class Entity < ActiveRecord::Base
 	
 	has_many :subsidies
 	has_many :projects, :through => :subsidies, :uniq => true
+	has_many :institutions, :through => :subsidies, :uniq => true
 	
 	has_and_belongs_to_many :groups, :class_name => "Entity", :join_table => "entity_groups", :foreign_key => "group_id", :association_foreign_key => "member_id"
 	has_and_belongs_to_many :members, :class_name => "Entity", :join_table => "entity_groups", :foreign_key => "member_id", :association_foreign_key => "group_id"
@@ -25,7 +26,7 @@ class Entity < ActiveRecord::Base
 		clean = 0
 		self.subsidies.each do |s|
 			if s.project and s.project.sector and s.project.sector.category == "Clean"
-				clean += s.amount
+				clean += s.amount.to_i
 			end
 		end
 		return clean * 1.0 / [amount_received,1].max
@@ -42,5 +43,5 @@ class Entity < ActiveRecord::Base
 		end
 		return access * 1.0 / [amount_received,1].max
 	end
-		
+			
 end

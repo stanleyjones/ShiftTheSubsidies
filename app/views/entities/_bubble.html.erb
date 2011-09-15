@@ -20,6 +20,11 @@
 		.enter().append("svg:g")
 			.attr("class","node")
 			.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+
+		node.append("svg:text")
+			.attr("class", "label")
+			.attr("style", function(d) { return "font-size:"+(d.r / 2) + "px"; })
+			.text(function(d) { return d.data.amount_human; });
 			
 		node.append("svg:circle")
 			.attr("r", function(d) { return d.r; })
@@ -45,15 +50,3 @@
 	}
 	
 </script>
-
-<style>
-	#graph circle {stroke:#fff; stroke-width:2;opacity:0.8;}
-		#graph circle:hover {opacity:1; cursor: pointer;}
-
-		#graph circle {fill:#963;}
-		#graph circle.Clean {fill:#0f0;}
-	#graph text {fill:#ccc; font-size:18px;}
-		#graph text.label {fill:#111; display:block; opacity:0;}
-		#graph text.label:hover {opacity:1; cursor:pointer;}
-	#graph line {stroke:#630;}
-</style>

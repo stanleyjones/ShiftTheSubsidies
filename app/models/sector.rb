@@ -16,5 +16,13 @@ class Sector < ActiveRecord::Base
 	def received
 		amount_received
 	end
+	
+	def icon
+		if FileTest.exists? "#{RAILS_ROOT}/public/stylesheets/icons/sector/#{self.name.downcase}.png"
+			"/stylesheets/icons/sector/#{self.name.downcase}.png"
+		else
+			"/stylesheets/icons/sector/default.png"
+		end
+	end
 
 end

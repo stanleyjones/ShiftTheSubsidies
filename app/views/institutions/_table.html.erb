@@ -17,7 +17,7 @@
 $(document).ready(function() {
 	$('#institutions').dataTable({
 		"bProcessing": true,
-		"sAjaxSource": "<%= request.url %>.json",
+		"sAjaxSource": "<%= request.url %>.json?s=<%= start_date.year %>&e=<%= end_date.year %>",
 		"sAjaxDataProp": "institutions",
 		"aoColumns": [
 			{ "mDataProp":"awarded", "sType":"currency", "sWidth":"100px", "asSorting":["desc","asc"] },

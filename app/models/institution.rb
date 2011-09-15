@@ -11,16 +11,30 @@ class Institution < ActiveRecord::Base
 	has_many :projects, :through => :subsidies, :uniq => true
 	has_many :entities, :through => :subsidies, :uniq => true
 	
-	def amount_awarded(collection = self.subsidies)
+	def amount_awarded(collection = self.subsidies, start_date = nil, end_date = nil)
 		amount = 0
 		collection.each do |s|
-			if s.amount then amount += s.amount; end
+			if s.amount and s.date
+				unless start_date and s.date.to_date < start_date.to_date
+					unless end_date and s.date.to_date > end_date.to_date
+						amount += s.amount
+					end
+				end
+			end
 		end
 		amount
 	end
 	
 	def awarded
 		amount_awarded
+	end
+	
+	def awarded_to( entity )
+		amount = 0
+		self.subsidies.each do |s|
+			if s.entity == entity then amount += s.amount; end
+		end
+		amount
 	end
 
 	def percent_clean

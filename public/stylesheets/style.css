@@ -46,7 +46,7 @@
 	a.icon.show {background-image:url(icons/show.png);}
 	a.icon.edit {background-image:url(icons/edit.png);}
 	a.icon.destroy {background-image:url(icons/destroy.png);}
-
+	
 	/* Search Form */
 	
 	form.search input {margin:0; padding:4px; text-align:center;}
@@ -84,11 +84,11 @@
 	/* Menubar */
 	
 	header#menubar {position:relative; color:#fff; background-color:#333; background:-webkit-gradient(linear,left top,left bottom,color-stop(0.48,#333),color-stop(0.52,#000)); text-align:center; box-shadow:0 10px 10px rgba(0,0,0,0.125);}	
-	header#menubar h1 {margin:0; line-height:1.25em;}
+	header#menubar h1 {margin:0; line-height:1.25em; vertical-align:middle;}
 	header#menubar ul {position:absolute; top:5px; margin:0; padding:5px; list-style:none;}
 	header#menubar ul li {position:relative; float:left; margin-right:5px;}
-	header#menubar li ul {position:absolute; top:50px; right:-25%; margin:0; padding:0; width:150px; color:#fff; background:#333; border:5px solid #111; border-radius:10px; -webkit-box-shadow:0 3px 10px rgba(0,0,0,0.75); list-style:none;}
-	header#menubar li li {height:50px; width:100%; color:#333; background:#ccc;}
+	header#menubar li ul {position:absolute; top:25px; right:-50%; margin:0; padding:0; width:150px; color:#fff; background:#333; border:5px solid #111; border-radius:10px; -webkit-box-shadow:0 3px 10px rgba(0,0,0,0.75); list-style:none;}
+	header#menubar li li {height:50px; width:100%; color:#333; background:#ccc; line-height:50px;}
 	header#menubar li li:first-child {border-radius:5px 5px 0 0;}
 	header#menubar li li:last-child {border-radius:0 0 5px 5px;}
 	header#menubar li li:nth-child(odd) {background:#ddd;}
@@ -100,13 +100,14 @@
 		header#menubar ul#mode li:first-child button {border-right:1px solid #000; border-radius:5px 0 0 5px;}
 		header#menubar ul#mode li:last-child button {border-left:0; border-radius:0 5px 5px 0;}
 	header#menubar ul#modals {left:5px;}
-	header#menubar ul#popovers {right:5px;}
+	header#menubar ul#popovers {right:0;}
+		header#menubar ul#popovers button {width:auto;}
 
 	/* Content */
 
 	#content {position:relative;}
 	#content h1, #content h2, #content h3, #content h4 {font-family:Diavlo;}
-	#content h2 {margin:5px 0; color:#fff; font-size:10px; line-height:10px; text-transform:uppercase;}
+	#content h2 {margin:20px 0 10px; color:#666; font-size:12px; line-height:20px; text-transform:uppercase;}
 
 	#content form {margin-top:25px;}
 	#content form a {color:#c60;}
@@ -125,14 +126,18 @@
 	#content a.button.delete:hover {background:#900;}
 	
 	#content #info {position:absolute; top:45px; left:0; padding:20px; width:25%; color:#fff; background:rgba(0,0,0,0.5); border-bottom-right-radius:10px;}
-	#content #caption {position:absolute; bottom:-40px; left:20px; color:#999; font-size:14px; text-align:center;}
+	#content #caption {position:absolute; bottom:0; left:0; padding:20px; color:#666; background:#rgba(255,255,255,0.5); font-size:12px; text-align:center;}
+	#content #caption .fossil {color:#963;}
+	#content #caption .clean {color:#0f0;}
+	#content #caption b {text-transform:uppercase; font-size:10px;}
 	
 	.page {padding:20px;}
+	#content .page h2 {border-bottom:2px solid #ccc;}
 	.page p {clear:both;}
 	
-	.page .block {float:left; width:260px; margin:0 10px 20px 0; padding:20px; background:#eee;}
-	#content .block h2 {color:#999;}
-
+	.page .block {position:relative; float:left; width:300px; height:200px; margin:0 10px 20px 0;}
+	#content .block h1 {margin:20px 0; color:#111;}
+	.page p.amount {margin:20px 0; height:100px; font-size:92px; line-height:100px; text-align:center;}
 	
 	#page {background:#fff; border-radius:10px; -moz-border-radius:10px; padding:20px;}
 	#page .entry-title {font-size:24px; font-family:Diavlo;}
@@ -141,6 +146,19 @@
 	#sharebar {margin:-20px -20px 20px; padding:10px; background:#ddd; text-align:right;}
 	#sharebar a {padding-right:20px; background:url(lib/css/icons/share.png) right no-repeat;}
 	
+		/* Project */
+		
+		#world {float:left; height:400px; width:460px;}
+		#description {float:right; width:460px;}
+		
+		ul.entity-list {margin:-20px 0 0 0; padding:0; list-style:none;}
+		ul.entity-list li {display:inline; margin-left:10px; padding-right:10px; border-right:1px solid #ccc;}
+		ul.entity-list li:first-child {margin-left:0;}
+		ul.entity-list li:last-child {border-right:none;}
+		
+		ul.subsidy-list {margin:0; padding:0; list-style:none;}
+		ul.subsidy-list li {padding:5px 0; border-bottom:1px solid #eee;}
+		
 		/* Graphs */
 		
 		#loader {height:50px; width:100%; margin-top:25%; background:url(images/loader.gif) center no-repeat; text-indent:-9999px;}
@@ -156,10 +174,19 @@
 		
 		#graph line {stroke:#ccc;}
 		
+		#date_range {position:absolute; top:50px; right:20px; color:#ccc; font-size:14px; line-height:50px;}
+		
 		/* Tables */
 		
 		#tableview {padding:20px;}
 		#tableview table {clear:both; width:100% !important;}
+
+		/* Maps */
+				
+		.jvectormap-label {position: absolute;display: none;border: solid 1px #CDCDCD;-moz-border-radius: 3px;background: #292929;color: white;font-family: sans-serif, Verdana;font-size: smaller;padding: 3px;}
+		.jvectormap-zoomin, .jvectormap-zoomout {display:none; position: absolute;-moz-border-radius: 3px;background: #292929;padding: 3px;color: white;width: 10px;height: 10px;cursor: pointer;line-height: 10px;text-align: center;}
+		.jvectormap-zoomin {left: 10px; top: 10px;}
+		.jvectormap-zoomout {left: 10px; top: 30px;}
 
 	/* Footer */
 	
@@ -172,7 +199,7 @@
 	nav#adminbar ul li a:hover {color:#555; background:#bbb; box-shadow:0 0 2px rgba(0,0,0,0.5) inset; -moz-box-shadow:0 0 2px rgba(0,0,0,0.5) inset;}
 	
 	nav#sections {border-top:1px solid #999; background:#ccc;}
-	nav#sections ul {margin:0; padding:0; width:970px; overflow:hidden; text-align:center;}
-	nav#sections ul li {float:left; width:20%;}
+	nav#sections ul {margin:0 auto; padding:0; width:970px; overflow:hidden; text-align:center;}
+	nav#sections ul li {float:left; width:160px;}
 	nav#sections ul li a {display:block; width:100%; line-height:30px; color:#666; background:#ccc; text-shadow:1px 1px rgba(255,255,255,0.5);}
 	nav#sections ul li a:hover {color:#555; background:#bbb; box-shadow:0 0 2px rgba(0,0,0,0.5) inset; -moz-box-shadow:0 0 2px rgba(0,0,0,0.5) inset;}

@@ -1,11 +1,10 @@
-<header id="menubar"><h1><%= @sector.name %></h1></header>
-
-<div id="info">
-	<h1><%= @sector.name %></h1>
-	<p>Sector description.</p>
-</div>
+<%= render :partial => 'layouts/menubar', :locals => {:title => @sector.name} %>
 
 <div id="graphview" class="view">
+	<div id="info">
+		<h1><%= @sector.name %></h1>
+		<p>Sector description.</p>
+	</div>
 	<%= render :partial => "project_bubbles", :object => @projects %>
 	<p id="caption">Projects in the <%= @sector.name %> sector, scaled by funding.</p>
 </div>

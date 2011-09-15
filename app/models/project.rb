@@ -17,6 +17,14 @@ class Project < ActiveRecord::Base
 		end
 	end
 	
+	def clean
+		if defined? self.sector.category and self.sector.category == "Clean"
+			return true
+		else
+			return false
+		end
+	end
+	
 	def amount_received(collection = self.subsidies)
 		amount = 0
 		collection.each do |s|
@@ -27,6 +35,10 @@ class Project < ActiveRecord::Base
 	
 	def received
 		amount_received
+	end
+	
+	def icon
+		self.sector ? self.sector.icon : "/stylesheets/icons/sector/default.png"
 	end
 	
 end

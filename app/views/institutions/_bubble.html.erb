@@ -1,21 +1,25 @@
-<div id="graph"><div id="loader">Loading...</div></div>
+<div id="graph">
+	<div id="loader">Loading...</div>
+	<p id="caption"><b>Above:</b> Lending institutions scaled by subsidies awarded in <%= @start_date.year %><% if @end_date.year > @start_date.year %>&ndash;<%= @end_date.year %><% end %> and colored by <span class="clean">clean energy</span> vs <span class="fossil">fossil fuel</span> ratio of their project portfolio.</p>
+</div>
 
 <script>
 	var w = 970, h = 640;
 	var graph = d3.select("#graph").append("svg:svg").attr("width", w).attr("height", h);
 	
 	// Functions
-	var scale = d3.scale.linear();
+	var scale = d3.scale.linear().domain([1,1E12]).range([1,500]);
 	
 	// Bubble Chart	
 	var bubble = d3.layout.pack()
 		.sort(null)
-		.value(function(d) { return (d.awarded_raw > 0) ? d.awarded_raw / 1E6 : 1; })
+		.value(function(d) { return scale(d.awarded_raw); })
 		.size([w,h]);
 
-	d3.json("<%= request.url %>.json", function(json) {
+	d3.json("<%= request.url %>.json?s=<%= @start_date.year %>&e=<%= @end_date.year %>", function(json) {
 		var node = graph.selectAll("g.node")
 			.data(bubble(bubblize(json.institutions))
+				.filter(function(d) { return d.data.awarded_raw > 0; })
 				.filter(function(d) { return !d.children; }))
 		.enter().append("svg:g")
 			.attr("class","node")

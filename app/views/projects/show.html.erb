@@ -1,33 +1,37 @@
-<header id="menubar"><h1>Project</h1></header>
+<%= render :partial => "layouts/menubar", :locals => {:title => 'Project', :modes => false} %>
 
 <p id="notice"><%= notice %></p>
 
 <div class="page">
-	<h3><%= @project.name %></h3>
+	<h1><%= @project.name %></h1>
+	<ul class="entity-list"><% @project.entities.each do |e| %><li><%= link_to e.name, e %></li><% end %></ul>
+	
+	<div id="world"><h2>Region</h2></div>
+
+	<div id="description">
+		<h2>Description</h2>
+		<% if @project.sector %><p><b>Sector:</b> <%= @project.sector.name %></p><% end %>	
+		<%= @project.description %>
+	</div>
 
 	<p>
-  	<b>Country:</b>
-  	<%= @project.country %>
-	</p>
-
-	<p>
-  	<b>Description:</b>
-  	<%= @project.description %>
-	</p>
-
-	<% if @project.sector %>
-	<p>
-	  <b>Sector:</b>
-	  <%= @project.sector.name %>
-	</p>
-	<% end %>
-
-	<p>
-		<b>Institutions funding this project</b>
-		<ul>
-		<% @project.institutions.each do |i| %>
-		<li><%= link_to i.name, institution_url(i) %></li>
+		<h2>Funding for this project</h2>
+		<ul class="subsidy-list">
+		<% @project.subsidies.each do |s| %>
+		<li><%= link_to "#{number_to_short( s.amount )} #{s.kind.downcase}", s %> from <%= link_to s.institution.name, s.institution %><% if s.date %> in <%= s.date.strftime('%Y') %><% end %></li>
 		<% end %>
 		</ul>
 	</p>
 </div>
+
+<script src="/javascripts/jquery.vector-map.js"></script>
+<script src="/javascripts/jquery.vector-map.world.js"></script>
+<script>
+	$('#world').vectorMap({
+		color: '#ccc',
+		backgroundColor: 'transparent',
+		onLabelShow: function(e){e.preventDefault();},
+		onRegionOver: function(e){e.preventDefault();}
+	});
+	$('#world').vectorMap('set','colors',{<%= Carmen::country_code(@project.country).downcase %>: '#f90'});
+</script>

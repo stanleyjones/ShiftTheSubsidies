@@ -4,7 +4,7 @@
 	<% @subsidies.each do |subsidy| %>{
 		"amount": "<%= number_to_currency( subsidy.amount ) %>",
 		"amount_raw": <%= subsidy.amount %>,
-		"amount_human": "$<%= number_to_human( subsidy.amount, :format => "%n%u", :units => {:unit => "USD", :thousand => "k", :million => "M", :billion => "B"} ) %>",
+		"amount_human": "<%= number_to_short( subsidy.amount ) %>",
 		"amount_original": "<% if subsidy.amount_original %><%= number_to_currency( subsidy.amount_original ) %><% end %>",
 		"currency":"<%= subsidy.currency %>",
 		"date": "<% if subsidy.date %><%= subsidy.date.strftime("%Y-%m-%d") %><% end %>",

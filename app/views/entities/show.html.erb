@@ -1,4 +1,4 @@
-<%# render :partial => "menubar" %>
+<%= render :partial => "layouts/menubar", :locals => {:title => 'Entity', :modes => false} %>
 
 <div id="info">
 	<h1><%= @entity.name %></h1>
@@ -6,6 +6,6 @@
 </div>
 
 <div id="graphview" class="view">
-	<%= render :partial => "subsidy_bubbles", :object => @subsidies %>
-	<p id="caption">Subsidies received by <%= @entity.name %>, scaled by amount.</p>
+	<%= render :partial => "force" %>
+	<p id="caption"><span class="clean">Clean energy</span> and <span class="fossil">fossil fuel</span> projects of <%= @entity.name %> and their funding institutions.</p>
 </div>
