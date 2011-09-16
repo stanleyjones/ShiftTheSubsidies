@@ -6,6 +6,7 @@
 			<th>Name</th>
     	<th>Category</th>
     	<th></th>
+    	<th></th>
 		</tr>
   </thead>
 </table>
@@ -21,10 +22,10 @@ $(document).ready(function() {
 			{"sWidth":"50px", "mDataProp":"projects"},
 			{"fnRender":function(oObj) { return '<a href="'+oObj.aData['sector_url']+'">'+oObj.aData['name']+'</a>'; }},
 			{"mDataProp":"category"},
+			{"sWidth":"15px", "fnRender":function(oObj) { if (oObj.aData['valid'] != 'true') { return '<span class="error icon">Errors</span>'; } else { return "&nbsp;"; }}},
 			{"bSortable":false, "sWidth":"25px", "fnRender":function(oObj) { <% if @user %>return '<a class="edit icon" href="'+oObj.aData['sector_url']+'/edit/">Edit</a>';<% else %>return "";<% end %> }}
 		],
-		"sPaginationType": "full_numbers"
-	});
+		"sPaginationType": "full_numbers"	});
 } );
 </script>
 

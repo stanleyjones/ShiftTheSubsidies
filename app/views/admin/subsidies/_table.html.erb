@@ -7,6 +7,7 @@
     	<th>For</th>
     	<th>Date</th>
     	<th></th>
+    	<th></th>
 		</tr>
   </thead>
 </table>
@@ -23,7 +24,8 @@ $(document).ready(function() {
 			{ "fnRender":function(oObj) { return '<a href="'+oObj.aData['entity_url']+'">'+oObj.aData['to']+'</a>'; }},
 			{ "fnRender":function(oObj) { return '<a href="'+oObj.aData['project_url']+'">'+oObj.aData['for']+'</a>'; }},
 			{ "mDataProp":"date", "sWidth":"75px" },
-			{ "bSortable":false, "sWidth":"25px", "fnRender":function(oObj) { <% if @user %>return '<a class="edit icon" href="'+oObj.aData['subsidy_url']+'/edit/">Edit</a>';<% else %>return "";<% end %>}}
+			{ "sWidth":"15px", "fnRender":function(oObj) { if (oObj.aData['valid'] != 'true') { return '<span class="error icon">Errors</span>'; } else { return "&nbsp;"; }}},
+			{ "bSortable":false, "sWidth":"15px", "fnRender":function(oObj) { return '<a class="edit icon" href="'+oObj.aData['subsidy_url']+'/edit/">Edit</a>'; }}
 		],
 		"sPaginationType": "full_numbers"
 	});

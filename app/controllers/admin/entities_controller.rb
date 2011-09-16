@@ -40,6 +40,7 @@ class Admin::EntitiesController < ApplicationController
   # GET /entities/1/edit
   def edit
     @entity = Entity.find(params[:id])
+    @entity.valid?
   end
 
   # POST /entities

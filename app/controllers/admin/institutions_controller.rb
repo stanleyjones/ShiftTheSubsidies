@@ -2,8 +2,6 @@ class Admin::InstitutionsController < ApplicationController
 
 	layout 'admin'
 
-  # GET /institutions
-  # GET /institutions.xml
   def index
   	if @user
 	    @institutions = Institution.all # Admins get all of them
@@ -13,12 +11,9 @@ class Admin::InstitutionsController < ApplicationController
     respond_to do |format|
  	    format.html # index.html.erb
       format.json # index.json.erb
-   	  format.xml  { render :xml => @institutions }
    	end
   end
 
-  # GET /institutions/1
-  # GET /institutions/1.xml
   def show
     @institution = Institution.find(params[:id])
     if @user
@@ -33,24 +28,20 @@ class Admin::InstitutionsController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.json # show.json.erb
-      format.xml  { render :xml => @institution }
     end
   end
 
-  # GET /institutions/new
-  # GET /institutions/new.xml
   def new
     @institution = Institution.new
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @institution }
     end
   end
 
-  # GET /institutions/1/edit
   def edit
     @institution = Institution.find(params[:id])
+		@institution.valid?
   end
 
   # POST /institutions

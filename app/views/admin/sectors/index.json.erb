@@ -2,6 +2,7 @@
 	"sectors":[
 	<% # List all @sectors %>
 	<% @sectors.each do |sector| %>{
+		"valid":"<%= sector.valid? %>",
 		"received":"<%= number_to_currency( sector.received ) %>",
 		"amount_raw": <%= sector.received %>,
 		"projects":<%= sector.projects.size %>,

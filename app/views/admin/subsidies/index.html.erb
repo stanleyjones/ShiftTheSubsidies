@@ -1,6 +1,6 @@
-<%= render :partial => "menubar" %>
+<%= render :partial => "layouts/menubar", :locals => {:modes => false} %>
 
 <div id="tableview" class="view">
-	<%= render :partial => "static_table" %>
+	<%= render :partial => "table" %>
 	<p id="notice"><%= notice %></p>
 </div>

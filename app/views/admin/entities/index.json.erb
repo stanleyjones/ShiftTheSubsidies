@@ -2,6 +2,7 @@
 	"entities":[
 	<% # List all @entities %>
 	<% @entities.each do |entity| %>{
+		"valid":"<%= entity.valid? %>",
 		"received":"<%= number_to_currency( entity.received ) %>",
 		"amount_raw": <%= entity.received %>,
 		"projects":<%= entity.projects.size %>,

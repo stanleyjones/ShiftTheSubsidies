@@ -41,6 +41,7 @@ class Admin::SectorsController < ApplicationController
   # GET /sectors/1/edit
   def edit
     @sector = Sector.find(params[:id])
+    @sector.valid?
   end
 
   # POST /sectors

@@ -2,6 +2,7 @@
 	"institutions":[
 	<% # List all @institutions %>
 	<% @institutions.each do |institution| %>{
+		"valid":"<%= institution.valid? %>",
 		"awarded":"<%= number_to_currency( institution.awarded ) %>",
 		"awarded_raw": <%= institution.awarded %>,
 		"name":"<%= institution.name %>",

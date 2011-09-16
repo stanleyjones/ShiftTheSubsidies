@@ -6,6 +6,7 @@
 			<th>Name</th>
 			<th>% Clean Energy</th>
 			<th>% Energy Access</th>
+    	<th></th>
 			<th></th>
 		</tr>
   </thead>
@@ -25,6 +26,7 @@ $(document).ready(function() {
 			{"fnRender":function(oObj) { return '<a href="'+oObj.aData['entity_url']+'">'+oObj.aData['name']+'</a>'; }},
 			{"sWidth":"100px", "mDataProp":"percent_clean"},
 			{"sWidth":"100px", "mDataProp":"percent_access"},
+			{ "sWidth":"15px", "fnRender":function(oObj) { if (oObj.aData['valid'] != 'true') { return '<span class="error icon">Errors</span>'; } else { return "&nbsp;"; }}},
 			{"bSortable":false, "sWidth":"25px", "fnRender":function(oObj) { <% if @user %>return '<a class="edit icon" href="'+oObj.aData['entity_url']+'/edit/">Edit</a>';<% else %>return "";<% end %> }}
 		],
 		"sPaginationType": "full_numbers"

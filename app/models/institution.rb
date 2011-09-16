@@ -1,10 +1,10 @@
 class Institution < ActiveRecord::Base
 
-	validate :name, :presence => true
-	validate :abbreviation, :presence => true
-	validate :kind, :inclusion => {:in => ['Multilateral','Bilateral','Export Credit']}, :allow_nil => true
-	validate :fiscal_year, :numericality => true
-	validate :visible, :presence => true
+	validates :name, :presence => true
+	validates :abbreviation, :presence => true
+	validates :kind, :inclusion => {:in => ['Multilateral','Bilateral','Export Credit']}
+	validates :fiscal_year, :numericality => true
+	#validates :visible, :presence => true
 
 	belongs_to :institution_group
 	has_many :subsidies

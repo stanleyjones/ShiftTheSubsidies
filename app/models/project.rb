@@ -1,8 +1,8 @@
 class Project < ActiveRecord::Base
 
-	validate :name, :presence => true
-	validate :country, :presence => true
-	validate :sector, :presence => true, :associated => true
+	validates :name, :presence => true
+	validates :country, :presence => true
+	validates :sector, :presence => true
 	
 	belongs_to :sector
 	has_many :subsidies

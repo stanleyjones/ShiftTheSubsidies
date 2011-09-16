@@ -16,7 +16,7 @@
 </header><!-- #menubar -->
 <script>
 	$(document).ready(function() {
-		viewmode('graph');
+		<% unless defined? modes and !modes %>viewmode('graph');<% end -%>
 		$('#start_year, #end_year').change(function(){
       popover('range');
 			$.post('<%= request.url %>',

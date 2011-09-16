@@ -2,16 +2,12 @@
 	"subsidies":[
 	<% # List all @subsidies %>
 	<% @subsidies.each do |subsidy| %>{
-		"amount": "<%= number_to_currency( subsidy.amount ) %>",
-		"amount_raw": <%= subsidy.amount %>,
-		"amount_human": "$<%= number_to_human( subsidy.amount, :format => "%n%u", :units => {:unit => "USD", :thousand => "k", :million => "M", :billion => "B"} ) %>",
-		"amount_original": "<% if subsidy.amount_original %><%= number_to_currency( subsidy.amount_original ) %><% end %>",
-		"currency":"<%= subsidy.currency %>",
+		"valid": "<%= subsidy.valid? %>",
+		"amount": "<%= number_to_currency( subsidy.amount, :precision => 0 ) %>",
 		"date": "<% if subsidy.date %><%= subsidy.date.strftime("%Y-%m-%d") %><% end %>",
 		"from": "<% if subsidy.institution %><%= subsidy.institution.name %><% end %>",
 		"to": "<% if subsidy.entity %><%= subsidy.entity.name %><% end %>",
 		"for": "<% if subsidy.project %><%= subsidy.project.name %><% end %>",
-		"category": "<% if subsidy.project and subsidy.project.sector %><%= subsidy.project.sector.category %><% end %>",
 		"institution_url": "<% if subsidy.institution %><%= url_for [:admin,subsidy.institution] %><% end %>",
 		"entity_url": "<% if subsidy.entity %><%= url_for [:admin,subsidy.entity] %><% end %>",
 		"project_url": "<% if subsidy.project %><%= url_for [:admin,subsidy.project] %><% end %>",

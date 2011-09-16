@@ -1,7 +1,8 @@
 {
 	"projects":[
 	<% # List all projects %>
-<% @projects.each do |project| %>	{
+	<% @projects.each do |project| %>	{
+		"valid":"<%= project.valid? %>",
 		"received":"<%= number_to_currency( project.received ) %>",
 		"amount_raw": <%= project.received %>,
 		"name": "<%= project.name %>",

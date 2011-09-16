@@ -1,7 +1,7 @@
 class Sector < ActiveRecord::Base
 
-	validate :name, :presence => true
-	validate :category, :inclusion => {:in => ['Fossil Fuel','Clean']}, :allow_nil => true
+	validates :name, :presence => true
+	validates :category, :inclusion => {:in => ['Fossil Fuel','Clean','Other']}
 	
 	has_many :projects
 
@@ -18,10 +18,12 @@ class Sector < ActiveRecord::Base
 	end
 	
 	def icon
-		if FileTest.exists? "#{RAILS_ROOT}/public/stylesheets/icons/sector/#{self.name.downcase}.png"
-			"/stylesheets/icons/sector/#{self.name.downcase}.png"
+		path = "stylesheets/icons/sector"
+		filename = "#{self.name.parameterize}.png"
+		if FileTest.exists? "#{RAILS_ROOT}/public/#{path}/#{filename}"
+			"/#{path}/#{filename}"
 		else
-			"/stylesheets/icons/sector/default.png"
+			"/#{path}/default.png"
 		end
 	end
 

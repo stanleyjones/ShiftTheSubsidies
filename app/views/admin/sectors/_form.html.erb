@@ -1,15 +1,6 @@
 <%= form_for([:admin,@sector]) do |f| %>
-  <% if @sector.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@sector.errors.count, "error") %> prohibited this sector from being saved:</h2>
 
-      <ul>
-      <% @sector.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+	<%= render :partial => "layouts/errors", :object => @sector, :as => :model %>
 
   <div class="field">
     <%= f.label :name %><br />
@@ -20,6 +11,6 @@
     <%= f.select :category, ['Fossil Fuel','Clean','Other'] %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit %> or <%= link_to "Cancel", admin_sectors_url %>
   </div>
 <% end %>

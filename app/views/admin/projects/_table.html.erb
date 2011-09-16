@@ -7,6 +7,7 @@
     	<th>Sector</th>
     	<th>Energy Access</th>
     	<th></th>
+    	<th></th>
 		</tr>
   </thead>
 </table>
@@ -23,6 +24,7 @@ $(document).ready(function() {
 			{"sWidth":"100px", "mDataProp":"country"},
 			{"sWidth":"100px", "mDataProp":"sector"},
 			{"sWidth":"50px", "fnRender":function(oObj) { return oObj.aData['access']; }},
+			{ "sWidth":"15px", "fnRender":function(oObj) { if (oObj.aData['valid'] != 'true') { return '<span class="error icon">Errors</span>'; } else { return "&nbsp;"; }}},
 			{"bSortable":false, "sWidth":"25px", "fnRender":function(oObj) { <% if @user %>return '<a class="edit icon" href="'+oObj.aData['project_url']+'/edit/">Edit</a>';<% else %>return "";<% end %> }}
 		],
 		"sPaginationType": "full_numbers"

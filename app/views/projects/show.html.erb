@@ -2,15 +2,15 @@
 
 <p id="notice"><%= notice %></p>
 
-<div class="page">
+<div class="project page">
 	<h1><%= @project.name %></h1>
+	<%= image_tag @project.icon, :size => "64x64", :class => "sector-icon" %>
 	<ul class="entity-list"><% @project.entities.each do |e| %><li><%= link_to e.name, e %></li><% end %></ul>
 	
 	<div id="world"><h2>Region</h2></div>
 
 	<div id="description">
 		<h2>Description</h2>
-		<% if @project.sector %><p><b>Sector:</b> <%= @project.sector.name %></p><% end %>	
 		<%= @project.description %>
 	</div>
 

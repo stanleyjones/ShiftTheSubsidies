@@ -40,13 +40,14 @@
 	
 	/* Icons */
 	
-	a.icon {display:inline-block; width:18px; height:18px; text-indent:-9999px; background-position:center; background-repeat:no-repeat;}
+	a.icon, span.icon {display:inline-block; width:18px; height:18px; text-indent:-9999px; background-position:center; background-repeat:no-repeat;}
 		a.icon:hover {background-color:#ff0;}
 	a.feed {background:url(lib/css/icons/feed-small.png) center no-repeat;}
 
 	a.icon.show {background-image:url(icons/show.png);}
 	a.icon.edit {background-image:url(icons/edit.png);}
 	a.icon.destroy {background-image:url(icons/destroy.png);}
+	span.icon.error {background-image:url(icons/exclamation.png);}
 	
 	/* Search Form */
 	
@@ -61,7 +62,6 @@
 
 	#wrapper {position:relative; min-height:100%; width:970px; margin:0 auto; padding-bottom:0px; background:#fff; -webkit-box-shadow:0 0 5px rgba(0,0,0,0.5); -moz-box-shadow:0 0 5px rgba(0,0,0,0.5); overflow:visible;}
 	#content {width:970px; padding-bottom:0px;}
-	body.admin:before {display:block; height:25px; content:"Admin Mode"; color:#c00; background:#f00; text-align:center; line-height:25px;}
 	body.admin #content {padding-bottom:100px;}
 	
 	#searchform {float:right; margin:7px 10px; font-size:10px;}
@@ -150,8 +150,10 @@
 	
 		/* Project */
 		
+		.project.page h1 {margin-right:128px;}
 		#world {float:left; height:400px; width:460px;}
 		#description {float:right; width:460px;}
+		img.sector-icon {position:absolute; top:70px; right:20px; display:block;}
 		
 		ul.entity-list {margin:-20px 0 0 0; padding:0; list-style:none;}
 		ul.entity-list li {display:inline; margin-left:10px; padding-right:10px; border-right:1px solid #ccc;}
@@ -163,7 +165,7 @@
 		
 		/* Graphs */
 		
-		#loader {height:50px; width:100%; margin-top:25%; background:url(images/loader.gif) center no-repeat; text-indent:-9999px;}
+		#loader, .dataTables_processing {height:50px; width:100%; margin-top:25%; border:none !important; background:url(images/loader.gif) center no-repeat; text-indent:-9999px;}
 
 		#graph circle {fill:#ccc; stroke:#fff; stroke-width:2; opacity:0.5; -webkit-transition:all 0.5s;}
 			#graph circle:hover {opacity:0.6; cursor:pointer; stroke:#ff0;}
@@ -190,15 +192,24 @@
 		.jvectormap-zoomin {left: 10px; top: 10px;}
 		.jvectormap-zoomout {left: 10px; top: 30px;}
 
+		/* Editing */
+	
+		#error_explanation {margin:0 0 10px; padding:0; color:#ff0; background:#f66; border-radius:10px;}
+		#error_explanation h2 {margin:0; padding:5px; color:#600; background:#f00; border-radius:10px 10px 0 0; text-align:center;}
+		#error_explanation ol {margin:0 0 0 20px; padding:10px;}
+		
+		.field_with_errors {display:inline;}
+		.field_with_errors label {color:#f00 !important;}
+
 	/* Footer */
 	
 	footer {position:absolute; bottom:0; min-height:0px; width:950px; padding:10px; clear:both; color:#666; background:#333; border-top:1px solid #555; text-align:center;}
 
-	nav#adminbar {position:absolute; bottom:40px; border-top:1px solid #999; background:#ccc;}
+	nav#adminbar {position:relative; top:0; border-bottom:1px solid #999; background:#f00;}
 	nav#adminbar ul {margin:0; padding:0; width:970px; overflow:hidden; text-align:center;}
 	nav#adminbar ul li {float:left; width:20%;}
-	nav#adminbar ul li a {display:block; width:100%; line-height:30px; color:#333; background:#666; text-shadow:1px 1px rgba(255,255,255,0.25);}
-	nav#adminbar ul li a:hover {color:#555; background:#bbb; box-shadow:0 0 2px rgba(0,0,0,0.5) inset; -moz-box-shadow:0 0 2px rgba(0,0,0,0.5) inset;}
+	nav#adminbar ul li a {display:block; width:100%; line-height:30px; color:#600; background:#f33; text-shadow:1px 1px rgba(255,255,255,0.25);}
+	nav#adminbar ul li a:hover {background:#e22; box-shadow:0 0 2px rgba(0,0,0,0.5) inset; -moz-box-shadow:0 0 2px rgba(0,0,0,0.5) inset;}
 	
 	nav#sections {border-top:1px solid #999; background:#ccc;}
 	nav#sections ul {margin:0 auto; padding:0; width:970px; overflow:hidden; text-align:center;}

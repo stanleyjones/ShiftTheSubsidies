@@ -1,8 +1,4 @@
-<%= render :partial => "menubar" %>
-
-<div id="graphview" class="view">
-	<%= render :partial => "bubble" %>
-</div>
+<%= render :partial => "layouts/menubar", :locals => {:modes => false} %>
 
 <div id="tableview" class="view">	
 	<%= render :partial => "table" %>

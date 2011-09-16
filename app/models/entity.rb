@@ -1,7 +1,7 @@
 class Entity < ActiveRecord::Base
 
-	validate :name, :presence => true
-	validate :kind, :inclusion => {:in => ['Company','Government','Group']}, :allow_nil => true
+	validates :name, :presence => true
+	validates :kind, :inclusion => {:in => ['Company','Government','Group']}
 	
 	has_many :subsidies
 	has_many :projects, :through => :subsidies, :uniq => true

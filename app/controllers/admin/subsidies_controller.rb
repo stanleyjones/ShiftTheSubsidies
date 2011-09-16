@@ -30,6 +30,7 @@ class Admin::SubsidiesController < ApplicationController
 
   def edit
     @subsidy = Subsidy.find(params[:id])
+    @subsidy.valid?
   end
 
   def create

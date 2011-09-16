@@ -33,6 +33,7 @@ class Admin::ProjectsController < ApplicationController
 
   def edit
     @project = Project.find(params[:id])
+    @project.valid?
   end
 
   def create
