@@ -2,7 +2,7 @@
 
 one:
   name: MyString
-  country: MyString
+  country: China
   description: MyText
   notes: MyText
   sector: one

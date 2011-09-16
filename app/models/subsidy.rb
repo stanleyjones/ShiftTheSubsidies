@@ -16,35 +16,28 @@ class Subsidy < ActiveRecord::Base
   belongs_to :project
     
   def amount
-		if self.amount_usd and self.currency == 'USD'
-			# The original currency is USD, so just return amount_usd
-			self.amount_usd
-		elsif self.amount_usd and self.updated_at.today? 			
-			# The original currency isn't USD, but has already been exchanged today
-			self.amount_usd
-		else
-			# We need to exchange the currency again before we return it
-			update_amount_usd
-			self.amount_usd
-		end
+  	if self.currency != "USD" and !self.updated_at.today?
+  		update_amount_usd
+  	end
+  	self.amount_usd || 0
   end
     
   private
   
 	def update_amount_usd
-		amount = 0
+		usd = 0
 		if self.currency == "USD"
 			# The original currency is USD, but amount_usd was never set
-			amount = self.amount_original
+			usd = self.amount_original
 		elsif self.amount_original and Money::Currency.find(self.currency)
 			# The original currency exists in the exchange
-			amount = self.amount_original.to_money(currency)
-			amount = self.amount.exchange_to('USD').dollars
+			usd = self.amount_original.to_money(currency)
+			usd = usd.exchange_to('USD').dollars
 		elsif self.currency == "UAC"
 			# The original currency is 'UAC' which we do by hand
-			amount = self.amount_original * 0.66
+			usd = self.amount_original * 0.66
 		end
-		self.amount_usd = amount.to_i
+		self.amount_usd = usd.to_i
 		self.save!
 	end
 end

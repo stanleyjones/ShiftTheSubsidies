@@ -30,7 +30,7 @@ module SubsidiesHelper
 	def total_amount( collection = Subsidies.all )
 		amount = 0
 		collection.each do |s|
-			amount += s.amount.to_i
+			amount += s.amount
 		end
 		amount
 	end

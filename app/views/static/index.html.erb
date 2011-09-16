@@ -1,4 +1,16 @@
 <div id="page" class="home page">
+
 	<h2>Total Subsidies Awarded</h2>
 	<p class="amount"><%= number_to_currency( total_amount( @subsidies )) %></p>
+
+	<div class="block">
+		<h2>Energy Subsidies</h2>
+		<p>For decades, wealthy countries have been using international aid and other foreign assistance to subsidize the expansion of the international fossil fuel industry.</p>
+		<p>The Shift the Subsidies database is an interactive tool to visually track and analyze the flow of energy subsidies from international, regional and bilateral public financial institutions around the world.</p>
+	</div>
+	<div class="block">
+		<h2>Shift the Subsidies</h2>
+		<p>This database is currently tracking <%= Subsidy.all.size %> subsidies from <%= Institution.all.size %> institutions to <%= Entity.all.size %> receiving entities for <%= Project.all.size %> projects.</p>
+		<%= link_to "Get started!", institutions_path, :class => "big button" %>
+	</div>
 </div>
