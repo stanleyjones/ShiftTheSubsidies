@@ -1,17 +1,16 @@
 {
 	"institutions":[
 	<% # List all @institutions %>
-	<% @institutions.each do |institution| %>{
+	<% @institutions.each do |institution| %><% cache(institution) do %>{
 		"valid":"<%= institution.valid? %>",
 		"awarded":"<%= number_to_currency( institution.awarded ) %>",
-		"awarded_raw": <%= institution.awarded %>,
 		"name":"<%= institution.name %>",
 		"abbreviation":"<%= institution.abbreviation %>",
 		"description":"<%= institution.description %>",
 		"percent_clean": <%= number_with_precision( institution.percent_clean * 100, :precision => 2 ) %>,
 		"percent_access": <%= number_with_precision( institution.percent_access * 100, :precision => 2 ) %>,
-		"institution_url":"<%= url_for [:admin,institution] %>"
-	}<% unless institution == @institutions.last %>,<% end %>
+		"institution_url":"/admin/institutions/<%= institution.id %>"
+	}<% end %><% unless institution == @institutions.last %>,<% end %>
 	<% end %>
 	]
 }

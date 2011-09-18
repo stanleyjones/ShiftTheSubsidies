@@ -1,9 +1,5 @@
-<%= render :partial => "menubar" %>
-
-<div id="graphview" class="view">
-	<%= render :partial => "subsidies/force", :object => @subsidies %>
-</div>
+<%= render :partial => "layouts/menubar", :locals => {:title => @institution.shortname, :modes => false} %>
 
 <div id="tableview" class="view">
-	<%= render :partial => "subsidies" %>
+	<%= render :partial => "subsidy_table" %>
 </div>

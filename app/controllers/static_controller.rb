@@ -1,6 +1,6 @@
 class StaticController < ApplicationController
 	skip_before_filter :authorize
-	#caches_action :index, :show
+ 	caches_action :index, :about, :methodology
 
 	def index
 		@subsidies = Subsidy.where(:approved => true)

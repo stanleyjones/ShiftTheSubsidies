@@ -1,17 +1,16 @@
 {
 	"projects":[
 	<% # List all projects %>
-	<% @projects.each do |project| %>	{
+	<% @projects.each do |project| %><% cache(project) do %>{
 		"valid":"<%= project.valid? %>",
 		"received":"<%= number_to_currency( project.received ) %>",
-		"amount_raw": <%= project.received %>,
 		"name": "<%= project.name %>",
 		"sector": "<% if project.sector %><%= project.sector.name %><% end %>",
 		"category": "<% if project.sector %><%= project.sector.category %><% end %>",
 		"country": "<%= project.country %>",
 		"access": "<%= project.access %>",
-		"project_url": "<%= url_for [:admin,project] %>"
-	}<% unless project == @projects.last %>,<% end %>
+		"project_url": "/admin/project/<%= project.id %>"
+	}<% end %><% unless project == @projects.last %>,<% end %>
 	<% end %>
 	]
 }

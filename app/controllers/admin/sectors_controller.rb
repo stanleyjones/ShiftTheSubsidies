@@ -1,21 +1,15 @@
 class Admin::SectorsController < ApplicationController
 	
 	layout 'admin'
+	cache_sweeper :sector_sweeper, :only => [:create, :update, :destroy]
 	
-  # GET /sectors
-  # GET /sectors.xml
   def index
-    @sectors = Sector.all
-
     respond_to do |format|
-      format.html # index.html.erb
-      format.json # index.json.erb
-      format.xml  { render :xml => @sectors }
+      format.html
+      format.json { @sectors = Sector.all }
     end
   end
 
-  # GET /sectors/1
-  # GET /sectors/1.xml
   def show
     @sector = Sector.find(params[:id])
     @projects = @sector.projects
@@ -23,12 +17,9 @@ class Admin::SectorsController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.json # index.json.erb
-      format.xml  { render :xml => @sector }
     end
   end
 
-  # GET /sectors/new
-  # GET /sectors/new.xml
   def new
     @sector = Sector.new
 

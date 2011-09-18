@@ -1,13 +1,12 @@
 class Admin::SubsidiesController < ApplicationController
 
 	layout 'admin'
+	cache_sweeper :subsidy_sweeper, :only => [:create, :update, :destroy]
 
   def index
-    @subsidies = Subsidy.all
-
     respond_to do |format|
-      format.html # index.html.erb
-      format.json # index.json.erb
+      format.html
+      format.json { @subsidies = Subsidy.all }
     end
   end
 

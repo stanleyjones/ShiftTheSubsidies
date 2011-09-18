@@ -1,18 +1,18 @@
 {
 	"subsidies":[
 	<% # List all @subsidies %>
-	<% @subsidies.each do |subsidy| %>{
+	<% @subsidies.each do |subsidy| %><% cache(subsidy) do %>{
 		"valid": "<%= subsidy.valid? %>",
 		"amount": "<%= number_to_currency( subsidy.amount, :precision => 0 ) %>",
-		"date": "<% if subsidy.date %><%= subsidy.date.strftime("%Y-%m-%d") %><% end %>",
+		"date": "<%= subsidy.date %>",
 		"from": "<% if subsidy.institution %><%= subsidy.institution.name %><% end %>",
 		"to": "<% if subsidy.entity %><%= subsidy.entity.name %><% end %>",
 		"for": "<% if subsidy.project %><%= subsidy.project.name %><% end %>",
-		"institution_url": "<% if subsidy.institution %><%= url_for [:admin,subsidy.institution] %><% end %>",
-		"entity_url": "<% if subsidy.entity %><%= url_for [:admin,subsidy.entity] %><% end %>",
-		"project_url": "<% if subsidy.project %><%= url_for [:admin,subsidy.project] %><% end %>",
-		"subsidy_url": "<%= url_for [:admin,subsidy] %>"
-	}<% unless subsidy == @subsidies.last %>,<% end %>
+		"institution_url": "/admin/institutions/<%= subsidy.institution_id %>",
+		"entity_url": "/admin/entities/<%= subsidy.entity_id %>",
+		"project_url": "/admin/projects/<%= subsidy.project_id %>",
+		"subsidy_url": "/admin/subsidies/<%= subsidy.id %>"
+	}<% end %><% unless subsidy == @subsidies.last %>,<% end %>
 	<% end %>
 	]
 }

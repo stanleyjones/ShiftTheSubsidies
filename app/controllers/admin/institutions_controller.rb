@@ -1,16 +1,12 @@
 class Admin::InstitutionsController < ApplicationController
 
 	layout 'admin'
+	cache_sweeper :institution_sweeper, :only => [:create, :update, :destroy]
 
   def index
-  	if @user
-	    @institutions = Institution.all # Admins get all of them
-		else
-			@institutions = Institution.where(:visible => true)
-		end
     respond_to do |format|
- 	    format.html # index.html.erb
-      format.json # index.json.erb
+ 	    format.html
+      format.json { @institutions = Institution.all }
    	end
   end
 

@@ -1,20 +1,19 @@
 include SubsidiesHelper
 
 class Subsidy < ActiveRecord::Base
-
-	validates :amount_usd, :numericality => { :greater_than_or_equal_to => 0 }
+		
+	validates :amount_usd, :numericality => { :greater_than_or_equal_to => 0 }, :allow_nil => true
 	validates :amount_original, :numericality => { :greater_than_or_equal_to => 0 }
 	validates :currency, :presence => true
 	validates :institution, :presence => true
 	validates :entity, :presence => true
 	validates :project, :presence => true
 	validates :kind, :inclusion => {:in => ['Equity','Grant','Guarantee','Loan']}
-	#validates :approved, :presence => true
 
   belongs_to :institution
   belongs_to :entity
   belongs_to :project
-    
+      
   def amount
   	if self.amount_usd and Time.now < self.updated_at.since(600)
   		# The USD amount exists and is current (in the last ten minutes)
