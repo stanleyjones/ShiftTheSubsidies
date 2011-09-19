@@ -1,0 +1,36 @@
+<table id="subsidies">
+	<thead>
+		<tr>
+    	<th>Amount (USD)</th>
+    	<th>From</th>
+    	<th>To</th>
+    	<th>For</th>
+    	<th>Date</th>
+    	<th></th>
+		</tr>
+  </thead>
+</table>
+
+<script>
+$(document).ready(function() {
+	oTable = $('#subsidies').dataTable({
+		"bProcessing":true,
+		"sAjaxSource":"<%= admin_entity_subsidies_url(@entity) %>.json",
+		"sAjaxDataProp":"subsidies",
+		"aoColumns": [
+			{ "mDataProp":"amount", "sType":"currency", "sWidth":"100px", "asSorting":["desc","asc"] },
+			{ "fnRender":function(oObj) { return oObj.aData['from']; }},
+			{ "fnRender":function(oObj) { return '<a href="'+oObj.aData['entity_url']+'">'+oObj.aData['to']+'</a>'; }},
+			{ "fnRender":function(oObj) { return '<a href="'+oObj.aData['project_url']+'">'+oObj.aData['for']+'</a>'; }},
+			{ "mDataProp":"date", "sWidth":"75px" },
+			{ "bSortable":false, "sWidth":"25px", "fnRender":function(oObj) { <% if @user %>return '<a class="edit icon" href="'+oObj.aData['subsidy_url']+'/edit/">Edit</a>';<% else %>return "";<% end %>}}
+		],
+		"sPaginationType": "full_numbers"
+	});
+	oTable.fnFilter( '^<%= @entity.name %>$',2,true );
+} );
+</script>
+
+<% if @user %><p class="buttons">
+	<%= link_to 'New Subsidy', new_admin_subsidy_path, :class => "new button" %>
+</p><% end %>

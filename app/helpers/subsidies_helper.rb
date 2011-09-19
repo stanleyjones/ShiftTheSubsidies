@@ -27,7 +27,7 @@ module SubsidiesHelper
 		return "$#{ number_to_human( amount, :format => "%n%u", :units => {:unit => "USD", :thousand => "k", :million => "M", :billion => "B"} )}"
 	end
 
-	def total_amount( collection = Subsidies.all )
+	def total_awarded( collection = Subsidies.all )
 		amount = 0
 		collection.each do |s|
 			amount += s.amount

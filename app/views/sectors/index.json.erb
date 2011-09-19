@@ -1,7 +1,7 @@
 {
 	"sectors":[
 	<% # List all @sectors %>
-	<% @sectors.each do |sector| %>{
+	<% @sectors.each do |sector| %><% cache(sector) do %>{
 		"received":"<%= number_to_currency( sector.received ) %>",
 		"amount_raw": <%= sector.received %>,
 		"projects":<%= sector.projects.size %>,
@@ -9,7 +9,7 @@
 		"category": "<%= sector.category %>",
 		"icon":"<%= sector.icon %>",
 		"sector_url": "<%= url_for sector %>"
-	}<% unless sector == @sectors.last %>,<% end %>
+	}<% end %><% unless sector == @sectors.last %>,<% end %>
 	<% end %>
 	]
 }

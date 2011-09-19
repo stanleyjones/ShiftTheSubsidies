@@ -6,7 +6,7 @@ class Admin::SubsidiesController < ApplicationController
   def index
     respond_to do |format|
       format.html
-      format.json { @subsidies = Subsidy.all }
+      format.json { @subsidies = Subsidy.all(:include => [:institution,:entity,:project]) }
     end
   end
 

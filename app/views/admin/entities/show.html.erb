@@ -1,15 +1,5 @@
-<p id="notice"><%= notice %></p>
+<%= render :partial => "layouts/menubar", :locals => {:title => "Entity", :modes => false} %>
 
-<p>
-  <b>Name:</b>
-  <%= @entity.name %>
-</p>
-
-<p>
-  <b>Kind:</b>
-  <%= @entity.kind %>
-</p>
-
-
-<%= link_to 'Edit', edit_admin_entity_path(@entity) %> |
-<%= link_to 'Back', admin_entities_path %>
+<div id="tableview" class="view">
+	<%= render :partial => "subsidy_table" %>
+</div>

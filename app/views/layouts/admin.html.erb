@@ -4,7 +4,7 @@
 <head>
 <title>ShiftTheSubsidies</title>
 <%= stylesheet_link_tag 'style','datatables' %>
-<%= javascript_include_tag 'jquery','jquery_ujs','jquery.dataTables.min','application' %>
+<%= javascript_include_tag 'modernizr-2.0.6.min.js','jquery-1.6.4.min.js' %>
 <%= csrf_meta_tag %>
 </head>
 
@@ -23,5 +23,8 @@
 <%= render :partial => 'layouts/footer' %>
 
 </div><!-- #wrapper -->
+
+<%= javascript_include_tag 'rails.min.js','jquery.dataTables-1.8.2.min.js','application.js' %>
+
 </body>
 </html>

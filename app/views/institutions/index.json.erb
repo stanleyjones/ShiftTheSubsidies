@@ -1,7 +1,7 @@
 {
 	"institutions":[
 	<% # List all @institutions %>
-	<% @institutions.each do |institution| %><% cache("/institution/#{institution.id}-#{institution.updated_at}/#{@start_date.year}/#{@end_date.year}", :expires_in => 5.minutes) do %>{
+	<% @institutions.each do |institution| %><% cache("/institution/#{institution.id}-#{institution.updated_at}/#{@start_date.year}/#{@end_date.year}", :expires_in => 30.minutes) do %>{
 		"awarded":"<%= number_to_currency( institution.amount_awarded( institution.subsidies,@start_date,@end_date )) %>",
 		"awarded_raw": <%= institution.amount_awarded( institution.subsidies,@start_date,@end_date ) %>,
 		"name":"<%= institution.name %>",

@@ -18,8 +18,8 @@ class Project < ActiveRecord::Base
 	end
 	
 	def clean
-		if defined? self.sector.category and self.sector.category == "Clean"
-			return true
+		if self.sector.category 
+			return self.sector.category == "Clean"
 		else
 			return false
 		end

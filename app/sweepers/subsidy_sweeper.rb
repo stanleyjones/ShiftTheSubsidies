@@ -19,6 +19,10 @@ class SubsidySweeper < ActionController::Caching::Sweeper
 	def expire_cache(subsidy)
 		expire_fragment(subsidy)
 		expire_action :controller => "/static", :action => "index"
+
+		expire_action :controller => "/institutions", :action => "show", :id => subsidy.institution_id
+		expire_action :controller => "/entities", :action => "show", :id => subsidy.entity_id
+		expire_action :controller => "/projects", :action => "show", :id => subsidy.project_id
 	end
 
 end

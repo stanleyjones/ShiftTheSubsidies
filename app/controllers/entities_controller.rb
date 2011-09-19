@@ -1,13 +1,12 @@
 class EntitiesController < ApplicationController
 	skip_before_filter :authorize, :only => [:index, :show]
-	#caches_action :index, :show
 
   def index
-    @entities = Entity.all
-
     respond_to do |format|
-      format.html # index.html.erb
-      format.json # index.json.erb
+      format.html
+      format.json do
+          @entities = Entity.all(:include => [:institutions,:subsidies], :conditions => {'institutions.visible' => true, 'subsidies.approved' => true})
+			end
     end
   end
 

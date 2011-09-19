@@ -1,7 +1,7 @@
 {
 	"projects":[
 	<% # List all projects %>
-<% @projects.each do |project| %>	{
+	<% @projects.each do |project| %><% cache("project/#{project.id}-#{project.updated_at}/show") do %>{
 		"received":"<%= number_to_currency( project.received ) %>",
 		"amount_raw": <%= project.received %>,
 		"amount_human": "$<%= number_to_human( project.received, :format => "%n%u", :units => {:unit => "USD", :thousand => "k", :million => "M", :billion => "B"} ) %>",
@@ -12,7 +12,7 @@
 		"access": "<%= project.access %>",
 		"icon": "<%= project.icon %>",
 		"project_url": "<%= url_for project %>"
-	}<% unless project == @projects.last %>,<% end %>
+	}<% end %><% unless project == @projects.last %>,<% end %>
 	<% end %>
 	]
 }

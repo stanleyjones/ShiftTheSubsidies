@@ -3,7 +3,7 @@ class StaticController < ApplicationController
  	caches_action :index, :about, :methodology
 
 	def index
-		@subsidies = Subsidy.where(:approved => true)
+		@subsidies = Subsidy.all(:include => :institution, :conditions => {:approved => true, 'institutions.visible' => true})
 	end
 
 	def about

@@ -5,12 +5,12 @@
 	var graph = d3.select("#graph").append("svg:svg").attr("width", w).attr("height", h);
 	
 	// Functions
-	var scale = d3.scale.linear();
+	var scale = d3.scale.linear().domain([1,1E9]).range([1,500]);
 	
 	// Bubble Chart	
 	var bubble = d3.layout.pack()
 		.sort(null)
-		.value(function(d) { return (d.amount_raw > 0) ? d.amount_raw / 1000 : 1; })
+		.value(function(d) { return scale(d.amount_raw); })
 		.size([w,h]);
 
 	d3.json("<%= request.url %>/projects.json", function(json) {

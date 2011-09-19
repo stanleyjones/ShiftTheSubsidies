@@ -13,17 +13,34 @@ class Subsidy < ActiveRecord::Base
   belongs_to :institution
   belongs_to :entity
   belongs_to :project
-      
+  
   def amount
-  	if self.amount_usd and Time.now < self.updated_at.since(600)
-  		# The USD amount exists and is current (in the last ten minutes)
-  		self.amount_usd
-  	else
-  		# The USD amount doesn't exist or has expired
-  		update_amount_usd
-  		self.amount_usd
+  	Rails.cache.fetch("subsidy/#{self.id}-#{self.updated_at}/amount", :expires_in => 12.hours) do
+  		if self.currency == "USD" and (self.amount_original || self.amount_usd)
+  			return self.amount_original || self.amount_usd
+  		elsif Money::Currency.find(self.currency) and self.amount_original 
+  			original = self.amount_original.to_money(currency)
+  			usd = original.exchange_to("USD").dollars
+  			return usd
+  		elsif self.currency == "UAC" and self.amount_original 
+  			usd = self.amount_original * 0.66
+  			return usd
+  		else
+  			0
+  		end
   	end
   end
+  
+#   def amount
+#   	if self.amount_usd and Time.now < self.updated_at.since(600)
+#   		# The USD amount exists and is current (in the last ten minutes)
+#   		self.amount_usd
+#   	else
+#   		# The USD amount doesn't exist or has expired
+#   		update_amount_usd
+#   		self.amount_usd
+#   	end
+#   end
     
   private
   

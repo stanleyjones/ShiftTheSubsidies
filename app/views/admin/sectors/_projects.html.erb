@@ -15,7 +15,7 @@
 $(document).ready(function() {
 	oTable = $('#projects').dataTable({
 		"bProcessing": true,
-		"sAjaxSource": "<%= sector_projects_url( @sector ) %>.json",
+		"sAjaxSource": "<%= admin_sector_projects_url( @sector ) %>.json",
 		"sAjaxDataProp": "projects",
 		"aoColumns": [
 			{"mDataProp":"received", "sType":"currency", "sWidth":"100px", "asSorting":["desc","asc"] },

@@ -1,6 +1,5 @@
 class SectorsController < ApplicationController
 	skip_before_filter :authorize, :only => [:index, :show]
-#	caches_action :index, :show
 
   def index
     @sectors = Sector.all

@@ -6,7 +6,7 @@ class Admin::InstitutionsController < ApplicationController
   def index
     respond_to do |format|
  	    format.html
-      format.json { @institutions = Institution.all }
+      format.json { @institutions = Institution.all(:include => [:projects]) }
    	end
   end
 

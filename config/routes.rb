@@ -42,8 +42,14 @@ ShiftTheSubsidies::Application.routes.draw do
 	namespace :admin do
 		root :to => 'welcome#dashboard'
 		get 'clear' => 'welcome'
-		resources :subsidies, :entities, :projects, :institution_groups
+		resources :subsidies, :institution_groups
+		resources :entities do
+			resources :subsidies
+		end
 		resources :institutions do
+  		resources :subsidies
+  	end
+  	resources :projects do
   		resources :subsidies
   	end
   	resources :sectors do

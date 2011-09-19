@@ -42,7 +42,6 @@ class Admin::ProjectsController < ApplicationController
 
     respond_to do |format|
       if @project.save
-      	expire_action :action => :index
         format.html { redirect_to([:admin, @project], :notice => 'Project was successfully created.') }
       else
         format.html { render :action => "new" }
@@ -55,7 +54,6 @@ class Admin::ProjectsController < ApplicationController
 
     respond_to do |format|
       if @project.update_attributes(params[:project])
-      	expire_action :action => :index
         format.html { redirect_to([:admin, @project], :notice => 'Project was successfully updated.') }
       else
         format.html { render :action => "edit" }
@@ -66,7 +64,6 @@ class Admin::ProjectsController < ApplicationController
   def destroy
     @project = Project.find(params[:id])
     @project.destroy
-		expire_action :action => :index
     respond_to do |format|
       format.html { redirect_to(admin_projects_url) }
     end

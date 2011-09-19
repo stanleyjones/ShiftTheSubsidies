@@ -19,29 +19,35 @@ class Entity < ActiveRecord::Base
 	end
 	
 	def received
-		amount_received
+		Rails.cache.fetch("entities/#{self.id}-#{self.updated_at}/received", :expires_in => 10.minutes) do
+			amount_received
+		end
 	end
 	
 	def percent_clean
-		clean = 0
-		self.subsidies.each do |s|
-			if s.project and s.project.sector and s.project.sector.category == "Clean"
-				clean += s.amount.to_i
+		Rails.cache.fetch("entities/#{self.id}-#{self.updated_at}/percent_clean", :expires_in => 10.minutes) do
+			clean = 0
+			self.subsidies.each do |s|
+				if s.project and s.project.sector and s.project.sector.category == "Clean"
+					clean += s.amount.to_i
+				end
 			end
+			return clean * 1.0 / [amount_received,1].max
 		end
-		return clean * 1.0 / [amount_received,1].max
 	end
 
 	
 	def percent_access
-		access = 0
-		self.subsidies.each do |s|
-			#if s.project and s.project.tags and s.project.tags == "Energy Access"
-			if s.project and s.project.energy_access
-				access += s.amount
+		Rails.cache.fetch("entities/#{self.id}-#{self.updated_at}/percent_access", :expires_in => 10.minutes) do
+			access = 0
+			self.subsidies.each do |s|
+				#if s.project and s.project.tags and s.project.tags == "Energy Access"
+				if s.project and s.project.energy_access
+					access += s.amount
+				end
 			end
+			return access * 1.0 / [amount_received,1].max
 		end
-		return access * 1.0 / [amount_received,1].max
 	end
 			
 end
