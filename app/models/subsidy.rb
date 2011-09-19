@@ -37,6 +37,18 @@ class Subsidy < ActiveRecord::Base
   	end
   end
   
+  def in_range?(start_date = nil, end_date = nil)
+  	if self.date
+  		unless start_date and self.date.to_date <= start_date.to_date
+  			unless end_date and self.date.to_date >= end_date.to_date
+  				return true
+  			end
+  		end
+  	else
+  		false
+  	end
+  end
+  
 #   def amount
 #   	if self.amount_usd and Time.now < self.updated_at.since(600)
 #   		# The USD amount exists and is current (in the last ten minutes)

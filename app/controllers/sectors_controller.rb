@@ -12,7 +12,7 @@ class SectorsController < ApplicationController
 
   def show
     @sector = Sector.find(params[:id])
-    @projects = @sector.projects
+    @projects = @sector.projects.live
 
     respond_to do |format|
       format.html # show.html.erb

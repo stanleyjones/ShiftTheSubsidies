@@ -39,7 +39,7 @@
 		node.append("svg:circle")
 			.attr("class", function(d) { return d.data.category; })
 			.attr("r", function(d) { return d.r; })
-			.on("click", function(d) { location.href = d.data.project_url; });		
+			.on("click", function(d) { location.href = "/projects/"+d.data.project_id; });		
 
 		d3.select("#loader").remove();
 	});

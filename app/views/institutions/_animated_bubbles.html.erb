@@ -1,57 +1,73 @@
 <div id="graph">
 	<div id="loader">Loading...</div>
-	<p id="caption"><b>Above:</b> Lending institutions scaled by subsidies awarded in <%= @start_date.year %><% if @end_date.year > @start_date.year %>&ndash;<%= @end_date.year %><% end %> and colored by <span class="clean">clean energy</span> vs <span class="fossil">fossil fuel</span> ratio of their project portfolio.</p>
+	<p id="caption"><b>Above:</b> Lending institutions scaled by subsidies awarded and colored by <span class="clean">clean energy</span> vs <span class="fossil">fossil fuel</span> ratio of their project portfolio.</p>
 </div>
 
 <script>
+
+// Setup
+
 	var w = $('#wrapper').width(), h = $('#wrapper').height() - 140;
 	var graph = d3.select("#graph").append("svg:svg").attr("width", w).attr("height", h);
-	
-	// Functions
 	var scale = d3.scale.linear().domain([1,1E12]).range([1,500]);
 	function bubblize(data) { var bubbles = []; for (var b in data) { var bubble = data[b]; bubbles.push(bubble); } return {children: bubbles};	}
-
-	// Bubble Chart
-	var bubble = d3.layout.pack()
-		.sort(null)
-		.value(function(d) { return scale(d.live_awarded_raw); })
+	var bubble = d3.layout.pack().sort(null)
+		.value(function(d) { return scale( d.live_awarded_raw ); })
 		.size([w,h]);
 
-	d3.json("<%= request.url %>.json?s=<%= @start_date.year %>&e=<%= @end_date.year %>", function(json) {
-		var node = graph.selectAll("g.node")
-			.data(bubble(bubblize(json.institutions))
-				.filter(function(d) { return d.data.live_awarded_raw > 0; })
-				.filter(function(d) { return !d.children; }))
-		.enter().append("svg:g")
-			.attr("class","node")
-			.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-			
-		node.append("svg:text")
-			.attr("class", "label")
-			.attr("style", function(d) { return "font-size:"+(d.r / 3) + "px"; })
-			.text(function(d) { return d.data.abbreviation; });
-
-		node.append("svg:circle")
-			.attr("class", function(d) { return d.data.category; })
-			.attr("r", function(d) { return d.r; })
-			.style("fill", function(d) { return d3.interpolateRgb("#963", "#6f6")(d.data.percent_clean/100); })
-			.on("click", function(d) { location.href = "/institutions/" + d.data.institution_id; });
-
-		d3.select("#loader").remove();
+// Init
+	
+	d3.json("<%= request.url %>.json?s="+<%= @start_date.year %>+"&e="+<%= @end_date.year %>, function(json) {
+		draw(json.institutions);
+		$("#loader").toggle();
 	});
 
-	function redraw() {
-		
-		var node = graph.selectAll("g.node")
-			.data(bubble(bubblize(json.institutions))
-				.filter(function(d) { return d.data.live_awarded_raw > 0; })
-				.filter(function(d) { return !d.children; }));
+// On Change
 	
-		node.enter().append("svg:g")
-			.attr("class", "node")
-			.attr("transform", function(d) { return "translate("+d.x+","+d.y+")"; });
+	$('#start_year, #end_year').change(function(){
+		popover('range');
+		$("#loader").toggle();
+		d3.json("<%= request.url %>.json?s="+$('#start_year').val()+"&e="+$('#end_year').val(), function(json) {
+			draw(json.institutions);
+			console.log('animating: '+$('#start_year').val()+'-'+$('#end_year').val()+'.');
+		});
+		$("#loader").toggle();
+	});
+	
+// Animation
+
+	function draw(data) {
 		
+		var label = graph.selectAll("text.label")
+			.data(bubble(bubblize(data)).filter(function(d) { return !d.children; }));
 		
+		label.enter().append("svg:text")
+			.attr("class", "label")
+			.text(function(d) { return d.data.abbreviation; })
+			.attr("x", function(d) { return d.x; })
+			.attr("y", function(d) { return d.y; })
+			.attr("style", function(d) { return "font-size:"+(d.r / 3) + "px"; });
+		
+		label.transition().duration(1000)
+			.attr("x", function(d) { return d.x; })
+			.attr("y", function(d) { return d.y; })
+			.attr("style", function(d) { return "font-size:"+(d.r / 3) + "px"; });
+
+		var node = graph.selectAll("circle.node")
+			.data(bubble(bubblize(data)).filter(function(d) { return !d.children; }));
+		
+		node.enter().append("svg:circle")
+			.attr("class", function(d) { return "node "+d.data.category; })
+			.attr("cx", function(d) { return d.x; })
+			.attr("cy", function(d) { return d.y; })
+			.attr("r", function(d) { return d.r; })
+			.on("click", function(d) { window.location = "/institutions/"+d.data.institution_id; });
+						
+		node.transition().duration(1000)
+			.attr("cx", function(d) { return d.x; })
+			.attr("cy", function(d) { return d.y; })
+			.attr("r", function(d) { return d.r; })
+			.style("fill", function(d) { return d3.interpolateRgb("#630", "#0f0")(d.data.live_percent_clean/100); });
 	
 	}
 	

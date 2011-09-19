@@ -15,7 +15,7 @@ class ProjectsController < ApplicationController
   			elsif params[:sector_id] and @sector = Sector.find(params[:sector_id])
   				@projects = @sector.projects
   			else
-	  		  @projects = Project.all
+	  		  @projects = Project.live
 				end
     	end
     end

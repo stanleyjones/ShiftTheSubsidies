@@ -18,15 +18,21 @@ class Institution < ActiveRecord::Base
 	def amount_awarded(collection = self.subsidies, start_date = nil, end_date = nil)
 		amount = 0
 		collection.each do |s|
-			if s.amount and s.date
-				unless start_date and s.date.to_date < start_date.to_date
-					unless end_date and s.date.to_date > end_date.to_date
-						amount += s.amount
-					end
-				end
+			if s.in_range?(start_date,end_date)
+				amount += s.amount
 			end
 		end
 		amount
+	end
+	
+	def percent_clean_energy(collection = self.subsidies, start_date = nil, end_date = nil)
+		clean = 0
+		collection.each do |s|
+			if s.project and s.project.clean and s.in_range?(start_date,end_date)
+				clean += s.amount
+			end
+		end
+		return clean * 1.0 / [amount_awarded(collection, start_date, end_date),1].max
 	end
 	
 	def live_awarded
@@ -40,8 +46,6 @@ class Institution < ActiveRecord::Base
 			amount_awarded
 		end
 	end
-	
-	
 	
 	def awarded_to( entity )
 		amount = 0

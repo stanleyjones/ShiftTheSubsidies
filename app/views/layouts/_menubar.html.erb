@@ -9,21 +9,11 @@
 			<button class="range" onclick="popover('range');">Filter</button>
 			<ul id="range" class="popover" style="display:none;">
 				<li><b>Start:</b> <%= select_year start_date.year, {:start_year => 2008, :end_year => Date.today.year}, {:id => "start_year"} %></li>
-				<li><b>End:</b> <%= select_year end_date.year || start_date.year, {:start_year => 2000, :end_year => Date.today.year}, {:id => "end_year"} %></li>
+				<li><b>End:</b> <%= select_year end_date.year || start_date.year, {:start_year => 2008, :end_year => Date.today.year}, {:id => "end_year"} %></li>
 			</ul>
 		</li><% end -%>
 	</ul>
 </header><!-- #menubar -->
 <script>
-	$(document).ready(function() {
-		<% unless defined? modes and !modes %>viewmode('graph');<% end -%>
-		$('#start_year, #end_year').change(function(){
-      popover('range');
-			$.post('<%= request.url %>',
-				{ s: $('#start_year').val(), e:$('#end_year').val()	},
-				function(data) { $("#graphview").html(data); }
-			);
-		});
-
-	});
+	$(document).ready(function() {<% unless defined? modes and !modes %>viewmode('graph');<% end -%>});
 </script>

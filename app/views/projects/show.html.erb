@@ -33,5 +33,5 @@
 		onLabelShow: function(e){e.preventDefault();},
 		onRegionOver: function(e){e.preventDefault();}
 	});
-	$('#world').vectorMap('set','colors',{<%= Carmen::country_code(@project.country).downcase %>: '#f90'});
+<% if country_code = Carmen::country_code(@project.country) %>$('#world').vectorMap('set','colors',{'<%= country_code.downcase %>': '#f90'});<% end -%>
 </script>

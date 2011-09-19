@@ -8,6 +8,7 @@
 		"abbreviation":"<%= institution.abbreviation %>",
 		"description":"<%= institution.description %>",
 		"percent_clean": <%= number_with_precision( institution.percent_clean * 100, :precision => 0 ) %>,
+		"live_percent_clean": <%= number_with_precision( institution.percent_clean_energy( institution.subsidies.live,@start_date,@end_date ) * 100, :precision => 0 ) %>,
 		"percent_access": <%= number_with_precision( institution.percent_access * 100, :precision => 0 ) %>,
 		"institution_id":<%= institution.id %>
 }<% end %>

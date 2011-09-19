@@ -12,7 +12,7 @@ class InstitutionsController < ApplicationController
     respond_to do |format|
  	    format.html do # index.html.erb
  	    	if request.xhr?
- 	    		render :partial => "bubble"
+ 	    		render :partial => "animated_bubbles"
  	    	end
  	    end
       format.json # index.json.erb
@@ -24,7 +24,7 @@ class InstitutionsController < ApplicationController
     respond_to do |format|
       format.html
       format.json do
-      	@projects = Project.all(:include => [:institutions,:subsidies,:sector], :conditions => {'institutions.visible' => true, 'subsidies.approved' => true})
+      	@projects = @institution.projects.live
 			end
     end
   end
