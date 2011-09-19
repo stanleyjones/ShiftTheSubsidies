@@ -5,14 +5,14 @@ class EntitiesController < ApplicationController
     respond_to do |format|
       format.html
       format.json do
-          @entities = Entity.all(:include => [:institutions,:subsidies], :conditions => {'institutions.visible' => true, 'subsidies.approved' => true})
+				@entities = Entity.live
 			end
     end
   end
 
   def show
     @entity = Entity.find(params[:id])
-		@subsidies = @entity.subsidies
+		@subsidies = @entity.subsidies.where(:approved => true)
     respond_to do |format|
       format.html # show.html.erb
       format.json # show.json.erb

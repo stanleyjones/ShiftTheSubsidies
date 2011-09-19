@@ -11,6 +11,10 @@ class Institution < ActiveRecord::Base
 	has_many :projects, :through => :subsidies, :uniq => true
 	has_many :entities, :through => :subsidies, :uniq => true
 	
+	def self.live
+		Institution.where(:visible => true)
+	end
+	
 	def amount_awarded(collection = self.subsidies, start_date = nil, end_date = nil)
 		amount = 0
 		collection.each do |s|
@@ -25,11 +29,19 @@ class Institution < ActiveRecord::Base
 		amount
 	end
 	
+	def live_awarded
+		Rails.cache.fetch("institutions/#{self.id}-#{self.updated_at}/live_awarded", :expires_in => 10.minutes) do
+			amount_awarded(self.subsidies.live)
+		end
+	end
+	
 	def awarded
 		Rails.cache.fetch("institutions/#{self.id}-#{self.updated_at}/awarded", :expires_in => 10.minutes) do
 			amount_awarded
 		end
 	end
+	
+	
 	
 	def awarded_to( entity )
 		amount = 0

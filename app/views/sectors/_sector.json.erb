@@ -1,0 +1,10 @@
+<% cache("sectors/#{sector.id}-#{sector.updated_at}/show") do %>{
+		"valid": "<%= sector.valid? %>",
+		"received": "<%= number_to_currency( sector.received ) %>",
+		"amount_raw": <%= sector.received %>,
+		"projects": <%= sector.projects.size %>,
+		"name": "<%= sector.name %>",
+		"category": "<%= sector.category %>",
+		"icon": "<%= sector.icon %>",
+		"sector_id": <%= sector.id %>
+}<% end %>

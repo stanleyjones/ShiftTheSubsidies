@@ -4,18 +4,46 @@
 
 	<p>Logged in as <%= @user.name %>.</p>
 
-	<h3>Subsidies</h3>
-	<p><%= link_to "#{Subsidy.all.count} subsidies", admin_subsidies_url %></p>
+	<div class="block"><h2>Subsidies</h2>
+	<p>
+		<b>Total:</b> <%= Subsidy.all.count %><br>
+		<b>Live:</b> <%= Subsidy.live.count %><br>
+		<%= link_to "edit", admin_subsidies_url %>
+	</p>
+	</div>
 
-	<h3>Institutions</h3>
-	<p><%= link_to "#{Institution.all.count} institutions", admin_institutions_url %> in <%= link_to "#{InstitutionGroup.all.count} institution groups", admin_institution_groups_url %></p>
+	<div class="block"><h2>Institutions</h2>
+	<p>
+		<b>Total:</b> <%= Institution.all.count %><br>
+		<b>Live:</b> <%= Institution.live.count %><br>
+		<%= link_to "edit", admin_institutions_url %>
+	</p>
+	</div>
 
-	<h3>Entities</h3>
-	<p><%= link_to "#{Entity.all.count} entities", admin_entities_url %></p>
+	<div class="block"><h2>Entities</h2>
+	<p>
+		<b>Total:</b> <%= Entity.all.count %><br>
+		<b>Live:</b> <%= Entity.live.count %><br>
+		<%= link_to "edit", admin_entities_url %>
+	</p>
+	</div>
 
-	<h3>Projects &amp; Sectors</h3>
-	<p><%= link_to "#{Project.all.count} projects", admin_projects_url %> in <%= link_to "#{Sector.all.count} sectors", admin_sectors_url %></p>
-
+	<div class="block"><h2>Projects</h2>
+	<p>
+		<b>Total:</b> <%= Project.all.count %><br>
+		<b>Live:</b> <%= Project.live.count %><br>
+		<%= link_to "edit", admin_projects_url %>
+	</p>
+	</div>
+	
+	<div class="block"><h2>Sectors</h2>
+	<p>
+		<b>Total:</b> <%= Sector.all.count %><br>
+		<b>Live:</b> <%= Sector.live.count %><br>
+		<%= link_to "edit", admin_sectors_url %>
+	</p>
+	</div>
+	
 	<p class="buttons"><%= link_to "Clear Frontend Cache", admin_clear_url, :class => "button" %></p>
 
 </div>

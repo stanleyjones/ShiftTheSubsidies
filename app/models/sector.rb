@@ -5,6 +5,11 @@ class Sector < ActiveRecord::Base
 	
 	has_many :projects
 
+	def self.live
+		# [TODO] Only return sectors with live projects
+		Sector.all
+	end
+
 	def amount_received(collection = self.projects)
 		amount = 0
 		collection.each do |p|
@@ -19,9 +24,9 @@ class Sector < ActiveRecord::Base
 	
 	def icon
 		path = "stylesheets/icons/sector"
-		filename = "#{self.name.parameterize}.png"
-		if FileTest.exists? "#{RAILS_ROOT}/public/#{path}/#{filename}"
-			"/#{path}/#{filename}"
+		filename = !self.slug.blank? ? self.slug : self.name.parameterize
+		if FileTest.exists? "#{RAILS_ROOT}/public/#{path}/#{filename}.png"
+			"/#{path}/#{filename}.png"
 		else
 			"/#{path}/default.png"
 		end

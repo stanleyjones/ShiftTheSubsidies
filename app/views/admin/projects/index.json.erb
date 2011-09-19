@@ -1,16 +1,3 @@
-{
-	"projects":[
-	<% # List all projects %>
-	<% @projects.each do |project| %><% cache(project) do %>{
-		"valid":"<%= project.valid? %>",
-		"received":"<%= number_to_currency( project.received ) %>",
-		"name": "<%= project.name %>",
-		"sector": "<% if project.sector %><%= project.sector.name %><% end %>",
-		"category": "<% if project.sector %><%= project.sector.category %><% end %>",
-		"country": "<%= project.country %>",
-		"access": "<%= project.access %>",
-		"project_url": "/admin/projects/<%= project.id %>"
-	}<% end %><% unless project == @projects.last %>,<% end %>
-	<% end %>
-	]
-}
+{ "projects":[
+	<%= render :partial => "projects/project", :collection => @projects, :spacer_template => "layouts/comma_return" %>
+]}

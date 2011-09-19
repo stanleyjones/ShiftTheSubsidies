@@ -1,18 +1,3 @@
-{
-	"projects":[
-	<% # List all projects %>
-	<% @projects.each do |project| %><% cache("project/#{project.id}-#{project.updated_at}/show") do %>{
-		"received":"<%= number_to_currency( project.received ) %>",
-		"amount_raw": <%= project.received %>,
-		"amount_human": "$<%= number_to_human( project.received, :format => "%n%u", :units => {:unit => "USD", :thousand => "k", :million => "M", :billion => "B"} ) %>",
-		"name": "<%= project.name %>",
-		"sector": "<% if project.sector %><%= project.sector.name %><% end %>",
-		"category": "<% if project.sector %><%= project.sector.category %><% end %>",
-		"country": "<%= project.country %>",
-		"access": "<%= project.access %>",
-		"icon": "<%= project.icon %>",
-		"project_url": "<%= url_for project %>"
-	}<% end %><% unless project == @projects.last %>,<% end %>
-	<% end %>
-	]
-}
+{ "projects":[
+	<%= render :partial => "project", :collection => @projects, :spacer_template => "layouts/comma_return" %>
+]}

@@ -1,0 +1,14 @@
+<% cache("entities/#{entity.id}-#{entity.updated_at}/show") do %>{
+		"valid":"<%= entity.valid? %>",
+		"received":"<%= number_to_currency( entity.received ) %>",
+		"live_received":"<%= number_to_currency( entity.live_received ) %>",
+		"live_received_raw": <%= entity.live_received %>,
+		"amount_raw": <%= entity.received %>,
+		"amount_human": "<%= number_to_short( entity.received ) %>",
+		"projects":<%= entity.projects.size %>,
+		"name":"<%= entity.name %>",
+		"kind":"<%= entity.kind %>",
+		"percent_clean": <%= number_with_precision( entity.percent_clean * 100, :precision => 2 ) %>,
+		"percent_access": <%= number_with_precision( entity.percent_access * 100, :precision => 2 ) %>,
+		"entity_id":<%= entity.id %>
+}<% end %>

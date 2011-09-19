@@ -15,9 +15,8 @@
 		var force = d3.layout.force()
 			.nodes(json.nodes)
 			.links(json.links)
-			.distance(150)
-			.charge(-500)
-			.gravity(0.05)
+			.distance(125)
+			.charge(-400)
 			.size([w,h])
 			.start();
 		
@@ -30,18 +29,18 @@
 			  .attr("y1", function(d) { return d.source.y; })
 			  .attr("x2", function(d) { return d.target.x; })
 			  .attr("y2", function(d) { return d.target.y; });
-		  
-		var node = graph.selectAll("circle.node")
-			.data(json.nodes)
-			.enter().append("svg:circle")
-				.attr("class", function(d) { return "node " + d.group; })
-				.attr("cx", function(d) { return d.x; })
-				.attr("cy", function(d) { return d.y; })
-				.attr("r", function(d) { return scale_r( d.group ); })
-				.style("fill", function(d) { return d3.interpolateRgb("#963", "#6f6")(d.ratio); });
 
+		var icon = graph.selectAll("image.icon")
+			.data(json.nodes.filter(function(d) { return d.group == 'project'; }))
+			.enter().append("svg:image")
+			.attr("xlink:href", function(d) { if (d.group == 'project') {return d.icon;}})
+			.attr("x", function(d) { return "-" + scale_r('project') / 2 + "px"; })
+			.attr("y", function(d) { return "-" + scale_r('project') / 2 + "px"; })
+			.attr("width", function(d) { return scale_r('project') + "px"; })
+			.attr("height", function(d) { return scale_r('project') + "px"; });
+		  
 		var label = graph.selectAll("text.label")
-			.data(json.nodes);
+			.data(json.nodes.filter(function(d) { return d.group == 'institution'; }));
 		label.enter().append("svg:text")
 			.attr("class",function(d) { return "label " + d.group; })
 			.attr("x", function(d) { return d.x; })
@@ -52,6 +51,16 @@
 			.on("click", function(d) { location.href = d.url; })
 			.attr("text-anchor","middle");
 		
+		var node = graph.selectAll("circle.node")
+			.data(json.nodes)
+			.enter().append("svg:circle")
+				.attr("class", function(d) { return "node " + d.group; })
+				.attr("cx", function(d) { return d.x; })
+				.attr("cy", function(d) { return d.y; })
+				.attr("r", function(d) { return scale_r( d.group ); })
+				.style("fill", function(d) { return d3.interpolateRgb("#963", "#6f6")(d.ratio); })
+				.on("click", function(d) { location.href = d.url; });
+
 		var link_label = graph.selectAll("text.link_label")
 			.data(json.links);
 		link_label.enter().append("svg:text")
@@ -76,6 +85,8 @@
 				.attr("y", function(d) { return d.y; });
 			link_label.attr("x", function(d) { return (d.source.x + d.target.x) / 2; })
 				.attr("y", function(d) { return (d.source.y + d.target.y) / 2; });
+			icon.attr("x", function(d) { return d.x - 12; })
+				.attr("y", function(d) { return d.y - 12; });
 		});
 		
 		d3.select("#loader").remove();
@@ -84,17 +95,5 @@
 </script>
 
 <style>
-	#graph circle:hover {cursor:default; stroke:#fff;}
-	#graph circle.entity {opacity:1; fill:#f90;}
-	#graph circle.project {opacity:1; stroke:none; background-image:url(/stylesheets/images/noise.png);}
-	#graph circle.institution {opacity:1; fill:#666;}
-	
-	#graph text.label {cursor:pointer;}
-	#graph text.label.project {opacity:0; font-size:12px; -webkit-transition:opacity 0.5s;}
-	#graph text.label:hover {fill:#f96; opacity:1;}
-	#graph text.entity {fill:#111; display:none;}
-	#graph text.project {fill:#666;}
-	#graph text.institution {fill:#fff;}
-
 	#graph line.link {stroke-linecap:round;}
 </style>

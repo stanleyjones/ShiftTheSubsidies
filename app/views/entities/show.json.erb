@@ -1,8 +1,9 @@
 {
 	"nodes":[
-	<% # Then list all projects under by the entity
+	<% # List all projects under by the entity
+		# [TODO] Only show live projects
 		@entity.projects.each do |p| %>
-		{"name":"<%= p.name %>","group":"project","size":<%= p.received %>,"ratio":<%= p.clean ? 1 : 0 %>,"url":"<%= url_for p %>"},
+		{"name":"<%= p.name %>","group":"project","size":<%= p.received %>,"ratio":<%= p.clean ? 1 : 0 %>,"url":"<%= url_for p %>","icon":"<%= p.icon %>"},
 	<% end %>
 	
 	<% # Then list institutions funding each project
@@ -12,7 +13,6 @@
 	],
 	
 	"links":[
-	
 	<% # Then link each project to its institution
 		@entity.projects.each_with_index do |p,pindex|
 			@entity.institutions.each_with_index do |i,iindex|

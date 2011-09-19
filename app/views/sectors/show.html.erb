@@ -3,7 +3,7 @@
 <div id="graphview" class="view">
 	<div id="info">
 		<h1><%= @sector.name %></h1>
-		<p>Sector description.</p>
+		<p><%= @sector.description %></p>
 	</div>
 	<%= render :partial => "project_bubbles", :object => @projects %>
 	<p id="caption">Projects in the <%= @sector.name %> sector, scaled by funding.</p>

@@ -5,7 +5,7 @@
 	var graph = d3.select("#graph").append("svg:svg").attr("width", w).attr("height", h);
 	
 	// Functions
-	var scale = d3.scale.linear().domain([1,1E12]).range([1,500]);
+	var scale = d3.scale.linear().domain([1,1E10]).range([1,500]);
 	
 	// Bubble Chart	
 	var bubble = d3.layout.pack()
@@ -39,7 +39,7 @@
 		node.append("svg:circle")
 			.attr("r", function(d) { return d.r; })
 			.attr("class", function(d) { return d.data.category; })
-			.on("click", function(d) { location.href = d.data.project_url; });		
+			.on("click", function(d) { location.href = "/projects/"+d.data.project_id; });		
 
 /*
 		node.append("svg:text")
@@ -61,8 +61,3 @@
 	}
 	
 </script>
-<style>
-	#graph circle {fill:#fff; stroke:#ccc;}
-	#graph circle.Fossil {fill:#fff; stroke:#963;}
-	#graph circle.Clean {fill:#fff; stroke:#0f0;}
-</style>

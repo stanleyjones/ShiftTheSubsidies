@@ -14,6 +14,10 @@ class Subsidy < ActiveRecord::Base
   belongs_to :entity
   belongs_to :project
   
+  def self.live
+  	Subsidy.all(:include => :institution, :conditions => {'institutions.visible' => true, :approved => true})
+  end
+  
   def amount
   	Rails.cache.fetch("subsidy/#{self.id}-#{self.updated_at}/amount", :expires_in => 12.hours) do
   		if self.amount_original

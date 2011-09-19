@@ -8,7 +8,11 @@ class Project < ActiveRecord::Base
 	has_many :subsidies
 	has_many :institutions, :through => :subsidies, :uniq => true
 	has_many :entities, :through => :subsidies, :uniq => true
-	
+
+	def self.live
+		Project.all(:include => [:subsidies,:institutions], :conditions => {'subsidies.approved' => true, 'institutions.visible' => true})
+	end
+			
 	def access
 		if defined? energy_access
 			return energy_access
@@ -18,7 +22,7 @@ class Project < ActiveRecord::Base
 	end
 	
 	def clean
-		if self.sector.category 
+		if self.sector 
 			return self.sector.category == "Clean"
 		else
 			return false

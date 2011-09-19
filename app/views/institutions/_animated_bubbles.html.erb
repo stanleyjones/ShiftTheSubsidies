@@ -4,13 +4,14 @@
 </div>
 
 <script>
-	var w = 970, h = 640;
+	var w = $('#wrapper').width(), h = $('#wrapper').height() - 140;
 	var graph = d3.select("#graph").append("svg:svg").attr("width", w).attr("height", h);
 	
 	// Functions
 	var scale = d3.scale.linear().domain([1,1E12]).range([1,500]);
-	
-	// Bubble Chart	
+	function bubblize(data) { var bubbles = []; for (var b in data) { var bubble = data[b]; bubbles.push(bubble); } return {children: bubbles};	}
+
+	// Bubble Chart
 	var bubble = d3.layout.pack()
 		.sort(null)
 		.value(function(d) { return scale(d.live_awarded_raw); })
@@ -39,16 +40,19 @@
 		d3.select("#loader").remove();
 	});
 
-	
-	function bubblize( data ) {
-		var bubbles = [];
+	function redraw() {
 		
-		for (var b in data) {
-			var bubble = data[b];
-			bubbles.push(bubble);
-		}
-		//console.log(bubbles);
-		return {children: bubbles};
+		var node = graph.selectAll("g.node")
+			.data(bubble(bubblize(json.institutions))
+				.filter(function(d) { return d.data.live_awarded_raw > 0; })
+				.filter(function(d) { return !d.children; }));
+	
+		node.enter().append("svg:g")
+			.attr("class", "node")
+			.attr("transform", function(d) { return "translate("+d.x+","+d.y+")"; });
+		
+		
+	
 	}
 	
 </script>

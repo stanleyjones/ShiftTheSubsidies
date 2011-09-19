@@ -1,0 +1,13 @@
+<% cache("institutions/#{institution.id}-#{institution.updated_at}/#{start_year}/#{end_year}/show") do %>{
+		"valid":"<%= institution.valid? %>",
+		"awarded":"<%= number_to_currency( institution.amount_awarded( institution.subsidies,@start_date,@end_date )) %>",
+		"awarded_raw": <%= institution.amount_awarded( institution.subsidies,@start_date,@end_date ) %>,
+		"live_awarded":"<%= number_to_currency( institution.amount_awarded( institution.subsidies.live,@start_date,@end_date )) %>",
+		"live_awarded_raw":<%= institution.amount_awarded( institution.subsidies.live,@start_date,@end_date ) %>,
+		"name":"<%= institution.name %>",
+		"abbreviation":"<%= institution.abbreviation %>",
+		"description":"<%= institution.description %>",
+		"percent_clean": <%= number_with_precision( institution.percent_clean * 100, :precision => 0 ) %>,
+		"percent_access": <%= number_with_precision( institution.percent_access * 100, :precision => 0 ) %>,
+		"institution_id":<%= institution.id %>
+}<% end %>

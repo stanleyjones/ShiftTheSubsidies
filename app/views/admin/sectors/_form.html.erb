@@ -10,6 +10,14 @@
     <%= f.label :category %><br />
     <%= f.select :category, ['Fossil Fuel','Clean','Other'] %>
   </div>
+  <div class="field">
+    <%= f.label :description, "Description (public)" %><br />
+    <%= f.text_area :description %>
+  </div>
+  <div class="field">
+    <%= f.label :slug %><br />
+    <%= f.text_field :slug %>
+  </div>	
   <div class="actions">
     <%= f.submit %> or <%= link_to "Cancel", admin_sectors_url %>
   </div>

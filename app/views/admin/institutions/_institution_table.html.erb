@@ -22,18 +22,17 @@ $(document).ready(function() {
 		"sAjaxDataProp": "institutions",
 		"aoColumns": [
 			{ "mDataProp":"awarded", "sType":"currency", "sWidth":"100px", "asSorting":["desc","asc"] },
-			{"fnRender":function(oObj) { return '<a href="'+oObj.aData['institution_url']+'">'+oObj.aData['name']+'</a> ('+oObj.aData['abbreviation']+')<br><span class="desc">'+oObj.aData['description']+'</span>'; }},
+			{"fnRender":function(oObj) { return '<b>'+oObj.aData['name']+'</b> ('+oObj.aData['abbreviation']+')<br><span class="desc">'+oObj.aData['description']+'</span>'; }},
 			{"sWidth":"100px", "mDataProp":"percent_clean"},
 			{"sWidth":"100px", "mDataProp":"percent_access"},
 			{ "sWidth":"15px", "fnRender":function(oObj) { if (oObj.aData['valid'] != 'true') { return '<span class="error icon">Errors</span>'; } else { return "&nbsp;"; }}},
-			{"bSortable":false, "sWidth":"25px", "fnRender":function(oObj) { <% if @user %>return '<a class="edit icon" href="'+oObj.aData['institution_url']+'/edit/">Edit</a>';<% else %>return "";<% end %> }}
+			{"bSortable":false, "sWidth":"25px", "fnRender":function(oObj) { return '<a class="edit icon" href="/admin/institutions/'+oObj.aData['institution_id']+'/edit">Edit</a>';<% else %>return ""; }}
 		],
-		"sPaginationType": "full_numbers",
-		"oLanguage": { "sEmptyTable": "Loading data..." }
+		"sPaginationType": "full_numbers"
 	});
 } );
 </script>
 
-<% if @user %><p class="buttons">
+<p class="buttons">
 	<%= link_to 'New Institution', new_admin_institution_path, :class => "new button" %>
-</p><% end %>
+</p>

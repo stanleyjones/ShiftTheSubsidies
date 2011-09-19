@@ -9,6 +9,10 @@ class Entity < ActiveRecord::Base
 	
 	has_and_belongs_to_many :groups, :class_name => "Entity", :join_table => "entity_groups", :foreign_key => "group_id", :association_foreign_key => "member_id"
 	has_and_belongs_to_many :members, :class_name => "Entity", :join_table => "entity_groups", :foreign_key => "member_id", :association_foreign_key => "group_id"
+
+	def self.live
+		Entity.all(:include => [:subsidies,:institutions], :conditions => {'subsidies.approved' => true, 'institutions.visible' => true})
+	end
 	
 	def amount_received(collection = self.subsidies)
 		amount = 0
@@ -16,6 +20,12 @@ class Entity < ActiveRecord::Base
 			if s.amount then amount += s.amount; end
 		end
 		amount
+	end
+	
+	def live_received
+ 		Rails.cache.fetch("entities/#{self.id}-#{self.updated_at}/live_received", :expires_in => 10.minutes) do
+			amount_received(self.subsidies.live)
+ 		end
 	end
 	
 	def received

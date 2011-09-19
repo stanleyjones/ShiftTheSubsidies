@@ -1,15 +1,3 @@
-{
-	"sectors":[
-	<% # List all @sectors %>
-	<% @sectors.each do |sector| %><% cache(sector) do %>{
-		"received":"<%= number_to_currency( sector.received ) %>",
-		"amount_raw": <%= sector.received %>,
-		"projects":<%= sector.projects.size %>,
-		"name": "<%= sector.name %>",
-		"category": "<%= sector.category %>",
-		"icon":"<%= sector.icon %>",
-		"sector_url": "<%= url_for sector %>"
-	}<% end %><% unless sector == @sectors.last %>,<% end %>
-	<% end %>
-	]
-}
+{ "sectors":[
+	<%= render :partial => "sector", :collection => @sectors, :spacer_template => "layouts/comma_return" %>
+]}
