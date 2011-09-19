@@ -15,20 +15,22 @@ class Subsidy < ActiveRecord::Base
   belongs_to :project
   
   def amount
-#   	Rails.cache.fetch("subsidy/#{self.id}-#{self.updated_at}/amount", :expires_in => 12.hours) do
-  		if self.currency == "USD" and self.amount_original
-  			return self.amount_original
-  		elsif Money::Currency.find(self.currency) and self.amount_original 
-  			original = self.amount_original.to_money(currency)
-  			usd = original.exchange_to("USD").dollars
-  			return usd
-  		elsif self.currency == "UAC" and self.amount_original 
-  			usd = self.amount_original * 0.66
-  			return usd
+  	Rails.cache.fetch("subsidy/#{self.id}-#{self.updated_at}/amount", :expires_in => 12.hours) do
+  		if self.amount_original
+	  		if self.currency == "USD"
+  				return self.amount_original
+	  		elsif self.currency == "UAC"
+  				return self.amount_original * 0.66
+  			elsif Money::Currency.find(self.currency)
+  				original = self.amount_original.to_money(self.currency)
+  				return original.exchange_to('USD').dollars
+	  		end
+	  	elsif self.amount_usd
+  			return self.amount_usd
   		else
-  			0
+  			return 0
   		end
-#   	end
+  	end
   end
   
 #   def amount
