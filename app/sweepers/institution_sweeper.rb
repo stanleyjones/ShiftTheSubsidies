@@ -18,7 +18,7 @@ class InstitutionSweeper < ActionController::Caching::Sweeper
 	
 	def expire_cache(institution)
 		expire_fragment(institution)
-		expire_action :controller => "/institutions", :action => "show"
+		expire_action :controller => "/institutions", :action => "show", :id => institution
 		expire_action :controller => "/admin/welcome", :action => "dashboard"
 	end
 
