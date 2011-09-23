@@ -1,10 +1,16 @@
 <%= render :partial => "layouts/menubar" %>
 
-<div id="graphview" class="view">
-	<%= render :partial => "bubble" %>
-	<p id="caption"><b>Above:</b> Entities colored by <span class="clean">clean energy</span> vs <span class="fossil">fossil fuel</span> ratio, scaled by dollar amount received.</p>
-</div>
+<div id="graphview" class="view"><%= render :partial => "entity_bubbles" %></div>
+<div id="tableview" class="view"><%= render :partial => "entity_table" %></div>
 
-<div id="tableview" class="view">
-	<%= render :partial => "entities_table" %>
-</div>
+<script>$(function() {
+
+	var s = <%= @start_date.year %>, e = <%= @end_date.year %>;
+	
+	$.getJSON('<%= request.url %>.json?s='+s+'&e='+e, function(json){
+		drawGraph(json.entities);
+		drawTable(json.entities);
+		$("#loader").toggle();
+	});
+
+});</script>

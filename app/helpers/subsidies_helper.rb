@@ -27,10 +27,10 @@ module SubsidiesHelper
 		return "$#{ number_to_human( amount, :format => "%n%u", :units => {:unit => "USD", :thousand => "k", :million => "M", :billion => "B"} )}"
 	end
 
-	def total_awarded( collection = Subsidies.all )
+	def total_to_category(category)
 		amount = 0
-		collection.each do |s|
-			amount += s.amount
+		Subsidy.live.each do |s|
+			if s.project.sector and s.project.sector.category == category then amount += s.amount; end
 		end
 		amount
 	end

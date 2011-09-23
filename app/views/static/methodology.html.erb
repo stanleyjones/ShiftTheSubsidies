@@ -1,167 +1,136 @@
 <div id="page" class="page methodology">
 
-<h1>Shift the Subsidies Methodology</h1>
+	<h1>Shift the Subsidies Methodology</h1>
 
-<h2>Research</h2>
-<p>Data on subsidies was collected from the following primary and secondary sources:
-<ul>
-<li>Lending institutions' online project databases, including advanced searches at institutional websites, according to approval date, project type, sector, and entity beneficiaries; (if available)</li>
-<li>Annual Reports and other relevant documents, for example Project Information Documents (PIDs), from each institution (often for several years);</li>
-<li>Searching the OECD Development Co-operation Directorate online database of Overseas Development Aid (http://www.oecd.org/dac/stats/crs);</li>
-<li>Public statements by institutions and entities including but not limited to press releases, other publications and speeches;</li>
-<li>Written responses from the institutions directly.</li>
-<li>Research contributed by partner organizations, including the Bank Information Center and others;</li>
-</ul>
-</p>
+	<h2>How are the funding institutions selected? </h2>
 
-<h2>Definitions for <%= link_to 'Subsidies', subsidies_url %></h2>
-<dl>
-	<dt>Amount in USD</dt>
-	<dd>This is the 'commitment amount' or the 'loan amount' from the institution. The amount was entered in the original currency and converted based on xxx.</dd>
-	
-	<dt>From Institution</dt>
-	<dd>This is the institution that is providing the subsidy.</dd>
-	
-	<dt>To Entity</dt>
-	<dd>This is the entity that is receiving the subsidy.</dd>
+	<p>The database currently includes information on the World Bank Group, as it continues to be one of the most influential development institutions active in energy lending.  As the database grows, we will add national lending and additional regional development banks that are directing the greatest amounts of public money to the energy sector.</p>
 
-	<dt>For Project</dt>
-	<dd>This is the project that is being funded by the subsidy.</dd>
+	<h2>How is the subsidy amount calculated? </h2>
 
-	<dt>Approval Date</dt>
-	<dd>This refers to the date the subsidy was approved by the institution. The database counts the full project amount reported by the institution on the date it is approved.</dd>
+	<p>The 'subsidy' amount is the 'commitment amount' or the 'loan amount' from the financial institution on the date that the subsidy was approved by the institution. The amount is either entered in the original currency or entered in a US dollars conversion rate at the time of the approval. If the amount is entered in the original currency, it is converted based on the amounts available in Google currency (<a href="https://www.google.com/finance/converter">https://www.google.com/finance/converter</a>) on a daily basis.</p>
 
-	<dt>Type</dt>
-	<dd>This is the type of financing for the project: loan, grant, equity or guarantee. Note for the World Bank Group that both A and B loans are quantified.</dd>
+	<p>We recognize that there are different ways of quantifying subsidies. For example, some might argue that a 'subsidy' from a development bank should only reflect the difference in the below market interest rate and the subsidized interest rate for the project loan amount. The World Bank Group, and most other public development banks, do not make public clear descriptions of the financing terms, interest rates, or other important details about financial products used per project. So determining the favorable financing terms for each project is virtually impossible. This database tracks the overall amount of public money going to entities for energy projects. This is an accurate way to show the trends of what types of energy are being supported with our public money.</p>
 
-	<dt>Data source</dt>
-	<dd>Website or other source for subsidy data.</dd>
-</dl>
+	<h2>What range of data is being collected? </h2>
 
-<h2>Definitions for <%= link_to 'Institutions', institutions_path %></h2>
-<dl>
-	<dt>Institution</dt>
-	<dd>The international institution, bilateral institution or export credit agency that is providing subsidies.</dd>
+	<p>The database includes data from fiscal years 2008-2011. Currently, the data is only shown for the World Bank. Soon, we plan to include the Asian Development Bank, the African Development Bank, the Inter-American Development Bank, the European Investment Bank and the European Bank for Reconstruction and Development, as well as export credit and national development bank subsidies from the United States, Japan, Brazil and China.</p>
 
-	<dt>Type of institution</dt>
-	<dd>Multilateral, bilateral, or export credit. Multilateral institutions are institutions owned by a number of governments. Bilateral agencies are aid and development agencies operated by a single government. Export credit agencies are a subset of bilateral agencies that provide export credits.</dd>
+	<h2>Are the year designations calendar year or fiscal year? </h2>
 
-	<dt>Group/Country/Region</dt>
-	<dd>The umbrella institution, country, and/or region that the institution belongs to.</dd>
+	<p>The year designations on the 'filters' are by fiscal year, which vary by institution. For example the World Bank Group's fiscal year is July to June, while the Brazilian Development Bank's fiscal year is January to December.</p>
 
-	<dt>Fiscal Year</dt>
-	<dd>The beginning month of each institution's fiscal year has been recorded and annual data is displayed by fiscal year.</dd>
+	<h2>Which World Bank Group projects are included?</h2>
 
-	<dt>Clean Energy</dt>
-	<dd>Percentage of financing from an institution that is clean energy.</dd>
+	<p>The data and financial amounts listed for each subsidy are limited to Bank A and B loans, which are financed by the Bank's own accounts and sold, in the case of B loans, to institutional or private sector lenders, who provide the same terms and conditions for the B portion of the loan. If a government grants preferred creditor treatment to an A loan by the International Finance Corp., it must also do so to each participant's B loan, in effect passing on the preferred access to foreign exchange to non-preferred creditor lenders (i.e., placing them under the IFC umbrella.) MIGA investment guarantees, which provide security against the risk of default, are important to attract private investment to projects and are also included. Finally, grants and allocations from special funds, for example the Global Environment Facility (GEF) and others are included.</p>
 
-	<dt>Energy Access</dt>
-	<dd>Percentage of financing from an institution that is targeted at energy access.</dd>
-</dl>
+	<p>For projects and policy loans that cover more than one sector or thematic area, the subsidy amount that is included as the total is calculated according to the percentage of the financing that has been assigned to energy.</p>
 
-<h2>Information on the Entities page [LINK] includes: </h2>
-<p>Entity: Entity receiving the subsidy. 
-Clean Energy: Percentage of financing to an entity that is clean energy.
-Energy Access: Percentage of financing to an entity that is targeted at energy access. </p>
+	<h2>How are projects classified into energy sectors? </h2>
 
-<h2>Information on the Sectors page [LINK] includes:</h2>
-<p>Sector: Each project is classified into a sector as outlined below:</p>
+	<p>Each project is classified into a sector as outlined below, based on the description of the project and project documents:</p>
 
-<h3>Fossil Fuel Energy</h3>
+	<h3>Fossil Fuel Energy</h3>
+
 	<ul>
-	<li>
-		<h4>Oil and gas</h4>
+		<li><h4>Oil and gas</h4></li>
 		<ul>
 			<li>Oil and gas exploration or extraction projects,</li>
 			<li>Projects supplying equipment to oil and gas exploration or extraction,</li>
 			<li>Projects building or supplying oil and gas pipelines,</li>
 			<li>Oil and gas storage stations.</li>
 		</ul>
-	</li>
-	
-	<li>
-		<h4>Oil</h4>
+		<li><h4>Oil</h4></li>
 		<ul>
 			<li>A project described under oil and gas that excludes gas</li>
 			<li>(Thermal) power plant construction or refurbishing projects if the plant is fired by oil,</li>
 			<li>Oil-powered plant upgrades if they expand the megawatts produced or extend the life of the plant.</li>
 		</ul>
-	</li>
-	
-	<li>
-		<h4>Gas</h4>
+		<li><h4>Gas</h4></li>
 		<ul>
-			<li>A project described under oil and gas that excludes oil
-			<li>(Thermal) power plant construction or refurbishing projects if the plant is fired by gas,
-			<li>Gas-powered plant upgrades if they expand the megawatts produced or extend the life of the plant
+			<li>A project described under oil and gas that excludes oil</li>
+			<li>(Thermal) power plant construction or refurbishing projects if the plant is fired by gas,</li>
+			<li>Gas-powered plant upgrades if they expand the megawatts produced or extend the life of the plant</li>
 		</ul>
-	</li>
-	
-	<li>
-		<h4>Coal</h4>
+		<li><h4>Coal</h4></li>
 		<ul>
-			<li>Coal exploration or extraction projects,
-			<li>Projects supplying equipment to coal exploration or extraction,
-			<li>Coal transport
-			<li>Coal storage stations,
-			<li>All (thermal) power plant construction or refurbishing projects if the plant is fired by coal (anthracite, bituminous coal, subbituminous coal, and lignite.)
+			<li>Coal exploration or extraction projects,</li>
+			<li>Projects supplying equipment to coal exploration or extraction,</li>
+			<li>Coal transport</li>
+			<li>Coal storage stations,</li>
+			<li>All (thermal) power plant construction or refurbishing projects if the plant is fired by coal (anthracite, bituminous coal, subbituminous coal, and lignite.)</li>
 		</ul>
-	</li>
-	
-	<li>Policy loans supporting any of the above fossil fuel sources
-	<li>Transmission and distribution supporting any of the above fossil fuel sources
-	<li>Financing for fossil fuel energy sources
-	<li>Cook fuels if fossil fuel powered
-	<li>Gas flaring reduction
-</ul>
+		<li>Policy loans - fossil fuels: Policy loans supporting any of the above fossil fuel sources</li>
+		<li>Transmission and distribution - fossil fuels: Transmission and distribution supporting any of the above fossil fuel sources</li>
+		<li>Financing - fossil fuels: Financing for fossil fuel energy sources</li>
+		<li>Cooking fuels: Cook fuels if fossil fuel powered</li>
+		<li>Coal bed methane</li>
+		<li>Gas flaring reduction: Projects to reduce gas flaring</li>
+	</ul>
 
-<h3>Clean Energy</h3>
-<ul>
-	<li>Supply-side energy efficiency 
-	<li>District heating 
-	<li>Plant upgrades if they do not expand megawatts of fossil fuels or extend the life of fossil fuel projects
-	<li>Transmission and distribution line upgrades
-	<li>End-use energy efficiency
-	<li>End use energy savings such as energy efficient lighting
-	<li>Building efficiency
-	<li>Wind
-	<li>Solar
-	<li>Geothermal
-	<li>Small hydro (less than 10MW)
-	<li>Policy loans supporting any of the above clean energy sources
-	<li>New transmission and distribution supporting any of the above clean energy sources
-	<li>Financing for clean energy sources
-</ul>
+	<h2>Clean Energy</h2>
 
-<h3>Other</h3>
-<ul>
-	<li>Large hydropower (over 10 MW)</li>
-	<li>Nuclear</li>
-	<li>Biofuels</li>
-	<li>Biomass</li>
-	<li>Charcoal</li>
-	<li>Coal bed methane</li>
-	<li>Policy loans that support 'other' sources where it is unclear whether support is for clean or fossil fuel energy</li>
-	<li>New transmission and distribution that supports 'other' sources or where it is unclear whether support is for clean or fossil fuel energy</li>
-	<li>Financing that supports 'other' sources or where it is unclear whether support is for clean or fossil fuel energy</li>
-</ul>
+	<ul>
+		<li>Energy efficiency - supply side: Energy efficiency projects that increase efficiency at the source, including transmission and distribution line upgrades or plant upgrades if they do not expand megawatts of fossil fuels or extend the life of fossil fuel projects</li>
+		<li>Energy efficiency - district heating: Upgrades to district heating systems that decrease overall energy use</li>
+		<li>Energy efficiency - end-use or demand side: End use energy savings such as energy efficient lighting or building efficiency</li>
+		<li>Energy efficiency - general: Projects that include demand side and supply side efficiency measures or a cite energy efficiency measures generally</li>
+		<li>Wind</li>
+		<li>Solar</li>
+		<li>Geothermal</li>
+		<li>Small hydro (less than 10MW)</li>
+		<li>Policy loans - clean energy: Policy loans supporting any of the above clean energy sources</li>
+		<li>Transmission and distribution - clean: New transmission and distribution supporting any of the above clean energy sources</li>
+		<li>Financing - clean: Financing for clean energy sources</li>
+	</ul>
 
-Information on the Projects page [LINK] includes: 
-Project: Name of the project. 
-Country: Country where project is located
-Description: Brief description of the project and its components; the total project cost; generating capacity; who  the project is intended to serve and other development benefits if available; and any additional information available to analyze the project for climate mitigation potential and energy access for the poor.  
-Sector: The energy sector of the project.  
-Energy access: Whether the project does or does not target energy access for the poor. 
+	<h2>Other</h2>
 
-The following indicators were sought in project documents to evaluate whether projects address energy access for the poor:
+	<ul>
+		<li>Large hydropower (over 10 MW)</li>
+		<li>Nuclear</li>
+		<li>Biofuels</li>
+		<li>Biomass</li>
+		<li>Charcoal</li>
+		<li>Policy loans - other: Policy loans that support 'other' sources where it is unclear whether support is for clean or fossil fuel energy</li>
+		<li>Transmission and distribution - other: New transmission and distribution that supports 'other' sources or where it is unclear whether support is for clean or fossil fuel energy</li>
+		<li>Financing - other: Financing that supports 'other' sources or where it is unclear whether support is for clean or fossil fuel energy</li>
+	</ul>
 
-1. The project focuses on a targeted number of new electricity connections or energy services, such as clean cook stoves, to low-income households.
-2. The project focuses on electricity for services important to the poor, such as health clinics, schools, or telecommunications.
-3. The project focuses on improving the reliability of electricity services in an area that largely serves low-income households and/or electricity services important to the poor and currently has intermittent or unreliable access.
-4. The project focuses on provisions to make energy affordable for the poor ' e.g., effective, transparent safety nets to ensure that poor people can afford energy for basic needs, such as subsidies targeted at access, not consumption (as opposed to only having measures aimed at cost recovery ' such as tariff increases).
-5. The project is focused on productive uses in energy poor communities, such as looking at energy provision to smallholder farmers, small and medium enterprises and labor-intensive industries.
-6. The project involves power grid extension to new peri-urban or rural areas (as opposed to simply feeding into the existing grid system).
-7. The project involves rural, off-grid solutions for providing energy services.
+	<h2>How are the ratios of clean energy to dirty energy determined? </h2>
 
-While indicators 1) and 2) include the most basic energy services, the improvement of reliability to low-income households and communities (indicator 3), provisions for making energy affordable (indicator 4), and energy for small-scale productive uses (indicator 5) are also important in achieving a base level of energy access for all. Indicators 6) and 7) do not reflect energy access per se, but these indicators provide a proxy for initiatives that are likely to improve access when looking at projects.
+	<p>The clean energy percentage for an institution is determined by dividing the total amount of the subsidies going to clean energy projects by the total amount of energy subsidies given by the institution.</p>
+
+	<h2>How is energy access for the poor determined? </h2>
+
+	<p>Project descriptions and documents are evaluated to determine whether the project does or does not target increased energy access for the poor. The following indicators are verified in project documents to evaluate whether projects address energy access for the poor:</p>
+
+	<ol>
+		<li>The project focuses on a targeted number of new electricity connections or energy services, such as clean cook stoves, to low-income households.</li>
+		<li>The project focuses on electricity for services important to the poor, such as health clinics, schools, or telecommunications.</li>
+		<li>The project focuses on improving the reliability of electricity services in an area that largely serves low-income households and/or electricity services important to the poor and currently has intermittent or unreliable access.</li>
+		<li>The project focuses on provisions to make energy affordable for the poor ' e.g., effective, transparent safety nets to ensure that poor people can afford energy for basic needs, such as subsidies targeted at access, not consumption (as opposed to only having measures aimed at cost recovery ' such as tariff increases).</li>
+		<li>The project is focused on productive uses in energy poor communities, such as looking at energy provision to smallholder farmers, small and medium enterprises and labor-intensive industries.</li>
+		<li>The project involves power grid extension to new peri-urban or rural areas (as opposed to simply feeding into the existing grid system).</li>
+		<li>The project involves rural, off-grid solutions for providing energy services.</li>
+	</ol>
+
+	<p><em>Note: While indicators 1) and 2) include the most basic energy services, the improvement of reliability to low-income households and communities (indicator 3), provisions for making energy affordable (indicator 4), and energy for small-scale productive uses (indicator 5) are also important in achieving a base level of energy access for all. Indicators 6) and 7) do not reflect energy access per se, but these indicators provide a proxy for initiatives that are likely to improve access when looking at projects.</em></p>
+
+	<h2>How is the energy access percentage determined? </h2>
+
+	<p>The energy access percentage for an institution is determined by dividing the total amount of the subsidies going to energy access projects by the total amount of energy subsidies given by the institution.</p>
+
+	<h2>How is research collected? </h2>
+
+	<p>Data on subsidies was collected from the following primary and secondary sources:</p>
+	<ul>
+		<li>Lending institutions' online project databases, including advanced searches at institutional websites, according to approval date, project type, sector, and entity beneficiaries; (if available)</li>
+		<li>Annual Reports and other relevant documents, for example Project Information Documents (PIDs), from each institution (often for several years);</li>
+		<li>Searching the OECD Development Co-operation Directorate online database of Overseas Development Aid (http://www.oecd.org/dac/stats/crs);</li>
+		<li>Public statements by institutions and entities including but not limited to press releases, other publications and speeches;</li>
+		<li>Written responses from the institutions directly.</li>
+		<li>Research contributed by partner organizations, including the Bank Information Center and others;</li>
+	</ul>
+
 </div>

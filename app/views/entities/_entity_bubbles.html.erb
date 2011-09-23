@@ -1,0 +1,37 @@
+<div id="graph">
+	<div id="loader">Loading...</div>
+	<p id="caption"><b>Above:</b> Entities colored by <span class="clean">clean energy</span> vs <span class="fossil">fossil fuel</span> ratio, scaled by dollar amount received.</p>
+</div>
+
+<script>
+function drawGraph(data) {
+
+	var w = $('#wrapper').width(), h = $('#wrapper').height() - 140;
+	var graph = d3.select("#graph").append("svg:svg").attr("width", w).attr("height", h);
+	var scale = d3.scale.linear().domain([1,1E9]).range([1,500]);
+
+	var bubble = d3.layout.pack()
+		.sort(null)
+		.value(function(d) { return scale(d.live_total); })
+		.size([w,h]);
+
+	var node = graph.selectAll("g.node")
+		.data(bubble(bubblize(data))
+			.filter(function(d) { return d.data.live_total > 0; })
+			.filter(function(d) { return !d.children; }))
+	.enter().append("svg:g")
+		.attr("class","node")
+		.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+
+	node.append("svg:text")
+		.attr("class", "label")
+		.attr("style", function(d) { return "font-size:"+(d.r / 2) + "px"; })
+		.text(function(d) { return d.data.live_label; });
+			
+	node.append("svg:circle")
+		.attr("r", function(d) { return d.r; })
+		.style("fill", function(d) { return d3.interpolateRgb("#963", "#6f6")(d.data.live_clean/Math.max(d.data.live_total,1)); })
+		.on("click", function(d) { location.href = "/entities/"+d.data.entity_id; });
+	
+};
+</script>

@@ -14,6 +14,10 @@ def region_options
 	regions << "Regional - Sub-Saharan Africa"
 	regions << "Regional - Middle East and North Africa"
 	regions << "Regional - Europe"
+	regions << "Regional - Asia and the Pacific"
+	regions << "Regional - Africa"
+	regions << "Regional - Latin America and the Caribbean"
+	regions << "Regional - Pacific"
 	regions << "Palestine"
 	return regions.sort
 end

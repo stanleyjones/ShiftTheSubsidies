@@ -14,7 +14,7 @@ class Entity < ActiveRecord::Base
 		Entity.all(:include => [:subsidies,:institutions], :conditions => {'subsidies.approved' => true, 'institutions.visible' => true})
 	end
 	
-	def amount_received(collection = self.subsidies)
+	def received(start_date=nil, end_date=nil, collection=self.subsidies)
 		amount = 0
 		collection.each do |s|
 			if s.amount then amount += s.amount; end
@@ -22,42 +22,51 @@ class Entity < ActiveRecord::Base
 		amount
 	end
 	
-	def live_received
- 		Rails.cache.fetch("entities/#{self.id}-#{self.updated_at}/live_received", :expires_in => 10.minutes) do
-			amount_received(self.subsidies.live)
- 		end
-	end
-	
-	def received
-		Rails.cache.fetch("entities/#{self.id}-#{self.updated_at}/received", :expires_in => 10.minutes) do
-			amount_received
+	def received_to_category(category,start_date=nil,end_date=nil,collection=self.subsidies)
+		subsidies = []
+		collection.each do |s|
+			if s.in_category?(category) then subsidies << s; end
 		end
-	end
-	
-	def percent_clean
-		Rails.cache.fetch("entities/#{self.id}-#{self.updated_at}/percent_clean", :expires_in => 10.minutes) do
-			clean = 0
-			self.subsidies.each do |s|
-				if s.project and s.project.sector and s.project.sector.category == "Clean"
-					clean += s.amount.to_i
-				end
-			end
-			return clean * 1.0 / [amount_received,1].max
-		end
+		received(start_date,end_date,subsidies)
 	end
 
+	def received_to_energy_access(start_date=nil,end_date=nil,collection=self.subsidies)
+		subsidies = []
+		collection.each do |s|
+			if s.project and s.project.energy_access then subsidies << s; end
+		end
+		received(start_date,end_date,subsidies)
+	end
 	
-	def percent_access
-		Rails.cache.fetch("entities/#{self.id}-#{self.updated_at}/percent_access", :expires_in => 10.minutes) do
-			access = 0
-			self.subsidies.each do |s|
-				#if s.project and s.project.tags and s.project.tags == "Energy Access"
-				if s.project and s.project.energy_access
-					access += s.amount
-				end
-			end
-			return access * 1.0 / [amount_received,1].max
+	def live_subsidies
+		Rails.cache.fetch("entities/#{self.id}-#{self.updated_at}/live_subsidies") do
+			# All approved subsidies received by this entity from a visible institution
+			self.subsidies.live
 		end
 	end
-			
+	
+	def live_projects
+		Rails.cache.fetch("entities/#{self.id}-#{self.updated_at}/live_projects") do
+			# All projects receiving funding through one of this entity's live subsidies (see above)
+			projects = []
+			self.live_subsidies.each do |s|
+				projects << s.project
+			end
+			projects.uniq
+		end
+	end
+	
+	def live_institutions
+		Rails.cache.fetch("entities/#{self.id}-#{self.updated_at}/live_institutions") do
+			# All visible institutions funding one of this entity's live projects
+			institutions = []
+			self.live_projects.each do |p|
+				p.live_subsidies.each do |s|
+					if s.institution.visible then institutions << s.institution; end
+				end
+			end
+			institutions.uniq
+		end
+	end
+		
 end

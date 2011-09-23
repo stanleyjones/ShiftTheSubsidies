@@ -1,25 +1,46 @@
-{
+<% cache("entities/#{@entity.id}-#{@entity.updated_at}/#{@start_date.year}/#{@end_date.year}/force") do %>{
 	"nodes":[
-	<% # List all projects under by the entity
-		# [TODO] Only show live projects
-		@entity.projects.each do |p| %>
-		{"name":"<%= p.name %>","group":"project","size":<%= p.received %>,"ratio":<%= p.clean ? 1 : 0 %>,"url":"<%= url_for p %>","icon":"<%= p.icon %>"},
+	<%
+		# First list this entity's live projects (receiving a approved subsidy from a visible institution)
+		
+		@entity.live_projects.each do |p| %>
+		{
+			"name": "<%= p.name %>",
+			"group": "project",
+			"category": "<%= p.category %>",
+			"url": "<%= url_for p %>",
+			"icon":"<%= p.icon %>"
+		},
 	<% end %>
-	
-	<% # Then list institutions funding each project
-		@entity.institutions.each do |i| %>
-		{"name":"<%= i.shortname %>","group":"institution","size":<%= i.awarded_to_entity( @entity ) %>,"ratio":<%= i.percent_clean %>,"url":"<%= url_for i %>"}<% unless i == @entity.institutions.last %>,<% end %>
+	<%
+		# Then list this entity's live institutions (visible institutions funding a live project)
+		
+		@entity.live_institutions.each do |i| %>
+		{
+			"name": "<%= i.shortname %>",
+			"group": "institution",
+			"category": "<%= i.kind %>",
+			"url": "<%= url_for i %>"
+		}<% unless i == @entity.live_institutions.last %>,<% end %>
 	<% end %>
 	],
 	
 	"links":[
-	<% # Then link each project to its institution
-		@entity.projects.each_with_index do |p,pindex|
-			@entity.institutions.each_with_index do |i,iindex|
+	<%
+		# Then link each live project to its live institution, with a value of the live subsidy	
+		
+		@entity.live_institutions.each_with_index do |i,iindex|
+			@entity.live_projects.each_with_index do |p,pindex|
 				if i.projects.include? p %>
-		{"name":"<%= number_to_short( p.received ) %>","source":<%= pindex %>,"target":<%= iindex + @entity.projects.size %>,"value":<%= p.received %>,"notes":"<%= p.name %> - <%= i.name %>"}<% unless i == p.institutions.last and p == @entity.projects.last %>,<% end %>
+		{
+			"label": "<%= number_to_short(p.received(@start_date,@end_date,p.live_subsidies)) %>",
+			"source": <%= pindex %>,
+			"target": <%= iindex + @entity.live_projects.size %>,
+			"value": <%= p.received(@start_date,@end_date,p.live_subsidies) %>,
+			"notes": "<%= p.name %> - <%= i.name %>"
+		}<% unless i == @entity.live_institutions.last and p == @entity.live_projects.last %>,<% end %>
 				<% end
 			end
 		end %>
 	]
-}
+}<% end %>

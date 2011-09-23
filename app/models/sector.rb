@@ -6,20 +6,16 @@ class Sector < ActiveRecord::Base
 	has_many :projects
 
 	def self.live
-		# [TODO] Only return sectors with live projects
-		Sector.all
+		# TODO: Only return sectors with live projects
+		Sector.all(:include => [:projects])
 	end
 
-	def amount_received(collection = self.projects)
+	def received(start_date=nil, end_date=nil, collection=self.projects)
 		amount = 0
 		collection.each do |p|
-			if p.received then amount += p.received; end
+			if p.received then amount += p.received(start_date, end_date); end
 		end
 		amount
-	end
-	
-	def received
-		amount_received
 	end
 	
 	def icon
@@ -29,6 +25,12 @@ class Sector < ActiveRecord::Base
 			"/#{path}/#{filename}.png"
 		else
 			"/#{path}/default.png"
+		end
+	end
+	
+	def live_projects
+		Rails.cache.fetch("sectors/#{self.id}-#{self.updated_at}/live_projects") do
+			self.projects.live
 		end
 	end
 

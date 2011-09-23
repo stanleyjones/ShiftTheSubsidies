@@ -1,27 +1,32 @@
-<div id="graph"><div id="loader">Loading...</div></div>
+<div id="graph">
+	<div id="info"><h1><%= @entity.name %></h1><p><%= @entity.kind %></p></div>
+	<div id="loader">Loading...</div>
+	<p id="caption"><span class="clean">Clean energy</span> and <span class="fossil">fossil fuel</span> projects of <%= @entity.name %> and their funding institutions.</p>
+</div>
 
 <script>
-	var w = 970, h = 640;
+	var w = $('#wrapper').width(), h = $('#wrapper').height() - 140;
 	var graph = d3.select("#graph").append("svg:svg").attr("width", w).attr("height", h);
 	
 	// Functions
 	var fill = d3.scale.ordinal().domain(['entity','project','institution']).range(["#f90","#666","#f00"]);;
-	var scale_r = d3.scale.ordinal().domain(['project','institution']).range([25,40]);
+	var scale_r = d3.scale.ordinal().domain(['project','institution']).range([24,64]);
 	var scale_s = d3.scale.linear().domain([1,1e10]).range([1,50]);
 	
-	// Force-Directed	
-	d3.json("<%= request.url %>.json", function(json) {
+
+function drawGraph(data) {
 		
 		var force = d3.layout.force()
-			.nodes(json.nodes)
-			.links(json.links)
-			.distance(125)
-			.charge(-400)
+			.nodes(data.nodes)
+			.links(data.links)
+			.distance(150)
+			.charge(-500)
+			.gravity(0.075)
 			.size([w,h])
 			.start();
 		
 		var link = graph.selectAll("line.link")
-		  .data(json.links)
+		  .data(data.links)
 			.enter().append("svg:line")
 			  .attr("class", "link")
 			  .style("stroke-width", function(d) { return scale_s( Math.floor(d.value) ); })
@@ -31,7 +36,7 @@
 			  .attr("y2", function(d) { return d.target.y; });
 
 		var icon = graph.selectAll("image.icon")
-			.data(json.nodes.filter(function(d) { return d.group == 'project'; }))
+			.data(data.nodes.filter(function(d) { return d.group == 'project'; }))
 			.enter().append("svg:image")
 			.attr("xlink:href", function(d) { if (d.group == 'project') {return d.icon;}})
 			.attr("x", function(d) { return "-" + scale_r('project') / 2 + "px"; })
@@ -40,7 +45,7 @@
 			.attr("height", function(d) { return scale_r('project') + "px"; });
 		  
 		var label = graph.selectAll("text.label")
-			.data(json.nodes.filter(function(d) { return d.group == 'institution'; }));
+			.data(data.nodes.filter(function(d) { return d.group == 'institution'; }));
 		label.enter().append("svg:text")
 			.attr("class",function(d) { return "label " + d.group; })
 			.attr("x", function(d) { return d.x; })
@@ -52,28 +57,25 @@
 			.attr("text-anchor","middle");
 		
 		var node = graph.selectAll("circle.node")
-			.data(json.nodes)
+			.data(data.nodes)
 			.enter().append("svg:circle")
-				.attr("class", function(d) { return "node " + d.group; })
+				.attr("class", function(d) { return "node " + d.group + " " + d.category; })
 				.attr("cx", function(d) { return d.x; })
 				.attr("cy", function(d) { return d.y; })
 				.attr("r", function(d) { return scale_r( d.group ); })
-				.style("fill", function(d) { return d3.interpolateRgb("#963", "#6f6")(d.ratio); })
 				.on("click", function(d) { location.href = d.url; });
 
 		var link_label = graph.selectAll("text.link_label")
-			.data(json.links);
+			.data(data.links);
 		link_label.enter().append("svg:text")
 			.attr("class","link_label")
+			.attr("style", "stroke-line-endcap:round;")
 			.attr("x", function(d) { return (d.source.x + d.target.x) / 2; })
 			.attr("y", function(d) { return (d.source.y + d.target.y) / 2; });
 		
 		var link_label = graph.selectAll("text.link_label")
-			.text(function(d) { return d.name; });
+			.text(function(d) { return d.label; });
 	
-		node.append("svg:title")
-			.text(function(d) { return d.name; });	
-		
 		force.on("tick", function() {
 			link.attr("x1", function(d) { return d.source.x; })
 				.attr("y1", function(d) { return d.source.y; })
@@ -88,12 +90,6 @@
 			icon.attr("x", function(d) { return d.x - 12; })
 				.attr("y", function(d) { return d.y - 12; });
 		});
-		
-		d3.select("#loader").remove();
-	});
-	
-</script>
 
-<style>
-	#graph line.link {stroke-linecap:round;}
-</style>
+};
+</script>

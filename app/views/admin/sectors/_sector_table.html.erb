@@ -3,6 +3,7 @@
 		<tr>
 			<th>Received (USD)</th>
 			<th>Projects</th>
+    	<th></th>
 			<th>Name</th>
     	<th>Category</th>
     	<th></th>
@@ -21,6 +22,7 @@ $(document).ready(function() {
 		"aoColumns": [
 			{"sWidth":"100px", "fnRender":function(oObj) { return '$'+to_currency(oObj.aData['received']); }, "sType":"currency", "asSorting":["desc","asc"] },
 			{"sWidth":"50px", "mDataProp":"projects"},
+			{"sWidth":"15px", "fnRender":function(oObj) { return '<img src="'+oObj.aData['icon']+'" height="16" width="16" />'; }},
 			{"fnRender":function(oObj) { return '<b>'+oObj.aData['name']+'</b>'; }},
 			{"mDataProp":"category"},
 			{"sWidth":"15px", "fnRender":function(oObj) { if (oObj.aData['valid'] != true) { return '<span class="error icon">Errors</span>'; } else { return "&nbsp;"; }}},

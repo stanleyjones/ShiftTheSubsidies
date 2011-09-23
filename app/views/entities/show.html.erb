@@ -1,11 +1,18 @@
 <%= render :partial => "layouts/menubar", :locals => {:title => 'Entity', :modes => false} %>
 
-<div id="info">
-	<h1><%= @entity.name %></h1>
-	<p><%= @entity.kind %></p>
-</div>
+<div id="graphview" class="view"><%= render :partial => "entity_force" %></div>
 
-<div id="graphview" class="view">
-	<%= render :partial => "force" %>
-	<p id="caption"><span class="clean">Clean energy</span> and <span class="fossil">fossil fuel</span> projects of <%= @entity.name %> and their funding institutions.</p>
-</div>
+<script>$(function() {
+
+	var s = <%= @start_date.year %>, e = <%= @end_date.year %>;
+	
+	$('#info').hide();
+	
+	$.getJSON('<%= request.url %>.json?s='+s+'&e='+e, function(json){
+		drawGraph(json);
+/* 		drawTable(json); */
+		$("#loader").toggle();
+		$('#info').fadeToggle('slow');
+	});
+
+});</script>

@@ -10,9 +10,9 @@ class Subsidy < ActiveRecord::Base
 	validates :project, :presence => true
 	validates :kind, :inclusion => {:in => ['Equity','Grant','Guarantee','Loan']}
 
-  belongs_to :institution
-  belongs_to :entity
-  belongs_to :project
+  belongs_to :institution, :touch => true
+  belongs_to :entity, :touch => true
+  belongs_to :project, :touch => true
   
   def self.live
   	Subsidy.all(:include => :institution, :conditions => {'institutions.visible' => true, :approved => true })

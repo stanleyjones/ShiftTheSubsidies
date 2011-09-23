@@ -1,0 +1,32 @@
+<table id="entities">
+	<thead>
+		<tr>
+			<th>Received</th>
+			<th>Projects</th>
+			<th>Name</th>
+			<th>% Clean</th>
+			<th>% Access</th>
+			<th></th>
+		</tr>
+  </thead>
+	<tbody>
+	</tbody>
+</table>
+
+<script>
+function drawTable(data) {
+	$('#entities').dataTable({
+		"bProcessing": true,
+		"bPaginate": false,
+		"bDestroy": true,
+		"aaData": data,
+		"aoColumns": [
+			{"sWidth":"100px", "sType":"currency", "fnRender":function(oObj) { return '$'+to_currency(oObj.aData['live_total']); },"asSorting":["desc","asc"]},
+			{"sWidth":"50px", "mDataProp":"live_projects"},
+			{"fnRender":function(oObj) { return '<a href="/entities/'+oObj.aData['entity_id']+'">'+oObj.aData['name']+'</a>'; }},
+			{"sWidth":"25px", "sType":"percent", "fnRender": function(oObj) { return Math.floor((oObj.aData['live_clean'] / Math.max(oObj.aData['live_total'],1)) * 100)+"%"; }},
+			{"sWidth":"25px", "sType":"percent", "fnRender": function(oObj) { return Math.floor((oObj.aData['live_access'] / Math.max(oObj.aData['live_total'],1)) * 100)+"%"; }},
+		]
+	});
+};
+</script>

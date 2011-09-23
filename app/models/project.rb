@@ -16,7 +16,9 @@ class Project < ActiveRecord::Base
 	def received(start_date=nil, end_date=nil, collection=self.subsidies)
 		amount = 0
 		collection.each do |s|
-			if s.amount then amount += s.amount; end
+ 			if start_date.nil? or end_date.nil? or s.in_range?(start_date,end_date)
+				amount += s.amount
+ 			end
 		end
 		amount
 	end
@@ -43,6 +45,16 @@ class Project < ActiveRecord::Base
 		
 	def icon
 		self.sector ? self.sector.icon : "/images/sectors/default.png"
+	end
+	
+	def live_subsidies
+		Rails.cache.fetch("projects/#{self.id}-#{self.updated_at}/live_subsidies") do
+			subsidies = []
+			self.subsidies.each do |s|
+				if s.approved and s.institution.visible then subsidies << s; end
+			end
+			subsidies
+		end
 	end
 	
 end

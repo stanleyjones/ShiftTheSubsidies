@@ -14,7 +14,7 @@ class ProjectsController < ApplicationController
 				if params[:institution_id] and @institution = Institution.find(params[:institution_id])
   				@projects = @institution.live_projects
   			elsif params[:sector_id] and @sector = Sector.find(params[:sector_id])
-  				@projects = @sector.projects.live
+  				@projects = @sector.live_projects
   			else
 	  		  @projects = Project.live
 				end

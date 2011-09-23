@@ -1,15 +1,74 @@
 <div id="page" class="home page">
-
-	<h2>Total Subsidies Awarded</h2>
-	<p class="amount"><%= number_to_currency( total_awarded( @subsidies )) %></p>
-
+	<div id="graph">
+		<div id="loader">Loading...</div>
+		<p id="caption">
+		World Bank Group energy subsidies 2008-2011 to <span class="fossil">fossil fuel</span> and <span class="clean">clean energy</span> projects.</p>
+	</div>
+	
 	<div class="block">
 		<h2>Energy Subsidies</h2>
 		<p>For decades, wealthy countries have been using international aid and other foreign assistance to subsidize the expansion of the international fossil fuel industry.</p>
-		<p>The Shift the Subsidies database is an interactive tool to visually track and analyze the flow of energy subsidies from international, regional and bilateral public financial institutions around the world.</p>
 	</div>
 	<div class="block">
 		<h2>Shift the Subsidies</h2>
+		<p>The Shift the Subsidies database is an interactive tool to visually track and analyze the flow of energy subsidies from international, regional and bilateral public financial institutions around the world.</p>
 		<%= link_to "Get started!", institutions_path, :class => "big button" %>
 	</div>
 </div>
+<script>
+
+$(function() {
+	var data = {"totals": [
+		{"category": "Fossil Fuel", "total": <%= total_to_category("Fossil Fuel") %>, "label": "<%= number_to_short( total_to_category("Fossil Fuel") ) %>"},
+		{"category": "Clean", "total": <%= total_to_category("Clean") %>, "label": "<%= number_to_short( total_to_category("Clean") ) %>"}
+	]};
+	drawGraph(data);
+	$('#loader').toggle();
+});
+
+function drawGraph(data) {
+
+	var w = 640, h = $('#wrapper').height()-140;
+	var graph = d3.select("#graph").append("svg:svg").attr("width", w).attr("height", h);
+	var bubble = d3.layout.pack().sort(null).value(function(d) { return d.total; }).size([w,h]);
+
+	var label = graph.selectAll("text.label")
+		.data(bubble(bubblize(data.totals)).filter(function(d) { return !d.children; }));
+		
+		label.enter().append("svg:text")
+			.attr("class", "label")
+			.text(function(d) { return d.data.label; })
+			.attr("x", function(d) { return d.x; })
+			.attr("y", function(d) { return d.y; })
+			.attr("style", "opacity:0; font-size:0;");
+		
+		label.transition().duration(1000)
+			.attr("x", function(d) { return d.x; })
+			.attr("y", function(d) { return d.y; })
+			.attr("style", function(d) { return "opacity:1; font-size:"+(d.r / 2) + "px"; });
+
+		label.exit().transition().duration(1000)
+			.attr("style", "opacity:0; font-size:0;")
+			.remove();
+
+	var node = graph.selectAll("circle.node")
+		.data(bubble(bubblize(data.totals)).filter(function(d) { return !d.children; }));
+			
+	node.enter().append("svg:circle")
+		.attr("class", function(d) { return "node "+d.data.category; })
+		.attr("cx", function(d) { return d.x; })
+		.attr("cy", function(d) { return d.y; })
+		.attr("r", 0)
+		.on("click", function(d) { return window.location = "/institutions/"; });
+
+	node.transition().duration(1000)
+		.attr("cx", function(d) { return d.x; })
+		.attr("cy", function(d) { return d.y; })
+		.attr("r", function(d) { return d.r; })
+			
+	node.exit()
+		.transition().duration(1000)
+		.attr("r", 0)
+		.remove();	
+}
+</script>

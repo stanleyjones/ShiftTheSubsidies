@@ -52,8 +52,14 @@ class Institution < ActiveRecord::Base
 		awarded(start_date,end_date,subsidies)
 	end
 	
+	def live_subsidies
+ 		Rails.cache.fetch("institutions/#{self.id}-#{self.updated_at}/live_subsidies") do
+			self.subsidies.live
+		end
+	end
+	
 	def live_projects
-		Rails.cache.fetch('institutions/#{self.id}-#{self.updated_at}/live_projects') do
+ 		Rails.cache.fetch("institutions/#{self.id}-#{self.updated_at}/live_projects") do
 			self.projects.live
 		end
 	end

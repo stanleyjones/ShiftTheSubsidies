@@ -53,7 +53,7 @@ class Admin::InstitutionsController < ApplicationController
     respond_to do |format|
       if @institution.save
       	expire_action :action => :index
-        format.html { redirect_to([:admin,@institution], :notice => 'Institution was successfully created.') }
+        format.html { redirect_to(admin_institutions_url, :notice => 'Institution was successfully created.') }
         format.xml  { render :xml => @institution, :status => :created, :location => @institution }
       else
         format.html { render :action => "new" }
@@ -70,7 +70,7 @@ class Admin::InstitutionsController < ApplicationController
     respond_to do |format|
       if @institution.update_attributes(params[:institution])
       	expire_action :action => :index
-        format.html { redirect_to([:admin,@institution], :notice => 'Institution was successfully updated.') }
+        format.html { redirect_to(admin_institutions_url, :notice => 'Institution was successfully updated.') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

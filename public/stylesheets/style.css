@@ -265,6 +265,13 @@
 		.field_with_errors {display:inline;}
 		.field_with_errors label {color:#f00 !important;}
 
+		/* Home */
+		
+		#page.home #graph {position:relative; float:left; background:#eee; border-radius:10px;}
+			#page.home #caption {width:100%; bottom:0; background:transparent;}
+		#page.home .block {float:right; margin:0 0 20px 10px; width:270px;}
+		#page.home .block h2 {margin-top:0;}
+
 	/* Footer */
 	
 	footer {position:absolute; bottom:0; min-height:0px; width:950px; padding:10px; clear:both; color:#666; background:#333; border-top:1px solid #555; text-align:center;}

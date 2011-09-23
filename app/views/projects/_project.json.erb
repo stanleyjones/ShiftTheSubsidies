@@ -1,4 +1,4 @@
-<% cache("projects/#{project.id}-#{project.updated_at}/#{start_year}/#{end_year}/show") do %>{
+<% cache("projects/#{project.id}-#{project.updated_at}/#{start_year}/#{end_year}/json") do %>{
 		"name": "<%= project.name %>",
 		"sector": "<%= project.sector_name %>",
 		"category": "<%= project.category %>",
@@ -11,7 +11,7 @@
 		"access?": <%= project.access? %>,
 
 		"received": <%= project.received %>,
-		"live_received": <%= project.received  %>,
+		"live_received": <%= project.received(@start_date,@end_date,project.live_subsidies) %>,
 
 		"project_id": <%= project.id %>
 }<% end %>

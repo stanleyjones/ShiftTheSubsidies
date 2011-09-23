@@ -12,7 +12,6 @@ class EntitiesController < ApplicationController
 
   def show
     @entity = Entity.find(params[:id])
-		@subsidies = @entity.subsidies.live
     respond_to do |format|
       format.html # show.html.erb
       format.json # show.json.erb

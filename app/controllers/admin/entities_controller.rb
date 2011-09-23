@@ -36,7 +36,7 @@ class Admin::EntitiesController < ApplicationController
 
     respond_to do |format|
       if @entity.save
-        format.html { redirect_to([:admin, @entity], :notice => 'Entity was successfully created.') }
+        format.html { redirect_to(admin_entities_url, :notice => 'Entity was successfully created.') }
       else
         format.html { render :action => "new" }
       end
@@ -48,7 +48,7 @@ class Admin::EntitiesController < ApplicationController
 
     respond_to do |format|
       if @entity.update_attributes(params[:entity])
-        format.html { redirect_to([:admin, @entity], :notice => 'Entity was successfully updated.') }
+        format.html { redirect_to(admin_entities_url, :notice => 'Entity was successfully updated.') }
       else
         format.html { render :action => "edit" }
       end

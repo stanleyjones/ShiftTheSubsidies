@@ -10,10 +10,10 @@
 		"fossil": <%= institution.awarded_to_category('Fossil Fuel',@start_date,@end_date) %>,
 		"access": <%= institution.awarded_to_energy_access(@start_date,@end_date) %>,
 
-		"live_total": <%= institution.awarded(@start_date,@end_date,institution.subsidies.live) %>,
-		"live_clean": <%= institution.awarded_to_category('Clean',@start_date,@end_date,institution.subsidies.live) %>,
-		"live_fossil": <%= institution.awarded_to_category('Fossil Fuel',@start_date,@end_date,institution.subsidies.live) %>,
-		"live_access": <%= institution.awarded_to_energy_access(@start_date,@end_date,institution.subsidies.live) %>,
+		"live_total": <%= institution.awarded(@start_date,@end_date,institution.live_subsidies) %>,
+		"live_clean": <%= institution.awarded_to_category('Clean',@start_date,@end_date,institution.live_subsidies) %>,
+		"live_fossil": <%= institution.awarded_to_category('Fossil Fuel',@start_date,@end_date,institution.live_subsidies) %>,
+		"live_access": <%= institution.awarded_to_energy_access(@start_date,@end_date,institution.live_subsidies) %>,
 
 		"institution_id":<%= institution.id %>
 	}<% end %>

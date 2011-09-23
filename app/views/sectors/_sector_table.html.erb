@@ -3,6 +3,7 @@
 	<thead>
 		<tr>
 			<th>Received</th>
+			<th></th>
 			<th>Projects</th>
 			<th>Name</th>
     	<th>Category</th>
@@ -15,13 +16,14 @@
 function drawTable(data) {
 	$('#sectors').dataTable({
 		"bDestroy": true,
-		"sAjaxSource": "<%= request.url %>.json",
-		"sAjaxDataProp": "sectors",
+		"bPaginate": false,
+		"aaData": data,
 		"aoColumns": [
-			{"mDataProp":"live_received", "sType":"currency", "sWidth":"100px", "asSorting":["desc","asc"] },
-			{"sWidth":"50px", "mDataProp":"projects"},
+			{"sWidth":"100px", "fnRender":function(oObj) { return '$'+to_currency(oObj.aData['live_received']); }, "sType":"currency", "asSorting":["desc","asc"] },
+			{"sWidth":"15px", "fnRender":function(oObj) { return '<img src="'+oObj.aData['icon']+'" height="16" width="16" />'; }},
+			{"sWidth":"50px", "mDataProp":"live_projects"},
 			{"fnRender":function(oObj) { return '<a href="/sectors/'+oObj.aData['sector_id']+'">'+oObj.aData['name']+'</a>'; }},
-			{"mDataProp":"category"},
+			{"sWidth":"50px", "mDataProp":"category"},
 		]
 	});
 };
