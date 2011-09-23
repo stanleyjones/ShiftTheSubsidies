@@ -3,17 +3,18 @@ class ProjectsController < ApplicationController
 	caches_action :show
 
   def index
-		start_year = params[:s] || 2008
-		end_year = params[:e] || params[:s] || Date.today.year
+		start_year = params[:s] || START_YEAR
+		end_year = params[:e] || params[:s] || END_YEAR
   	@start_date = Date.civil(start_year.to_i,1,1)
   	@end_date = Date.civil(end_year.to_i,12,31)
+
 		respond_to do |format|
       format.html
       format.json do
 				if params[:institution_id] and @institution = Institution.find(params[:institution_id])
-  				@projects = @institution.projects.all(:include => [:subsidies,:sector])
+  				@projects = @institution.live_projects
   			elsif params[:sector_id] and @sector = Sector.find(params[:sector_id])
-  				@projects = @sector.projects
+  				@projects = @sector.projects.live
   			else
 	  		  @projects = Project.live
 				end

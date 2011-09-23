@@ -1,7 +1,8 @@
+<p id="table_caption">Sectors</p>
 <table id="sectors">
 	<thead>
 		<tr>
-			<th>Received (USD)</th>
+			<th>Received</th>
 			<th>Projects</th>
 			<th>Name</th>
     	<th>Category</th>
@@ -11,18 +12,17 @@
 </table>
 
 <script>
-$(document).ready(function() {
+function drawTable(data) {
 	$('#sectors').dataTable({
-		"bProcessing": true,
+		"bDestroy": true,
 		"sAjaxSource": "<%= request.url %>.json",
 		"sAjaxDataProp": "sectors",
 		"aoColumns": [
-			{"mDataProp":"received", "sType":"currency", "sWidth":"100px", "asSorting":["desc","asc"] },
+			{"mDataProp":"live_received", "sType":"currency", "sWidth":"100px", "asSorting":["desc","asc"] },
 			{"sWidth":"50px", "mDataProp":"projects"},
-			{"fnRender":function(oObj) { return '<a href="'+oObj.aData['sector_url']+'">'+oObj.aData['name']+'</a>'; }},
+			{"fnRender":function(oObj) { return '<a href="/sectors/'+oObj.aData['sector_id']+'">'+oObj.aData['name']+'</a>'; }},
 			{"mDataProp":"category"},
-		],
-		"sPaginationType": "full_numbers"
+		]
 	});
-} );
+};
 </script>

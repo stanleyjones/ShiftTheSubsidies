@@ -1,13 +1,17 @@
-<% cache("projects/#{project.id}-#{project.updated_at}/show") do %>{
-		"valid":"<%= project.valid? %>",
-		"received":"<%= number_to_currency( project.received ) %>",
-		"amount_raw": <%= project.received %>,
-		"amount_human": "$<%= number_to_human( project.received, :format => "%n%u", :units => {:unit => "USD", :thousand => "k", :million => "M", :billion => "B"} ) %>",
+<% cache("projects/#{project.id}-#{project.updated_at}/#{start_year}/#{end_year}/show") do %>{
 		"name": "<%= project.name %>",
-		"sector": "<% if project.sector %><%= project.sector.name %><% end %>",
-		"category": "<% if project.sector %><%= project.sector.category %><% end %>",
-		"country": "<%= project.country %>",
-		"access": "<%= project.access %>",
+		"sector": "<%= project.sector_name %>",
+		"category": "<%= project.category %>",
 		"icon": "<%= project.icon %>",
+		"region": "<%= project.region %>",
+		"url": "<%= url_for project %>",
+		"valid": <%= project.valid? %>,
+
+		"clean?": <%= project.clean? %>,
+		"access?": <%= project.access? %>,
+
+		"received": <%= project.received %>,
+		"live_received": <%= project.received  %>,
+
 		"project_id": <%= project.id %>
 }<% end %>

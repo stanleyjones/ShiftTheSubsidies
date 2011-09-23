@@ -1,0 +1,65 @@
+<p id="table_caption">Institutional subsidies for <span class="legend_start_year"><%= @start_date.year %></span><span class="legend_end_year">-<%= @end_date.year %></span></p>
+
+<table id="institutions">
+	<thead>
+		<tr>
+			<th>Total</th>
+			<th>Institution</th>
+			<th>Clean</th>
+			<th>%</th>
+			<th>Fossil</th>
+			<th>%</th>
+			<th>Access</th>
+			<th>%</th>
+		</tr>
+  </thead>
+	<tbody>
+	</tbody>
+	<tfoot>
+		<th></th>
+		<th></th>
+		<th></th>
+		<th></th>
+		<th></th>
+		<th></th>
+		<th></th>
+		<th></th>
+	</tfoot>
+</table>
+
+<script>
+function drawTable(data) {
+	$('#institutions').dataTable({
+		"bDestroy": true,
+		"bPaginate": false,
+		"aaData": data,
+		"aoColumns": [
+			{"sWidth":"100px", "sType":"currency", "fnRender":function(oObj) { return '$'+to_currency(oObj.aData['live_total']); },"asSorting":["desc","asc"]},
+			{"sWidth":"400px", "fnRender":function(oObj) { return '<b>'+oObj.aData['name']+'</b> ('+oObj.aData['abbreviation']+')<br><span class="desc">'+oObj.aData['description']+'</span>'; }},
+
+			{"sWidth":"100px", "sType":"currency", "fnRender":function(oObj) { return '$'+to_currency(oObj.aData['live_clean']); },"asSorting":["desc","asc"]},
+			{"sWidth":"25px", "sType":"percent", "fnRender": function(oObj) { return Math.floor((oObj.aData['live_clean'] / Math.max(oObj.aData['live_total'],1)) * 100)+"%"; }},
+
+			{"sWidth":"100px", "sType":"currency", "fnRender":function(oObj) { return '$'+to_currency(oObj.aData['live_fossil']); },"asSorting":["desc","asc"]},
+			{"sWidth":"25px", "sType":"percent", "fnRender": function(oObj) { return Math.floor((oObj.aData['live_fossil'] / Math.max(oObj.aData['live_total'],1)) * 100)+"%"; }},
+
+			{"sWidth":"100px", "sType":"currency", "fnRender":function(oObj) { return '$'+to_currency(oObj.aData['live_access']); },"asSorting":["desc","asc"]},
+			{"sWidth":"25px", "sType":"percent", "fnRender": function(oObj) { return Math.floor((oObj.aData['live_access'] / Math.max(oObj.aData['live_total'],1)) * 100)+"%"; }},
+		],
+		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
+			var total = {'total':0, 'clean':0, 'fossil':0, 'access':0};
+			for (var i=iStart; i<iEnd; i++) {
+				total['total']  += aaData[aiDisplay[i]]['total']*1;
+				total['clean']  += aaData[aiDisplay[i]]['clean']*1;
+				total['fossil'] += aaData[aiDisplay[i]]['fossil']*1;
+				total['access'] += aaData[aiDisplay[i]]['access']*1;
+			}
+			var footer = nRow.getElementsByTagName('th');
+			footer[0].innerHTML = '$'+to_currency(total['total']);
+			footer[2].innerHTML = '$'+to_currency(total['clean']);
+			footer[4].innerHTML = '$'+to_currency(total['fossil']);
+			footer[6].innerHTML = '$'+to_currency(total['access']);
+		}
+	});
+}
+</script>

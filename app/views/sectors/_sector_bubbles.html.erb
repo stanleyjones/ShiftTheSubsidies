@@ -1,23 +1,15 @@
-<div id="graph">
-	<div id="info"><h1><%= @sector.name %></h1><p><%= @sector.description %></p></div>
-	<div id="loader">Loading...</div>
-	<p id="caption"><b>Above:</b> Projects of the <%= @sector.name %> sector, scaled by dollar amount.</p>
-</div>
+<div id="graph"><div id="loader">Loading...</div></div>
 
 <script>
-	var w = 970, h = 640;
+function drawGraph(data) {
+	var w = $('#wrapper').width(), h = $('#wrapper').height() - 140;
 	var graph = d3.select("#graph").append("svg:svg").attr("width", w).attr("height", h);
+	var scale = d3.scale.linear().domain([1,1E10]).range([1,500]);
 	
-	// Functions
-	var scale = d3.scale.linear().domain([1,1E9]).range([1,500]);
-	
-	// Bubble Chart	
 	var bubble = d3.layout.pack()
 		.sort(null)
 		.value(function(d) { return scale(d.live_received); })
 		.size([w,h]);
-
-function drawGraph(data) {
 
 	var node = graph.selectAll("g.node")
 		.data(bubble(bubblize(data))
@@ -36,8 +28,8 @@ function drawGraph(data) {
 		.attr("height", function(d) { return d.r + "px"; });
 
 	node.append("svg:circle")
-		.attr("class", function(d) { return d.data.category; })
 		.attr("r", function(d) { return d.r; })
-		.on("click", function(d) { location.href = "/projects/"+d.data.project_id; });
-}
+		.attr("class", function(d) { return d.data.category; })
+		.on("click", function(d) { location.href = "/sectors/"+d.data.sector_id; });
+};	
 </script>

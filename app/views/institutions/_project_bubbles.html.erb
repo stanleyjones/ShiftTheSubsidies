@@ -1,7 +1,11 @@
-<div id="graph"><div id="loader">Loading...</div></div>
+<div id="graph">
+	<div id="info"><h1><%= @institution.name %></h1><p><%= @institution.description %></p></div>
+	<div id="loader">Loading...</div>
+	<p id="caption"><b>Above:</b> <span class="clean">Clean energy</span>, <span class="fossil">fossil fuel</span>, and other projects of <%= @institution.shortname %>, scaled by dollar amount.</p>
+</div>
 
 <script>
-	var w = 970, h = 640;
+	var w = $('#wrapper').width(), h = $('#wrapper').height()-145;
 	var graph = d3.select("#graph").append("svg:svg").attr("width", w).attr("height", h);
 	
 	// Functions
@@ -10,50 +14,29 @@
 	// Bubble Chart	
 	var bubble = d3.layout.pack()
 		.sort(null)
-		.value(function(d) { return scale(d.amount_raw); })
+		.value(function(d) { return scale(d.live_received); })
 		.size([w,h]);
 
-	d3.json("<%= request.url %>/projects.json", function(json) {
-		var node = graph.selectAll("g.node")
-			.data(bubble(bubblize(json.projects))
-				.filter(function(d) { return !d.children; }))
-		.enter().append("svg:g")
-			.attr("class","node")
-			.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+function drawGraph(data) {
+	var node = graph.selectAll("g.node")
+		.data(bubble(bubblize(data))
+			.filter(function(d) { return d.data.live_received > 0; })
+			.filter(function(d) { return !d.children; }))
+	.enter().append("svg:g")
+		.attr("class","node")
+		.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 
-		node.append("svg:image")
-			.attr("class", "circle")
-			.attr("xlink:href", function(d) { return d.data.icon; })
-			.attr("x", function(d) { return "-" + d.r / 2 + "px"; })
-			.attr("y", function(d) { return "-" + d.r / 2 + "px"; })
-			.attr("width", function(d) { return d.r + "px"; })
-			.attr("height", function(d) { return d.r + "px"; });
-			
-/*
-		node.append("svg:text")
-			.attr("class", "label")
-			.attr("style", function(d) { return "font-size:"+(d.r / 2) + "px"; })
-			.text(function(d) { return d.data.amount_human; });
-*/
+	node.append("svg:image")
+		.attr("class", "circle")
+		.attr("xlink:href", function(d) { return d.data.icon; })
+		.attr("x", function(d) { return "-" + d.r / 2 + "px"; })
+		.attr("y", function(d) { return "-" + d.r / 2 + "px"; })
+		.attr("width", function(d) { return d.r + "px"; })
+		.attr("height", function(d) { return d.r + "px"; });
 
-		node.append("svg:circle")
-			.attr("class", function(d) { return d.data.category; })
-			.attr("r", function(d) { return d.r; })
-			.on("click", function(d) { location.href = "/projects/"+d.data.project_id; });		
-
-		d3.select("#loader").remove();
-	});
-
-	
-	function bubblize( data ) {
-		var bubbles = [];
-		
-		for (var b in data) {
-			var bubble = data[b];
-			bubbles.push(bubble);
-		}
-		//console.log(bubbles);
-		return {children: bubbles};
-	}
-	
+	node.append("svg:circle")
+		.attr("class", function(d) { return d.data.category; })
+		.attr("r", function(d) { return d.r; })
+		.on("click", function(d) { location.href = "/projects/"+d.data.project_id; });		
+};	
 </script>

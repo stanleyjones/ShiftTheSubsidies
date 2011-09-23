@@ -8,7 +8,7 @@
 	
 	<% # Then list institutions funding each project
 		@entity.institutions.each do |i| %>
-		{"name":"<%= i.shortname %>","group":"institution","size":<%= i.awarded_to( @entity ) %>,"ratio":<%= i.percent_clean %>,"url":"<%= url_for i %>"}<% unless i == @entity.institutions.last %>,<% end %>
+		{"name":"<%= i.shortname %>","group":"institution","size":<%= i.awarded_to_entity( @entity ) %>,"ratio":<%= i.percent_clean %>,"url":"<%= url_for i %>"}<% unless i == @entity.institutions.last %>,<% end %>
 	<% end %>
 	],
 	

@@ -118,7 +118,7 @@
 
 	#wrapper {position:relative; min-height:100%; width:970px; margin:0 auto; padding-bottom:0px; background:#fff; -webkit-box-shadow:0 0 5px rgba(0,0,0,0.5); -moz-box-shadow:0 0 5px rgba(0,0,0,0.5); overflow:visible;}
 	#content {width:970px; padding-bottom:0px; min-height:100%;}
-	body.admin #content {padding-bottom:100px;}
+	body.admin #content {padding-bottom:0px;}
 	
 	#searchform {float:right; margin:7px 10px; font-size:10px;}
 	#searchform input[type="text"] {display:block; float:left; height:10px; width:150px; text-align:center;}
@@ -140,25 +140,25 @@
 
 	/* Menubar */
 	
-	header#menubar {position:relative; color:#fff; background-color:#333; background:-webkit-gradient(linear,left top,left bottom,color-stop(0.48,#333),color-stop(0.52,#000)); text-align:center; box-shadow:0 10px 10px rgba(0,0,0,0.125);}	
-	header#menubar h1 {margin:0; line-height:1.25em; vertical-align:middle;}
-	header#menubar ul {position:absolute; top:5px; margin:0; padding:5px; list-style:none;}
-	header#menubar ul li {position:relative; float:left; margin-right:5px;}
-	header#menubar li ul {position:absolute; top:25px; right:-50%; margin:0; padding:0; width:150px; color:#fff; background:#333; border:5px solid #111; border-radius:10px; -webkit-box-shadow:0 3px 10px rgba(0,0,0,0.75); list-style:none;}
-	header#menubar li li {height:50px; width:100%; color:#333; background:#ccc; line-height:50px;}
-	header#menubar li li:first-child {border-radius:5px 5px 0 0;}
-	header#menubar li li:last-child {border-radius:0 0 5px 5px;}
-	header#menubar li li:nth-child(odd) {background:#ddd;}
-	header#menubar button {display:block; height:2em; width:50px; color:#999; background:#333; border:1px solid #000; border-radius:5px; -webkit-box-shadow:0 1px 1px rgba(255,255,255,0.25);}
-	header#menubar button:hover {color:#fff; background:#666;}
-	header#menubar button.active {color:#d72;}
-	
-	header#menubar ul#mode li:first-child {margin-right:0;}
-		header#menubar ul#mode li:first-child button {border-right:1px solid #000; border-radius:5px 0 0 5px;}
-		header#menubar ul#mode li:last-child button {border-left:0; border-radius:0 5px 5px 0;}
-	header#menubar ul#modals {left:5px;}
-	header#menubar ul#popovers {right:0;}
-		header#menubar ul#popovers button {width:auto;}
+	#menubar {position:relative; height:48px; color:#fff; background-color:#333; background:-webkit-gradient(linear,left top,left bottom,color-stop(0.48,#333),color-stop(0.52,#000)); text-align:center; box-shadow:0 10px 10px rgba(0,0,0,0.125);}	
+	#menubar h1 {margin:0; line-height:1.25em; vertical-align:middle;}
+	#menubar ul {position:absolute; top:5px; margin:0; padding:5px; list-style:none;}
+	#menubar ul li {position:relative; float:left; margin-right:5px;}
+	#menubar li ul {position:absolute; top:25px; right:-50%; margin:0; padding:0; width:150px; color:#fff; background:#333; border:5px solid #111; border-radius:10px; -webkit-box-shadow:0 3px 10px rgba(0,0,0,0.75); list-style:none;}
+	#menubar li li {height:50px; width:100%; color:#333; background:#ccc; line-height:50px;}
+	#menubar li li:first-child {border-radius:5px 5px 0 0;}
+	#menubar li li:last-child {border-radius:0 0 5px 5px;}
+	#menubar li li:nth-child(odd) {background:#ddd;}
+	#menubar button {display:block; height:25px; width:50px; color:#999; background:#333; border:1px solid #000; border-radius:5px; -webkit-box-shadow:0 1px 1px rgba(255,255,255,0.25);}
+	#menubar button:hover {color:#fff; background:#999;}
+	#menubar button.active {color:#d72;}
+		
+	#menubar ul#mode li:first-child {margin-right:0;}
+		#menubar ul#mode li:first-child button {border-right:1px solid #000; border-radius:5px 0 0 5px;}
+		#menubar ul#mode li:last-child button {border-left:0; border-radius:0 5px 5px 0;}
+	#menubar ul#modals {left:5px;}
+	#menubar ul#popovers {right:0; z-index:999;}
+		#menubar ul#popovers button {width:auto;}
 
 	/* Content */
 
@@ -182,8 +182,8 @@
 	#content a.button.delete {display:block; position:relative; width:120px; margin:10px 0 0 -60px; left:50%; background:#ccc; text-align:center;}
 	#content a.button.delete:hover {background:#900;}
 	
-	#content #info {position:absolute; top:45px; left:0; padding:20px; width:25%; color:#fff; background:rgba(0,0,0,0.5); border-bottom-right-radius:10px;}
-	#content #caption {position:absolute; bottom:0; left:0; padding:20px; color:#666; background:#rgba(255,255,255,0.5); font-size:12px; text-align:center;}
+	#content #info {position:absolute; top:0; left:0; padding:20px; width:25%; color:#fff; background:rgba(0,0,0,0.5); border-bottom-right-radius:10px;}
+	#content #caption {position:absolute; bottom:-5px; width:100%; margin:0; padding:20px 0; color:#666; background:rgba(223,223,223,0.5); border-top:1px solid #fff; font-size:12px; text-align:center;}
 	#content #caption .fossil {color:#963;}
 	#content #caption .clean {color:#0f0;}
 	#content #caption b {text-transform:uppercase; font-size:10px;}
@@ -221,9 +221,10 @@
 		
 		/* Graphs */
 		
-		#loader, .dataTables_processing {height:50px; width:100%; margin-top:25%; border:none !important; background:url(images/loader.gif) center no-repeat; text-indent:-9999px;}
+		#graphview {position:relative; top:50;}
+		#loader, .dataTables_processing {height:50px; width:100%; margin-top:25%; border:none !important; background:#fff url(images/loader.gif) center no-repeat; text-indent:-9999px;}
 
-		#graph circle {fill:#ccc; stroke:#fff; stroke-width:2; opacity:0.5; -webkit-transition:all 0.5s;}
+		#graph circle {fill:#ccc; stroke:#fff; stroke-width:2; opacity:0.66; -webkit-transition:all 0.5s;}
 			#graph circle:hover {opacity:0.6; cursor:pointer; stroke:#ff0;}
 		
 		#graph circle.Fossil {fill:#963;}
@@ -235,12 +236,19 @@
 		#graph line {stroke:#ccc;}
 		
 		#date_range {position:absolute; top:50px; right:20px; color:#ccc; font-size:14px; line-height:50px;}
-		
+
 		/* Tables */
 		
-		#tableview {padding:20px;}
-		#tableview table {clear:both; width:100% !important;}
+		#tableview {padding:0; color:#fff; background:#666; overflow:visible;}
 
+		#tableview #table_caption {position:absolute; top:52px; left:0; padding:10px; width:465px;}
+		#tableview table {clear:both; margin:0; width:100% !important; color:#222;}
+		#tableview th {color:#ccc; font-weight:normal; cursor:pointer;}
+		#tableview tfoot th {background:#666; font-style:normal;}
+		#tableview .buttons {position:absolute; top:60px; left:10px;}
+
+		#tableview .dataTables_scrollHead table {width:100% !important;}
+		
 		/* Maps */
 				
 		.jvectormap-label {position: absolute;display: none;border: solid 1px #CDCDCD;-moz-border-radius: 3px;background: #292929;color: white;font-family: sans-serif, Verdana;font-size: smaller;padding: 3px;}

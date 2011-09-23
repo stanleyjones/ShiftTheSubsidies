@@ -12,6 +12,41 @@ function popover(e) {
 	$('#'+e).slideToggle();
 }
 
+function to_currency(n) {
+	n += '';
+	x = n.split('.');
+	x1 = x[0];
+	x2 = x.length > 1 ? '.' + x[1] : '';
+	var rgx = /(\d+)(\d{3})/;
+	while (rgx.test(x1)) { x1 = x1.replace(rgx, '$1' + ',' + '$2');	}
+	return x1;
+}
+
+function bubblize(d) {
+	var bubbles = [];	
+	for (var b in d) {
+		var bubble = d[b];
+		bubbles.push(bubble);
+	}
+	return {children: bubbles};
+}
+
+jQuery.fn.dataTableExt.oSort['percent-asc']  = function(a,b) {
+	var x = (a == "-") ? 0 : a.replace( /%/, "" );
+	var y = (b == "-") ? 0 : b.replace( /%/, "" );
+	x = parseFloat( x );
+	y = parseFloat( y );
+	return ((x < y) ? -1 : ((x > y) ?  1 : 0));
+};
+
+jQuery.fn.dataTableExt.oSort['percent-desc'] = function(a,b) {
+	var x = (a == "-") ? 0 : a.replace( /%/, "" );
+	var y = (b == "-") ? 0 : b.replace( /%/, "" );
+	x = parseFloat( x );
+	y = parseFloat( y );
+	return ((x < y) ?  1 : ((x > y) ? -1 : 0));
+};
+
 jQuery.fn.dataTableExt.oSort['currency-asc'] = function(a,b) {
 	var x = a == "-" ? 0 : a.replace( /,/g, "" );
 	var y = b == "-" ? 0 : b.replace( /,/g, "" );

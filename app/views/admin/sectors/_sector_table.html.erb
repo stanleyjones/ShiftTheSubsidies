@@ -15,14 +15,15 @@
 $(document).ready(function() {
 	$('#sectors').dataTable({
 		"bProcessing": true,
+		"bPaginate": false,
 		"sAjaxSource": "<%= request.url %>.json",
 		"sAjaxDataProp": "sectors",
 		"aoColumns": [
-			{"mDataProp":"received", "sType":"currency", "sWidth":"100px", "asSorting":["desc","asc"] },
+			{"sWidth":"100px", "fnRender":function(oObj) { return '$'+to_currency(oObj.aData['received']); }, "sType":"currency", "asSorting":["desc","asc"] },
 			{"sWidth":"50px", "mDataProp":"projects"},
 			{"fnRender":function(oObj) { return '<b>'+oObj.aData['name']+'</b>'; }},
 			{"mDataProp":"category"},
-			{"sWidth":"15px", "fnRender":function(oObj) { if (oObj.aData['valid'] != 'true') { return '<span class="error icon">Errors</span>'; } else { return "&nbsp;"; }}},
+			{"sWidth":"15px", "fnRender":function(oObj) { if (oObj.aData['valid'] != true) { return '<span class="error icon">Errors</span>'; } else { return "&nbsp;"; }}},
 			{"bSortable":false, "sWidth":"25px", "fnRender":function(oObj) { return '<a class="edit icon" href="/admin/sectors/'+oObj.aData['sector_id']+'/edit/">Edit</a>';<% else %>return ""; }}
 		],
 		"sPaginationType": "full_numbers"	});

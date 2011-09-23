@@ -1,34 +1,75 @@
+<p id="table_caption">For <span id="table_start_year"><%= @start_date.year %></span><span id="table_end_year">-<%= @end_date.year %></span></p>
+
 <table id="institutions">
 	<thead>
 		<tr>
-			<th>Awarded (USD)</th>
+			<th>Total</th>
 			<th>Institution</th>
-			<th>Clean Energy</th>
-			<th>Energy Access</th>
-			<th></th>
+			<th>Clean</th>
+			<th>%</th>
+			<th>Fossil</th>
+			<th>%</th>
+			<th>Access</th>
+			<th>%</th>
+			<th><span class="error icon">Errors?</span></th>
 			<th></th>
 		</tr>
   </thead>
 	<tbody>
-	<tr colspan="3"><td>Loading data...</td></tr>
 	</tbody>
+		<tfoot>
+		<tr>
+			<th>TOTAL</th>
+			<th></th>
+			<th></th>
+			<th></th>
+			<th></th>
+			<th></th>
+			<th></th>
+			<th></th>
+			<th></th>
+			<th></th>
+		</tr>
+	</tfoot>
 </table>
 
 <script>
 $(document).ready(function() {
 	$('#institutions').dataTable({
-		"bProcessing": true,
+		"bPaginate": false,
 		"sAjaxSource": "<%= request.url %>.json",
 		"sAjaxDataProp": "institutions",
 		"aoColumns": [
-			{ "mDataProp":"awarded", "sType":"currency", "sWidth":"100px", "asSorting":["desc","asc"] },
-			{"fnRender":function(oObj) { return '<b>'+oObj.aData['name']+'</b> ('+oObj.aData['abbreviation']+')<br><span class="desc">'+oObj.aData['description']+'</span>'; }},
-			{"sWidth":"100px", "mDataProp":"percent_clean"},
-			{"sWidth":"100px", "mDataProp":"percent_access"},
-			{ "sWidth":"15px", "fnRender":function(oObj) { if (oObj.aData['valid'] != 'true') { return '<span class="error icon">Errors</span>'; } else { return "&nbsp;"; }}},
-			{"bSortable":false, "sWidth":"25px", "fnRender":function(oObj) { return '<a class="edit icon" href="/admin/institutions/'+oObj.aData['institution_id']+'/edit">Edit</a>';<% else %>return ""; }}
+			{"sWidth":"100px", "sType":"currency", "fnRender":function(oObj) { return '$'+to_currency(oObj.aData['total']); },"asSorting":["desc","asc"]},
+
+			{"sWidth":"400px", "fnRender":function(oObj) { return '<b>'+oObj.aData['name']+'</b> ('+oObj.aData['abbreviation']+')<br><span class="desc">'+oObj.aData['description']+'</span>'; }},
+
+			{"sWidth":"100px", "sType":"currency", "fnRender":function(oObj) { return '$'+to_currency(oObj.aData['clean']); },"asSorting":["desc","asc"]},
+			{"sWidth":"25px", "sType":"percent", "fnRender": function(oObj) { return Math.floor((oObj.aData['clean'] / Math.max(oObj.aData['total'],1)) * 100)+"%"; }},
+
+			{"sWidth":"100px", "sType":"currency", "fnRender":function(oObj) { return '$'+to_currency(oObj.aData['fossil']); },"asSorting":["desc","asc"]},
+			{"sWidth":"25px", "sType":"percent", "fnRender": function(oObj) { return Math.floor((oObj.aData['fossil'] / Math.max(oObj.aData['total'],1)) * 100)+"%"; }},
+
+			{"sWidth":"100px", "sType":"currency", "fnRender":function(oObj) { return '$'+to_currency(oObj.aData['access']); },"asSorting":["desc","asc"]},
+			{"sWidth":"25px", "sType":"percent", "fnRender": function(oObj) { return Math.floor((oObj.aData['access'] / Math.max(oObj.aData['total'],1)) * 100)+"%"; }},
+
+			{"sWidth":"25px", "fnRender":function(oObj) { if (oObj.aData['valid'] != true) { return '<span class="error icon">Errors</span>'; } else { return "&nbsp;"; }},"asSorting":["desc","asc"]},
+			{"sWidth":"25px", "bSortable":false, "fnRender":function(oObj) { return '<a class="edit icon" href="/admin/institutions/'+oObj.aData['institution_id']+'/edit">Edit</a>';<% else %>return ""; }}
 		],
-		"sPaginationType": "full_numbers"
+		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
+			var total = {'total':0, 'clean':0, 'fossil':0, 'access':0};
+			for (var i=iStart; i<iEnd; i++) {
+				total['total']  += aaData[aiDisplay[i]]['total']*1;
+				total['clean']  += aaData[aiDisplay[i]]['clean']*1;
+				total['fossil'] += aaData[aiDisplay[i]]['fossil']*1;
+				total['access'] += aaData[aiDisplay[i]]['access']*1;
+			}
+			var footer = nRow.getElementsByTagName('th');
+			footer[0].innerHTML = '$'+to_currency(total['total']);
+			footer[2].innerHTML = '$'+to_currency(total['clean']);
+			footer[4].innerHTML = '$'+to_currency(total['fossil']);
+			footer[6].innerHTML = '$'+to_currency(total['access']);
+		}
 	});
 } );
 </script>

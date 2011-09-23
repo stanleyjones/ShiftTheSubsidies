@@ -1,13 +1,11 @@
-<p id="table_caption">Projects of <%= @institution.shortname %></p>
-
 <table id="projects">
 	<thead>
 		<tr>
 			<th>Received</th>
     	<th>Name</th>
-    	<th>Region</th>
-    	<th>Sector</th>
-    	<th>Access?</th>
+    	<th>Country</th>
+    	<th>Energy Access</th>
+    	<th></th>
 		</tr>
   </thead>
 </table>
@@ -15,14 +13,13 @@
 <script>
 function drawTable(data) {
 	$('#projects').dataTable({
-		"bPaginate": false,
 		"bDestroy": true,
+		"bPaginate": false,
 		"aaData": data,
 		"aoColumns": [
 			{"sWidth":"100px", "fnRender":function(oObj) { return '$'+to_currency(oObj.aData['live_received']); }, "sType":"currency", "asSorting":["desc","asc"] },
-			{"fnRender":function(oObj) { return '<a href="'+oObj.aData['project_url']+'">'+oObj.aData['name']+'</a>'; }},
+			{"fnRender":function(oObj) { return '<a href="'+oObj.aData['url']+'">'+oObj.aData['name']+'</a>'; }},
 			{"sWidth":"100px", "mDataProp":"region"},
-			{"sWidth":"100px", "mDataProp":"sector"},
 			{"sWidth":"50px", "fnRender":function(oObj) { return oObj.aData['access?']; }},
 		]
 	});

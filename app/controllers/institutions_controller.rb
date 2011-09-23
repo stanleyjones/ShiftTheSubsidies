@@ -3,8 +3,9 @@ class InstitutionsController < ApplicationController
 	#caches_action :show
 
   def index
-		start_year = params[:s] || 2008
-		end_year = params[:e] || params[:s] || Date.today.year
+  
+		start_year = params[:s] || START_YEAR
+		end_year = params[:e] || params[:s] || END_YEAR
   	@start_date = Date.civil(start_year.to_i,1,1)
   	@end_date = Date.civil(end_year.to_i,12,31)
   	
@@ -20,11 +21,16 @@ class InstitutionsController < ApplicationController
   end
 
   def show
+		start_year = params[:s] || START_YEAR
+		end_year = params[:e] || params[:s] || END_YEAR
+  	@start_date = Date.civil(start_year.to_i,1,1)
+  	@end_date = Date.civil(end_year.to_i,12,31)
+
     @institution = Institution.find(params[:id])
     respond_to do |format|
       format.html
       format.json do
-      	@projects = @institution.projects.live
+      	@projects = @institution.live_projects
 			end
     end
   end

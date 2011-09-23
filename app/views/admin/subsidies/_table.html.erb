@@ -15,7 +15,7 @@
 <script>
 $(document).ready(function() {
 	$('#subsidies').dataTable({
-		"bProcessing":true,
+		"bPaginate":false,
 		"sAjaxSource":"<%= request.url %>.json",
 		"sAjaxDataProp":"subsidies",
 		"aoColumns": [

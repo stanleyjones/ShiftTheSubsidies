@@ -1,9 +1,16 @@
 <%= render :partial => "layouts/menubar" %>
 
-<div id="graphview" class="view">
-	<%= render :partial => "bubble" %>
-</div>
+<div id="graphview" class="view"><%= render :partial => "sector_bubbles" %></div>
+<div id="tableview" class="view"><%= render :partial => "sector_table" %></div>
 
-<div id="tableview" class="view">
-	<%= render :partial => "table" %>
-</div>
+<script>$(function() {
+
+	var s = <%= @start_date.year %>, e = <%= @end_date.year %>;
+	
+	$.getJSON('<%= request.url %>.json?s='+s+'&e='+e, function(json){
+		drawGraph(json.sectors);
+		drawTable(json.sectors);
+		$("#loader").toggle();
+	});
+
+});</script>

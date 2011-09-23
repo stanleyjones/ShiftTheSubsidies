@@ -13,36 +13,36 @@ class Project < ActiveRecord::Base
 		Project.all(:include => [:subsidies,:institutions], :conditions => {'subsidies.approved' => true, 'institutions.visible' => true})
 	end
 			
-	def access
-		if defined? energy_access
-			return energy_access
-		else
-			return "no"
-		end
-	end
-	
-	def clean
-		if self.sector 
-			return self.sector.category == "Clean"
-		else
-			return false
-		end
-	end
-	
-	def amount_received(collection = self.subsidies)
+	def received(start_date=nil, end_date=nil, collection=self.subsidies)
 		amount = 0
 		collection.each do |s|
 			if s.amount then amount += s.amount; end
 		end
 		amount
 	end
-	
-	def received
-		amount_received
+
+	def access?
+		self.energy_access ? self.energy_access : false
 	end
 	
+	def clean?
+		self.sector ? self.sector.category == "Clean" : false
+	end
+	
+	def region
+		self.country
+	end
+
+	def sector_name
+		self.sector ? self.sector.name : ""
+	end
+	
+	def category
+		self.sector ? self.sector.category : "Other"
+	end
+		
 	def icon
-		self.sector ? self.sector.icon : "/stylesheets/icons/sector/default.png"
+		self.sector ? self.sector.icon : "/images/sectors/default.png"
 	end
 	
 end

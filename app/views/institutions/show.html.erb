@@ -1,14 +1,19 @@
 <%= render :partial => "layouts/menubar", :locals => {:title => @institution.shortname} %>
 
-<div id="graphview" class="view">
-	<div id="info">
-		<h1><%= @institution.name %></h1>
-		<p><%= @institution.description %></p>
-	</div>
-	<%= render :partial => "project_bubbles", :object => @projects %>
-	<p id="caption"><b>Above:</b> <span class="clean">Clean energy</span> and <span class="fossil">fossil fuel</span> project portfolio of <%= @institution.shortname %>, scaled by dollar amount.</p>
-</div>
+<div id="graphview" class="view"><%= render :partial => "project_bubbles", :object => @projects %></div>
+<div id="tableview" class="view"><%= render :partial => "project_table" %></div>
 
-<div id="tableview" class="view">
-	<%= render :partial => "project_table" %>
-</div>
+<script>$(function() {
+
+	var s = <%= @start_date.year %>, e = <%= @end_date.year %>;
+	
+	$('#info').hide();
+	
+	$.getJSON('<%= request.url %>/projects.json?s='+s+'&e='+e, function(json){
+		drawGraph(json.projects);
+		drawTable(json.projects);
+		$("#loader").toggle();
+		$('#info').fadeToggle('slow');
+	});
+
+});</script>

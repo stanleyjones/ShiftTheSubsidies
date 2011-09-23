@@ -15,11 +15,11 @@ class Subsidy < ActiveRecord::Base
   belongs_to :project
   
   def self.live
-  	Subsidy.all(:include => :institution, :conditions => {'institutions.visible' => true, :approved => true})
+  	Subsidy.all(:include => :institution, :conditions => {'institutions.visible' => true, :approved => true })
   end
   
   def amount
-  	Rails.cache.fetch("subsidy/#{self.id}-#{self.updated_at}/amount", :expires_in => 12.hours) do
+  	Rails.cache.fetch("subsidy/#{self.id}-#{self.updated_at}/amount", :expires_in => 24.hours) do
   		if self.amount_original
 	  		if self.currency == "USD"
   				return self.amount_original
@@ -37,29 +37,22 @@ class Subsidy < ActiveRecord::Base
   	end
   end
   
-  def in_range?(start_date = nil, end_date = nil)
-  	if self.date
-  		unless start_date and self.date.to_date <= start_date.to_date
-  			unless end_date and self.date.to_date >= end_date.to_date
-  				return true
-  			end
-  		end
+  def in_range?(start_date,end_date)
+  	if self.date 
+  		return (self.date >= start_date and self.date <= end_date)
   	else
   		false
   	end
   end
   
-#   def amount
-#   	if self.amount_usd and Time.now < self.updated_at.since(600)
-#   		# The USD amount exists and is current (in the last ten minutes)
-#   		self.amount_usd
-#   	else
-#   		# The USD amount doesn't exist or has expired
-#   		update_amount_usd
-#   		self.amount_usd
-#   	end
-#   end
-    
+  def in_category?(category)
+		if self.project and self.project.sector and self.project.sector.category
+			return self.project.sector.category == category
+		else
+			false
+		end
+	end
+
   private
   
 	def update_amount_usd

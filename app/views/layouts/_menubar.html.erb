@@ -8,8 +8,8 @@
 		<% if defined? start_date %><li>
 			<button class="range" onclick="popover('range');">Filter</button>
 			<ul id="range" class="popover" style="display:none;">
-				<li><b>Start:</b> <%= select_year start_date.year, {:start_year => 2008, :end_year => Date.today.year}, {:id => "start_year"} %></li>
-				<li><b>End:</b> <%= select_year end_date.year || start_date.year, {:start_year => 2008, :end_year => Date.today.year}, {:id => "end_year"} %></li>
+				<li><b>Start:</b> <%= select_year start_date.year, {:start_year => START_YEAR, :end_year => END_YEAR}, {:id => "start_year"} %></li>
+				<li><b>End:</b> <%= select_year end_date.year || start_date.year, {:start_year => START_YEAR, :end_year => END_YEAR}, {:id => "end_year"} %></li>
 			</ul>
 		</li><% end -%>
 	</ul>
