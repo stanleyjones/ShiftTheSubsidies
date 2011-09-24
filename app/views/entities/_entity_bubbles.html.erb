@@ -4,7 +4,8 @@
 </div>
 
 <script>
-function drawGraph(data) {
+
+// Setup
 
 	var w = $('#wrapper').width(), h = $('#wrapper').height() - 140;
 	var graph = d3.select("#graph").append("svg:svg").attr("width", w).attr("height", h);
@@ -14,6 +15,10 @@ function drawGraph(data) {
 		.sort(null)
 		.value(function(d) { return scale(d.live_total); })
 		.size([w,h]);
+
+// Animation
+
+function drawGraph(data) {
 
 	var node = graph.selectAll("g.node")
 		.data(bubble(bubblize(data))

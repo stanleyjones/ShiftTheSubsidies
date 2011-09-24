@@ -21,13 +21,13 @@ $(document).ready(function() {
 		"sAjaxSource": "<%= request.url %>.json",
 		"sAjaxDataProp": "entities",
 		"aoColumns": [
-			{ "mDataProp":"received", "sType":"currency", "sWidth":"100px", "asSorting":["desc","asc"] },
+			{"sWidth":"100px", "sType":"currency", "fnRender":function(oObj) { return '$'+to_currency(oObj.aData['total']); },"asSorting":["desc","asc"]},
 			{"sWidth":"50px", "mDataProp":"projects"},
-			{"fnRender":function(oObj) { return '<a href="/admin/entities/'+oObj.aData['entity_id']+'">'+oObj.aData['name']+'</a>'; }},
-			{"sWidth":"100px", "mDataProp":"percent_clean"},
-			{"sWidth":"100px", "mDataProp":"percent_access"},
+			{"fnRender":function(oObj) { return '<b>'+oObj.aData['name']+'</b>'; }},
+			{"sWidth":"25px", "sType":"percent", "fnRender": function(oObj) { return Math.floor((oObj.aData['clean'] / Math.max(oObj.aData['total'],1)) * 100)+"%"; }},
+			{"sWidth":"25px", "sType":"percent", "fnRender": function(oObj) { return Math.floor((oObj.aData['access'] / Math.max(oObj.aData['total'],1)) * 100)+"%"; }},
 			{ "sWidth":"15px", "fnRender":function(oObj) { if (oObj.aData['valid'] != 'true') { return '<span class="error icon">Errors</span>'; } else { return "&nbsp;"; }}},
-			{"bSortable":false, "sWidth":"25px", "fnRender":function(oObj) { <% if @user %>return '<a class="edit icon" href="'+oObj.aData['entity_url']+'/edit/">Edit</a>';<% else %>return "";<% end %> }}
+			{"bSortable":false, "sWidth":"25px", "fnRender":function(oObj) { return '<a class="edit icon" href="/admin/entities/'+oObj.aData['entity_id']+'/edit/">Edit</a>'; }}
 		]
 	});
 } );
