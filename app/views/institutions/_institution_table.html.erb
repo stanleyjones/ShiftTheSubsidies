@@ -35,7 +35,7 @@ function drawTable(data) {
 		"aaData": data,
 		"aoColumns": [
 			{"sWidth":"100px", "sType":"currency", "fnRender":function(oObj) { return '$'+to_currency(oObj.aData['live_total']); },"asSorting":["desc","asc"]},
-			{"sWidth":"400px", "fnRender":function(oObj) { return '<b>'+oObj.aData['name']+'</b> ('+oObj.aData['abbreviation']+')<br><span class="desc">'+oObj.aData['description']+'</span>'; }},
+			{"sWidth":"400px", "fnRender":function(oObj) { return '<a href="'+oObj.aData['url']+'"/>'+oObj.aData['name']+'</a> ('+oObj.aData['abbreviation']+')<br><span class="desc">'+oObj.aData['description']+'</span>'; }},
 
 			{"sWidth":"100px", "sType":"currency", "fnRender":function(oObj) { return '$'+to_currency(oObj.aData['live_clean']); },"asSorting":["desc","asc"]},
 			{"sWidth":"25px", "sType":"percent", "fnRender": function(oObj) { return Math.floor((oObj.aData['live_clean'] / Math.max(oObj.aData['live_total'],1)) * 100)+"%"; }},
