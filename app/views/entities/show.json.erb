@@ -1,9 +1,6 @@
 <% cache("entities/#{@entity.id}-#{@entity.updated_at}/#{@start_date.year}/#{@end_date.year}/force") do %>{
 	"nodes":[
-	<%
-		# First list this entity's live projects (receiving a approved subsidy from a visible institution)
-		
-		@entity.live_projects.each do |p| %>
+<% @entity.live_projects.each do |p| %>
 		{
 			"name": "<%= p.name %>",
 			"group": "project",
@@ -11,36 +8,26 @@
 			"url": "<%= url_for p %>",
 			"icon":"<%= p.icon %>"
 		},
-	<% end %>
-	<%
-		# Then list this entity's live institutions (visible institutions funding a live project)
-		
-		@entity.live_institutions.each do |i| %>
+<% end %>
+<% @entity.live_institutions.each do |i| %>
 		{
 			"name": "<%= i.shortname %>",
 			"group": "institution",
 			"category": "<%= i.kind %>",
 			"url": "<%= url_for i %>"
 		}<% unless i == @entity.live_institutions.last %>,<% end %>
-	<% end %>
+<% end %>
 	],
 	
 	"links":[
-	<%
-		# Then link each live project to its live institution, with a value of the live subsidy	
-		
-		@entity.live_institutions.each_with_index do |i,iindex|
-			@entity.live_projects.each_with_index do |p,pindex|
-				if i.projects.include? p %>
+<% @entity.live_subsidies.each do |s| %>
 		{
-			"label": "<%= number_to_short(p.received(@start_date,@end_date,p.live_subsidies)) %>",
-			"source": <%= pindex %>,
-			"target": <%= iindex + @entity.live_projects.size %>,
-			"value": <%= p.received(@start_date,@end_date,p.live_subsidies) %>,
-			"notes": "<%= p.name %> - <%= i.name %>"
-		}<% unless i == @entity.live_institutions.last and p == @entity.live_projects.last %>,<% end %>
-				<% end
-			end
-		end %>
+			"label": "<%= number_to_short(s.amount) %>",
+			"source": <%= @entity.live_projects.index( s.project ) %>,
+			"target": <%= @entity.live_institutions.index( s.institution ) + @entity.live_projects.size %>,
+			"value": <%= s.amount %>,
+			"notes": "<%= s.project.name %> - <%= s.institution.shortname %>"
+		}<% unless s == @entity.live_subsidies.last %>,<% end %>
+<% end %>
 	]
 }<% end %>

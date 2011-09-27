@@ -17,7 +17,7 @@
 	<p>
 		<h2>Funding for this project</h2>
 		<ul class="subsidy-list">
-		<% @project.subsidies.each do |s| %>
+		<% @project.live_subsidies.each do |s| %>
 		<li><%= link_to "#{number_to_short( s.amount )} #{s.kind.downcase}", s %> from <%= link_to s.institution.name, s.institution %><% if s.date %> in <%= s.date.strftime('%Y') %><% end %></li>
 		<% end %>
 		</ul>

@@ -6,11 +6,11 @@ class SubsidiesController < ApplicationController
       format.html # index.html.erb
       format.json do
   			if params[:institution_id] and @institution = Institution.find(params[:institution_id])
-  				@subsidies = @institution.subsidies.where(:approved => true)
+  				@subsidies = @institution.live_subsidies
   			elsif params[:entity_id] and @entity = Entity.find(params[:entity_id])
-  				@subsidies = @entity.subsidies.where(:approved => true)
+  				@subsidies = @entity.live_subsidies
   			else
-  				@subsidies = Subsidy.all(:include => [:institution,:entity,:project], :conditions => {:approved => true, 'institutions.visible' => true})
+  				@subsidies = Subsidy.live
   		  end
       end # index.json.erb
     end

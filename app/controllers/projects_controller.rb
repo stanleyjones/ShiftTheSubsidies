@@ -3,11 +3,6 @@ class ProjectsController < ApplicationController
 	caches_action :show
 
   def index
-		start_year = params[:s] || START_YEAR
-		end_year = params[:e] || params[:s] || END_YEAR
-  	@start_date = Date.civil(start_year.to_i,1,1)
-  	@end_date = Date.civil(end_year.to_i,12,31)
-
 		respond_to do |format|
       format.html
       format.json do
@@ -24,9 +19,8 @@ class ProjectsController < ApplicationController
   
   def show
     @project = Project.find(params[:id])
-
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
     end
   end
 end

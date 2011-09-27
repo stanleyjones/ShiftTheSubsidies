@@ -11,7 +11,7 @@
 	var graph = d3.select("#graph").append("svg:svg").attr("width", w).attr("height", h);
 	var scale = d3.scale.linear().domain([1,1E12]).range([1,500]);
 	var pow = d3.scale.pow().exponent(2);
-	var color = d3.interpolateRgb("#210","#6f6");
+	var color = d3.interpolateRgb("#630","#6f6");
 	function bubblize(data) { var bubbles = []; for (var b in data) { var bubble = data[b]; bubbles.push(bubble); } return {children: bubbles};	}
 	var bubble = d3.layout.pack().sort(null)
 		.value(function(d) { return scale( d.total ); })

@@ -64,4 +64,13 @@ class Institution < ActiveRecord::Base
 		end
 	end
 
+	def projects_from_subsidies(start_date=nil, end_date=nil, collection=self.subsidies)
+		projects = []
+		collection.each do |s|
+ 			if start_date.nil? or end_date.nil? or s.in_range?(start_date,end_date)
+				projects << s.project
+ 			end
+		end
+		projects.uniq
+	end
 end

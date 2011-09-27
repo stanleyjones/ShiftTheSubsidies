@@ -10,7 +10,10 @@ class Project < ActiveRecord::Base
 	has_many :entities, :through => :subsidies, :uniq => true
 
 	def self.live
-		Project.all(:include => [:subsidies,:institutions], :conditions => {'subsidies.approved' => true, 'institutions.visible' => true})
+		Project.joins(:institutions,:subsidies).where(
+			"institutions.visible = true AND subsidies.approved = true AND subsidies.date > :start_date AND subsidies.date < :end_date AND subsidies.amount_original > 0",
+			{:start_date => "#{START_YEAR}-01-01", :end_date => "#{END_YEAR}-12-31"}
+		).uniq
 	end
 			
 	def received(start_date=nil, end_date=nil, collection=self.subsidies)
@@ -34,6 +37,10 @@ class Project < ActiveRecord::Base
 	def region
 		self.country
 	end
+	
+	def country_code
+		if cc = Carmen.country_code(self.country) then cc.downcase else ""; end
+	end
 
 	def sector_name
 		self.sector ? self.sector.name : ""
@@ -49,11 +56,7 @@ class Project < ActiveRecord::Base
 	
 	def live_subsidies
 		Rails.cache.fetch("projects/#{self.id}-#{self.updated_at}/live_subsidies") do
-			subsidies = []
-			self.subsidies.each do |s|
-				if s.approved and s.institution.visible then subsidies << s; end
-			end
-			subsidies
+			self.subsidies.live
 		end
 	end
 	
