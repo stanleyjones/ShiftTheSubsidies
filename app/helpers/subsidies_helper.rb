@@ -30,7 +30,7 @@ module SubsidiesHelper
 	def total_to_category(category)
 		amount = 0
 		Subsidy.live.each do |s|
-			if s.project.sector and s.project.sector.category == category then amount += s.amount; end
+			if s.in_category?(category) then amount += s.amount; end
 		end
 		amount
 	end

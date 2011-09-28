@@ -49,10 +49,10 @@ function drawTable(data) {
 		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
 			var total = {'total':0, 'clean':0, 'fossil':0, 'access':0};
 			for (var i=iStart; i<iEnd; i++) {
-				total['total']  += aaData[aiDisplay[i]]['total']*1;
-				total['clean']  += aaData[aiDisplay[i]]['clean']*1;
-				total['fossil'] += aaData[aiDisplay[i]]['fossil']*1;
-				total['access'] += aaData[aiDisplay[i]]['access']*1;
+				total['total']  += aaData[aiDisplay[i]]['live_total']*1.0;
+				total['clean']  += aaData[aiDisplay[i]]['live_clean']*1.0;
+				total['fossil'] += aaData[aiDisplay[i]]['live_fossil']*1.0;
+				total['access'] += aaData[aiDisplay[i]]['live_access']*1.0;
 			}
 			var footer = nRow.getElementsByTagName('th');
 			footer[0].innerHTML = '$'+to_currency(total['total']);
