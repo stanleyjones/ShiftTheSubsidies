@@ -1,43 +1,36 @@
-<div id="graph">
-	<div id="loader">Loading...</div>
+<div id="map">
+	<%= render :partial => 'layouts/svgwarning' %>
+	<div id="popup" class="popup"><%= render :partial => 'region_popup' %></div>
 	<p id="caption">Concentrations of <span class="clean">clean energy</span> and <span class="fossil">fossil fuel</span> projects worldwide.</p>
 </div>
+<script>
+function drawMap(data) {
 
-<script src="/javascripts/jquery.vector-map.js"></script>
-<script src="/javascripts/jquery.vector-map.world.js"></script>
-<script>$(function(){
-	
-	var h = $('#wrapper').height()-135, w = $('#wrapper').width();
+	var w = $('#wrapper').width(), h = $('#wrapper').height()-135; // OCI header + navbar + menubar = 135px
 	var pow = d3.scale.pow().exponent(2);
 	var color = d3.interpolateRgb("#630","#6f6");
 
-	$('#graph').height(h); $('#graph').width(w);
+	$('#map').height(h); $('#map').width(w);
 	
-	$.get('<%= request.url %>.json',function(data) {
-	
-		var regions = {}, colors = {};
+	var regions = {}, colors = {};
 						
-		$.each(data.projects, function() {
-			if (!regions[this.cc]) { regions[this.cc] = {'clean': 0, 'total': 0};	}
-			if (this['clean?']) { regions[this.cc].clean += 1;	}
-			regions[this.cc].total += 1;
-		});
-		
-		$.each(regions, function(key,val) {
-			colors[key] = color(pow(val.clean / Math.max(val.total,1)));
-		});
-						
-		$('#graph').vectorMap({
-			color: '#ccc',
-			colors: colors,
-			backgroundColor: 'transparent',
-			onLabelShow: function(e){e.preventDefault();},
-			onRegionOver: function(e){e.preventDefault();}
-		});
-		
-		$('#loader').toggle();	
-		
+	$.each(data.projects, function() {
+		if (!regions[this.cc]) { regions[this.cc] = {'clean': 0, 'total': 0};	}
+		if (this['clean?']) { regions[this.cc].clean += 1;	}
+		regions[this.cc].total += 1;
 	});
-	
-});	
+		
+	$.each(regions, function(key,val) {
+		colors[key] = color(pow(val.clean / Math.max(val.total,1)));
+	});
+						
+	$('#map').vectorMap({
+		color: '#ccc',
+		hoverColor: '#f90',
+		backgroundColor: 'transparent',
+		colors: colors,
+		onRegionClick: function(e,c) {popRegion(c);}
+	});
+				
+}
 </script>

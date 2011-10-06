@@ -15,12 +15,11 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
 <%= stylesheet_link_tag 'style','datatables' %>
-<%= javascript_include_tag 'modernizr-2.0.6.min.js', 'jquery-1.6.4.min.js', 'd3-2.2.0/d3.min.js', 'd3-2.2.0/d3.layout.min.js', 'd3-2.2.0/d3.geom.min.js','jquery.datatables-1.8.2.min.js','rails.min.js','application.js' %>
-<%= javascript_include_tag 'sie/sie.js', 'sie/svginhtml.js' %>
+<%= javascript_include_tag 'modernizr','jquery' %>
 <%= csrf_meta_tag %>
 </head>
 
-<body><div id="wrapper">
+<body class="<%= controller_name %> <%= controller.action_name %>"><div id="wrapper">
 
 <%= render :partial => 'layouts/header' %>
 <%= render :partial => 'layouts/navbar' %>
@@ -33,7 +32,7 @@
 
 </div><!-- #wrapper -->
 
-<%= javascript_include_tag 'jquery.datatables-1.8.2.min.js','rails.min.js','application.js' %>
+<%= javascript_include_tag 'load' %>
 
 <!--[if lt IE 7 ]>
 <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>

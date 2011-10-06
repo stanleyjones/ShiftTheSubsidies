@@ -1,4 +1,4 @@
-<header id="menubar">
+<div id="menubar">
 	<h1 id="view_title"><%= title ||= controller.controller_name.capitalize %></h1>
 	<% unless defined? modes and !modes %><ul id="mode">
 		<li><button class="graph" onclick="viewmode('graph');">Graph</button></li>
@@ -13,7 +13,4 @@
 			</ul>
 		</li><% end -%>
 	</ul>
-</header><!-- #menubar -->
-<script>
-	$(document).ready(function() {<% unless defined? modes and !modes %>viewmode('graph');<% end -%>});
-</script>
+</div><!-- #menubar -->

@@ -1,6 +1,6 @@
 <p id="table_caption">Projects of <%= @institution.shortname %></p>
 
-<table id="projects">
+<table id="table">
 	<thead>
 		<tr>
 			<th>Received</th>
@@ -14,10 +14,10 @@
 
 <script>
 function drawTable(data) {
-	$('#projects').dataTable({
+	$('#table').dataTable({
 		"bPaginate": false,
 		"bDestroy": true,
-		"aaData": data,
+		"aaData": data.projects,
 		"aoColumns": [
 			{"sWidth":"100px", "fnRender":function(oObj) { return '$'+to_currency(oObj.aData['live_received']); }, "sType":"currency", "asSorting":["desc","asc"] },
 			{"fnRender":function(oObj) { return '<a href="'+oObj.aData['url']+'">'+oObj.aData['name']+'</a>'; }},

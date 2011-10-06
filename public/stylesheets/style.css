@@ -7,32 +7,80 @@
 - - - - - - - - - - - - - - - - - - - - */
 
 	@import "http://priceofoil.org/oci/header.css";
+	@font-face {font-family:'Diavlo';
+		src:url('fonts/Diavlo_BOOK_II_37.eot');
+		src:url('fonts/Diavlo_BOOK_II_37.ttf') format('truetype'),
+		url('fonts/Diavlo_BOOK_II_37.svg') format('svg');
+		font-weight:normal; font-style:normal;
+	}
 
-
-/*	HTML5 Reset v1.6.1 - http://richclarkdesign.com 
+/*	HTML5 Boilerplate v2.0 - normalize - http://html5boilerplate.com/
 - - - - - - - - - - - - - - - - - - - - */
 
-	html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address,cite,code,del,dfn,em,img,ins,kbd,q,samp,small,strong,sub,sup,var,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}
-	body{line-height:1}
-	article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}
-	nav ul{list-style:none}
-	blockquote,q{quotes:none}
-	blockquote:before,blockquote:after,q:before,q:after{content:none}
-	a{margin:0;padding:0;font-size:100%;vertical-align:baseline;background:transparent}
-	ins{background-color:#ff9;color:#000;text-decoration:none}
-	mark{background-color:#ff9;color:#000;font-style:italic;font-weight:bold}
-	del{text-decoration:line-through}
-	abbr[title],dfn[title]{border-bottom:1px dotted;cursor:help}
-	table{border-collapse:collapse;border-spacing:0}
-	hr{display:block;height:1px;border:0;border-top:1px solid #ccc;margin:1em 0;padding:0}
-	input,select{vertical-align:middle}
+	article, aside, details, figcaption, figure, footer, header, hgroup, nav, section {display:block;}
+	audio, canvas, video {display:inline-block; *display:inline; *zoom:1;}
+	audio:not([controls]) {display:none;}
+	[hidden] {display:none;}
+	
+	html {font-size:100%; overflow-y:scroll; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%;}
+	body {margin:0; font-size:13px; line-height:1.231;}
+	body, button, input, select, textarea {font-family:sans-serif; color:#222;}
+	
+	::-moz-selection {background:#fe57a1; color:#fff; text-shadow:none;}
+	::selection {background:#fe57a1; color:#fff; text-shadow:none;}
+	
+	a {color:#d72;}
+	a:visited {color:#d72;}
+	a:hover {color:#f96;}
+	a:focus {outline:thin dotted;}
+	a:hover, a:active {outline:0;}
+	
+	abbr[title] {border-bottom:1px dotted;}
+	b, strong {font-weight:bold;}
+	blockquote {margin:1em 40px;}
+	dfn {font-style:italic;}
+	hr {display:block; height:1px; border:0; border-top:1px solid #ccc; margin:1em 0; padding:0;}
+	ins {background:#ff9; color:#000; text-decoration:none;}
+	mark {background:#ff0; color:#000; font-style:italic; font-weight:bold;}
+	pre, code, kbd, samp {font-family:monospace, monospace; _font-family:'courier new', monospace; font-size:1em;}
+	pre {white-space:pre; white-space:pre-wrap; word-wrap:break-word;}
+	q {quotes:none;}
+	q:before, q:after {content:""; content:none;}
+	small {font-size:85%;}
+	sub, sup {font-size:75%; line-height:0; position:relative; vertical-align:baseline;}
+	sup {top:-0.5em;}
+	sub {bottom:-0.25em;}
+	ul, ol {margin:1em 0; padding:0 0 0 40px;}
+	dd {margin:0 0 0 40px;}
+	nav ul, nav ol {list-style:none; list-style-image:none; margin:0; padding:0;}
+	img {border:0; -ms-interpolation-mode:bicubic; vertical-align:middle;}
+	svg:not(:root) {overflow:hidden;}
+	figure {margin:0;}
+	
+	form {margin:0;}
+	fieldset {border:0; margin:0; padding:0;}
+	label {cursor:pointer;}
+	legend {border:0; *margin-left:-7px; padding:0;}
+	button, input, select, textarea {font-size:100%; margin:0; vertical-align:baseline; *vertical-align:middle;}
+	button, input {line-height:normal; *overflow:visible;}
+	table button, table input {*overflow:auto;}
+	button, input[type="button"], input[type="reset"], input[type="submit"] {cursor:pointer; -webkit-appearance:button;}
+	input[type="checkbox"], input[type="radio"] {box-sizing:border-box;}
+	input[type="search"] {-webkit-appearance:textfield; -moz-box-sizing:content-box; -webkit-box-sizing:content-box; box-sizing:content-box;}
+	input[type="search"]::-webkit-search-decoration {-webkit-appearance:none;}
+	button::-moz-focus-inner, input::-moz-focus-inner {border:0; padding:0;}
+	textarea {overflow:auto; vertical-align:top; resize:vertical;}
+	input:valid, textarea:valid {}
+	input:invalid, textarea:invalid {background-color:#f0dddd;}
+	
+	table {border-collapse:collapse; border-spacing:0;}
+	td {vertical-align:top;}
 
 
-/*	Sensible Default Typography - http://blueprintcss.org/
+/*	Typography
 - - - - - - - - - - - - - - - - - - - - */
 
-	html {font-size:100.01%;}
-	body {font-size:75%; line-height:1.618; font-family:"Helvetica Neue", Arial, Helvetica, sans-serif;}
+	body {line-height:1.618; font-family:"Helvetica Neue", Arial, Helvetica, sans-serif;}
 	h1,h2,h3,h4,h5,h6 {font-weight:normal;}
 	h1 {font-size:3em; line-height:1; margin-bottom:0.5em;}
 	h2 {font-size:2em; margin-bottom:0.75em;}
@@ -40,40 +88,6 @@
 	h4 {font-size:1.2em; line-height:1.25; margin-bottom:1.25em;}
 	h5 {font-size:1em; font-weight:bold; margin-bottom:1.5em;}
 	h6 {font-size:1em; font-weight:bold;}
-	p {margin:0 0 1.5em;}
-	p img.left	{float:left; margin:1.5em 1.5em 1.5em 0; padding:0;}
-	p img.right	{float:right; margin:1.5em 0 1.5em 1.5em;}
-	blockquote	{margin:1.5em; font-style:italic;}
-	strong		{font-weight:bold;}
-	em, dfn		{font-style:italic;}
-	dfn			{font-weight:bold;}
-	sup,sub		{line-height:0;}
-	abbr, acronym		{border-bottom:1px dotted #666;}
-	address		{margin:0 0 1.5em; font-style:italic;}
-	pre			{margin:1.5em 0; white-space:pre;}
-	pre,code,tt	{font:1em 'andale mono','lucida console',monospace; line-height:1.5;}
-	li ul,
-	li ol		{margin:0;}
-	ul,ol		{margin:0 1.5em 1.5em 0; padding-left:3.333em;}
-	ul			{list-style-type:disc;}
-	ol			{list-style-type:decimal;}
-	dl			{margin:0 0 1.5em 0;}
-	dl dt		{font-weight:bold;}
-	dd			{margin-left:1.5em;}
-	table		{margin-bottom:1.4em; width:100%;}
-	th			{font-weight:bold;}
-	th,td,caption {padding:4px 10px 4px 5px;}
-	tfoot		{font-style:italic;}
-
-/* Type
-- - - - - - - - - - - - - - - - - - - - */
-
-	@font-face {
-		font-family: 'Diavlo';
-		src: url('fonts/Diavlo_BOOK_II_37.eot');
-		src: url('fonts/Diavlo_BOOK_II_37.woff') format('woff'), url('fonts/Diavlo_BOOK_II_37.ttf') format('truetype'), url('fonts/Diavlo_BOOK_II_37.svg') format('svg');
-		font-weight: normal; font-style: normal;
-	}
 	
 /*	Standard HTML Elements
 - - - - - - - - - - - - - - - - - - - - */
@@ -159,7 +173,7 @@
 	#menubar li li:last-child {border-radius:0 0 5px 5px;}
 	#menubar li li:nth-child(odd) {background:#ddd;}
 	#menubar button {display:block; height:25px; width:50px; color:#999; background:#333; border:1px solid #000; border-radius:5px; -webkit-box-shadow:0 1px 1px rgba(255,255,255,0.25);}
-	#menubar button:hover {color:#fff; background:#999;}
+	#menubar button:hover {color:#fff; background:#666;}
 	#menubar button.active {color:#d72;}
 		
 	#menubar ul#mode li:first-child {margin-right:0;}
@@ -191,7 +205,7 @@
 	#content a.button.delete {display:block; position:relative; width:120px; margin:10px 0 0 -60px; left:50%; background:#ccc; text-align:center;}
 	#content a.button.delete:hover {background:#900;}
 	
-	#content #info {position:absolute; top:0; left:0; padding:20px; width:25%; color:#fff; background:rgba(0,0,0,0.5); border-bottom-right-radius:10px;}
+	#content #info {display:none; position:absolute; top:0; left:0; padding:20px; width:25%; color:#fff; background:rgba(0,0,0,0.5); border-bottom-right-radius:10px;}
 	#content #caption {position:absolute; bottom:-5px; width:100%; margin:0; padding:20px 0; color:#666; background:rgba(223,223,223,0.5); border-top:1px solid #fff; font-size:12px; text-align:center;}
 	#content #caption .fossil {color:#963;}
 	#content #caption .clean {color:#0f0;}
@@ -207,6 +221,7 @@
 	.page p.amount {margin:20px 0; height:100px; font-size:92px; line-height:100px; text-align:center;}
 	
 	#page {background:#fff; border-radius:10px; -moz-border-radius:10px; padding:20px;}
+	#page h1 {margin-top:0;}
 	#page .entry-title {font-size:24px; font-family:Diavlo;}
 	#post .entry-title {font-size:24px; font-weight:bold; font-family:Diavlo;}
 	
@@ -216,7 +231,7 @@
 		/* Project */
 		
 		.project.page h1 {margin-right:128px;}
-		#world {float:left; height:400px; width:460px;}
+		.project.page #map {float:left; height:400px; width:460px;}
 		#description {float:right; width:460px;}
 		img.sector-icon {position:absolute; top:70px; right:20px; display:block;}
 		
@@ -231,7 +246,7 @@
 		/* Graphs */
 		
 		#graphview {position:relative; top:50;}
-		#loader, .dataTables_processing {height:50px; width:100%; margin-top:25%; border:none !important; background:#fff url(images/loader.gif) center no-repeat; text-indent:-9999px;}
+		#loader, .dataTables_processing {height:50px; width:100%; margin-top:25%; border:none !important; background:transparent url(images/loader.gif) center no-repeat; text-indent:-9999px;}
 
 		#graph circle {fill:#ccc; stroke:#fff; stroke-width:2; opacity:0.66; -webkit-transition:all 0.5s;}
 			#graph circle:hover {opacity:0.6; cursor:pointer; stroke:#ff0;}
@@ -246,24 +261,32 @@
 		
 		#date_range {position:absolute; top:50px; right:20px; color:#ccc; font-size:14px; line-height:50px;}
 
+		#svgwarning {display:none;}
+		#popup {display:none;}
+		#caption { display:none;}
+
 		/* Tables */
 		
-		#tableview {padding:0; color:#fff; background:#666; overflow:visible;}
+		#tableview {display:none; padding:0; color:#fff; background:#666; overflow:visible;}
 
 		#tableview #table_caption {position:absolute; top:52px; left:0; padding:10px; width:465px;}
 		#tableview table {clear:both; margin:0; width:100% !important; color:#222;}
 		#tableview th {color:#ccc; font-weight:normal; cursor:pointer;}
 		#tableview tfoot th {background:#666; font-style:normal;}
+		#tableview td {padding:5px;}
 		#tableview .buttons {position:absolute; top:60px; left:10px;}
 
 		#tableview .dataTables_scrollHead table {width:100% !important;}
 		
 		/* Maps */
 				
-		.jvectormap-label {position: absolute;display: none;border: solid 1px #CDCDCD;-moz-border-radius: 3px;background: #292929;color: white;font-family: sans-serif, Verdana;font-size: smaller;padding: 3px;}
-		.jvectormap-zoomin, .jvectormap-zoomout {display:none; position: absolute;-moz-border-radius: 3px;background: #292929;padding: 3px;color: white;width: 10px;height: 10px;cursor: pointer;line-height: 10px;text-align: center;}
-		.jvectormap-zoomin {left: 10px; top: 10px;}
-		.jvectormap-zoomout {left: 10px; top: 30px;}
+		.jvectormap-label {position:absolute; display:none; padding:5px; color:#666; background:#ccc; border:solid 1px #fff; border-radius:10px; font-family:Diavlo; font-size:14px; box-shadow:0 5px 5px rgba(0,0,0,0.25);}
+		.jvectormap-zoomin, .jvectormap-zoomout {display:none; position:absolute;-moz-border-radius:3px;background:#292929;padding:3px;color:white;width:10px;height:10px;cursor:pointer;line-height:10px;text-align:center;}
+		.jvectormap-zoomin {left:10px; top:10px;}
+		.jvectormap-zoomout {left:10px; top:30px;}
+		
+		#map path:hover {cursor:pointer;}
+		#page.project #map path:hover {cursor:default;}
 
 		/* Editing */
 	
@@ -276,23 +299,32 @@
 
 		/* Home */
 		
-		#page.home #graph {position:relative; float:left; background:#eee; border-radius:10px;}
-			#page.home #caption {width:100%; bottom:0; background:transparent;}
+		#page.home #graph {position:relative; float:left; width:640px; height:640px; background:#eee; border-radius:10px;}
+			#page.home #caption {display:none; width:100%; bottom:0; background:transparent;}
 		#page.home .block {float:right; margin:0 0 20px 10px; width:270px;}
 		#page.home .block h2 {margin-top:0;}
+		
+		/* Region Popup */
+		
+		#popup {position:absolute; top:50%; left:50%; padding:20px; width:600px; margin-left:-320px; height:440px; margin-top:-240px; color:#eee; background:#333; background-color:rgba(0,0,0,0.8); border-radius:10px; box-shadow:0 10px 10px rgba(0,0,0,0.25); z-index:999;}		
+		#popup h2 {position:absolute; top:10px; left:10px;}
+		#popup button {position:absolute; top:-10px; right:-10px; height:24px; width:24px; font-size:14px; line-height:12px; text-align:center; font-weight:bold; background:#fff; border:2px solid #111; border-radius:50%; box-shadow:0 3px 3px rgba(0,0,0,0.25);}
+		
+		#popup #graph circle {stroke:#000;}
+		#popup #graph image:hover {cursor:pointer;}
 
 	/* Footer */
 	
 	footer {position:absolute; bottom:0; min-height:0px; width:950px; padding:10px; clear:both; color:#666; background:#333; border-top:1px solid #555; text-align:center;}
 
-	nav#adminbar {position:relative; top:0; border-bottom:1px solid #999; background:#f00;}
-	nav#adminbar ul {margin:0; padding:0; width:970px; overflow:hidden; text-align:center;}
-	nav#adminbar ul li {float:left; width:20%;}
-	nav#adminbar ul li a {display:block; width:100%; line-height:30px; color:#600; background:#f33; text-shadow:1px 1px rgba(255,255,255,0.25);}
-	nav#adminbar ul li a:hover {background:#e22; box-shadow:0 0 2px rgba(0,0,0,0.5) inset; -moz-box-shadow:0 0 2px rgba(0,0,0,0.5) inset;}
+	#adminbar {position:relative; top:0; border-bottom:1px solid #999; background:#f00;}
+	#adminlist {margin:0; padding:0; width:970px; overflow:hidden; text-align:center;}
+	#adminlist li {float:left; width:20%;}
+	#adminlist li a {display:block; width:100%; line-height:30px; color:#600; background:#f33; text-shadow:1px 1px rgba(255,255,255,0.25);}
+	#adminlist li a:hover {background:#e22; box-shadow:0 0 2px rgba(0,0,0,0.5) inset; -moz-box-shadow:0 0 2px rgba(0,0,0,0.5) inset;}
 	
-	nav#sections {border-top:1px solid #999; background:#ccc;}
-	nav#sections ul {margin:0 auto; padding:0; width:970px; overflow:hidden; text-align:center;}
-	nav#sections ul li {float:left; width:160px;}
-	nav#sections ul li a {display:block; width:100%; line-height:30px; color:#666; background:#ccc; text-shadow:1px 1px rgba(255,255,255,0.5);}
-	nav#sections ul li a:hover {color:#555; background:#bbb; box-shadow:0 0 2px rgba(0,0,0,0.5) inset; -moz-box-shadow:0 0 2px rgba(0,0,0,0.5) inset;}
+	#navbar {border-top:1px solid #999; background:#ccc;}
+	#navlist {margin:0 auto; padding:0; width:970px; background:#ccc; overflow:hidden; text-align:center; list-style:none;}
+	#navlist li {float:left; width:194px;}
+	#navlist li a {display:block; width:100%; line-height:30px; color:#666; background:#ccc; text-shadow:1px 1px rgba(255,255,255,0.5);}
+	#navlist li a:hover {color:#555; background:#bbb; box-shadow:0 0 2px rgba(0,0,0,0.5) inset; -moz-box-shadow:0 0 2px rgba(0,0,0,0.5) inset;}

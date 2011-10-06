@@ -1,33 +1,9 @@
 <%= render :partial => "layouts/menubar", :locals => {:start_date => @start_date, :end_date => @end_date} %>
 
+<script>
+	var s = <%= @start_date.year %>, e = <%= @end_date.year %>;
+	var dataURL = '<%= request.url %>.json';
+</script>
+
 <div id="graphview" class="view"><%= render :partial => "institution_bubbles" %></div>
 <div id="tableview" class="view"><%= render :partial => "institution_table" %></div>
-
-<script>$(function() {
-
-	var s = <%= @start_date.year %>, e = <%= @end_date.year %>;
-	
-	$.getJSON('<%= request.url %>.json?s='+s+'&e='+e, function(json){
-		drawGraph(json.institutions);
-		drawTable(json.institutions);
-		$("#loader").toggle();
-	});
-	
-// On Change
-	
-	$('#start_year, #end_year').change(function(){
-		popover('range');
-		
-		s = $('#start_year').val();
-		e = $('#end_year').val();
-
-		$.getJSON("<%= request.url %>.json?s="+s+"&e="+e, function(json) {
-			drawGraph(json.institutions);
-			drawTable(json.institutions);
-			$('.legend_start_year').text( s );
-			if (s != e) { $('.legend_end_year').text( '-'+e ); } else { $('.legend_end_year').text( '' ); }
-		});
-		
-	});
-
-});</script>

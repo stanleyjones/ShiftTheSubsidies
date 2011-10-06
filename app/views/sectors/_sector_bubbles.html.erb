@@ -1,18 +1,12 @@
-<div id="graph"><div id="loader">Loading...</div></div>
+<div id="graph"></div>
 
 <script>
-function drawGraph(data) {
-	var w = $('#wrapper').width(), h = $('#wrapper').height() - 140;
-	var graph = d3.select("#graph").append("svg:svg").attr("width", w).attr("height", h);
-	var scale = d3.scale.linear().domain([1,1E10]).range([1,500]);
+function drawGraph(graph,data) {
 	
-	var bubble = d3.layout.pack()
-		.sort(null)
-		.value(function(d) { return scale(d.live_received); })
-		.size([w,h]);
+	var bubble = bubble_graph('#graph','scale(d.live_received)');
 
 	var node = graph.selectAll("g.node")
-		.data(bubble(bubblize(data))
+		.data(bubble(bubblize(data.sectors))
 			.filter(function(d) { return d.data.live_received > 0; })
 			.filter(function(d) { return !d.children; }))
 	.enter().append("svg:g")

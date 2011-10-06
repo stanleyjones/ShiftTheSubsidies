@@ -1,18 +1,8 @@
 <%= render :partial => "layouts/menubar", :locals => {:title => 'Entity', :modes => false} %>
 
-<div id="graphview" class="view"><%= render :partial => "entity_force" %></div>
-
-<script>$(function() {
-
+<script>
 	var s = <%= @start_date.year %>, e = <%= @end_date.year %>;
-	
-	$('#info').hide();
-	
-	$.getJSON('<%= request.url %>.json?s='+s+'&e='+e, function(json){
-		drawGraph(json);
-/* 		drawTable(json); */
-		$("#loader").toggle();
-		$('#info').fadeToggle('slow');
-	});
+	var dataURL = '<%= request.url %>.json';
+</script>	
 
-});</script>
+<div id="graphview" class="view"><%= render :partial => "entity_force" %></div>

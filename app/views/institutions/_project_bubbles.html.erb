@@ -1,30 +1,19 @@
 <div id="graph">
 	<div id="info"><h1><%= @institution.name %></h1><p><%= @institution.description %></p></div>
-	<div id="loader">Loading...</div>
 	<p id="caption"><b>Above:</b> <span class="clean">Clean energy</span>, <span class="fossil">fossil fuel</span>, and other projects of <%= @institution.shortname %>, scaled by dollar amount.</p>
 </div>
 
 <script>
-	var w = $('#wrapper').width(), h = $('#wrapper').height()-145;
-	var graph = d3.select("#graph").append("svg:svg").attr("width", w).attr("height", h);
+function drawGraph(graph,data) {
+	var bubble = bubble_graph('#graph','d.live_received');
 	
-	// Functions
-	var scale = d3.scale.linear().domain([1,1E9]).range([1,500]);
-	
-	// Bubble Chart	
-	var bubble = d3.layout.pack()
-		.sort(null)
-		.value(function(d) { return scale(d.live_received); })
-		.size([w,h]);
-
-function drawGraph(data) {
-	var node = graph.selectAll("g.node")
-		.data(bubble(bubblize(data))
+	var node = graph.selectAll("circle.node")
+		.data(bubble(bubblize(data.projects))
 			.filter(function(d) { return d.data.live_received > 0; })
 			.filter(function(d) { return !d.children; }))
-	.enter().append("svg:g")
-		.attr("class","node")
-		.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+		.enter().append("svg:g")
+			.attr("class","node")
+			.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 
 	node.append("svg:image")
 		.attr("class", "circle")

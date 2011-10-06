@@ -1,6 +1,8 @@
 class ProjectsController < ApplicationController
 	skip_before_filter :authorize, :only => [:index, :show]
 	caches_action :show
+	
+	layout 'frontend'
 
   def index
 		respond_to do |format|
@@ -10,6 +12,8 @@ class ProjectsController < ApplicationController
   				@projects = @institution.live_projects
   			elsif params[:sector_id] and @sector = Sector.find(params[:sector_id])
   				@projects = @sector.live_projects
+  			elsif params[:cc] and Carmen::country_name(params[:cc])
+  				@projects = Project.live_by_region(params[:cc])
   			else
 	  		  @projects = Project.live
 				end
@@ -23,4 +27,5 @@ class ProjectsController < ApplicationController
       format.html
     end
   end
+  
 end

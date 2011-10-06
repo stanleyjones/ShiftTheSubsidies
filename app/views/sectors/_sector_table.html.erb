@@ -1,5 +1,5 @@
 <p id="table_caption">Sectors</p>
-<table id="sectors">
+<table id="table">
 	<thead>
 		<tr>
 			<th>Received</th>
@@ -14,7 +14,7 @@
 
 <script>
 function drawTable(data) {
-	$('#sectors').dataTable({
+	$('#table').dataTable({
 		"bDestroy": true,
 		"bPaginate": false,
 		"aaData": data,

@@ -2,12 +2,12 @@
 
 <p id="notice"><%= notice %></p>
 
-<div class="project page">
+<div id="page" class="project page">
 	<h1><%= @project.name %></h1>
 	<%= image_tag @project.icon, :size => "64x64", :class => "sector-icon" %>
 	<ul class="entity-list"><% @project.entities.each do |e| %><li><%= link_to e.name, e %></li><% end %></ul>
 	
-	<div id="world"><h2>Region</h2></div>
+	<div id="map"><h2>Region</h2></div>
 
 	<div id="description">
 		<h2>Description</h2>
@@ -24,14 +24,14 @@
 	</p>
 </div>
 
-<script src="/javascripts/jquery.vector-map.js"></script>
-<script src="/javascripts/jquery.vector-map.world.js"></script>
 <script>
-	$('#world').vectorMap({
+function drawMiniMap() {
+	$('#map').vectorMap({
 		color: '#ccc',
 		backgroundColor: 'transparent',
 		onLabelShow: function(e){e.preventDefault();},
 		onRegionOver: function(e){e.preventDefault();}
 	});
-<% if country_code = Carmen::country_code(@project.country) %>$('#world').vectorMap('set','colors',{'<%= country_code.downcase %>': '#f90'});<% end -%>
+	<% if country_code = Carmen::country_code(@project.country) %>$('#map').vectorMap('set','colors',{'<%= country_code.downcase %>': '#f90'});<% end -%>
+}
 </script>

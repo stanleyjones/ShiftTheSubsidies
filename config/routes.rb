@@ -28,6 +28,8 @@ ShiftTheSubsidies::Application.routes.draw do
   	resources :projects, :only => :index
   end
 
+	match 'regions/:cc/projects' => 'projects#index'
+
 	# Logins
 	
   resources :users

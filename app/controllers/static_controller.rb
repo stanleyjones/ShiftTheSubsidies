@@ -2,6 +2,8 @@ class StaticController < ApplicationController
 	skip_before_filter :authorize
  	caches_action :index, :about, :methodology
 
+	layout 'frontend'
+
 	def index
 		@subsidies = Subsidy.all(:include => :institution, :conditions => {:approved => true, 'institutions.visible' => true})
 	end

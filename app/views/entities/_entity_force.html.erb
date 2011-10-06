@@ -1,20 +1,15 @@
 <div id="graph">
 	<div id="info"><h1><%= @entity.name %></h1><p><%= @entity.kind %></p></div>
-	<div id="loader">Loading...</div>
 	<p id="caption"><span class="clean">Clean energy</span> and <span class="fossil">fossil fuel</span> projects of <%= @entity.name %> and their funding institutions.</p>
 </div>
 
 <script>
-	var w = $('#wrapper').width(), h = $('#wrapper').height() - 140;
-	var graph = d3.select("#graph").append("svg:svg").attr("width", w).attr("height", h);
-	
+function drawGraph(graph,data) {
+
 	// Functions
 	var fill = d3.scale.ordinal().domain(['entity','project','institution']).range(["#f90","#666","#f00"]);;
 	var scale_r = d3.scale.ordinal().domain(['project','institution']).range([24,64]);
 	var scale_s = d3.scale.linear().domain([1,1e10]).range([1,50]);
-	
-
-function drawGraph(data) {
 		
 		var force = d3.layout.force()
 			.nodes(data.nodes)
@@ -22,7 +17,7 @@ function drawGraph(data) {
 			.distance(150)
 			.charge(-500)
 			.gravity(0.075)
-			.size([w,h])
+			.size([$('#graph').width(),$('#graph').height()])
 			.start();
 		
 		var link = graph.selectAll("line.link")

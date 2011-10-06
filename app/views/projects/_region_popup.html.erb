@@ -1,0 +1,23 @@
+<div id="graph"></div>
+<button class="close">&times;</button>
+<script>
+function drawPopupGraph(graph,data) {
+	
+	var bubble = bubble_graph('#graph','scale(d.live_received)');
+
+	var nodes = graph.selectAll("circle.node")
+		.data(bubble(bubblize(data.projects))
+			.filter(function(d) { return d.data.live_received > 0; })
+			.filter(function(d) { return !d.children; }));
+	
+	make_nodes(nodes,'category','d.data.url');
+	
+	var icons = graph.selectAll("image.icon")
+		.data(bubble(bubblize(data.projects))
+			.filter(function(d) { return d.data.live_received > 0; })
+			.filter(function(d) { return !d.children; }));
+	
+	make_icons(icons,'icon','d.data.url');
+
+}
+</script>

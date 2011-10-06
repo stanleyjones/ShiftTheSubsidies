@@ -1,19 +1,9 @@
 <%= render :partial => "layouts/menubar", :locals => {:title => @institution.shortname} %>
 
+<script>
+	var s = <%= @start_date.year %>, e = <%= @end_date.year %>;
+	var dataURL = '<%= request.url %>/projects.json';
+</script>
+
 <div id="graphview" class="view"><%= render :partial => "project_bubbles", :object => @projects %></div>
 <div id="tableview" class="view"><%= render :partial => "project_table" %></div>
-
-<script>$(function() {
-
-	var s = <%= @start_date.year %>, e = <%= @end_date.year %>;
-	
-	$('#info').hide();
-	
-	$.getJSON('<%= request.url %>/projects.json?s='+s+'&e='+e, function(json){
-		drawGraph(json.projects);
-		drawTable(json.projects);
-		$("#loader").toggle();
-		$('#info').fadeToggle('slow');
-	});
-
-});</script>
