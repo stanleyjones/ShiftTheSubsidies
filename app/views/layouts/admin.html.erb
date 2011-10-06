@@ -1,30 +1,44 @@
 <!DOCTYPE html>
-<html>
+<!--[if lt IE 7]><html class="no-js ie6 oldie" lang="en"><![endif]-->
+<!--[if IE 7]><html class="no-js ie7 oldie" lang="en"><![endif]-->
+<!--[if IE 8]><html class="no-js ie8 oldie" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--><html class="no-js" lang="en"><!--<![endif]-->
 
 <head>
-<title>ShiftTheSubsidies</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Shift The Subsidies [ADMIN]</title>
+
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
 <%= stylesheet_link_tag 'style','datatables' %>
-<%= javascript_include_tag 'modernizr-2.0.6.min.js','jquery-1.6.4.min.js' %>
+<%= javascript_include_tag 'modernizr','jquery','jquery.datatables-1.8.2.min.js','d3-2.2.0/d3.min.js','application' %>
 <%= csrf_meta_tag %>
 </head>
 
-<body class="admin"><div id="wrapper">
+<body class="admin <%= controller_name %> <%= controller.action_name %>"><div id="wrapper">
 
 <%= render :partial => 'layouts/adminbar' %>
 <%= render :partial => 'layouts/header' %>
 <%= render :partial => 'layouts/navbar' %>
 
-<section id="content" class="container">
+<div id="content" class="container">
 
 <%= yield %>
 
-</section><!-- #content -->
+</div><!-- #content -->
 
 <%# render :partial => 'layouts/footer' %>
 
 </div><!-- #wrapper -->
 
-<%= javascript_include_tag 'rails.min.js','jquery.datatables-1.8.2.min.js','application.js' %>
+<%#= javascript_include_tag 'load' %>
 
+<!--[if lt IE 7 ]>
+<script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+<script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+<![endif]-->
+  
 </body>
 </html>

@@ -53,6 +53,10 @@ $(function() {
 		
 	}
 
+	// ADMIN
+	
+	if ($('body.admin').length) { viewmode('table'); }
+	
 	// MENUBAR
 /* 	if ($('#mode').length && $('#graph').length) { viewmode('graph'); } */
 

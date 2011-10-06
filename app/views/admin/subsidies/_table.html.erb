@@ -1,4 +1,4 @@
-<table id="subsidies">
+<table id="table">
 	<thead>
 		<tr>
     	<th>Amount (USD)</th>
@@ -13,11 +13,10 @@
 </table>
 
 <script>
-$(document).ready(function() {
-	$('#subsidies').dataTable({
+function drawTable(data) {
+	$('#table').dataTable({
 		"bPaginate":false,
-		"sAjaxSource":"<%= request.url %>.json",
-		"sAjaxDataProp":"subsidies",
+		"aaData": data.subsidies,
 		"aoColumns": [
 			{ "mDataProp":"amount", "sType":"currency", "sWidth":"100px", "asSorting":["desc","asc"] },
 			{ "fnRender":function(oObj) { return '<a href="'+oObj.aData['institution_url']+'">'+oObj.aData['from']+'</a>'; }},
@@ -26,10 +25,9 @@ $(document).ready(function() {
 			{ "mDataProp":"date", "sWidth":"75px" },
 			{ "sWidth":"15px", "fnRender":function(oObj) { if (oObj.aData['valid'] != 'true') { return '<span class="error icon">Errors</span>'; } else { return "&nbsp;"; }}},
 			{ "bSortable":false, "sWidth":"15px", "fnRender":function(oObj) { return '<a class="edit icon" href="'+oObj.aData['subsidy_url']+'/edit/">Edit</a>'; }}
-		],
-		"sPaginationType": "full_numbers"
+		]
 	});
-} );
+};
 </script>
 
 <% if @user %><p class="buttons">
