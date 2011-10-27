@@ -1,38 +1,16 @@
 <div id="graph">
-	<p id="caption"><b>Above:</b> Institutional subsidies for <span class="legend_start_year"><%= @start_date.year %></span><span class="legend_end_year">-<%= @end_date.year %></span> scaled by amount awarded and colored by <span class="clean">clean energy</span> in their project portfolio.</p>
+	<p id="caption"><b>Above:</b> Institutions sized by funding and shaded by <span class="clean">clean</span> vs <span class="fossil">fossil fuel</span> energy projects in their portfolio for <span class="legend_start_year"><%= @start_date.year %></span><span class="legend_end_year">-<%= @end_date.year %></span>.</p>
 </div>
 
 <script>
-
 function drawGraph(graph,data) {
-
 	var bubble = bubble_graph('#graph','scale(d.total)');
 
-	var label = graph.selectAll("text.label")
-		.data(bubble(bubblize(data.institutions)).filter(function(d) { return d.data.live_total > 0; }).filter(function(d) { return !d.children; }));
-	
-	make_labels(label,'abbreviation');
+	var bubbles = graph.selectAll("div.bubble")
+		.data(bubble(bubblize(data.institutions))
+			.filter(function(d) { return d.data.live_total > 0; })
+			.filter(function(d) { return !d.children; }));
 
-	var node = graph.selectAll("circle.node")
-		.data(bubble(bubblize(data.institutions)).filter(function(d) { return d.data.live_total > 0; }).filter(function(d) { return !d.children; }));
-
-	node.enter().append("svg:circle")
-		.attr("class", function(d) { return "node "+d.data.category; })
-		.attr("cx", function(d) { return d.x; })
-		.attr("cy", function(d) { return d.y; })
-		.attr("r", 0)
-		.on("click", function(d) { window.location = "/institutions/"+d.data.institution_id; });						
-
-	node.transition().duration(1000)
-		.attr("cx", function(d) { return d.x; })
-		.attr("cy", function(d) { return d.y; })
-		.attr("r", function(d) { return d.r; })
-		.style("fill", function(d) { return color(pow(d.data.live_clean / Math.max(d.data.live_total,1)) ); });
-			
-	node.exit()
-		.transition().duration(1000)
-		.attr("r", 0)
-		.remove();	
-
+	make_bubbles(bubbles,'d.data.live_clean / d.data.live_total','d.data.category','d.data.url','d.data.abbreviation');
 }	
 </script>

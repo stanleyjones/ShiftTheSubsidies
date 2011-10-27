@@ -1,37 +1,33 @@
 <table id="table">
-	<thead><tr><th>Amount</th><th>From</th><th>To</th><th>For</th><th>Date</th><th><span class="error icon">Errors?</span></th><th></th></tr></thead>
+	<thead><tr><th>Amount</th><th>From</th><th>To</th><th>For</th><th>Date</th></tr></thead>
 	<tbody></tbody>
 	<tfoot><tr><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
 </table>
 
 <script>
 function drawTable(data) {
-	var h = $('#wrapper').height() - 328;
-	$('#table').dataTable({
-		"bPaginate":false,
+	var h = $('#graph').height() - 162; /* thead (86px) + tfoot (78px) */
+	var oTable = $('#table').dataTable({
+		"bDestroy": true,
+		"bPaginate": false,
 		"aaData": data.subsidies,
 		"sScrollY": h+'px',
 		"aoColumns": [
-			{ "mDataProp":"amount", "sType":"currency", "sWidth":"100px", "asSorting":["desc","asc"] },
+			{"sWidth":"100px", "fnRender":function(oObj) { return '$'+to_currency(oObj.aData['amount']); }, "sType":"currency", "asSorting":["desc","asc"] },
 			{ "fnRender":function(oObj) { return '<a href="'+oObj.aData['institution_url']+'">'+oObj.aData['from']+'</a>'; }},
 			{ "fnRender":function(oObj) { return '<a href="'+oObj.aData['entity_url']+'">'+oObj.aData['to']+'</a>'; }},
 			{ "fnRender":function(oObj) { return '<a href="'+oObj.aData['project_url']+'">'+oObj.aData['for']+'</a>'; }},
 			{ "mDataProp":"date", "sWidth":"75px" },
-			{ "sWidth":"15px", "fnRender":function(oObj) { if (oObj.aData['valid'] != 'true') { return '<span class="error icon">Errors</span>'; } else { return "&nbsp;"; }}},
-			{ "bSortable":false, "sWidth":"15px", "fnRender":function(oObj) { return '<a class="edit icon" href="'+oObj.aData['subsidy_url']+'/edit/">Edit</a>'; }}
 		],
 		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
 			var total = {'total':0};
 			for (var i=iStart; i<iEnd; i++) {
-				total['total']  += aaData[aiDisplay[i]]['amount_raw']*1.0;
+				total['total']  += aaData[aiDisplay[i]]['amount']*1.0;
 			}
 			var footer = nRow.getElementsByTagName('th');
 			footer[0].innerHTML = '$'+to_currency(total['total']);
 		}
 	});
+	$('button.table').click(function() { oTable.fnAdjustColumnSizing(); });	
 };
 </script>
-
-<% if @user %><p class="buttons">
-	<%= link_to 'New Subsidy', new_admin_subsidy_path, :class => "new button" %>
-</p><% end %>

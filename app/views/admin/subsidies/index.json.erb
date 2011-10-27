@@ -4,6 +4,7 @@
 	<% @subsidies.each do |subsidy| %><% cache(subsidy) do %>{
 		"valid": "<%= subsidy.valid? %>",
 		"amount": "<%= number_to_currency( subsidy.amount, :precision => 0 ) %>",
+		"amount_raw": <%= subsidy.amount %>,
 		"date": "<%= subsidy.date %>",
 		"from": "<% if subsidy.institution %><%= subsidy.institution.name %><% end %>",
 		"to": "<% if subsidy.entity %><%= subsidy.entity.name %><% end %>",

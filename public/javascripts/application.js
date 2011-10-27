@@ -7,7 +7,6 @@ $(function() {
 	// HOME PAGE
 	
 	if ($('#page.home').length) {
-		check_for_svg();
 		loader();
 		drawGraph(data);
 		loader();
@@ -17,10 +16,9 @@ $(function() {
 	// MAP/GRAPH/TABLE PAGES
 	
 	if (typeof dataURL != 'undefined') {
-		check_for_svg();
 		loader();
 		$.getJSON(dataURL+'?s='+s+'&e='+e, function(json){
-			if (typeof drawMap		=== 'function') { drawMap(json); }
+			if (typeof drawMap		=== 'function') { var map = set_map('#map'); drawMap(map,json); }
 			if (typeof drawGraph	=== 'function') { var graph = set_graph('#graph'); drawGraph(graph,json); }
 			if (typeof drawTable	=== 'function') { drawTable(json); }
 			loader();
@@ -29,28 +27,17 @@ $(function() {
 		});
 	}
 
+	// PROJECTS MAP
+	
+	if ($('#page.projects').length) {
+
+	}
+
 	// PROJECT PAGES
 		
 	if ($('#page.project').length) {
 		check_for_svg();
 		drawMiniMap();
-	}
-	
-	// ENTITY PAGES
-	
-	if ($('#graph').length && !$('#table').length) {
-		check_for_svg();
-		loader();
-
-		var graph = set_graph('#graph');
-
-		$.getJSON(dataURL+'?s='+s+'&e='+e, function(json){
-			drawGraph(graph,json);
-			loader();
-			$('#info').fadeToggle(3000);
-			$('#caption').fadeToggle(3000);
-		});
-		
 	}
 
 	// ADMIN
@@ -66,11 +53,14 @@ $(function() {
 		s = $('#start_year').val();
 		e = $('#end_year').val();
 
+		loader();
 		$.getJSON(dataURL+'?s='+s+'&e='+e, function(json) {
-			drawGraph(graph,json);
-			drawTable(json);
+			if (typeof drawMap		=== 'function') { var map = set_map('#map'); drawMap(map,json); }
+			if (typeof drawGraph	=== 'function') { var graph = d3.select('#graph'); drawGraph(graph,json); }
+			if (typeof drawTable	=== 'function') { drawTable(json); }
 			$('.legend_start_year').text( s );
 			if (s != e) { $('.legend_end_year').text( '-'+e ); } else { $('.legend_end_year').text( '' ); }
+			loader();
 		});
 		
 	});
@@ -127,8 +117,7 @@ function loader() {
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 var scale = d3.scale.linear().domain([1,1E9]).range([50,500]);
-var pow = d3.scale.pow().exponent(2);
-var color = d3.interpolateRgb("#630","#6f6");
+var spectrum = function(d){ return d3.interpolateRgb('#333','#3f3')( d3.scale.pow().exponent(3)(d) ); }
 
 function bubblize(d) {
 	var bubbles = [];	
@@ -141,8 +130,15 @@ function bubblize(d) {
 
 function set_graph(e) {
 	var w = $('#wrapper').width(), h = $('#wrapper').height()-135; // OCI header + navbar + menubar = 135px
-	var graph = d3.select(e).append("svg:svg").attr("width", w).attr("height", h);
+	//var graph = d3.select(e).append("svg:svg").attr("width", w).attr("height", h);
+	var graph = d3.select(e).style("width", w+'px').style("height", h+'px');
 	return graph;
+}
+
+function set_map(e) {
+	var w = $('#wrapper').width(), h = $('#wrapper').height()-135; // OCI header + navbar + menubar = 135px
+	$(e).width(w); $(e).height(h);
+	return e;
 }
 
 function bubble_graph(e,v) {
@@ -152,20 +148,26 @@ function bubble_graph(e,v) {
 }
 
 function make_labels(l,t) {
-	l.enter().append("svg:text")
+	l.enter().append("span")
 		.attr("class", "label")
 		.text(function(d) { return eval('d.data.'+t); })
-		.attr("x", function(d) { return d.x; })
-		.attr("y", function(d) { return d.y; })
-		.attr("style", "opacity:0; font-size:0;");
+		.style('top', function(d) { return Math.floor(d.y-d.r/6)+'px'; })
+		.style('left', function(d) { return Math.floor(d.x-d.r)+'px'; })
+		.style('width', 0)
+		.style('opacity', 0)
+		.style('font-size', 0);
 	
 	l.transition().duration(1000)
-		.attr("x", function(d) { return d.x; })
-		.attr("y", function(d) { return d.y; })
-		.attr("style", function(d) { return "opacity:1; font-size:"+(d.r / 3) + "px"; });
+		.style('top', function(d) { return Math.floor(d.y-d.r/6)+'px'; })
+		.style('left', function(d) { return Math.floor(d.x-d.r)+'px'; })
+		.style('width', function(d) { return Math.floor(d.r)*2+'px'; })
+		.style('opacity', 1)
+		.style('font-size', function(d) { return Math.floor(d.r/3)+'px'; });
 
 	l.exit().transition().duration(1000)
-		.attr("style", "opacity:0; font-size:0;")
+		.style('width', 0)
+		.style('opacity', 0)
+		.style('font-size', 0)
 		.remove();
 }
 
@@ -177,15 +179,44 @@ function make_nodes(n,c,u,f) {
 		.attr("r", 0)
 		.on("click", function(d) { return window.location = eval(u); });
 
-	n.transition().duration(1000)
+	n.transition().duration(100)
 		.attr("cx", function(d) { return d.x; })
 		.attr("cy", function(d) { return d.y; })
 		.attr("r", function(d) { return d.r; });
 			
 	n.exit()
-		.transition().duration(1000)
+		.transition().duration(100)
 		.attr("r", 0)
 		.remove();	
+}
+
+function make_bubbles( b,v,c,u,l,i ) {
+
+	b.enter().append('div')
+		.attr('class', function(d) { return 'bubble '+eval(c); })
+		.html(function(d) { return '<span class="label">'+eval(l)+'</span>'; })
+		.style('top', function(d) { return Math.floor(d.y)+'px'; })
+		.style('left', function(d) { return Math.floor(d.x)+'px'; })
+		.style('height', 0)
+		.style('width', 0)
+		.style('font-size',0)
+		.on("click", function(d) { return window.location = eval(u); });
+	
+	b.transition().duration(1000)
+		.style('top', function(d) { return Math.floor(d.y-d.r)+'px'; })
+		.style('left', function(d) { return Math.floor(d.x-d.r)+'px'; })
+		.style('height', function(d) { return Math.floor(d.r-1)*2+'px'; })
+		.style('width', function(d) { return Math.floor(d.r-1)*2+'px'; })
+		.style('font-size', function(d) { return Math.floor(d.r/3)+'px'; })
+		.style('background-image', function(d) { if (i) {return 'url('+eval(i)+')'; } })
+		.style('background-color', function(d) { return spectrum( eval(v) ) });
+	
+	b.exit()
+		.transition().duration(1000)
+		.style('height', 0)
+		.style('width', 0)
+		.style('font-size',0)
+		.remove();
 }
 
 function make_icons(i,s,u) {
@@ -219,14 +250,15 @@ function make_icons(i,s,u) {
 		$('#popup').fadeIn();
 		$.getJSON('/regions/'+cc+'/projects.json', function(json){
 			var w = $('#popup').width(), h = $('#popup').height();
-			var graph = d3.select('#graph').append("svg:svg").attr("width", w).attr("height", h);
+/* 			var graph = d3.select('#graph').append("svg:svg").attr("width", w).attr("height", h); */
+			var graph = d3.select('#graph').style("width", w+'px').style("height", h+'px');
 			drawPopupGraph(graph,json);
 		});
 	}
 
 	$('button.close').click(function() {
 		$('#popup').fadeOut();
-		$('#popup svg').remove();
+		$('#popup #graph').html('');
 	});
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

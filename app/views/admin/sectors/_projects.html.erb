@@ -1,34 +1,36 @@
 <table id="projects">
-	<thead>
-		<tr>
-			<th>Received (USD)</th>
-    	<th>Name</th>
-    	<th>Sector</th>
-    	<th>Country</th>
-    	<th>Energy Access</th>
-    	<th></th>
-		</tr>
-  </thead>
+	<thead><tr><th>Received</th><th>Name</th><th>Country</th><th>Sector</th><th>Access?</th><th></th></tr></thead>
+	<tbody></tbody>
+	<tfoot><tr><th></th></tr></tfoot>
 </table>
 
 <script>
 $(document).ready(function() {
-	oTable = $('#projects').dataTable({
+	var h = $('#wrapper').height() - 328;
+	$('#projects').dataTable({
 		"bProcessing": true,
+		"bPaginate": false,
 		"sAjaxSource": "<%= admin_sector_projects_url( @sector ) %>.json",
 		"sAjaxDataProp": "projects",
+		"sScrollY": h+'px',
 		"aoColumns": [
-			{"mDataProp":"received", "sType":"currency", "sWidth":"100px", "asSorting":["desc","asc"] },
+			{"sWidth":"100px", "fnRender":function(oObj) { return '$'+to_currency(oObj.aData['received']); }, "sType":"currency", "asSorting":["desc","asc"] },
 			{"fnRender":function(oObj) { return '<a href="'+oObj.aData['project_url']+'">'+oObj.aData['name']+'</a>'; }},
 			{"fnRender":function(oObj) { return '<a href="'+oObj.aData['sector_url']+'">'+oObj.aData['sector']+'</a>'; }},
 			{"sWidth":"100px", "mDataProp":"region"},
 			{"sWidth":"50px", "fnRender":function(oObj) { return oObj.aData['access?']; }},
 			{"bSortable":false, "sWidth":"25px", "fnRender":function(oObj) { <% if @user %>return '<a class="edit icon" href="'+oObj.aData['project_url']+'/edit/">Edit</a>';<% else %>return "";<% end %> }}
 		],
-		"sPaginationType": "full_numbers"
+		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
+			var total = {'total':0};
+			for (var i=iStart; i<iEnd; i++) {
+				total['total']  += aaData[aiDisplay[i]]['received']*1.0;
+			}
+			var footer = nRow.getElementsByTagName('th');
+			footer[0].innerHTML = '$'+to_currency(total['total']);
+		}
 	});
-	oTable.fnFilter( '^<%= @sector.name %>$',2,true );
-} );
+});
 </script>
 
 <% if @user %><p class="buttons">

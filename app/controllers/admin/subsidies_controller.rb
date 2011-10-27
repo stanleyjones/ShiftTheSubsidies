@@ -6,8 +6,14 @@ class Admin::SubsidiesController < ApplicationController
   def index
     respond_to do |format|
       format.html
-      format.json { @subsidies = Subsidy.all(:include => [:institution,:entity,:project]) }
-    end
+      format.json do
+      	if params[:institution_id] and @institution = Institution.find(params[:institution_id])
+  				@subsidies = @institution.subsidies
+  			else
+	    		@subsidies = Subsidy.all(:include => [:institution,:entity,:project])
+				end
+			end
+		end
   end
 
   def show

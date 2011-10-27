@@ -1,35 +1,38 @@
 <div id="map">
 	<%= render :partial => 'layouts/svgwarning' %>
 	<div id="popup" class="popup"><%= render :partial => 'region_popup' %></div>
-	<p id="caption">Concentrations of <span class="clean">clean energy</span> and <span class="fossil">fossil fuel</span> projects worldwide.</p>
+	<p id="caption"><b>Above:</b> Worldwide funding of <span class="clean">clean</span> vs <span class="fossil">fossil fuel</span> energy projects worldwide for <span class="legend_start_year"><%= @start_date.year %></span><span class="legend_end_year">-<%= @end_date.year %></span>.</p>
 </div>
 <script>
-function drawMap(data) {
+function drawMap(map, data) {
 
-	var w = $('#wrapper').width(), h = $('#wrapper').height()-135; // OCI header + navbar + menubar = 135px
-	var pow = d3.scale.pow().exponent(2);
-	var color = d3.interpolateRgb("#630","#6f6");
-
-	$('#map').height(h); $('#map').width(w);
-	
 	var regions = {}, colors = {};
 						
 	$.each(data.projects, function() {
-		if (!regions[this.cc]) { regions[this.cc] = {'clean': 0, 'total': 0};	}
-		if (this['clean?']) { regions[this.cc].clean += 1;	}
-		regions[this.cc].total += 1;
+		if (!regions[this.cc]) { regions[this.cc] = { 'clean': 0, 'access': 0, 'total': 0}; }
+		if (this['clean?']) { regions[this.cc]['clean'] += this['live_received']; }
+		if (this['access?']) { regions[this.cc]['access'] += this['live_received']; }
+		regions[this.cc].total += this['live_received'];
 	});
 		
 	$.each(regions, function(key,val) {
-		colors[key] = color(pow(val.clean / Math.max(val.total,1)));
+		colors[key] = spectrum(val.clean / Math.max(val.total,1));
 	});
-						
-	$('#map').vectorMap({
-		color: '#ccc',
-		hoverColor: '#f90',
-		backgroundColor: 'transparent',
-		colors: colors,
-		onRegionClick: function(e,c) {popRegion(c);}
+	
+	$(map).vectorMap({
+		color: '#ccc', hoverColor: '#f90', backgroundColor: 'transparent', colors: colors,
+		onLabelShow: function(e,l,c) {
+			var country = l.text();
+			if (regions[c] && regions[c]['total'] > 0) {
+				var clean = Math.floor( regions[c]['clean'] / Math.max(regions[c]['total'],1) * 100 );
+				var access = Math.floor( regions[c]['access'] / Math.max(regions[c]['total'],1) * 100 );
+				var total = to_currency( regions[c]['total'] );
+				l.html(country+'<br><span>$'+total+'</span><br><span class="clean">'+clean+'% clean</span> <span class="access">'+access+'% access</span>');
+			} else {
+				l.html(country);
+			}
+		},
+		onRegionClick: function(e,c) { popRegion(c); }
 	});
 				
 }

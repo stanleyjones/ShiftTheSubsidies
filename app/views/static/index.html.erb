@@ -2,7 +2,7 @@
 
 	<div id="graph">
 		<%= render :partial => 'layouts/svgwarning' %>
-		<p id="caption">World Bank Group energy subsidies 2008-2011 to <span class="fossil">fossil fuel</span> and <span class="clean">clean energy</span> projects.</p>
+		<p id="caption"><b>Above:</b> World Bank Group subsidies to <span class="clean">clean</span>, <span class="fossil">fossil fuel</span>, and <span class="other">other</span> energy projects for 2008-2011.</p>
 	</div>
 	
 	<div class="block"><h2>Energy Subsidies</h2>
@@ -13,26 +13,22 @@
 		<p>The Shift the Subsidies database is an interactive tool to visually track and analyze the flow of energy subsidies from international, regional and bilateral public financial institutions around the world.</p>
 		<%= link_to "Get started!", institutions_path, :class => "big button" %>
 	</div>
-
+	
 </div>
 <script>
-var data = {"totals": [
-	{"category": "Fossil Fuel", "total": <%= total_to_category("Fossil Fuel") %>, "label": "<%= number_to_short( total_to_category("Fossil Fuel") ) %>"},
-	{"category": "Clean", "total": <%= total_to_category("Clean") %>, "label": "<%= number_to_short( total_to_category("Clean") ) %>"}
-]};
+var data = [
+	{"category": "Fossil Fuel", "total": <%= total_to_category("Fossil Fuel") %>, "label": "<%= number_to_short( total_to_category("Fossil Fuel") ) %>", "url":'/institutions/'},
+	{"category": "Clean", "total": <%= total_to_category("Clean") %>, "label": "<%= number_to_short( total_to_category("Clean") ) %>", "url":'/institutions/'},
+	{"category": "Other", "total": <%= total_to_category("Other") %>, "label": "<%= number_to_short( total_to_category("Other") ) %>", "url":'/institutions/'}
+];
 
 function drawGraph(data) {
 	var graph = set_graph('#graph');
+	graph.style('width','640px');
 	var bubble = bubble_graph('#graph','d.total');
 	
-	var labels = graph.selectAll("text.label")
-		.data(bubble(bubblize(data.totals)).filter(function(d) { return !d.children; }));
-	
-	make_labels(labels,'label');
-	
-	var nodes = graph.selectAll("circle.node")
-		.data(bubble(bubblize(data.totals)).filter(function(d) { return !d.children; }));
-	
-	make_nodes(nodes,'category','/institutions/');
-}	
+	var bubbles = graph.selectAll("div").data(bubble(bubblize(data)));
+
+	make_bubbles(bubbles,'','d.data.category','d.data.url','d.data.label','');
+}
 </script>

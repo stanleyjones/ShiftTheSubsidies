@@ -1,22 +1,18 @@
 <table id="subsidies">
-	<thead>
-		<tr>
-    	<th>Amount (USD)</th>
-    	<th>From</th>
-    	<th>To</th>
-    	<th>For</th>
-    	<th>Date</th>
-    	<th></th>
-		</tr>
-  </thead>
+	<thead><tr><th>Amount</th><th>From</th><th>To</th><th>For</th><th>Date</th><th></th></tr></thead>
+	<tbody></tbody>
+	<tfoot><tr><th></th></tr></tfoot>
 </table>
 
 <script>
 $(document).ready(function() {
-	oTable = $('#subsidies').dataTable({
+	var h = $('#wrapper').height() - 328;
+	$('#subsidies').dataTable({
 		"bProcessing":true,
+		"bPaginate":false,
 		"sAjaxSource":"<%= admin_institution_subsidies_url(@institution) %>.json",
 		"sAjaxDataProp":"subsidies",
+		"sScrollY": h+'px',
 		"aoColumns": [
 			{ "mDataProp":"amount", "sType":"currency", "sWidth":"100px", "asSorting":["desc","asc"] },
 			{ "fnRender":function(oObj) { return oObj.aData['from']; }},
@@ -25,12 +21,17 @@ $(document).ready(function() {
 			{ "mDataProp":"date", "sWidth":"75px" },
 			{ "bSortable":false, "sWidth":"25px", "fnRender":function(oObj) { <% if @user %>return '<a class="edit icon" href="'+oObj.aData['subsidy_url']+'/edit/">Edit</a>';<% else %>return "";<% end %>}}
 		],
-		"sPaginationType": "full_numbers"
+		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
+			var total = {'total':0};
+			for (var i=iStart; i<iEnd; i++) {
+				total['total']  += aaData[aiDisplay[i]]['amount_raw']*1.0;
+			}
+			var footer = nRow.getElementsByTagName('th');
+			footer[0].innerHTML = '$'+to_currency(total['total']);
+		}
 	});
-	oTable.fnFilter( '^<%= @institution.name %>$',1,true );
-} );
+});
 </script>
-
 <% if @user %><p class="buttons">
 	<%= link_to 'New Subsidy', new_admin_subsidy_path, :class => "new button" %>
 </p><% end %>

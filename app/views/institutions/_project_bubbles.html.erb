@@ -1,31 +1,17 @@
 <div id="graph">
 	<div id="info"><h1><%= @institution.name %></h1><p><%= @institution.description %></p></div>
-	<p id="caption"><b>Above:</b> <span class="clean">Clean energy</span>, <span class="fossil">fossil fuel</span>, and other projects of <%= @institution.shortname %>, scaled by dollar amount.</p>
+	<p id="caption"><b>Above:</b> <span class="clean">clean</span>, <span class="fossil">fossil fuel</span>, and <span class="other">other</span> energy projects of <%= @institution.shortname %>, scaled by dollar amount.</p>
 </div>
 
 <script>
 function drawGraph(graph,data) {
 	var bubble = bubble_graph('#graph','d.live_received');
-	
-	var node = graph.selectAll("circle.node")
+
+	var bubbles = graph.selectAll("div.bubble")
 		.data(bubble(bubblize(data.projects))
 			.filter(function(d) { return d.data.live_received > 0; })
-			.filter(function(d) { return !d.children; }))
-		.enter().append("svg:g")
-			.attr("class","node")
-			.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-
-	node.append("svg:image")
-		.attr("class", "circle")
-		.attr("xlink:href", function(d) { return d.data.icon; })
-		.attr("x", function(d) { return "-" + d.r / 2 + "px"; })
-		.attr("y", function(d) { return "-" + d.r / 2 + "px"; })
-		.attr("width", function(d) { return d.r + "px"; })
-		.attr("height", function(d) { return d.r + "px"; });
-
-	node.append("svg:circle")
-		.attr("class", function(d) { return d.data.category; })
-		.attr("r", function(d) { return d.r; })
-		.on("click", function(d) { location.href = "/projects/"+d.data.project_id; });		
+			.filter(function(d) { return !d.children; }));
+	
+	make_bubbles(bubbles,'','d.data.category','d.data.url','d.data.sector','d.data.icon');
 };	
 </script>

@@ -1,38 +1,24 @@
 <p id="table_caption">Institutional subsidies for <span class="legend_start_year"><%= @start_date.year %></span><span class="legend_end_year">-<%= @end_date.year %></span></p>
 
-<table id="table">
-	<thead>
-		<tr>
-			<th>Total</th>
-			<th>Institution</th>
-			<th>Clean</th>
-			<th>%</th>
-			<th>Fossil</th>
-			<th>%</th>
-			<th>Access</th>
-			<th>%</th>
-		</tr>
+<table id="table" class="scroll_table">
+	<thead class="fixed_header">
+		<tr><th>Total</th><th>Institution</th><th>Clean</th><th>%</th><th>Fossil</th><th>%</th><th>Access</th><th>%</th></tr>
   </thead>
-	<tbody>
+	<tbody class="scroll_body">
 	</tbody>
-	<tfoot>
-		<th></th>
-		<th></th>
-		<th></th>
-		<th></th>
-		<th></th>
-		<th></th>
-		<th></th>
-		<th></th>
+	<tfoot class="fixed_footer">
+		<tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr>
 	</tfoot>
 </table>
 
 <script>
 function drawTable(data) {
-	$('#table').dataTable({
+	var h = $('#graph').height() - 162; /* thead (86px) + tfoot (78px) */
+	var oTable = $('#table').dataTable({
 		"bDestroy": true,
 		"bPaginate": false,
 		"aaData": data.institutions,
+		"sScrollY": h+'px',
 		"aoColumns": [
 			{"sWidth":"100px", "sType":"currency", "fnRender":function(oObj) { return '$'+to_currency(oObj.aData['live_total']); },"asSorting":["desc","asc"]},
 			{"sWidth":"400px", "fnRender":function(oObj) { return '<a href="'+oObj.aData['url']+'"/>'+oObj.aData['name']+'</a> ('+oObj.aData['abbreviation']+')<br><span class="desc">'+oObj.aData['description']+'</span>'; }},
@@ -61,5 +47,6 @@ function drawTable(data) {
 			footer[6].innerHTML = '$'+to_currency(total['access']);
 		}
 	});
+	$('button.table').click(function() { oTable.fnAdjustColumnSizing(); });
 }
 </script>

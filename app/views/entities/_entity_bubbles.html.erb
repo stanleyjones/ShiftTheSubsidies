@@ -35,7 +35,7 @@ function drawGraph(data) {
 			
 	node.append("svg:circle")
 		.attr("r", function(d) { return d.r; })
-		.style("fill", function(d) { return d3.interpolateRgb("#963", "#6f6")(d.data.live_clean/Math.max(d.data.live_total,1)); })
+		.style("fill", function(d) { return spectrum( d.data.live_clean/Math.max(d.data.live_total,1) ); })
 		.on("click", function(d) { location.href = "/entities/"+d.data.entity_id; });
 	
 };

@@ -6,8 +6,9 @@
 	</ul><% end -%>
 	<ul id="popovers">
 		<% if defined? start_date %><li>
-			<button class="range" onclick="popover('range');">Filter</button>
+			<button class="range" onclick="popover('range');">Timeline</button>
 			<ul id="range" class="popover" style="display:none;">
+				<h2>Years</h2>
 				<li><b>Start:</b> <%= select_year start_date.year, {:start_year => START_YEAR, :end_year => END_YEAR}, {:id => "start_year"} %></li>
 				<li><b>End:</b> <%= select_year end_date.year || start_date.year, {:start_year => START_YEAR, :end_year => END_YEAR}, {:id => "end_year"} %></li>
 			</ul>

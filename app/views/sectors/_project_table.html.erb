@@ -1,27 +1,35 @@
-<table id="projects">
-	<thead>
-		<tr>
-			<th>Received</th>
-    	<th>Name</th>
-    	<th>Country</th>
-    	<th>Energy Access</th>
-    	<th></th>
-		</tr>
-  </thead>
+<p id="table_caption">Energy projects of the <%= @sector.name %> sector for <span class="legend_start_year"><%= @start_date.year %></span><span class="legend_end_year">-<%= @end_date.year %></span></p>
+
+<table id="table">
+	<thead><tr><th>Received</th><th>Name</th><th>Region</th><th>Sector</th><th>Access?</th></tr></thead>
+	<tbody></tbody>
+	<tfoot><tr><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
 </table>
 
 <script>
 function drawTable(data) {
-	$('#projects').dataTable({
+	var h = $('#graph').height() - 162; /* thead (86px) + tfoot (78px) */
+	var oTable = $('#table').dataTable({
 		"bDestroy": true,
 		"bPaginate": false,
-		"aaData": data,
+		"aaData": data.projects,
+		"sScrollY": h+'px',
 		"aoColumns": [
 			{"sWidth":"100px", "fnRender":function(oObj) { return '$'+to_currency(oObj.aData['live_received']); }, "sType":"currency", "asSorting":["desc","asc"] },
 			{"fnRender":function(oObj) { return '<a href="'+oObj.aData['url']+'">'+oObj.aData['name']+'</a>'; }},
 			{"sWidth":"100px", "mDataProp":"region"},
-			{"sWidth":"50px", "fnRender":function(oObj) { return oObj.aData['access?']; }},
-		]
+			{"sWidth":"100px", "mDataProp":"sector"},
+			{"sWidth":"100px", "fnRender":function(oObj) { if ( oObj.aData['access?'] ) { return 'yes'; } else { return 'no'; } }},
+		],
+		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
+			var total = {'total':0, 'clean':0, 'fossil':0, 'access':0};
+			for (var i=iStart; i<iEnd; i++) {
+				total['total']  += aaData[aiDisplay[i]]['live_received']*1.0;
+			}
+			var footer = nRow.getElementsByTagName('th');
+			footer[0].innerHTML = '$'+to_currency(total['total']);
+		}
 	});
+	$('button.table').click(function() { oTable.fnAdjustColumnSizing(); });	
 };
 </script>

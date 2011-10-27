@@ -5,13 +5,13 @@
 <div id="page" class="project page">
 	<h1><%= @project.name %></h1>
 	<%= image_tag @project.icon, :size => "64x64", :class => "sector-icon" %>
-	<ul class="entity-list"><% @project.entities.each do |e| %><li><%= link_to e.name, e %></li><% end %></ul>
+	<ul class="entity-list"><% @project.entities.each do |e| %><li><%= e.name %></li><% end %></ul>
 	
 	<div id="map"><h2>Region</h2></div>
 
 	<div id="description">
 		<h2>Description</h2>
-		<%= @project.description %>
+		<%= simple_format(@project.description) %>
 	</div>
 
 	<p>
