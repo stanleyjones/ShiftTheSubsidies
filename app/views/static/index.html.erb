@@ -1,18 +1,43 @@
 <div id="page" class="home page">
 
 	<div id="graph">
-		<%= render :partial => 'layouts/svgwarning' %>
 		<p id="caption"><b>Above:</b> World Bank Group subsidies to <span class="clean">clean</span>, <span class="fossil">fossil fuel</span>, and <span class="other">other</span> energy projects for 2008-2011.</p>
 	</div>
 	
-	<div class="block"><h2>Energy Subsidies</h2>
-		<p>For decades, wealthy countries have been using international aid and other foreign assistance to subsidize the expansion of the international fossil fuel industry.</p>
+	<div id="definition">
+		<h2>subsidy</h2><h3>/ˈsʌbsədi/, noun (pl. subsidies):</h3>
+		<p>According to the World Trade Organization, a subsidy is a transfer of funds or a potential transfer of funds from a government or public body through a grant, loan, equity infusion, or loan guarantee; a government fiscal incentive such as a tax credit; a government-provided good or service other than general infrastructure; or a government payment to a funding mechanism or private body to carry out one or more of the functions illustrated above.</p>
+	</div>
+	
+	<div id="intro">
+		<p>For decades, wealthy countries have been using international aid and other foreign assistance&mdash;through grants, loans, equity and loan guarantees&mdash;to subsidize the expansion of the international fossil fuel industry.</p> 
+		<p>The <b>Shift the Subsidies</b> database is an interactive tool to visually track and analyze the flow of energy subsidies from international, regional and bilateral public financial institutions around the world.</p>
+		<p>The database currently tracks subsidies from the World Bank Group and regional development banks from fiscal year 2008 to fiscal year 2011. In the future, we will also add bilateral aid from major governments.</p>
+	</div>
+	
+	<hr>
+	
+	<div class="institutions block"><h2>Funding Institutions</h2>
+		<p>Development banks say they're going green, but MIGA's fossil fuel guarantees are... 93% OF ITS ENERGY PORTFOLIO?</p>
+		<p><%= link_to "Learn which institutions are funding what projects »", institutions_path %></p>
 	</div>
 
-	<div class="block"><h2>Shift the Subsidies</h2>
-		<p>The Shift the Subsidies database is an interactive tool to visually track and analyze the flow of energy subsidies from international, regional and bilateral public financial institutions around the world.</p>
-		<%= link_to "Get started!", institutions_path, :class => "big button" %>
+	<div class="projects block"><h2>Project Map</h2>
+		<p>Your tax dollars are rebuilding the energy infrastructure... OF SAUDI ARABIA?</p>
+		<p><%= link_to "Learn what they're building with the world's help »", projects_path %></p>
 	</div>
+	
+	<div class="sectors block"><h2>Energy Sectors</h2>
+		<p>The future of energy in the developing world is... COAL?</p>
+		<p><%= link_to "Learn how much more funding it gets than solar »", sectors_path %></p>
+	</div>
+	
+	<div class="subsidies block last"><h2>Energy Subsidies</h2>
+		<p>In the past three years, development banks have subsidized the fossil fuel industry... OVER $20B?</p>
+		<p><%= link_to "Learn where all that money is going »", subsidies_path %></p>
+	</div>
+		
+	<p>Make the most of your visit to the Subsidy Shift database. <%= link_to "Learn navigation tips and read our methodology»", "/guide" %></p>
 	
 </div>
 <script>
@@ -24,10 +49,11 @@ var data = [
 
 function drawGraph(data) {
 	var graph = set_graph('#graph');
-	graph.style('width','640px');
+	graph.style('width','460px');
+	graph.style('height','500px');
 	var bubble = bubble_graph('#graph','d.total');
 	
-	var bubbles = graph.selectAll("div").data(bubble(bubblize(data)));
+	var bubbles = graph.selectAll("div").data(bubble(bubblize(data)).filter(function(d){ return !d.children; }));
 
 	make_bubbles(bubbles,'','d.data.category','d.data.url','d.data.label','');
 }

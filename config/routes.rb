@@ -4,7 +4,7 @@ ShiftTheSubsidies::Application.routes.draw do
 	
 	controller :static do
 		get 'index'
-		get 'about'
+		get 'guide'
 		get 'methodology'
 	end
 

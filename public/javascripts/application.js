@@ -2,7 +2,7 @@
 	Init
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-$(function() {
+$(document).ready(function() {
 
 	// HOME PAGE
 	
@@ -36,7 +36,7 @@ $(function() {
 	// PROJECT PAGES
 		
 	if ($('#page.project').length) {
-		check_for_svg();
+		//check_for_svg();
 		drawMiniMap();
 	}
 
@@ -50,8 +50,8 @@ $(function() {
 	$('#start_year, #end_year').change(function(){
 		popover('range');
 		
-		s = $('#start_year').val();
-		e = $('#end_year').val();
+		var s = $('#start_year').val();
+		var e = $('#end_year').val();
 
 		loader();
 		$.getJSON(dataURL+'?s='+s+'&e='+e, function(json) {
@@ -117,7 +117,7 @@ function loader() {
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 var scale = d3.scale.linear().domain([1,1E9]).range([50,500]);
-var spectrum = function(d){ return d3.interpolateRgb('#333','#3f3')( d3.scale.pow().exponent(3)(d) ); }
+var spectrum = function(d){ return d3.interpolateRgb('#333','#3f3')( d3.scale.pow().exponent(2)(d) ); }
 
 function bubblize(d) {
 	var bubbles = [];	

@@ -11,6 +11,6 @@ function drawGraph(graph,data) {
 			.filter(function(d) { return d.data.amount > 0; })
 			.filter(function(d) { return !d.children; }));
 	
-	make_bubbles(bubbles,'','d.data.category','d.data.subsidy_url','d.data.amount','d.data.icon');
+	make_bubbles(bubbles,'','d.data.category','d.data.subsidy_url','"$"+to_currency(d.data.amount)','d.data.icon');
 }
 </script>
