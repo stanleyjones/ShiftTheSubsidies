@@ -150,7 +150,7 @@
 
 	/* Top Nav - Pages, Subscribe, Social Networks */
 
-	#top_nav {margin:10px 10px 0 10px; height:35px; background:#111 url(lib/css/images/top_nav.png) center repeat-x; border:1px solid #222;}
+	#top_nav {margin:10px 10px 0 10px; height:35px; background:#111 url(lib/css/images/top_nav.png) center repeat-x; border:1px solid #222; z-index:100;}
 	#top_nav ul {margin:0; padding:0;}
 		#top_nav li {position:relative; z-index:99; list-style:none; float:left;}
 		#top_nav li a {display:block; height:35px; width:80px; text-align:center; line-height:35px; border-right:1px solid #222;}
@@ -181,7 +181,7 @@
 		#menubar ul#mode li:first-child button {border-right:1px solid #000; border-radius:5px 0 0 5px;}
 		#menubar ul#mode li:last-child button {border-left:0; border-radius:0 5px 5px 0;}
 	#menubar ul#modals {left:5px;}
-	#menubar ul#popovers {left:105px; z-index:999;}
+	#menubar ul#popovers {left:105px; z-index:98;}
 		#menubar ul#popovers button {width:auto;}
 		#menubar ul#popovers ul {background:#000;}
 		#menubar ul#popovers h2 {margin:0; padding:0; line-height:25px; color:#ccc; font-weight:bold;}
@@ -209,7 +209,7 @@
 	#content a.button.delete:hover {background:#900;}
 	
 	#content #info {display:none; position:absolute; top:0; left:0; padding:20px; width:25%; color:#fff; background:rgba(0,0,0,0.5); border-bottom-right-radius:10px; z-index:2;}
-	#content #caption {position:absolute; bottom:0; width:100%; margin:0; padding:20px 0; color:#666; background:rgba(223,223,223,0.5); border-top:1px solid #fff; font-size:12px; text-align:center;}
+	#content #caption {position:absolute; bottom:0; width:100%; margin:0; padding:20px 0; color:#666; background:rgba(223,223,223,0.5); border-top:1px solid #fff; font-size:12px; text-align:center; z-index:3;}
 	#content #caption .fossil {color:#000;}
 	#content #caption .clean {color:#0f0;}
 	#content #caption .other {color:#999;}
@@ -235,6 +235,8 @@
 	#sharebar {margin:-20px -20px 20px; padding:10px; background:#ddd; text-align:right;}
 	#sharebar a {padding-right:20px; background:url(lib/css/icons/share.png) right no-repeat;}
 	
+	#sharethis {position:absolute; right:0; top:40%;}
+	
 		/* Project */
 		
 		.project.page h1 {margin-right:128px;}
@@ -253,7 +255,7 @@
 		/* Graphs */
 		
 		#graphview {position:relative; top:50;}
-		#loader, .dataTables_processing {height:50px; width:100%; margin-top:25%; border:none !important; background:transparent url(images/loader.gif) center no-repeat; text-indent:-9999px;}
+		#loader {position:absolute; top:0; left:0; height:100%; width:100%; background:#fff url(images/loader.gif) center no-repeat; text-indent:-9999px; opacity:0.5; z-index:99;}
 
 		#graph circle {fill:#ccc; stroke:#fff; stroke-width:2; opacity:0.66; -webkit-transition:all 0.5s; -moz-transition:all 0.5s;}
 			#graph circle:hover {opacity:0.6; cursor:pointer; stroke:#ff0;}
@@ -331,8 +333,8 @@
 		#page.home .block {position:relative; float:left; margin:10px 20px 20px 0; padding:10px; height:340px; color:#fff; background:#333; border:1px solid #666; border-radius:10px; width:195px;}
 		#page.home .block.last {margin-right:0;}
 		#page.home .block h2 {margin:0 -10px; padding:10px 10px 110px; color:#fff; border:0; background-position:center bottom; background-repeat:no-repeat;}
-		#page.home .block a {position:absolute; left:0; bottom:20px; display:block; padding:10px; background:#630;}
-			#page.home .block a:hover {color:#ff0; background:#960;}
+		#page.home .block a {position:absolute; left:0; bottom:20px; display:block; padding:10px; color:#ff0; background:#960;}
+			#page.home .block a:hover {color:#ff0; background:#a71;}
 		#page.home .institutions.block h2 {background-image:url(../images/teasers/institutions.jpg);}
 		#page.home .subsidies.block h2 {background-image:url(../images/teasers/subsidies.jpg);}
 		#page.home .projects.block h2 {background-image:url(../images/teasers/projects.jpg);}

@@ -1,6 +1,6 @@
 <div id="graph">
-	<p id="caption"><b>Above:</b> Subsidies awarded to <span class="clean">clean</span>, <span class="fossil">fossil fuel</span>, and <span class="other">other</span> energy projects for <span class="legend_start_year"><%= @start_date.year %></span><span class="legend_end_year">-<%= @end_date.year %></span>.</p>
-</p>
+	<div id="info"><h1><%= @institution.name %></h1><p><%= @institution.description %></p></div>
+	<p id="caption"><b>Above:</b> <span class="clean">clean</span>, <span class="fossil">fossil fuel</span>, and <span class="other">other</span> energy subsidies by <%= @institution.shortname %>, scaled by dollar amount.</p>
 </div>
 
 <script>

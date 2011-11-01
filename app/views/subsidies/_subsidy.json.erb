@@ -9,6 +9,7 @@
 		"sector": "<% if subsidy.project %><%= subsidy.project.sector_name %><% end %>",
 		"icon": "<% if subsidy.project %><%= subsidy.project.icon %><% end %>",
 		"category": "<% if subsidy.project %><%= subsidy.project.category %><% end %>",
+		"access?": <% if subsidy.project %><%= subsidy.project.access? %><% end %>,
 
 		"institution_url": "<% if subsidy.institution %><%= url_for subsidy.institution %><% end %>",
 		"entity_url": "<% if subsidy.entity %><%= url_for subsidy.entity %><% end %>",

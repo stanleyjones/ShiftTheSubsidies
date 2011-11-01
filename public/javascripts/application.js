@@ -7,9 +7,7 @@ $(document).ready(function() {
 	// HOME PAGE
 	
 	if ($('#page.home').length) {
-		loader();
 		drawGraph(data);
-		loader();
 		$('#caption').fadeToggle(3000);
 	}
 	
@@ -27,25 +25,16 @@ $(document).ready(function() {
 		});
 	}
 
-	// PROJECTS MAP
-	
-	if ($('#page.projects').length) {
-
-	}
-
 	// PROJECT PAGES
 		
 	if ($('#page.project').length) {
-		//check_for_svg();
 		drawMiniMap();
 	}
 
-	// ADMIN
-	
-	if ($('body.admin').length) { viewmode('table'); }
-	
 	// MENUBAR
-/* 	if ($('#mode').length && $('#graph').length) { viewmode('graph'); } */
+	
+	if ($('#graph').length || $('#map').length) { viewmode('graph'); }
+	if ($('body.admin').length) { viewmode('table'); }
 
 	$('#start_year, #end_year').change(function(){
 		popover('range');
@@ -71,14 +60,11 @@ $(document).ready(function() {
 	Helper Functions
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-
-function check_for_svg() {
-	if (Modernizr.svg && Modernizr.inlinesvg) {
- 		$('#svgwarning').remove();
- 		viewmode('graph');
+function loader() {
+	if ($('#loader').length) {
+		$('#loader').fadeToggle();
 	} else {
-		$('#svgwarning').toggle();
-		viewmode('table');
+		$('#wrapper').append('<div id="loader">Loading...</div>');
 	}
 }
 
@@ -95,20 +81,19 @@ function popover(e) {
 
 function to_currency(n) {
 	n += '';
-	x = n.split('.');
-	x1 = x[0];
-	x2 = x.length > 1 ? '.' + x[1] : '';
+	var x = n.split('.');
+	var x1 = x[0];
+	var x2 = x.length > 1 ? '.' + x[1] : '';
 	var rgx = /(\d+)(\d{3})/;
 	while (rgx.test(x1)) { x1 = x1.replace(rgx, '$1' + ',' + '$2');	}
 	return x1;
 }
 
-function loader() {
-	if ($('#loader').length) {
-		$('#loader').fadeToggle();
-	} else {
-		$('#wrapper').append('<div id="loader">Loading...</div>');
-	}
+function to_short(n) {
+	var sizes = ' KMBT';
+  if (n <= 0) return '0';
+  var t2 = Math.min(Math.floor(Math.log(n)/Math.log(1000)), 12);
+  return (Math.round(n * 100 / Math.pow(1000, t2)) / 100) + sizes.charAt(t2).replace(' ', '');
 }
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -116,7 +101,7 @@ function loader() {
 	http://mbostock.github.com/d3/
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-var scale = d3.scale.linear().domain([1,1E9]).range([50,500]);
+var scale = d3.scale.linear().domain([1,1E9]).range([25,500]);
 var spectrum = function(d){ return d3.interpolateRgb('#333','#3f3')( d3.scale.pow().exponent(2)(d) ); }
 
 function bubblize(d) {
@@ -130,7 +115,6 @@ function bubblize(d) {
 
 function set_graph(e) {
 	var w = $('#wrapper').width(), h = $('#wrapper').height()-135; // OCI header + navbar + menubar = 135px
-	//var graph = d3.select(e).append("svg:svg").attr("width", w).attr("height", h);
 	var graph = d3.select(e).style("width", w+'px').style("height", h+'px');
 	return graph;
 }
@@ -145,49 +129,6 @@ function bubble_graph(e,v) {
 	var w = $(e).width(), h = $(e).height();
 	var bubble = d3.layout.pack().sort(null).value(function(d) { return eval(v); }).size([w,h]);
 	return bubble;
-}
-
-function make_labels(l,t) {
-	l.enter().append("span")
-		.attr("class", "label")
-		.text(function(d) { return eval('d.data.'+t); })
-		.style('top', function(d) { return Math.floor(d.y-d.r/6)+'px'; })
-		.style('left', function(d) { return Math.floor(d.x-d.r)+'px'; })
-		.style('width', 0)
-		.style('opacity', 0)
-		.style('font-size', 0);
-	
-	l.transition().duration(1000)
-		.style('top', function(d) { return Math.floor(d.y-d.r/6)+'px'; })
-		.style('left', function(d) { return Math.floor(d.x-d.r)+'px'; })
-		.style('width', function(d) { return Math.floor(d.r)*2+'px'; })
-		.style('opacity', 1)
-		.style('font-size', function(d) { return Math.floor(d.r/3)+'px'; });
-
-	l.exit().transition().duration(1000)
-		.style('width', 0)
-		.style('opacity', 0)
-		.style('font-size', 0)
-		.remove();
-}
-
-function make_nodes(n,c,u,f) {
-	n.enter().append("svg:circle")
-		.attr("class", function(d) { return "node "+eval('d.data.'+c); })
-		.attr("cx", function(d) { return d.x; })
-		.attr("cy", function(d) { return d.y; })
-		.attr("r", 0)
-		.on("click", function(d) { return window.location = eval(u); });
-
-	n.transition().duration(100)
-		.attr("cx", function(d) { return d.x; })
-		.attr("cy", function(d) { return d.y; })
-		.attr("r", function(d) { return d.r; });
-			
-	n.exit()
-		.transition().duration(100)
-		.attr("r", 0)
-		.remove();	
 }
 
 function make_bubbles( b,v,c,u,l,i ) {
@@ -213,31 +154,10 @@ function make_bubbles( b,v,c,u,l,i ) {
 	
 	b.exit()
 		.transition().duration(1000)
+		.style('opacity', 0)
 		.style('height', 0)
 		.style('width', 0)
-		.style('font-size',0)
-		.remove();
-}
-
-function make_icons(i,s,u) {
-	i.enter().append("svg:image")
-		.attr("class", "circle")
-		.attr("xlink:href", function(d) { return eval('d.data.'+s); })
-		.attr("x", function(d) { return d.x - (d.r / 2) + "px"; })
-		.attr("y", function(d) { return d.y - (d.r / 2) + "px"; })
-		.attr("style", "opacity:0;")
-		.on("click", function(d) { return window.location = eval(u); });
-	
-	i.transition().duration(1000)
-		.attr("x", function(d) { return d.x - (d.r / 2) + "px"; })
-		.attr("y", function(d) { return d.y - (d.r / 2) + "px"; })
-		.attr("width", function(d) { return d.r + "px"; })
-		.attr("height", function(d) { return d.r + "px"; })
-		.attr("style", "opacity:1;");
-		
-	i.exit()
-		.transition().duration(1000)
-		.attr("style", "opacity:0;")
+		.style('font-size', 0)
 		.remove();
 }
 

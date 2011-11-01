@@ -1,9 +1,9 @@
-<p id="table_caption">Subsidies awarded for <span class="legend_start_year"><%= @start_date.year %></span><span class="legend_end_year">-<%= @end_date.year %></span>.</p>
+<p id="table_caption">Subsidies awarded by <%= @institution.shortname %> for <span class="legend_start_year"><%= @start_date.year %></span><span class="legend_end_year">-<%= @end_date.year %></span>.</p>
 
 <table id="table">
-	<thead><tr><th>Amount</th><th>From</th><th>To</th><th>For</th><th>Date</th></tr></thead>
+	<thead><tr><th>Amount</th><th>To</th><th>Project</th><th>Sector</th><th>Access?</th><th>Date</th></tr></thead>
 	<tbody></tbody>
-	<tfoot><tr><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+	<tfoot><tr><th></th></tr></tfoot>
 </table>
 
 <script>
@@ -16,10 +16,11 @@ function drawTable(data) {
 		"sScrollY": h+'px',
 		"aoColumns": [
 			{"sWidth":"100px", "fnRender":function(oObj) { return '$'+to_currency(oObj.aData['amount']); }, "sType":"currency", "asSorting":["desc","asc"] },
-			{ "fnRender":function(oObj) { return '<a href="'+oObj.aData['institution_url']+'">'+oObj.aData['from']+'</a>'; }},
-			{ "fnRender":function(oObj) { return '<a href="'+oObj.aData['entity_url']+'">'+oObj.aData['to']+'</a>'; }},
-			{ "fnRender":function(oObj) { return '<a href="'+oObj.aData['project_url']+'">'+oObj.aData['for']+'</a>'; }},
-			{ "mDataProp":"date", "sWidth":"75px" },
+			{"fnRender":function(oObj) { return oObj.aData['to']; }},
+			{"fnRender":function(oObj) { return '<a href="'+oObj.aData['project_url']+'">'+oObj.aData['for']+'</a>'; }},
+			{"sWidth":"100px", "mDataProp":"sector"},
+			{"sWidth":"50px", "fnRender":function(oObj) { if (oObj.aData['access?']) { return 'yes'; } else { return 'no'; }}},
+			{"sWidth":"100px", "mDataProp":"date"},
 		],
 		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
 			var total = {'total':0};

@@ -2,8 +2,8 @@
 
 <script>
 	var s = <%= @start_date.year %>, e = <%= @end_date.year %>;
-	var dataURL = '<%= request.url %>/projects.json';
+	var dataURL = '<%= request.url %>/subsidies.json';
 </script>
 
-<div id="graphview" class="view"><%= render :partial => "project_bubbles", :object => @projects %></div>
-<div id="tableview" class="view"><%= render :partial => "project_table" %></div>
+<div id="graphview" class="view"><%= render :partial => "subsidy_bubbles", :object => @projects %></div>
+<div id="tableview" class="view"><%= render :partial => "subsidy_table" %></div>
