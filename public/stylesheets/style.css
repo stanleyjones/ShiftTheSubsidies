@@ -254,7 +254,7 @@
 		
 		/* Graphs */
 		
-		#graphview {position:relative; top:50;}
+		#graphview {position:relative; top:50; background:url(images/paper.jpg);}
 		#loader {position:absolute; top:0; left:0; height:100%; width:100%; background:#ccc url(images/loader.gif) center no-repeat; text-indent:-9999px; opacity:0.8; z-index:99;}
 
 		#graph circle {fill:#ccc; stroke:#fff; stroke-width:2; opacity:0.66; -webkit-transition:all 0.5s; -moz-transition:all 0.5s;}
