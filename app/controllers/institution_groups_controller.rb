@@ -2,6 +2,8 @@ class InstitutionGroupsController < ApplicationController
 	skip_before_filter :authorize, :only => [:index, :show]
 	caches_action :index, :show
 
+	layout 'frontend'
+	
   # GET /institution_groups
   # GET /institution_groups.xml
   def index

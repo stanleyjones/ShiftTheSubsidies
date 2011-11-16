@@ -15,9 +15,10 @@ class Subsidy < ActiveRecord::Base
   belongs_to :project, :touch => true
   
   def self.live
+  	# TODO: Improve the math for fiscal years
   	Subsidy.joins(:institution).where(
   		"institutions.visible = true AND approved = true AND date > :start_date AND date < :end_date AND amount_original > 0",
-  		{:start_date => "#{START_YEAR}-01-01", :end_date => "#{END_YEAR}-12-31"}
+  		{:start_date => "#{START_YEAR-1}-01-01", :end_date => "#{END_YEAR}-12-31"}
   	).uniq
   end
   

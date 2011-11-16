@@ -21,7 +21,8 @@ class Institution < ActiveRecord::Base
 	def awarded(start_date=nil,end_date=nil,collection=self.subsidies)
 		amount = 0
 		collection.each do |s|
- 			if start_date.nil? or end_date.nil? or s.in_range?(start_date+(self.fiscal_year-1).months,end_date+(self.fiscal_year-1).months)
+			# TODO: Double-check fiscal year calculation
+ 			if start_date.nil? or end_date.nil? or s.in_range?(start_date-(self.fiscal_year-1).months,end_date-(self.fiscal_year-1).months)
 				amount += s.amount
  			end
 		end

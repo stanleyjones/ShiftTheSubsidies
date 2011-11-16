@@ -4,13 +4,30 @@
 
 <script>
 function drawGraph(graph,data) {
-	var bubble = bubble_graph('#graph','scale(d.total)');
+	
+	// Variables unique to this graph
+	
+	var bubble_objects = 'institutions';
+	var bubble_value   = 'live_total';
+	var bubble_label   = 'abbreviation';
+	
+	var bubble = bubble_graph( '#graph','scale(d.live_total)' );
+	
+	// Create graph from vars + data
+	
+/* 	draw_bubbles( data,bubble_objects,bubble_value,bubble_label ); */
+	
+/* 	var bubble_graph = make_bubble_graph('#graph',bubble_objects,bubble_value); */
+/*	var bubble_data = bubble_graph(data).filter(function(d) { return eval('d.data.'+bubble_value) > 0; }); */
+		
+	// Assign data to graph
+	
+  var bubbles = graph.selectAll("div.bubble")
+    .data(bubble(bubblize(data.institutions))
+      .filter(function(d) { return d.data.live_total > 0; })
+      .filter(function(d) { return !d.children; }));
 
-	var bubbles = graph.selectAll("div.bubble")
-		.data(bubble(bubblize(data.institutions))
-			.filter(function(d) { return d.data.live_total > 0; })
-			.filter(function(d) { return !d.children; }));
+  make_bubbles(bubbles,'d.data.live_clean / d.data.live_total','d.data.category','d.data.url','d.data.abbreviation');
 
-	make_bubbles(bubbles,'d.data.live_clean / d.data.live_total','d.data.category','d.data.url','d.data.abbreviation');
-}	
+}
 </script>

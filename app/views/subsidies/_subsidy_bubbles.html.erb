@@ -1,11 +1,28 @@
 <div id="graph">
 	<p id="caption"><b>Above:</b> Subsidies awarded to <span class="clean">clean</span>, <span class="fossil">fossil fuel</span>, and <span class="other">other</span> energy projects for <span class="legend_start_year"><%= @start_date.year %></span><span class="legend_end_year">-<%= @end_date.year %></span>.</p>
-</p>
 </div>
 
 <script>
 function drawGraph(graph,data) {
-	var bubble = bubble_graph('#graph','d.amount');
+	
+	var bubble_objects = 'subsidies';
+	var bubble_value = 'amount';
+	
+	// Create graph
+	
+	var bubble_graph = make_bubble_graph('#graph',bubble_objects,bubble_value);
+		
+	// Assign data to graph
+	
+	var bubbles = graph.selectAll('div.bubble')
+		.data( bubble_graph(data).filter(function(d) { return eval('d.data.'+bubble_value) > 0; }) );
+	
+	// Draw bubbles in graph
+	
+	make_bubbles(bubbles,'','d.data.category','d.data.subsidy_url','"$"+to_short(d.data.amount)','d.data.icon');	
+
+/*
+	var bubble = bubble_graph('#graph','scale(d.amount)');
 	
 	var bubbles = graph.selectAll("div.bubble")
 		.data(bubble(bubblize(data.subsidies))
@@ -13,5 +30,7 @@ function drawGraph(graph,data) {
 			.filter(function(d) { return !d.children; }));
 	
 	make_bubbles(bubbles,'','d.data.category','d.data.subsidy_url','"$"+to_short(d.data.amount)','d.data.icon');
+*/
+
 }
 </script>

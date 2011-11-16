@@ -1,6 +1,8 @@
 class SessionsController < ApplicationController
 	skip_before_filter :authorize
 
+	layout 'frontend'
+	
   # GET /login
   def new
   end

@@ -45,7 +45,7 @@ $(document).ready(function() {
 		loader();
 		$.getJSON(dataURL+'?s='+s+'&e='+e, function(json) {
 			if (typeof drawMap		=== 'function') { var map = set_map('#map'); drawMap(map,json); }
-			if (typeof drawGraph	=== 'function') { var graph = d3.select('#graph'); drawGraph(graph,json); }
+			if (typeof drawGraph	=== 'function') { var graph = set_graph('#graph'); drawGraph(graph,json); }
 			if (typeof drawTable	=== 'function') { drawTable(json); }
 			$('.legend_start_year').text( s );
 			if (s != e) { $('.legend_end_year').text( '-'+e ); } else { $('.legend_end_year').text( '' ); }
@@ -101,7 +101,7 @@ function to_short(n) {
 	http://mbostock.github.com/d3/
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-var scale = d3.scale.linear().domain([1,1E9]).range([25,500]);
+var scale = d3.scale.linear().domain([1,1E12]).range([1,600]).clamp(true).nice();
 var spectrum = function(d){ return d3.interpolateRgb('#333','#3f3')( d3.scale.pow().exponent(2)(d) ); }
 
 function bubblize(d) {
@@ -119,6 +119,12 @@ function set_graph(e) {
 	return graph;
 }
 
+function svg_graph(e,o,v) {
+	var w = $('#wrapper').width(), h = $('#wrapper').height()-135; // OCI header + navbar + menubar = 135px
+  var graph = d3.select(e).append("svg:svg").attr("width", w).attr("height", h);
+  return graph;
+}
+
 function set_map(e) {
 	var w = $('#wrapper').width(), h = $('#wrapper').height()-135; // OCI header + navbar + menubar = 135px
 	$(e).width(w); $(e).height(h);
@@ -126,38 +132,144 @@ function set_map(e) {
 }
 
 function bubble_graph(e,v) {
-	var w = $(e).width(), h = $(e).height();
-	var bubble = d3.layout.pack().sort(null).value(function(d) { return eval(v); }).size([w,h]);
-	return bubble;
+  var w = $(e).width(), h = $(e).height();
+  var bubble = d3.layout.pack().sort(null).value(function(d) { return eval(v); }).size([w,h]);
+  return bubble;
 }
 
-function make_bubbles( b,v,c,u,l,i ) {
+function make_bubble_graph( graph_element,bubble_objects,bubble_value ) {
+	var bubble_graph = d3.layout.pack().sort(null).size([$(graph_element).width(),$(graph_element).height()])
+		.children(function(d) { return eval('d.'+bubble_objects); })
+		.value(function(d) { return scale(eval('d.'+bubble_value)); });
+	return bubble_graph;
+}
 
-	b.enter().append('div')
-		.attr('class', function(d) { return 'bubble '+eval(c); })
-		.html(function(d) { return '<span class="label">'+eval(l)+'</span>'; })
+function draw_bubbles( raw_data,bubble_objects,bubble_value,bubble_label ) {
+
+	var bubble_graph = make_bubble_graph( '#graph',bubble_objects,bubble_value );
+	var bubble_data =  bubble_graph(raw_data).filter(function(d) { return eval('d.data.'+bubble_value) > 0; });
+	
+	console.log(bubble_data);
+	
+	make_bubbles( bubble_data,bubble_value,bubble_label );
+	
+}
+
+function make_bubbles_new( bubble_data,bubble_value,bubble_label,bubble_color ) {
+	
+	var graph = set_graph('#graph');
+	var bubbles = graph.selectAll('div.bubble').data(bubble_data);
+	
+	console.log(bubbles);
+	
+	bubbles.enter().append('div')
+		.attr('class', function(d) { if (d.data.category) { return 'bubble '+d.data.category; } else { return 'bubble'; } })
+		.html(function(d) { if (bubble_label) { return '<span class="label">'+eval('d.data.'+bubble_label)+'</span>'; } })
 		.style('top', function(d) { return Math.floor(d.y)+'px'; })
 		.style('left', function(d) { return Math.floor(d.x)+'px'; })
 		.style('height', 0)
 		.style('width', 0)
 		.style('font-size',0)
-		.on("click", function(d) { return window.location = eval(u); });
+		.on('click', function(d) { if (d.data.url) { return window.location = d.data.url; } });
 	
-	b.transition().duration(1000)
+	bubbles.transition().duration(1000)
 		.style('top', function(d) { return Math.floor(d.y-d.r)+'px'; })
 		.style('left', function(d) { return Math.floor(d.x-d.r)+'px'; })
 		.style('height', function(d) { return Math.floor(d.r-1)*2+'px'; })
 		.style('width', function(d) { return Math.floor(d.r-1)*2+'px'; })
 		.style('font-size', function(d) { return Math.floor(d.r/3)+'px'; })
-		.style('background-image', function(d) { if (i) {return 'url('+eval(i)+')'; } })
-		.style('background-color', function(d) { return spectrum( eval(v) ) });
+		.style('background-image', function(d) { if (d.data.icon) { return 'url('+d.data.icon+')'; } })
+		.style('background-color', function(d) { if (bubble_color) { return spectrum( eval(bubble_color) ); } });
 	
-	b.exit()
+	bubbles.exit()
 		.transition().duration(1000)
 		.style('opacity', 0)
 		.style('height', 0)
 		.style('width', 0)
 		.style('font-size', 0)
+		.remove();
+}
+
+function make_bubbles( b,v,c,u,l,i ) {
+
+  b.enter().append('div')
+    .attr('class', function(d) { return 'bubble '+eval(c); })
+    .html(function(d) { return '<span class="label">'+eval(l)+'</span>'; })
+    .style('top', function(d) { return Math.floor(d.y)+'px'; })
+    .style('left', function(d) { return Math.floor(d.x)+'px'; })
+    .style('height', 0)
+    .style('width', 0)
+    .style('font-size',0)
+    .on("click", function(d) { return window.location = eval(u); });
+  
+  b.transition().duration(1000)
+    .style('top', function(d) { return Math.floor(d.y-d.r)+'px'; })
+    .style('left', function(d) { return Math.floor(d.x-d.r)+'px'; })
+    .style('height', function(d) { return Math.floor(d.r-1)*2+'px'; })
+    .style('width', function(d) { return Math.floor(d.r-1)*2+'px'; })
+    .style('font-size', function(d) { return Math.floor(d.r/3)+'px'; })
+    .style('background-image', function(d) { if (i) {return 'url('+eval(i)+')'; } })
+    .style('background-color', function(d) { if (v) {return spectrum( eval(v) ) } });
+  
+  b.exit()
+    .transition().duration(1000)
+    .style('opacity', 0)
+    .style('height', 0)
+    .style('width', 0)
+    .style('font-size', 0)
+    .remove();
+}
+
+function svg_bubbles( b_g,val,cat,url,lbl,ico ) {
+
+	svg_circles( b_g,val,cat,url,lbl,ico );
+	svg_labels( b_g,val,cat,url,lbl,ico );
+	
+}
+
+function svg_circles( b_g,val,cat,url,lbl,ico ) {
+				
+	b_g.enter().append('svg:circle')
+		.attr('class', function(d) { if (cat) { return 'bubble '+eval(cat); } else { return 'bubble'; } })
+		.attr('cx', function(d) { return Math.floor(d.x); })
+    .attr('cy', function(d) { return Math.floor(d.y); })
+    .attr('r', 0)
+		.on('click', function(d) { if (url) { return window.location = eval(url); } });
+			
+  b_g.transition().duration(1000)
+		.attr('cx', function(d) { return Math.floor(d.x); })
+    .attr('cy', function(d) { return Math.floor(d.y); })
+    .attr('r', function(d) { return Math.floor(d.r); })
+		.style('background-image', function(d) { if (ico) { return 'url('+eval(ico)+')'; } })
+		.style('fill', function(d) { if (val) { return spectrum( eval(val) ); } });
+		      
+  b_g.exit()
+    .transition().duration(1000)
+    .attr('r', 0)
+    .remove();
+
+}
+
+function svg_labels( b_g,val,cat,url,lbl,ico ) {
+
+  b_g.enter().append('svg:text')
+  	.text(function(d){ if (lbl) { return eval(lbl); }})
+		.attr('class','label')
+		.attr('x', function(d){ return Math.floor(d.x); })
+		.attr('y', function(d){ return Math.floor(d.y); })
+		.style('font-size',0)
+		.style('opacity',0)
+		.on('click', function(d) { if (url) { return window.location = eval(url); } });
+	
+	b_g.transition().duration(1000)
+		.attr('x', function(d){ return Math.floor(d.x); })
+		.attr('y', function(d){ return Math.floor(d.y); })
+		.style('font-size', function(d){ return Math.floor(d.r / 3)+'px'; })
+		.style('opacity',1);
+
+	b_g.exit()
+		.style('font-size',0)
+		.style('opacity',0)
 		.remove();
 }
 

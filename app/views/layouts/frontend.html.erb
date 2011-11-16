@@ -14,28 +14,26 @@
 
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<%= stylesheet_link_tag 'style','datatables' %>
-<%= javascript_include_tag 'modernizr-2.0.6.min.js' %>
+<%= stylesheet_link_tag 'style' %>
+<%= javascript_include_tag 'modernizr-2.0.6.min.js','prefixfree-1.0.4.min.js' %>
 <%= csrf_meta_tag %>
 </head>
 
-<body class="<%= controller_name %> <%= controller.action_name %>"><div id="wrapper">
+<body class="<%= controller_name %> <%= controller.action_name %>">
+<div id="wrapper">
 
 <%= render :partial => 'layouts/header' %>
 <%= render :partial => 'layouts/navbar' %>
 
 <div id="content" class="container">
-
 <%= yield %>
-
 </div><!-- #content -->
 
 </div><!-- #wrapper -->
 
 <%= javascript_include_tag 'load' %>
 <%= render :partial => 'layouts/sharethis' %>
-
-<!--[if lt IE 9 ]><script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script><script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script><![endif]-->
+<%= render :partial => 'layouts/chromeframe' %>
 
 </body>
 </html>
