@@ -12,7 +12,7 @@ class Project < ActiveRecord::Base
 	def self.live
 		Project.joins(:institutions,:subsidies).where(
 			"institutions.visible = true AND subsidies.approved = true AND subsidies.date > :start_date AND subsidies.date < :end_date AND subsidies.amount_original > 0",
-			{:start_date => "#{START_YEAR}-01-01", :end_date => "#{END_YEAR}-12-31"}
+			{:start_date => "#{START_YEAR-1}-01-01", :end_date => "#{END_YEAR}-12-31"}
 		).uniq
 	end
 	

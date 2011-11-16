@@ -5,13 +5,11 @@
 </table>
 
 <script>
-$(document).ready(function() {
+function drawTable(data) {
 	var h = $('#wrapper').height() - 328;
 	$('#projects').dataTable({
-		"bProcessing": true,
 		"bPaginate": false,
-		"sAjaxSource": "<%= request.url %>.json",
-		"sAjaxDataProp": "projects",
+		"aaData": data.projects,
 		"sScrollY": h+'px',
 		"aoColumns": [
 			{"sWidth":"100px", "fnRender":function(oObj) { return '$'+to_currency(oObj.aData['received']); }, "sType":"currency", "asSorting":["desc","asc"] },
@@ -31,7 +29,7 @@ $(document).ready(function() {
 			footer[0].innerHTML = '$'+to_currency(total['total']);
 		}
 	});
-});
+};
 </script>
 <% if @user %><p class="buttons">
 	<%= link_to 'New Project', new_admin_project_path, :class => "new button" %>
