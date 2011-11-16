@@ -1,0 +1,39 @@
+<table id="table">
+	<thead><tr><th>Amount</th><th>From</th><th>To</th><th>For</th><th>Date</th><th><span class="error icon">Errors?</span></th><th></th></tr></thead>
+	<tbody></tbody>
+	<tfoot><tr><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+</table>
+
+<script>
+function drawTable(data) {
+	console.log('called');
+	var h = $('#wrapper').height() - 328;
+	$('#table').dataTable({
+		"bPaginate":false,
+		"aaData": data.subsidies,
+		"sScrollY": h+'px',
+		"aoColumns": [
+			{"sWidth":"100px", "fnRender":function(oObj) { return '$'+to_currency(oObj.aData['amount']); }, "sType":"currency", "asSorting":["desc","asc"] },
+			{"fnRender":function(oObj) { return '<a href="/admin/institutions/'+oObj.aData['institution_id']+'">'+oObj.aData['from']+'</a>'; }},
+			{"fnRender":function(oObj) { return '<a href="/admin/entities/'+oObj.aData['entity_id']+'">'+oObj.aData['to']+'</a>'; }},
+			{"fnRender":function(oObj) { return '<a href="/admin/projects/'+oObj.aData['project_id']+'">'+oObj.aData['for']+'</a>'; }},
+			{"mDataProp":"date", "sWidth":"75px" },
+			{"sWidth":"15px", "fnRender":function(oObj) { if (oObj.aData['valid'] != true) { return '<span class="error icon">Errors</span>'; } else { return "&nbsp;"; }}},
+			{"bSortable":false, "sWidth":"15px", "fnRender":function(oObj) { return '<a class="edit icon" href="/admin/subsidies/'+oObj.aData['subsidy_id']+'/edit/">Edit</a>'; }}
+		],
+		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
+			var total = {'total':0};
+			for (var i=iStart; i<iEnd; i++) {
+				total['total']  += aaData[aiDisplay[i]]['amount']*1.0;
+			}
+			var footer = nRow.getElementsByTagName('th');
+			footer[0].innerHTML = '$'+to_currency(total['total']);
+		}
+	});
+	console.log('completed');
+};
+</script>
+
+<% if @user %><p class="buttons">
+	<%= link_to 'New Subsidy', new_admin_subsidy_path, :class => "new button" %>
+</p><% end %>
