@@ -5,8 +5,7 @@
 </table>
 
 <script>
-function drawTable(data) {
-	console.log('called');
+function draw_table( data ) {
 	var h = $('#wrapper').height() - 328;
 	$('#table').dataTable({
 		"bPaginate":false,
@@ -30,7 +29,6 @@ function drawTable(data) {
 			footer[0].innerHTML = '$'+to_currency(total['total']);
 		}
 	});
-	console.log('completed');
 };
 </script>
 

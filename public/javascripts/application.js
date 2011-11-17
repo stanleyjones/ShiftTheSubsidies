@@ -4,55 +4,34 @@
 
 $(document).ready(function() {
 
-	// HOME PAGE
+	// HOME
 	
 	if ($('#page.home').length) {
-		drawGraph(data);
+		draw_mini_graph(data);
 		$('#caption').fadeToggle(3000);
 	}
 	
-	// MAP/GRAPH/TABLE PAGES
+	// MAP/GRAPH/TABLE
 	
-	if (typeof dataURL != 'undefined') {
-		loader();
-		$.getJSON(dataURL+'?s='+s+'&e='+e, function(json){
-			if (typeof drawMap		=== 'function') { var map = set_map('#map'); drawMap(map,json); }
-			if (typeof drawGraph	=== 'function') { var graph = set_graph('#graph'); drawGraph(graph,json); }
-			if (typeof drawTable	=== 'function') { drawTable(json); }
-			loader();
-			$('#info').fadeToggle(3000);
-			$('#caption').fadeToggle(3000);
-		});
+	if ((typeof dataURL != 'undefined') && ($('#graph').length || $('#table').length || $('#map').length )) {
+		draw_elements(dataURL);
 	}
-
-	// PROJECT PAGES
+	
+	$('#start_year, #end_year').change(function(){
+		popover('range');
+		draw_elements(dataURL);
+	});
+	
+	// PROJECT
 		
 	if ($('#page.project').length) {
-		drawMiniMap();
+		draw_mini_map();
 	}
 
 	// MENUBAR
 	
 	if ($('#graph').length || $('#map').length) { viewmode('graph'); }
 	if ($('body.admin').length) { viewmode('table'); }
-
-	$('#start_year, #end_year').change(function(){
-		popover('range');
-		
-		var s = $('#start_year').val();
-		var e = $('#end_year').val();
-
-		loader();
-		$.getJSON(dataURL+'?s='+s+'&e='+e, function(json) {
-			if (typeof drawMap		=== 'function') { var map = set_map('#map'); drawMap(map,json); }
-			if (typeof drawGraph	=== 'function') { var graph = set_graph('#graph'); drawGraph(graph,json); }
-			if (typeof drawTable	=== 'function') { drawTable(json); }
-			$('.legend_start_year').text( s );
-			if (s != e) { $('.legend_end_year').text( '-'+e ); } else { $('.legend_end_year').text( '' ); }
-			loader();
-		});
-		
-	});
 	
 });
 
@@ -60,6 +39,32 @@ $(document).ready(function() {
 	Helper Functions
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
+function draw_elements( dataURL ) {
+	var s = $('#start_year').val() || 2008, e = $('#end_year').val() || 2011;
+	loader();
+	$.getJSON(dataURL+'?s='+s+'&e='+e, function( json ) {
+		if ($('#map').length   && typeof draw_map   === 'function') { draw_map( json ); }
+		if ($('#graph').length && typeof draw_graph	=== 'function') { draw_graph( json ); }
+		if ($('#table').length && typeof draw_table	=== 'function') { draw_table( json ); }
+		update_legend( s,e );
+		loader();
+		$('#info, #caption').fadeIn(3000);
+	});
+}
+
+function size_element(e) {
+	var c = $('#popup '+e).length ? '#popup' : '#wrapper';
+	var w = $(c).width(), h = $(c).height();
+	if (c == '#wrapper') { h -= 135; } // OCI header + navbar + menubar = 135px
+	$(e).width(w).height(h);
+	return {"w":w,"h":h};
+}
+	
+function update_legend( s,e ) {
+	$('.legend_start_year').text( s );
+	if (s != e) { $('.legend_end_year').text( '-'+e ); } else { $('.legend_end_year').text( '' ); }
+}
+	
 function loader() {
 	if ($('#loader').length) {
 		$('#loader').fadeToggle();
@@ -101,176 +106,50 @@ function to_short(n) {
 	http://mbostock.github.com/d3/
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-var scale = d3.scale.linear().domain([1,1E12]).range([1,600]).clamp(true).nice();
 var spectrum = function(d){ return d3.interpolateRgb('#333','#3f3')( d3.scale.pow().exponent(2)(d) ); }
+var scale = function(d,max){ return d3.scale.linear().domain([0,max]).range([1,5000]).clamp(true).nice()(d); }
 
-function bubblize(d) {
-	var bubbles = [];	
-	for (var b in d) {
-		var bubble = d[b];
-		bubbles.push(bubble);
-	}
-	return {children: bubbles};
+function draw_bubble_graph( graph,json ) {
+	var size = size_element('#graph');
+	
+  var pack = d3.layout.pack().sort(null).size([size['w'],size['h']])
+  	.value(function(d) { return scale(eval('d.'+graph['value']),graph['max_value']); })
+  	.children(function(d) { return eval('d.'+graph['objects']); });
+		
+  var bubbles = d3.select('#graph').selectAll("div.bubble")
+		.data( pack( json ).filter(function(d) { return !d.children; }) );
+	
+	draw_bubbles( bubbles,graph['label'],graph['color'] );
 }
 
-function set_graph(e) {
-	var w = $('#wrapper').width(), h = $('#wrapper').height()-135; // OCI header + navbar + menubar = 135px
-	var graph = d3.select(e).style("width", w+'px').style("height", h+'px');
-	return graph;
-}
-
-function svg_graph(e,o,v) {
-	var w = $('#wrapper').width(), h = $('#wrapper').height()-135; // OCI header + navbar + menubar = 135px
-  var graph = d3.select(e).append("svg:svg").attr("width", w).attr("height", h);
-  return graph;
-}
-
-function set_map(e) {
-	var w = $('#wrapper').width(), h = $('#wrapper').height()-135; // OCI header + navbar + menubar = 135px
-	$(e).width(w); $(e).height(h);
-	return e;
-}
-
-function bubble_graph(e,v) {
-  var w = $(e).width(), h = $(e).height();
-  var bubble = d3.layout.pack().sort(null).value(function(d) { return eval(v); }).size([w,h]);
-  return bubble;
-}
-
-function make_bubble_graph( graph_element,bubble_objects,bubble_value ) {
-	var bubble_graph = d3.layout.pack().sort(null).size([$(graph_element).width(),$(graph_element).height()])
-		.children(function(d) { return eval('d.'+bubble_objects); })
-		.value(function(d) { return scale(eval('d.'+bubble_value)); });
-	return bubble_graph;
-}
-
-function draw_bubbles( raw_data,bubble_objects,bubble_value,bubble_label ) {
-
-	var bubble_graph = make_bubble_graph( '#graph',bubble_objects,bubble_value );
-	var bubble_data =  bubble_graph(raw_data).filter(function(d) { return eval('d.data.'+bubble_value) > 0; });
-	
-	console.log(bubble_data);
-	
-	make_bubbles( bubble_data,bubble_value,bubble_label );
-	
-}
-
-function make_bubbles_new( bubble_data,bubble_value,bubble_label,bubble_color ) {
-	
-	var graph = set_graph('#graph');
-	var bubbles = graph.selectAll('div.bubble').data(bubble_data);
-	
-	console.log(bubbles);
-	
-	bubbles.enter().append('div')
-		.attr('class', function(d) { if (d.data.category) { return 'bubble '+d.data.category; } else { return 'bubble'; } })
-		.html(function(d) { if (bubble_label) { return '<span class="label">'+eval('d.data.'+bubble_label)+'</span>'; } })
-		.style('top', function(d) { return Math.floor(d.y)+'px'; })
-		.style('left', function(d) { return Math.floor(d.x)+'px'; })
-		.style('height', 0)
-		.style('width', 0)
-		.style('font-size',0)
-		.on('click', function(d) { if (d.data.url) { return window.location = d.data.url; } });
-	
-	bubbles.transition().duration(1000)
-		.style('top', function(d) { return Math.floor(d.y-d.r)+'px'; })
-		.style('left', function(d) { return Math.floor(d.x-d.r)+'px'; })
-		.style('height', function(d) { return Math.floor(d.r-1)*2+'px'; })
-		.style('width', function(d) { return Math.floor(d.r-1)*2+'px'; })
-		.style('font-size', function(d) { return Math.floor(d.r/3)+'px'; })
-		.style('background-image', function(d) { if (d.data.icon) { return 'url('+d.data.icon+')'; } })
-		.style('background-color', function(d) { if (bubble_color) { return spectrum( eval(bubble_color) ); } });
-	
-	bubbles.exit()
-		.transition().duration(1000)
-		.style('opacity', 0)
-		.style('height', 0)
-		.style('width', 0)
-		.style('font-size', 0)
-		.remove();
-}
-
-function make_bubbles( b,v,c,u,l,i ) {
-
-  b.enter().append('div')
-    .attr('class', function(d) { return 'bubble '+eval(c); })
-    .html(function(d) { return '<span class="label">'+eval(l)+'</span>'; })
+function draw_bubbles( bubbles,label,color ) {
+  bubbles.enter().append('div')
+    .attr('class', function(d) { if (d.data.category) { return 'bubble '+d.data.category; } else { return 'bubble'; }})
+    .html(function(d) { return '<span class="label">'+eval(label)+'</span>'; })
+    .on("click", function(d) { if (d.data.url) { return window.location = d.data.url; }})    
     .style('top', function(d) { return Math.floor(d.y)+'px'; })
     .style('left', function(d) { return Math.floor(d.x)+'px'; })
+		.style('opacity', 0)
     .style('height', 0)
     .style('width', 0)
-    .style('font-size',0)
-    .on("click", function(d) { return window.location = eval(u); });
+    .style('font-size',0);
   
-  b.transition().duration(1000)
+  bubbles.transition().duration(1000)
+    .style('background-image', function(d) { if (d.data.icon) {return 'url('+d.data.icon+')'; }})
+    .style('background-color', function(d) { if (color) {return spectrum( eval(color) ) }})
+		.style('opacity', 1)
     .style('top', function(d) { return Math.floor(d.y-d.r)+'px'; })
     .style('left', function(d) { return Math.floor(d.x-d.r)+'px'; })
     .style('height', function(d) { return Math.floor(d.r-1)*2+'px'; })
     .style('width', function(d) { return Math.floor(d.r-1)*2+'px'; })
-    .style('font-size', function(d) { return Math.floor(d.r/3)+'px'; })
-    .style('background-image', function(d) { if (i) {return 'url('+eval(i)+')'; } })
-    .style('background-color', function(d) { if (v) {return spectrum( eval(v) ) } });
-  
-  b.exit()
-    .transition().duration(1000)
-    .style('opacity', 0)
-    .style('height', 0)
-    .style('width', 0)
-    .style('font-size', 0)
-    .remove();
-}
-
-function svg_bubbles( b_g,val,cat,url,lbl,ico ) {
-
-	svg_circles( b_g,val,cat,url,lbl,ico );
-	svg_labels( b_g,val,cat,url,lbl,ico );
+    .style('font-size', function(d) { return Math.floor(d.r/3)+'px'; });
 	
-}
-
-function svg_circles( b_g,val,cat,url,lbl,ico ) {
-				
-	b_g.enter().append('svg:circle')
-		.attr('class', function(d) { if (cat) { return 'bubble '+eval(cat); } else { return 'bubble'; } })
-		.attr('cx', function(d) { return Math.floor(d.x); })
-    .attr('cy', function(d) { return Math.floor(d.y); })
-    .attr('r', 0)
-		.on('click', function(d) { if (url) { return window.location = eval(url); } });
-			
-  b_g.transition().duration(1000)
-		.attr('cx', function(d) { return Math.floor(d.x); })
-    .attr('cy', function(d) { return Math.floor(d.y); })
-    .attr('r', function(d) { return Math.floor(d.r); })
-		.style('background-image', function(d) { if (ico) { return 'url('+eval(ico)+')'; } })
-		.style('fill', function(d) { if (val) { return spectrum( eval(val) ); } });
-		      
-  b_g.exit()
-    .transition().duration(1000)
-    .attr('r', 0)
-    .remove();
-
-}
-
-function svg_labels( b_g,val,cat,url,lbl,ico ) {
-
-  b_g.enter().append('svg:text')
-  	.text(function(d){ if (lbl) { return eval(lbl); }})
-		.attr('class','label')
-		.attr('x', function(d){ return Math.floor(d.x); })
-		.attr('y', function(d){ return Math.floor(d.y); })
-		.style('font-size',0)
-		.style('opacity',0)
-		.on('click', function(d) { if (url) { return window.location = eval(url); } });
-	
-	b_g.transition().duration(1000)
-		.attr('x', function(d){ return Math.floor(d.x); })
-		.attr('y', function(d){ return Math.floor(d.y); })
-		.style('font-size', function(d){ return Math.floor(d.r / 3)+'px'; })
-		.style('opacity',1);
-
-	b_g.exit()
-		.style('font-size',0)
-		.style('opacity',0)
-		.remove();
+	bubbles.filter(function(d) { return d.value == 1; })
+		.transition().duration(1000)
+		.style('opacity', 0)
+		.style('height', 0)
+		.style('width', 0)
+		.style('font-size', 0);
 }
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -278,20 +157,20 @@ function svg_labels( b_g,val,cat,url,lbl,ico ) {
 	http://jvectormap.owl-hollow.net/
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-	function popRegion(cc) {
-		$('#popup').fadeIn();
-		$.getJSON('/regions/'+cc+'/projects.json', function(json){
-			var w = $('#popup').width(), h = $('#popup').height();
-/* 			var graph = d3.select('#graph').append("svg:svg").attr("width", w).attr("height", h); */
-			var graph = d3.select('#graph').style("width", w+'px').style("height", h+'px');
-			drawPopupGraph(graph,json);
-		});
-	}
-
-	$('button.close').click(function() {
-		$('#popup').fadeOut();
-		$('#popup #graph').html('');
+function popRegion( cc ) {
+	$('#popup').fadeIn();
+	loader();
+	$.getJSON('/regions/'+cc+'/projects.json', function( json ) {
+		var size = size_element( '#graph','#popup' );
+		draw_popup_graph( json );
+		loader();
 	});
+}
+
+$('button.close').click(function() {
+	$('#popup').fadeOut();
+	$('#popup #graph').html('');
+});
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	Tables (using dataTables jQuery plugin)
@@ -329,24 +208,3 @@ jQuery.fn.dataTableExt.oSort['currency-desc'] = function(a,b) {
 	x = parseFloat( x );	y = parseFloat( y );
 	return y - x;
 };
-
-fnServerObjectToArray = function (aElements) {
-	return function (sSource, aoData, fnCallback) {
-		$.ajax({
-			"dataType": "json", 
-			"type": "POST",
-			"url": sSource, 
-			"data": aoData, 
-			"success": function (json) {
-				var a = [];
-				for ( var i=0, iLen=json.aaData.length ; i<iLen ; i++ ) {
-					var inner = [];
-					for ( var j=0, jLen=aElements.length ; j<jLen ; j++ ) {	inner.push( json.aaData[i][aElements[j]] );	}
-					a.push( inner );
-				}
-				json.aaData = a;
-				fnCallback(json);
-			}
-		});
-	}
-}

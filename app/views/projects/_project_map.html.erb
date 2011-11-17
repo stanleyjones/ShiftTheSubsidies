@@ -1,16 +1,17 @@
 <div id="map">
-	<div id="popup" class="popup"><%= render :partial => 'region_popup' %></div>
+	<div id="popup" class="popup"><%= render :partial => 'region_bubbles' %></div>
 	<p id="caption"><b>Above:</b> Worldwide funding of <span class="clean">clean</span> vs <span class="fossil">fossil fuel</span> energy projects worldwide for <span class="legend_start_year"><%= @start_date.year %></span><span class="legend_end_year">-<%= @end_date.year %></span>.</p>
 </div>
 <script>
-function drawMap(map, data) {
+function draw_map( data ) {
 
 	var regions = {}, colors = {};
+	size_element('#map');
 						
 	$.each(data.projects, function() {
 		if (!regions[this.cc]) { regions[this.cc] = { 'clean': 0, 'access': 0, 'total': 0}; }
-		if (this['clean?']) { regions[this.cc]['clean'] += this['live_received']; }
-		if (this['access?']) { regions[this.cc]['access'] += this['live_received']; }
+		if (this['clean?'])    { regions[this.cc]['clean'] += this['live_received']; }
+		if (this['access?'])   { regions[this.cc]['access'] += this['live_received']; }
 		regions[this.cc].total += this['live_received'];
 	});
 		
@@ -18,14 +19,14 @@ function drawMap(map, data) {
 		colors[key] = spectrum(val.clean / Math.max(val.total,1));
 	});
 	
-	$(map).vectorMap({
+	$('#map').vectorMap({
 		color: '#ccc', hoverColor: '#f90', backgroundColor: 'transparent', colors: colors,
 		onLabelShow: function(e,l,c) {
 			var country = l.text();
 			if (regions[c] && regions[c]['total'] > 0) {
-				var clean = Math.floor( regions[c]['clean'] / Math.max(regions[c]['total'],1) * 100 );
+				var clean  = Math.floor( regions[c]['clean'] / Math.max(regions[c]['total'],1) * 100 );
 				var access = Math.floor( regions[c]['access'] / Math.max(regions[c]['total'],1) * 100 );
-				var total = to_currency( regions[c]['total'] );
+				var total  = to_currency( regions[c]['total'] );
 				l.html(country+'<br><span>$'+total+'</span><br><span class="clean">'+clean+'% clean</span> <span class="access">'+access+'% access</span>');
 			} else {
 				l.html(country);

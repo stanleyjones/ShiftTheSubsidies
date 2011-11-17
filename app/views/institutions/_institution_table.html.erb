@@ -1,18 +1,13 @@
 <p id="table_caption">Institutional subsidies for <span class="legend_start_year"><%= @start_date.year %></span><span class="legend_end_year">-<%= @end_date.year %></span></p>
 
-<table id="table" class="scroll_table">
-	<thead class="fixed_header">
-		<tr><th>Total</th><th>Institution</th><th>Clean</th><th>%</th><th>Fossil</th><th>%</th><th>Access</th><th>%</th></tr>
-  </thead>
-	<tbody class="scroll_body">
-	</tbody>
-	<tfoot class="fixed_footer">
-		<tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr>
-	</tfoot>
+<table id="table">
+	<thead><tr><th>Total</th><th>Institution</th><th>Clean</th><th>%</th><th>Fossil</th><th>%</th><th>Access</th><th>%</th></tr></thead>
+	<tbody></tbody>
+	<tfoot><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
 </table>
 
 <script>
-function drawTable(data) {
+function draw_table(data) {
 	var h = $('#graph').height() - 162; /* thead (86px) + tfoot (78px) */
 	var oTable = $('#table').dataTable({
 		"bDestroy": true,

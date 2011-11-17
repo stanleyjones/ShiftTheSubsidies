@@ -1,17 +1,16 @@
-<table id="subsidies">
+<table id="table">
 	<thead><tr><th>Amount</th><th>From</th><th>To</th><th>For</th><th>Date</th><th></th></tr></thead>
 	<tbody></tbody>
 	<tfoot><tr><th></th></tr></tfoot>
 </table>
 
 <script>
-$(document).ready(function() {
+function draw_table( data ) {
 	var h = $('#wrapper').height() - 328;
-	$('#subsidies').dataTable({
+	$('#table').dataTable({
 		"bProcessing":true,
 		"bPaginate":false,
-		"sAjaxSource":"<%= admin_institution_subsidies_url(@institution) %>.json",
-		"sAjaxDataProp":"subsidies",
+		"aaData": data.subsidies,
 		"sScrollY": h+'px',
 		"aoColumns": [
 			{ "mDataProp":"amount", "sType":"currency", "sWidth":"100px", "asSorting":["desc","asc"] },

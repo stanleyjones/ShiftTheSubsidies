@@ -1,8 +1,4 @@
 <%= render :partial => "layouts/menubar", :locals => {:title => 'Entity', :modes => false} %>
-
-<script>
-	var s = <%= @start_date.year %>, e = <%= @end_date.year %>;
-	var dataURL = '<%= request.url %>.json';
-</script>	
+<%= render :partial => "layouts/setvars" %>
 
 <div id="graphview" class="view"><%= render :partial => "entity_force" %></div>

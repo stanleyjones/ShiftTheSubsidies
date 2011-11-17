@@ -2,16 +2,14 @@
 	<div id="info"><h1><%= @sector.name %></h1><p><%= @sector.description %></p></div>
 	<p id="caption"><b>Above:</b> Projects of the <%= @sector.name %> sector, scaled by dollar amount.</p>
 </div>
-
 <script>
-function drawGraph(graph,data) {
-	var bubble = bubble_graph('#graph','d.live_received');
-	
-	var bubbles = graph.selectAll("div.bubble")
-		.data(bubble(bubblize(data.projects))
-			.filter(function(d) { return d.data.live_received > 0; })
-			.filter(function(d) { return !d.children; }));
-	
-	make_bubbles(bubbles,'','d.data.category','d.data.url','d.data.sector','d.data.icon');
+function draw_graph( json ) {
+	var graph = {
+		'objects':		'projects',
+		'value':			'live_received',
+		'max_value':	1E10,
+		'label':			'"$"+to_short(d.data.live_received)'
+	}
+	draw_bubble_graph( graph,json );
 }
 </script>

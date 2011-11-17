@@ -3,11 +3,11 @@
 <table id="table">
 	<thead><tr><th>Received</th><th></th><th>Projects</th><th>Name</th><th>Category</th></tr></thead>
 	<tbody></tbody>
-	<tfoot><tr><th></th><th></th><th></th><th></th></tr></tfoot>
+	<tfoot><tr><th></tr></tfoot>
 </table>
 
 <script>
-function drawTable(data) {
+function draw_table(data) {
 	var h = $('#graph').height() - 162; /* thead (86px) + tfoot (78px) */
 	var oTable = $('#table').dataTable({
 		"bDestroy": true,

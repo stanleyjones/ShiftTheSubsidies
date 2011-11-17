@@ -1,0 +1,13 @@
+<div id="graph"></div>
+<button class="close">&times;</button>
+<script>
+function draw_popup_graph( json ) {
+	var graph = {
+		'objects':		'projects',
+		'value':			'live_received',
+		'max_value':	1E10,
+		'label':			'"$"+to_short(d.data.live_received)'
+	}
+	draw_bubble_graph( graph,json );
+}
+</script>

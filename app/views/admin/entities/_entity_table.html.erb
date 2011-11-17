@@ -5,12 +5,11 @@
 </table>
 
 <script>
-$(document).ready(function() {
+function draw_table( data ) {
 	var h = $('#wrapper').height() - 328;
 	$('#table').dataTable({
 		"bPaginate": false,
-		"sAjaxSource": "<%= request.url %>.json",
-		"sAjaxDataProp": "entities",
+		"aaData": data.entities,
 		"sScrollY": h+'px',
 		"aoColumns": [
 			{"sWidth":"100px", "sType":"currency", "fnRender":function(oObj) { return '$'+to_currency(oObj.aData['total']); },"asSorting":["desc","asc"]},
@@ -30,7 +29,7 @@ $(document).ready(function() {
 			footer[0].innerHTML = '$'+to_currency(total['total']);
 		}
 	});
-});
+}
 </script>
 
 <% if @user %><p class="buttons">

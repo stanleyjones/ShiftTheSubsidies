@@ -1,13 +1,13 @@
-<table id="projects">
+<table id="table">
 	<thead><tr><th>Received</th><th>Name</th><th>Country</th><th>Sector</th><th>Access?</th><th><span class="error icon">Errors?</span></th><th></th></tr></thead>
 	<tbody></tbody>
 	<tfoot><tr><th></th></tr></tfoot>
 </table>
 
 <script>
-function drawTable(data) {
+function draw_table( data ) {
 	var h = $('#wrapper').height() - 328;
-	$('#projects').dataTable({
+	$('#table').dataTable({
 		"bPaginate": false,
 		"aaData": data.projects,
 		"sScrollY": h+'px',

@@ -1,5 +1,4 @@
 <header id="menubar"><h1><%= @sector.name %></h1></header>
+<script>var dataURL = '<%= request.url %>/projects.json', s = <%= @start_date.year %>, e = <%= @end_date.year %>;</script>
 
-<div id="tableview" class="view">
-	<%= render :partial => "projects" %>
-</div>
+<div id="tableview" class="view"><%= render :partial => "project_table" %></div>

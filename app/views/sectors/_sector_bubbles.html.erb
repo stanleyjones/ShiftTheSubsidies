@@ -1,16 +1,14 @@
 <div id="graph">
 	<p id="caption"><b>Above:</b> Funding to <span class="clean">clean</span>, <span class="fossil">fossil fuel</span>, and <span class="other">other</span> energy sectors for <span class="legend_start_year"><%= @start_date.year %></span><span class="legend_end_year">-<%= @end_date.year %></span>.</p>
 </div>
-
 <script>
-function drawGraph(graph,data) {
-	var bubble = bubble_graph('#graph','scale(d.live_received)');
-
-	var bubbles = graph.selectAll("div.bubble")
-		.data(bubble(bubblize(data.sectors))
-			.filter(function(d) { return d.data.live_received > 0; })
-			.filter(function(d) { return !d.children; }))
-
-	make_bubbles(bubbles,'','d.data.category','d.data.url','d.data.name','d.data.icon');
-};	
+function draw_graph( json ) {
+	var graph = {
+		'objects':		'sectors',
+		'value':			'live_received',
+		'max_value':	1E10,
+		'label':			'd.data.name'
+	}
+	draw_bubble_graph( graph,json );
+}
 </script>

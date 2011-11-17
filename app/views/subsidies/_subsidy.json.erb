@@ -1,7 +1,8 @@
 <% cache("subsidies/#{subsidy.id}-#{subsidy.updated_at}/#{start_year}/#{end_year}/show") do %>{
 		"amount": <%= subsidy.in_range?(Date.civil(start_year.to_i,1,1),Date.civil(end_year.to_i,12,31)) ? subsidy.amount : 0 %>,
 		"date": "<% if subsidy.date %><%= subsidy.date.strftime("%Y-%m-%d") %><% end %>",
-		
+		"url": "<%= url_for subsidy %>",
+
 		"from": "<% if subsidy.institution %><%= subsidy.institution.name %><% end %>",
 		"to": "<% if subsidy.entity %><%= subsidy.entity.name %><% end %>",
 		"for": "<% if subsidy.project %><%= subsidy.project.name %><% end %>",

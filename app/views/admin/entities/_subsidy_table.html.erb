@@ -1,22 +1,17 @@
-<table id="subsidies">
-	<thead>
-		<tr>
-    	<th>Amount (USD)</th>
-    	<th>From</th>
-    	<th>To</th>
-    	<th>For</th>
-    	<th>Date</th>
-    	<th></th>
-		</tr>
-  </thead>
+<table id="table">
+	<thead><tr><th>Amount</th><th>From</th><th>To</th><th>For</th><th>Date</th><th></th></tr></thead>
+	<tbody></tbody>
+	<tfoot><tr><th></th></tr></tfoot>
 </table>
 
 <script>
-$(document).ready(function() {
-	oTable = $('#subsidies').dataTable({
+function draw_table( data ) {
+	var h = $('#wrapper').height() - 328;
+	$('#table').dataTable({
 		"bProcessing":true,
-		"sAjaxSource":"<%= admin_entity_subsidies_url(@entity) %>.json",
-		"sAjaxDataProp":"subsidies",
+		"bPaginate":false,
+		"aaData": data.subsidies,
+		"sScrollY": h+'px',
 		"aoColumns": [
 			{ "mDataProp":"amount", "sType":"currency", "sWidth":"100px", "asSorting":["desc","asc"] },
 			{ "fnRender":function(oObj) { return oObj.aData['from']; }},
@@ -24,11 +19,9 @@ $(document).ready(function() {
 			{ "fnRender":function(oObj) { return '<a href="'+oObj.aData['project_url']+'">'+oObj.aData['for']+'</a>'; }},
 			{ "mDataProp":"date", "sWidth":"75px" },
 			{ "bSortable":false, "sWidth":"25px", "fnRender":function(oObj) { <% if @user %>return '<a class="edit icon" href="'+oObj.aData['subsidy_url']+'/edit/">Edit</a>';<% else %>return "";<% end %>}}
-		],
-		"sPaginationType": "full_numbers"
+		]
 	});
-	oTable.fnFilter( '^<%= @entity.name %>$',2,true );
-} );
+}
 </script>
 
 <% if @user %><p class="buttons">

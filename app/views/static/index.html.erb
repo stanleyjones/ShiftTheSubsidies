@@ -41,20 +41,24 @@
 	
 </div>
 <script>
-var data = [
+var data = {'categories': [
 	{"category": "Fossil Fuel", "total": <%= total_to_category("Fossil Fuel") %>, "label": "<%= number_to_short( total_to_category("Fossil Fuel") ) %>", "url":'/institutions/'},
 	{"category": "Clean", "total": <%= total_to_category("Clean") %>, "label": "<%= number_to_short( total_to_category("Clean") ) %>", "url":'/institutions/'},
 	{"category": "Other", "total": <%= total_to_category("Other") %>, "label": "<%= number_to_short( total_to_category("Other") ) %>", "url":'/institutions/'}
-];
+]};
 
-function drawGraph(data) {
-	var graph = set_graph('#graph');
-	graph.style('width','460px');
-	graph.style('height','500px');
-	var bubble = bubble_graph('#graph','d.total');
+function draw_mini_graph( json ) {
+	var graph = {
+		'objects':		'categories',
+		'value':			'total',
+		'max_value':	1E12,
+		'label':			'd.data.label'
+	}
+
+	$('#graph').width(455).height(500);
+  var pack = d3.layout.pack().sort(null).size([455,500]).value(function(d) { return eval('d.'+graph['value']); }).children(function(d) { return eval('d.'+graph['objects']); });
+  var bubbles = d3.select('#graph').selectAll("div.bubble").data( pack( json ).filter(function(d) { return !d.children; }) );
 	
-	var bubbles = graph.selectAll("div").data(bubble(bubblize(data)).filter(function(d){ return !d.children; }));
-
-	make_bubbles(bubbles,'','d.data.category','d.data.url','d.data.label','');
+	draw_bubbles( bubbles,graph['label'],graph['color'] );
 }
 </script>

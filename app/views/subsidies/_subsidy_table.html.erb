@@ -7,7 +7,7 @@
 </table>
 
 <script>
-function drawTable(data) {
+function draw_table(data) {
 	var h = $('#graph').height() - 162; /* thead (86px) + tfoot (78px) */
 	var oTable = $('#table').dataTable({
 		"bDestroy": true,
@@ -16,10 +16,10 @@ function drawTable(data) {
 		"sScrollY": h+'px',
 		"aoColumns": [
 			{"sWidth":"100px", "fnRender":function(oObj) { return '$'+to_currency(oObj.aData['amount']); }, "sType":"currency", "asSorting":["desc","asc"] },
-			{ "fnRender":function(oObj) { return '<a href="'+oObj.aData['institution_url']+'">'+oObj.aData['from']+'</a>'; }},
-			{ "fnRender":function(oObj) { return '<a href="'+oObj.aData['entity_url']+'">'+oObj.aData['to']+'</a>'; }},
-			{ "fnRender":function(oObj) { return '<a href="'+oObj.aData['project_url']+'">'+oObj.aData['for']+'</a>'; }},
-			{ "mDataProp":"date", "sWidth":"75px" },
+			{"sWidth":"200px", "fnRender":function(oObj) { return '<a href="'+oObj.aData['institution_url']+'">'+oObj.aData['from']+'</a>'; }},
+			{"sWidth":"200px", "fnRender":function(oObj) { return '<a href="'+oObj.aData['entity_url']+'">'+oObj.aData['to']+'</a>'; }},
+			{"sWidth":"200px", "fnRender":function(oObj) { return '<a href="'+oObj.aData['project_url']+'">'+oObj.aData['for']+'</a>'; }},
+			{"sWidth":"100px", "mDataProp":"date"},
 		],
 		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
 			var total = {'total':0};
@@ -30,6 +30,10 @@ function drawTable(data) {
 			footer[0].innerHTML = '$'+to_currency(total['total']);
 		}
 	});
+	$.fn.dataTableExt.afnFiltering.push(function( oSettings, aData, iDataIndex ) {
+		if ( aData[0] != '$0' ) { return true; } else { return false; }
+	});
+	oTable.fnDraw();
 	$('button.table').click(function() { oTable.fnAdjustColumnSizing(); });	
 };
 </script>

@@ -2,16 +2,14 @@
 	<div id="info"><h1><%= @institution.name %></h1><p><%= @institution.description %></p></div>
 	<p id="caption"><b>Above:</b> <span class="clean">clean</span>, <span class="fossil">fossil fuel</span>, and <span class="other">other</span> energy subsidies by <%= @institution.shortname %>, scaled by dollar amount.</p>
 </div>
-
 <script>
-function drawGraph(graph,data) {
-	var bubble = bubble_graph('#graph','d.amount');
-	
-	var bubbles = graph.selectAll("div.bubble")
-		.data(bubble(bubblize(data.subsidies))
-			.filter(function(d) { return d.data.amount > 0; })
-			.filter(function(d) { return !d.children; }));
-	
-	make_bubbles(bubbles,'','d.data.category','d.data.project_url','"$"+to_short(d.data.amount)','d.data.icon');
+function draw_graph( json ) {
+	var graph = {
+		'objects':		'subsidies',
+		'value':			'amount',
+		'max_value':	1E10,
+		'label':			'"$"+to_short(d.data.amount)'
+	}
+	draw_bubble_graph( graph,json );
 }
 </script>

@@ -1,33 +1,15 @@
 <div id="graph">
 	<p id="caption"><b>Above:</b> Institutions sized by funding and shaded by <span class="clean">clean</span> vs <span class="fossil">fossil fuel</span> energy projects in their portfolio for <span class="legend_start_year"><%= @start_date.year %></span><span class="legend_end_year">-<%= @end_date.year %></span>.</p>
 </div>
-
 <script>
-function drawGraph(graph,data) {
-	
-	// Variables unique to this graph
-	
-	var bubble_objects = 'institutions';
-	var bubble_value   = 'live_total';
-	var bubble_label   = 'abbreviation';
-	
-	var bubble = bubble_graph( '#graph','scale(d.live_total)' );
-	
-	// Create graph from vars + data
-	
-/* 	draw_bubbles( data,bubble_objects,bubble_value,bubble_label ); */
-	
-/* 	var bubble_graph = make_bubble_graph('#graph',bubble_objects,bubble_value); */
-/*	var bubble_data = bubble_graph(data).filter(function(d) { return eval('d.data.'+bubble_value) > 0; }); */
-		
-	// Assign data to graph
-	
-  var bubbles = graph.selectAll("div.bubble")
-    .data(bubble(bubblize(data.institutions))
-      .filter(function(d) { return d.data.live_total > 0; })
-      .filter(function(d) { return !d.children; }));
-
-  make_bubbles(bubbles,'d.data.live_clean / d.data.live_total','d.data.category','d.data.url','d.data.abbreviation');
-
+function draw_graph( json ) {
+	var graph = {
+		'objects':		'institutions',
+		'value':			'live_total',
+		'max_value':	1E12,
+		'label':			'd.data.abbreviation',
+		'color':			'd.data.live_clean / d.data.live_total'
+	}
+	draw_bubble_graph( graph,json );
 }
 </script>
