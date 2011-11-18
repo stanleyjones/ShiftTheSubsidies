@@ -209,7 +209,7 @@
 	#content #caption span {font-weight:bold;}
 	
 	.page {padding:20px;}
-	#content .page h2 {border-bottom:2px solid #ccc;}
+	#content .page h2 {border-bottom:2px solid #ccc; font-weight:bold;}
 	.page p {clear:both;}
 	
 	.page .block {position:relative; float:left; width:300px; height:auto; margin:0 10px 20px 0;}
