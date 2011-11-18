@@ -1,8 +1,6 @@
 class SubsidiesController < ApplicationController
 	skip_before_filter :authorize, :only => [:index, :show]
 
-	layout 'frontend'
-
   def index
 		respond_to do |format|
       format.html # index.html.erb

@@ -2,8 +2,6 @@ class InstitutionsController < ApplicationController
 	skip_before_filter :authorize, :only => [:index, :show, :graph]
 	#caches_action :show
 
-	layout 'frontend'
-
   def index
 		@institutions = Institution.where(:visible => true)
     respond_to do |format|

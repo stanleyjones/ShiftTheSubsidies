@@ -9,36 +9,28 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
 <title>Shift The Subsidies</title>
-<meta name="description" content="The Shift the Subsidies database is an interactive tool to visually track and analyze the flow of energy subsidies from international, regional and bilateral public financial institutions around the world.">
+<meta name="description" content="ShiftTheSubsidies.org is an interactive tool to visually track and analyze the flow of energy subsidies from international, regional and bilateral public financial institutions around the world.">
 <meta name="author" content="Oil Change International">
-
-<meta name="viewport" content="width=device-width,initial-scale=1">
-
-<%= stylesheet_link_tag 'style','datatables' %>
-<%= javascript_include_tag 'modernizr-2.0.6.min.js', 'jquery-1.6.4.min.js', 'd3-2.2.0/d3.min.js', 'd3-2.2.0/d3.layout.min.js', 'd3-2.2.0/d3.geom.min.js','jquery.datatables-1.8.2.min.js','rails.min.js','application.js' %>
-<%= javascript_include_tag 'sie/sie.js', 'sie/svginhtml.js' %>
+<%= stylesheet_link_tag 'style' %>
+<%= javascript_include_tag 'modernizr-2.0.6.min.js','prefixfree-1.0.4.min.js' %>
 <%= csrf_meta_tag %>
 </head>
 
-<body><div id="wrapper">
+<body class="<%= controller_name %> <%= controller.action_name %>">
+<div id="wrapper">
 
 <%= render :partial => 'layouts/header' %>
 <%= render :partial => 'layouts/navbar' %>
 
 <div id="content" class="container">
-
 <%= yield %>
-
 </div><!-- #content -->
 
 </div><!-- #wrapper -->
 
-<%= javascript_include_tag 'jquery.datatables-1.8.2.min.js','rails.min.js','application.js' %>
+<%= javascript_include_tag 'load' %>
+<%= render :partial => 'layouts/sharethis' %>
+<%= render :partial => 'layouts/chromeframe' %>
 
-<!--[if lt IE 7 ]>
-<script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
-<script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
-<![endif]-->
-  
 </body>
 </html>

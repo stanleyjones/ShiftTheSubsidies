@@ -2,8 +2,6 @@ class ProjectsController < ApplicationController
 	skip_before_filter :authorize, :only => [:index, :show]
 	caches_action :show
 	
-	layout 'frontend'
-
   def index
 		respond_to do |format|
       format.html

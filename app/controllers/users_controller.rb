@@ -1,6 +1,4 @@
 class UsersController < ApplicationController
-
-	layout 'frontend'
 	
   # GET /users
   # GET /users.xml
