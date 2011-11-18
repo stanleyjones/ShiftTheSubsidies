@@ -1,3 +1,3 @@
-{ "sectors":[
+<% cache("sectors#{request.fullpath}/index") do %>{ "sectors":[
 	<%= render :partial => "sector", :collection => @sectors, :locals => {:start_year => @start_date.year, :end_year => @end_date.year }, :spacer_template => "layouts/comma_return" %>
-]}
+]}<% end %>

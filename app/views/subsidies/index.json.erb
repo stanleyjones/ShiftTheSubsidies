@@ -1,3 +1,3 @@
-{ "subsidies":[
+<% cache("projects#{request.fullpath}/index") do %>{ "subsidies":[
 	<%= render :partial => "subsidy", :collection => @subsidies, :locals => {:start_year => @start_date.year, :end_year => @end_date.year }, :spacer_template => "layouts/comma_return" %>
-]}
+]}<% end %>

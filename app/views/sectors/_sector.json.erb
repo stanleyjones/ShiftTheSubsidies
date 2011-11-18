@@ -1,15 +1,1 @@
-<% cache("sectors/#{sector.id}-#{sector.updated_at}/#{start_year}/#{end_year}/show") do %>{
-		"name": "<%= sector.name %>",
-		"category": "<%= sector.category %>",
-		"url": "<%= url_for sector %>",
-		"valid": <%= sector.valid? %>,
-
-		"projects": <%= sector.projects.size %>,
-		"live_projects": <%= sector.live_projects.size %>,
-
-		"received": "<%= sector.received(@start_date,@end_date) %>",
-		"live_received": <%= sector.received(@start_date,@end_date,sector.live_projects) %>,
-
-		"icon": "<%= sector.icon %>",
-		"sector_id": <%= sector.id %>
-}<% end %>
+<% cache("sectors/#{sector.id}-#{sector.updated_at}/#{start_year}/#{end_year}/show") do %>{"name": "<%= sector.name %>", "category": "<%= sector.category %>", "url": "<%= url_for sector %>", "live_projects": <%= sector.live_projects.size %>, "live_received": <%= sector.received(@start_date,@end_date,sector.live_projects) %>, "icon": "<%= sector.icon %>", "sector_id": <%= sector.id %>}<% end %>
