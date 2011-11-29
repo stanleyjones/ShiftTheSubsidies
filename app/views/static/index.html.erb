@@ -6,7 +6,7 @@
 <div id="page" class="home page">
 
 	<div id="graph">
-		<p id="caption"><b>Above:</b> World Bank Group subsidies to <span class="clean">clean</span>, <span class="fossil">fossil fuel</span>, and <span class="other">other</span> energy projects for 2008-2011.</p>
+		<p id="caption"><b>Above:</b> Subsidies from the World Bank Group (FY2008&ndash;FY2011) and major regional development banks (FY2008&ndash;FY2010) to <span class="clean">clean</span>, <span class="fossil">fossil fuel</span>, and <span class="other">other</span> energy projects.</p>
 	</div>
 	
 	<div id="definition">
@@ -23,12 +23,12 @@
 	<hr>
 	
 	<div class="institutions block"><h2>Funding Institutions</h2>
-		<p>Development banks say they're going green, but MIGA's fossil fuel guarantees are... <strong>93% OF ITS ENERGY PORTFOLIO?</strong></p>
+		<p>Development banks say they're going green, but IFC's fossil fuel finance is... <strong>TWO THIRDS OF ITS ENERGY PORTFOLIO?</strong></p>
 		<p><%= link_to "Learn which institutions are funding what projects »", institutions_path %></p>
 	</div>
 
 	<div class="projects block"><h2>Project Map</h2>
-		<p>Your tax dollars are rebuilding the energy infrastructure... <strong>OF SAUDI ARABIA?</strong></p>
+		<p>Your tax dollars are rebuilding the energy infrastructure... <strong>OF RUSSIA?</strong></p>
 		<p><%= link_to "Learn what they're building with the world's help »", projects_path %></p>
 	</div>
 	
@@ -38,7 +38,7 @@
 	</div>
 	
 	<div class="subsidies block last"><h2>Energy Subsidies</h2>
-		<p>In the past three years, development banks have subsidized the fossil fuel industry... <strong>OVER $20B?</strong></p>
+		<p>In the past three years, development banks have subsidized the fossil fuel industry... <strong>OVER $40B?</strong></p>
 		<p><%= link_to "Learn where all that money is going »", subsidies_path %></p>
 	</div>
 		
@@ -62,7 +62,7 @@ function draw_mini_graph( json ) {
 	}
 
 	$('#graph').width(455).height(500);
-  var pack = d3.layout.pack().sort(null).size([455,500]).value(function(d) { return eval('d.'+graph['value']); }).children(function(d) { return eval('d.'+graph['objects']); });
+  var pack = d3.layout.pack().sort(null).size([455,455]).value(function(d) { return eval('d.'+graph['value']); }).children(function(d) { return eval('d.'+graph['objects']); });
   var bubbles = d3.select('#graph').selectAll("div.bubble").data( pack( json ).filter(function(d) { return !d.children; }) );
 	
 	draw_bubbles( bubbles,graph['label'],graph['color'] );
