@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   before_filter :authorize, :get_daterange
-  before_filter :authenticate #HTTP
+  #before_filter :authenticate #HTTP
   
   protected
   
