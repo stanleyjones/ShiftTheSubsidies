@@ -17,8 +17,13 @@ class ProjectSweeper < ActionController::Caching::Sweeper
 	private
 	
 	def expire_cache(project)
-		expire_action :controller => "/projects", :action => "show", :id => project
+
+		expire_fragment(:controller => "/projects", :action => "index")
 		expire_fragment(project)
+
+		expire_fragment(:controller => "/sectors", :action => "index")
+		expire_fragment(project.sector)
+
 		expire_action :controller => "/admin/welcome", :action => "dashboard"
 	end
 

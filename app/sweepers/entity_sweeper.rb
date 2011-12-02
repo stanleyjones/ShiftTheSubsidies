@@ -17,7 +17,10 @@ class EntitySweeper < ActionController::Caching::Sweeper
 	private
 	
 	def expire_cache(entity)
+
+		expire_fragment(:controller => "/entities", :action => "index")
 		expire_fragment(entity)
+
 		expire_action :controller => "/admin/welcome", :action => "dashboard"
 	end
 

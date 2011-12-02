@@ -17,7 +17,10 @@ class SectorSweeper < ActionController::Caching::Sweeper
 	private
 	
 	def expire_cache(sector)
+
+		expire_fragment(:controller => "/sectors", :action => "index")
 		expire_fragment(sector)
+
 		expire_action :controller => "/admin/welcome", :action => "dashboard"
 	end
 
