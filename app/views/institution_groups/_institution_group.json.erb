@@ -1,5 +1,6 @@
 <% cache(institution_group) do %>{
 	"name": "<%= institution_group.name %>",
+	"abbreviation": "<%= institution_group.name %>",
 	"url": "<%= url_for institution_group %>",
 
 	"awarded": {<% (START_YEAR..END_YEAR).each do |y| %>
@@ -7,5 +8,5 @@
 		"all":  {"clean": <%= institution_group.awarded_to_category('Clean',Date.civil(START_YEAR.to_i,1,1),Date.civil(END_YEAR.to_i,12,31),institution_group.live_institutions) %>, "fossil": <%= institution_group.awarded_to_category('Fossil Fuel',Date.civil(START_YEAR.to_i,1,1),Date.civil(END_YEAR.to_i,12,31),institution_group.live_institutions) %>, "access": <%= institution_group.awarded_to_energy_access(Date.civil(START_YEAR.to_i,1,1),Date.civil(END_YEAR.to_i,12,31),institution_group.live_institutions) %>, "total": <%= institution_group.awarded(Date.civil(START_YEAR.to_i,1,1),Date.civil(END_YEAR.to_i,12,31),institution_group.live_institutions) %>}
 	},
 	
-	"institution_id":<%= institution_group.id %>
+	"institution_group_id":<%= institution_group.id %>
 }<% end %>

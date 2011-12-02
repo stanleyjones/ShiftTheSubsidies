@@ -71,8 +71,8 @@ function size_element(e) {
 }
 	
 function update_legend( r ) {
-	$('.legend_start_year').text( r );
-	if (r == 'all') { $('.legend_end_year').text( '-2011' ); } else { $('.legend_end_year').text( '' ); }
+	if (r == 'all') { $('.legend_start_year').text( '2008-2011' ); } else { $('.legend_start_year').text( r ); }
+	$('.legend_end_year').text( '' );
 	$('#info, #caption').fadeIn(3000);
 }
 	

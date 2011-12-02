@@ -14,6 +14,10 @@ class Institution < ActiveRecord::Base
 		Institution.where(:visible => true)
 	end
 	
+	def self.ungrouped
+		Institution.where(:institution_group_id => nil)
+	end
+	
 	def shortname
 		self.abbreviation || self.name
 	end

@@ -176,6 +176,7 @@
 		#menubar ul#popovers button {width:auto;}
 		#menubar ul#popovers ul {display:none; background:#000;}
 		#menubar ul#popovers h2 {margin:0; padding:0; line-height:25px; color:#ccc; font-weight:bold;}
+	#menubar #r {text-transform:uppercase;}
 
 	/* Content */
 

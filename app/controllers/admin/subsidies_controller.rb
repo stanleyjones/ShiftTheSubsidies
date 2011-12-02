@@ -7,11 +7,13 @@ class Admin::SubsidiesController < ApplicationController
     respond_to do |format|
       format.html
       format.json do
-      	if params[:institution_id] and @institution = Institution.find(params[:institution_id])
+  			if params[:institution_id] and @institution = Institution.find(params[:institution_id])
   				@subsidies = @institution.subsidies
+  			elsif params[:entity_id] and @entity = Entity.find(params[:entity_id])
+  				@subsidies = @entity.subsidies
   			else
 	    		@subsidies = Subsidy.all(:include => [:institution,:entity,:project])
-				end
+  		  end
 			end
 		end
   end

@@ -1,6 +1,5 @@
 class InstitutionsController < ApplicationController
 	skip_before_filter :authorize, :only => [:index, :show, :graph]
-	#caches_action :show
 
   def index
     respond_to do |format|
