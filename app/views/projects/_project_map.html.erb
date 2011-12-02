@@ -1,39 +1,53 @@
 <div id="map">
 	<div id="popup" class="popup"><%= render :partial => 'region_bubbles' %></div>
-	<p id="caption"><b>Above:</b> Worldwide funding of <span class="clean">clean</span> vs <span class="fossil">fossil fuel</span> energy projects for <span class="legend_start_year"><%= @start_date.year %></span><span class="legend_end_year">-<%= @end_date.year %></span>.</p>
+	<p id="caption"><b>Above:</b> Worldwide funding of <span class="clean">clean</span> vs <span class="fossil">fossil fuel</span> energy projects for <span class="legend_start_year"><%= @start_date.year %></span><span class="legend_end_year">-<%= @end_date.year %></span>.<br>Countries without multilateral development bank projects are <span class="other">grey</span>.</p>
 </div>
 <script>
 function draw_map( data ) {
 
-	var regions = {}, colors = {};
-	size_element('#map');
-						
+	if (!$('#map svg').length) {
+		size_element('#map');
+		$('#map').vectorMap({color: '#ccc', hoverColor: '#f90', backgroundColor: 'transparent'});
+		$('#map').bind('labelShow.jvectormap', function(e,l,c) { append_label( l,c ); });
+		$('#map').bind('regionClick.jvectormap', function(e,c) { draw_popup( c ); });
+	}
+
+	var colors = {}, countries = $('#map').data('mapObject').pathes;
+	
+	$.each(countries, function() { this.total = 0; this.clean = 0; this.access = 0;	})
+	
 	$.each(data.projects, function() {
-		if (!regions[this.cc]) { regions[this.cc] = { 'clean': 0, 'access': 0, 'total': 0}; }
-		if (this['clean?'])    { regions[this.cc]['clean'] += this['live_received']; }
-		if (this['access?'])   { regions[this.cc]['access'] += this['live_received']; }
-		regions[this.cc].total += this['live_received'];
+		if (countries[this.cc]) {
+			if (this['clean?'])    { countries[this.cc].clean += this['received'][r]; }
+			if (this['access?'])   { countries[this.cc].access += this['received'][r]; }
+			countries[this.cc].total += this['received'][r];
+		}
 	});
 		
-	$.each(regions, function(key,val) {
-		colors[key] = spectrum(val.clean / Math.max(val.total,1));
+	$.each(countries, function(key,val) {
+		if (this.total > 0) {
+			colors[key] = spectrum(countries[key].clean / Math.max(countries[key].total,1));
+		} else {
+			colors[key] = '#ccc';
+		}
 	});
+	$('#map').vectorMap('set', 'colors', colors);
+		
+	function append_label(l,c) {
+		var country = countries[c];
+		if (country.total > 0) {
+			var clean  = Math.floor( country.clean / Math.max(country.total,1) * 100 );
+			var access = Math.floor( country.access / Math.max(country.total,1) * 100 );
+			var total  = to_currency( country.total );
+			l.html(country.name+'<br><span>$'+total+'</span><br><span class="clean">'+clean+'% clean</span> <span class="access">'+access+'% access</span>');
+		} else {
+			l.html(country.name);
+		}
+	}
 	
-	$('#map').vectorMap({
-		color: '#ccc', hoverColor: '#f90', backgroundColor: 'transparent', colors: colors,
-		onLabelShow: function(e,l,c) {
-			var country = l.text();
-			if (regions[c] && regions[c]['total'] > 0) {
-				var clean  = Math.floor( regions[c]['clean'] / Math.max(regions[c]['total'],1) * 100 );
-				var access = Math.floor( regions[c]['access'] / Math.max(regions[c]['total'],1) * 100 );
-				var total  = to_currency( regions[c]['total'] );
-				l.html(country+'<br><span>$'+total+'</span><br><span class="clean">'+clean+'% clean</span> <span class="access">'+access+'% access</span>');
-			} else {
-				l.html(country);
-			}
-		},
-		onRegionClick: function(e,c) { popRegion(c); }
-	});
-				
+	function draw_popup(c) {
+		if (countries[c].total > 0) { popRegion(c); }
+	}
+	
 }
 </script>

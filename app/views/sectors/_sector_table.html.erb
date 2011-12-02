@@ -1,7 +1,7 @@
 <p id="table_caption">Energy sectors for <span class="legend_start_year"><%= @start_date.year %></span><span class="legend_end_year">-<%= @end_date.year %></span></p>
 
 <table id="table">
-	<thead><tr><th>Received</th><th></th><th>Projects</th><th>Name</th><th>Category</th></tr></thead>
+	<thead><tr><th>Received</th><th></th><th>Name</th><th>Category</th></tr></thead>
 	<tbody></tbody>
 	<tfoot><tr><th></tr></tfoot>
 </table>
@@ -15,20 +15,22 @@ function draw_table(data) {
 		"aaData": data.sectors,
 		"sScrollY": h+'px',
 		"aoColumns": [
-			{"sWidth":"100px", "fnRender":function(oObj) { return '$'+to_currency(oObj.aData['live_received']); }, "sType":"currency", "asSorting":["desc","asc"] },
+			{"sWidth":"100px", "fnRender":function(oObj) { return '$'+to_currency(oObj.aData['received'][r]); }, "sType":"currency", "asSorting":["desc","asc"] },
 			{"sWidth":"15px", "fnRender":function(oObj) { return '<img src="'+oObj.aData['icon']+'" height="32" width="32" />'; }},
-			{"sWidth":"50px", "mDataProp":"live_projects"},
 			{"fnRender":function(oObj) { return '<a href="/sectors/'+oObj.aData['sector_id']+'">'+oObj.aData['name']+'</a>'; }},
 			{"sWidth":"100px", "mDataProp":"category"},
 		],
 		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
 			var total = {'total':0, 'clean':0, 'fossil':0, 'access':0};
 			for (var i=iStart; i<iEnd; i++) {
-				total['total']  += aaData[aiDisplay[i]]['live_received']*1.0;
+				total['total']  += aaData[aiDisplay[i]]['received'][r]*1.0;
 			}
 			var footer = nRow.getElementsByTagName('th');
 			footer[0].innerHTML = '$'+to_currency(total['total']);
 		}
+	});
+	$.fn.dataTableExt.afnFiltering.push(function( oSettings, aData, iDataIndex ) {
+		if ( aData[0] != '$0' ) { return true; } else { return false; }
 	});
 	$('button.table').click(function() { oTable.fnAdjustColumnSizing(); });	
 };

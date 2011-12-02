@@ -15,7 +15,7 @@ function draw_table(data) {
 		"aaData": data.subsidies,
 		"sScrollY": h+'px',
 		"aoColumns": [
-			{"sWidth":"100px", "fnRender":function(oObj) { return '$'+to_currency(oObj.aData['amount']); }, "sType":"currency", "asSorting":["desc","asc"] },
+			{"sWidth":"100px", "fnRender":function(oObj) { return '$'+to_currency(oObj.aData['amount'][r]); }, "sType":"currency", "asSorting":["desc","asc"] },
 			{"fnRender":function(oObj) { return oObj.aData['to']; }},
 			{"fnRender":function(oObj) { return '<a href="'+oObj.aData['project_url']+'">'+oObj.aData['for']+'</a>'; }},
 			{"sWidth":"100px", "mDataProp":"sector"},
@@ -25,11 +25,14 @@ function draw_table(data) {
 		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
 			var total = {'total':0};
 			for (var i=iStart; i<iEnd; i++) {
-				total['total']  += aaData[aiDisplay[i]]['amount']*1.0;
+				total['total']  += aaData[aiDisplay[i]]['amount'][r]*1.0;
 			}
 			var footer = nRow.getElementsByTagName('th');
 			footer[0].innerHTML = '$'+to_currency(total['total']);
 		}
+	});
+	$.fn.dataTableExt.afnFiltering.push(function( oSettings, aData, iDataIndex ) {
+		if ( aData[0] != '$0' ) { return true; } else { return false; }
 	});
 	$('button.table').click(function() { oTable.fnAdjustColumnSizing(); });	
 };

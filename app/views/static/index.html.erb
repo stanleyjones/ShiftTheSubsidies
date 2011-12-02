@@ -48,9 +48,9 @@
 </div>
 <script>
 var data = {'categories': [
-	{"category": "Fossil Fuel", "total": <%= total_to_category("Fossil Fuel") %>, "label": "<%= number_to_short( total_to_category("Fossil Fuel") ) %>", "url":'/institutions/'},
-	{"category": "Clean", "total": <%= total_to_category("Clean") %>, "label": "<%= number_to_short( total_to_category("Clean") ) %>", "url":'/institutions/'},
-	{"category": "Other", "total": <%= total_to_category("Other") %>, "label": "<%= number_to_short( total_to_category("Other") ) %>", "url":'/institutions/'}
+	{"category": "Fossil Fuel", "total": <%= total_to_category("Fossil Fuel") %>, "label": "<%= number_to_short( total_to_category("Fossil Fuel") ) %>", "url":'/institutions'},
+	{"category": "Clean", "total": <%= total_to_category("Clean") %>, "label": "<%= number_to_short( total_to_category("Clean") ) %>", "url":'/institutions'},
+	{"category": "Other", "total": <%= total_to_category("Other") %>, "label": "<%= number_to_short( total_to_category("Other") ) %>", "url":'/institutions'}
 ]};
 
 function draw_mini_graph( json ) {

@@ -14,12 +14,13 @@ $(document).ready(function() {
 	// MAP/GRAPH/TABLE
 	
 	if ((typeof dataURL != 'undefined') && ($('#graph').length || $('#table').length || $('#map').length )) {
-		draw_elements(dataURL);
+		draw_elements();
 	}
 	
-	$('#start_year, #end_year').change(function(){
+	$('#start_year, #end_year, #r').change(function(e){
 		popover('range');
-		draw_elements(dataURL);
+		r = $('#r').val();
+		draw_elements();
 	});
 	
 	// PROJECT
@@ -39,17 +40,26 @@ $(document).ready(function() {
 	Helper Functions
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-function draw_elements( dataURL ) {
-	var s = $('#start_year').val() || 2008, e = $('#end_year').val() || 2011;
-	loader();
-	$.getJSON(dataURL+'?s='+s+'&e='+e, function( json ) {
-		if ($('#map').length   && typeof draw_map   === 'function') { draw_map( json ); }
-		if ($('#graph').length && typeof draw_graph	=== 'function') { draw_graph( json ); }
-		if ($('#table').length && typeof draw_table	=== 'function') { draw_table( json ); }
-		update_legend( s,e );
+function draw_elements() {
+/* 	var s = $('#start_year').val() || 2008, e = $('#end_year').val() || 2011; */
+	if (typeof data == 'undefined' || data == '') {
 		loader();
-		$('#info, #caption').fadeIn(3000);
-	});
+		$.getJSON(dataURL, function( json ) {
+			data = json;
+			draw_elements_from_data( data );
+			loader();
+			update_legend( r );
+		});
+	} else {
+		draw_elements_from_data( data );
+		update_legend( r );
+	}
+}
+
+function draw_elements_from_data( data ) {
+	if ($('#map').length   && typeof draw_map   === 'function') { draw_map( data ); }
+	if ($('#graph').length && typeof draw_graph	=== 'function') { draw_graph( data ); }
+	if ($('#table').length && typeof draw_table	=== 'function') { draw_table( data ); }
 }
 
 function size_element(e) {
@@ -60,9 +70,10 @@ function size_element(e) {
 	return {"w":w,"h":h};
 }
 	
-function update_legend( s,e ) {
-	$('.legend_start_year').text( s );
-	if (s != e) { $('.legend_end_year').text( '-'+e ); } else { $('.legend_end_year').text( '' ); }
+function update_legend( r ) {
+	$('.legend_start_year').text( r );
+	if (r == 'all') { $('.legend_end_year').text( '-2011' ); } else { $('.legend_end_year').text( '' ); }
+	$('#info, #caption').fadeIn(3000);
 }
 	
 function loader() {

@@ -1,1 +1,25 @@
-<% cache("subsidies/#{subsidy.id}-#{subsidy.updated_at}/#{start_year}/#{end_year}/show") do %>{"amount": <%= subsidy.in_range?(Date.civil(start_year.to_i,1,1),Date.civil(end_year.to_i,12,31)) ? subsidy.amount : 0 %>, "date": "<% if subsidy.date %><%= subsidy.date.strftime("%Y-%m-%d") %><% end %>", "url": "<%= url_for subsidy %>", "from": "<% if subsidy.institution %><%= subsidy.institution.name %><% end %>", "to": "<% if subsidy.entity %><%= subsidy.entity.name %><% end %>", "for": "<% if subsidy.project %><%= subsidy.project.name %><% end %>", "sector": "<% if subsidy.project %><%= subsidy.project.sector_name %><% end %>", "icon": "<% if subsidy.project %><%= subsidy.project.icon %><% end %>", "category": "<% if subsidy.project %><%= subsidy.project.category %><% end %>", "access?": <% if subsidy.project %><%= subsidy.project.access? %><% end %>, "institution_url": "<% if subsidy.institution %><%= url_for subsidy.institution %><% end %>", "entity_url": "<% if subsidy.entity %><%= url_for subsidy.entity %><% end %>", "project_url": "<% if subsidy.project %><%= url_for subsidy.project %><% end %>", "subsidy_url": "<%= url_for subsidy %>"}<% end %>
+<% cache(subsidy) do %>{
+
+	"amount": {<% (START_YEAR..END_YEAR).each do |y| %>
+		"<%= y %>": <%= subsidy.in_range?(Date.civil(y.to_i,1,1),Date.civil(y.to_i,12,31)) ? subsidy.amount : 0 %>,<% end %>
+		"all": <%= subsidy.amount %>
+	},
+
+	"date": "<% if subsidy.date %><%= subsidy.date.strftime("%Y-%m-%d") %><% end %>", 
+	"url": "<%= url_for subsidy %>", 
+
+	"from": "<% if subsidy.institution %><%= subsidy.institution.name %><% end %>", 
+	"to": "<% if subsidy.entity %><%= subsidy.entity.name %><% end %>", 
+	"for": "<% if subsidy.project %><%= subsidy.project.name %><% end %>", 
+
+	"sector": "<% if subsidy.project %><%= subsidy.project.sector_name %><% end %>", 
+	"icon": "<% if subsidy.project %><%= subsidy.project.icon %><% end %>", 
+	"category": "<% if subsidy.project %><%= subsidy.project.category %><% end %>", 
+
+	"access?": <% if subsidy.project %><%= subsidy.project.access? %><% end %>, 
+
+	"institution_url": "<% if subsidy.institution %><%= url_for subsidy.institution %><% end %>", 
+	"entity_url": "<% if subsidy.entity %><%= url_for subsidy.entity %><% end %>", 
+	"project_url": "<% if subsidy.project %><%= url_for subsidy.project %><% end %>", 
+	"subsidy_url": "<%= url_for subsidy %>"
+}<% end %>

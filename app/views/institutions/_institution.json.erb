@@ -1,1 +1,14 @@
-<% cache("institutions/#{institution.id}-#{institution.updated_at}/#{start_year}/#{end_year}/show") do %>{"name": "<%= institution.name %>","abbreviation": "<%= institution.abbreviation %>", "description": "<%= institution.description %>", "url": "<%= url_for institution %>", "valid": <%= institution.valid? %>, "live_total": <%= institution.awarded(@start_date,@end_date,institution.live_subsidies) %>, "live_clean": <%= institution.awarded_to_category('Clean',@start_date,@end_date,institution.live_subsidies) %>, "live_fossil": <%= institution.awarded_to_category('Fossil Fuel',@start_date,@end_date,institution.live_subsidies) %>, "live_access": <%= institution.awarded_to_energy_access(@start_date,@end_date,institution.live_subsidies) %>, "institution_id":<%= institution.id %>}<% end %>
+<% cache(institution) do %>{
+	"name": "<%= institution.name %>",
+	"abbreviation": "<%= institution.abbreviation %>",
+	"description": "<%= institution.description %>",
+	"url": "<%= url_for institution %>",
+	"valid": <%= institution.valid? %>,
+	
+	"awarded": {<% (START_YEAR..END_YEAR).each do |y| %>
+		"<%= y %>": {"clean": <%= institution.awarded_to_category('Clean',Date.civil(y.to_i,1,1),Date.civil(y.to_i,12,31),institution.live_subsidies) %>, "fossil": <%= institution.awarded_to_category('Fossil Fuel',Date.civil(y.to_i,1,1),Date.civil(y.to_i,12,31),institution.live_subsidies) %>, "access": <%= institution.awarded_to_energy_access(Date.civil(y.to_i,1,1),Date.civil(y.to_i,12,31),institution.live_subsidies) %>, "total": <%= institution.awarded(Date.civil(y.to_i,1,1),Date.civil(y.to_i,12,31),institution.live_subsidies) %>},<% end %>
+		"all":  {"clean": <%= institution.awarded_to_category('Clean',Date.civil(START_YEAR.to_i,1,1),Date.civil(END_YEAR.to_i,12,31),institution.live_subsidies) %>, "fossil": <%= institution.awarded_to_category('Fossil Fuel',Date.civil(START_YEAR.to_i,1,1),Date.civil(END_YEAR.to_i,12,31),institution.live_subsidies) %>, "access": <%= institution.awarded_to_energy_access(Date.civil(START_YEAR.to_i,1,1),Date.civil(END_YEAR.to_i,12,31),institution.live_subsidies) %>, "total": <%= institution.awarded(Date.civil(START_YEAR.to_i,1,1),Date.civil(END_YEAR.to_i,12,31),institution.live_subsidies) %>}
+	},
+	
+	"institution_id":<%= institution.id %>
+	}<% end %>

@@ -6,9 +6,9 @@
 function draw_graph( json ) {
 	var graph = {
 		'objects':		'subsidies',
-		'value':			'amount',
+		'value':			'amount["'+r+'"]',
 		'max_value':	1E10,
-		'label':			'"$"+to_short(d.data.amount)'
+		'label':			'"$"+to_short(d.data.amount["'+r+'"])'
 	}
 	draw_bubble_graph( graph,json );
 }

@@ -1,4 +1,4 @@
-<%= render :partial => "layouts/menubar" %>
+<%= render :partial => "layouts/menubar", :locals => {:start_date => @start_date, :end_date => @end_date} %>
 <%= render :partial => 'layouts/setvars' %>
 
 <div id="graphview" class="view"><%= render :partial => "project_map" %></div>
