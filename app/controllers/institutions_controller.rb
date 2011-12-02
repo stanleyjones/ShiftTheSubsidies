@@ -3,14 +3,15 @@ class InstitutionsController < ApplicationController
 	#caches_action :show
 
   def index
-		@institutions = Institution.where(:visible => true)
     respond_to do |format|
- 	    format.html do # index.html.erb
- 	    	if request.xhr?
- 	    		render :partial => "animated_bubbles"
- 	    	end
- 	    end
-      format.json # index.json.erb
+ 	    format.html
+ 	    format.json do
+				if params[:institution_group_id] and @institution_group = InstitutionGroup.find(params[:institution_group_id])
+  				@institutions = @institution_group.institutions
+  			else
+	  		  @institutions = Institution.live
+				end
+			end
    	end
   end
 

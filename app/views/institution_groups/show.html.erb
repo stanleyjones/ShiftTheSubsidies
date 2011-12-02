@@ -1,20 +1,11 @@
-<p id="notice"><%= notice %></p>
+<%= render :partial => "layouts/menubar", :locals => {:title => @institution_group.name, :start_date => @start_date, :end_date => @end_date} %>
 
-<p>
-  <b>Name:</b>
-  <%= @institution_group.name %>
-</p>
+<script>
+	var data = '';
+	var r = 'all';
+	var s = <%= @start_date.year %>, e = <%= @end_date.year %>;
+	var dataURL = '<%= request.url %>/institutions.json';
+</script>
 
-<p>
-  <b>Country:</b>
-  <%= @institution_group.country %>
-</p>
-
-<p>
-  <b>Region:</b>
-  <%= @institution_group.region %>
-</p>
-
-
-<%= link_to 'Edit', edit_institution_group_path(@institution_group) %> |
-<%= link_to 'Back', institution_groups_path %>
+<div id="graphview" class="view"><%= render :partial => "institution_bubbles", :object => @institutions %></div>
+<div id="tableview" class="view"><%= render :partial => "institution_table" %></div>

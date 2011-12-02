@@ -6,11 +6,10 @@ class InstitutionGroupsController < ApplicationController
   # GET /institution_groups.xml
   def index
     @institution_groups = InstitutionGroup.all
-
     respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @institution_groups }
-    end
+ 	    format.html # index.html.erb
+			format.json
+   	end
   end
 
   # GET /institution_groups/1

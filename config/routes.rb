@@ -27,6 +27,9 @@ ShiftTheSubsidies::Application.routes.draw do
   resources :sectors, :only => ['index', 'show'] do
   	resources :projects, :only => :index
   end
+  resources :institution_groups, :only => ['index', 'show'] do
+  	resources :institutions, :only => :index
+  end
 
 	match 'regions/:cc/projects' => 'projects#index'
 
