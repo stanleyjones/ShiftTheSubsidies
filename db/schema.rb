@@ -67,7 +67,7 @@ ActiveRecord::Schema.define(:version => 20110919182251) do
   create_table "subsidies", :force => true do |t|
     t.integer  "amount_usd",      :limit => 8
     t.string   "currency",                     :default => "USD"
-    t.date     "date"
+    t.date     "date",                                            :null => false
     t.integer  "institution_id"
     t.integer  "entity_id"
     t.integer  "project_id"

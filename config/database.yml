@@ -1,8 +1,8 @@
 development:
   adapter: mysql2
   database: shiftthesubsidies_development
-  username: endoilaid
-  password: 3nd01la1d
+  username: diligent_rordb 
+  password: d1l1g3nt!
   host: localhost
 
 test:
