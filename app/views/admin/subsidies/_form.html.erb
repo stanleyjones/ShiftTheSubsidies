@@ -3,12 +3,17 @@
 	<%= render :partial => "layouts/errors", :object => @subsidy, :as => :model %>
 
   <div class="field">
-    <%= f.label :amount_original, "Amount" %><br />
+    <%= f.label :amount_original, "Amount (Original Currency)" %><br />
     <%= f.text_field :amount_original %>
   </div>
   <div class="field">
     <%= f.label :currency %><br />
     <%= f.select :currency, currency_options_for_select( @subsidy.currency ), {:include_blank => "Select original currency"} %>
+    <button onclick="autoconvert(); return false;">Auto-Convert</button>
+  </div>
+  <div class="field">
+  	<%= f.label :amount_usd, "Amount (USD)" %><br />
+  	<%= f.text_field :amount_usd %>
   </div>
   
   <div class="field">
@@ -46,3 +51,14 @@
     <%= f.submit %> or <%= link_to "Cancel", admin_subsidies_path %>
   </div>
 <% end %>
+
+<script>
+	$.getJSON('http://openexchangerates.org/latest.json',function(data) {
+		if ( typeof fx !== "undefined" && fx.rates ) {
+			fx.rates = data.rates;
+			fx.base = data.base;
+		} else {
+			var fxSetup = {rates: data.rates, base: data.base}
+		}
+	});
+</script>

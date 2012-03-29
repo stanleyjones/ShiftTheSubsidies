@@ -219,3 +219,18 @@ jQuery.fn.dataTableExt.oSort['currency-desc'] = function(a,b) {
 	x = parseFloat( x );	y = parseFloat( y );
 	return y - x;
 };
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	Currency Conversion (using money.js/fx)
+	http://josscrowcroft.github.com/money.js/
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+function autoconvert() {
+	var amount_original = $('#subsidy_amount_original').val();
+	var original_currency = $('#subsidy_currency').val();
+	
+	fx.settings = { from: original_currency, to: 'USD' };
+	var amount_usd = fx.convert( amount_original );
+		
+	$('#subsidy_amount_usd').val(Math.round( amount_usd ));	
+}

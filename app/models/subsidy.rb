@@ -1,7 +1,7 @@
 include SubsidiesHelper
 
 class Subsidy < ActiveRecord::Base
-		
+
 	validates :amount_usd, :numericality => { :greater_than_or_equal_to => 0 }, :allow_nil => true
 	validates :amount_original, :numericality => { :greater_than_or_equal_to => 0 }
 	validates :currency, :presence => true
@@ -24,7 +24,9 @@ class Subsidy < ActiveRecord::Base
   
   def amount
   	Rails.cache.fetch("subsidy/#{self.id}-#{self.updated_at}/amount", :expires_in => 24.hours) do
-  		if self.amount_original
+  		if self.amount_usd
+  			return self.amount_usd
+  		elsif self.amount_original
 	  		if self.currency == "USD"
   				return self.amount_original
 	  		elsif self.currency == "UAC"
@@ -33,8 +35,6 @@ class Subsidy < ActiveRecord::Base
   				original = self.amount_original.to_money(self.currency)
   				return original.exchange_to('USD').dollars
 	  		end
-	  	elsif self.amount_usd
-  			return self.amount_usd
   		else
   			return 0
   		end
