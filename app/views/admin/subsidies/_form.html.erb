@@ -9,7 +9,7 @@
   <div class="field">
     <%= f.label :currency %><br />
     <%= f.select :currency, currency_options_for_select( @subsidy.currency ), {:include_blank => "Select original currency"} %>
-    <button onclick="autoconvert(); return false;">Auto-Convert</button>
+    <button id="autoconvert">Auto-Convert</button>
   </div>
   <div class="field">
   	<%= f.label :amount_usd, "Amount (USD)" %><br />
@@ -53,6 +53,7 @@
 <% end %>
 
 <script>
+$(function(){
 	$.getJSON('http://openexchangerates.org/latest.json',function(data) {
 		if ( typeof fx !== "undefined" && fx.rates ) {
 			fx.rates = data.rates;
@@ -61,4 +62,9 @@
 			var fxSetup = {rates: data.rates, base: data.base}
 		}
 	});
+	$("#autoconvert").click(function(event) {
+		event.preventDefault();
+		autoconvert();
+	});
+})
 </script>
