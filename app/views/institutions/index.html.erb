@@ -1,5 +1,5 @@
 <%= render :partial => "layouts/menubar", :locals => {:start_date => @start_date, :end_date => @end_date} %>
-<%= render :partial => 'layouts/setvars' %>
+<script>var data = '', dataURL = '/institution_groups.json', r = "all", s = <%= @start_date.year %>, e = <%= @end_date.year %>;</script>
 
-<div id="graphview" class="view"><%= render :partial => "institution_bubbles" %></div>
-<div id="tableview" class="view"><%= render :partial => "institution_table" %></div>
+<div id="graphview" class="view"><%= render :partial => "institution_groups/institution_group_bubbles" %></div>
+<div id="tableview" class="view"><%= render :partial => "institution_groups/institution_group_table" %></div>
