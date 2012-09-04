@@ -14,10 +14,6 @@ gem 'carmen'
 gem 'money'
 gem 'google_currency'
 
-# Deploy to Heroku
-gem 'heroku'
-gem 'taps'
-
 group :test do
 	gem 'sqlite3-ruby', :require => 'sqlite3'
 end
@@ -26,4 +22,8 @@ group :development do
 	gem 'mysql2', '0.2.6'
 #	gem 'rake', '0.8.7'
 	gem 'ruby-prof'
+
+	# Deploy to Heroku
+	gem 'heroku'
+	gem 'taps'
 end
