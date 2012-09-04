@@ -4,13 +4,27 @@ require 'money/bank/google_currency'
 module SubsidiesHelper
 
 	Money.default_bank = Money::Bank::GoogleCurrency.new
-	Money::Currency::TABLE[:UAC] = {	
+
+# 	Money::Currency::TABLE[:UAC] = {	
+# 		:iso_code        => "UAC",
+# 		:name            => "Units of Account",
+# 		:symbol          => "UA",
+# 		:separator       => ".",
+# 		:delimiter       => ","
+# 	}
+
+	uac = {
+		:priority        => 1,
 		:iso_code        => "UAC",
+		:iso_numeric     => "840",
 		:name            => "Units of Account",
 		:symbol          => "UA",
+		:subunit         => "Cent",
+		:subunit_to_unit => 100,
 		:separator       => ".",
 		:delimiter       => ","
 	}
+    Money::Currency.register(uac)
 
 	def currency_options_for_select( selected = nil )
 		currencies = Money::Currency::TABLE.keys
