@@ -54,7 +54,7 @@
 
 <script>
 $(function(){
-	$.getJSON('http://openexchangerates.org/latest.json',function(data) {
+	$.getJSON('http://openexchangerates.org/latest.json?app_id=b0c4c804f0f04c7c9a26f9db3a52f08c',function(data) {
 		if ( typeof fx !== "undefined" && fx.rates ) {
 			fx.rates = data.rates;
 			fx.base = data.base;
