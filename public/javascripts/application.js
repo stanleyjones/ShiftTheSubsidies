@@ -71,7 +71,7 @@ function size_element(e) {
 }
 	
 function update_legend( r ) {
-	if (r == 'all') { $('.legend_start_year').text( '2008-2011' ); } else { $('.legend_start_year').text( r ); }
+	if (r == 'all') { $('.legend_start_year').text( '2008-2012' ); } else { $('.legend_start_year').text( r ); }
 	$('.legend_end_year').text( '' );
 	$('#info, #caption').fadeIn(3000);
 }
@@ -107,9 +107,9 @@ function to_currency(n) {
 
 function to_short(n) {
 	var sizes = ' KMBT';
-  if (n <= 0) return '0';
-  var t2 = Math.min(Math.floor(Math.log(n)/Math.log(1000)), 12);
-  return (Math.round(n * 100 / Math.pow(1000, t2)) / 100) + sizes.charAt(t2).replace(' ', '');
+	if (n <= 0) return '0';
+	var t2 = Math.min(Math.floor(Math.log(n)/Math.log(1000)), 12);
+	return (Math.round(n * 100 / Math.pow(1000, t2)) / 100) + sizes.charAt(t2).replace(' ', '');
 }
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

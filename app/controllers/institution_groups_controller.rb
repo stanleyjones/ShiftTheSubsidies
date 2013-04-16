@@ -2,7 +2,7 @@ class InstitutionGroupsController < ApplicationController
 	skip_before_filter :authorize, :only => [:index, :show]
 	
   def index
-    @institution_groups = InstitutionGroup.all
+    @institution_groups = InstitutionGroup.live
     @institutions = Institution.ungrouped.live
     respond_to do |format|
  	    format.html # index.html.erb
