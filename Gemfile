@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.19'
-gem 'jquery-rails', '>= 1.0.3'
+gem 'rails', '= 3.1.11'
+gem 'jquery-rails'
 gem 'json_pure'
 
 # Caching
@@ -14,13 +14,19 @@ gem 'carmen'
 gem 'money'
 gem 'google_currency'
 
+# Asset pipeline
+group :assets do
+  gem 'sass-rails',   "~> 3.1.5"
+  gem 'coffee-rails', "~> 3.1.1"
+  gem 'uglifier',     ">= 1.0.3"
+end
+
 group :test do
 	gem 'sqlite3-ruby', :require => 'sqlite3'
 end
 
 group :development do
-	gem 'mysql2', '0.2.6'
-#	gem 'rake', '0.8.7'
+	gem 'mysql2'
 	gem 'ruby-prof'
 
 	# Deploy to Heroku
