@@ -41,7 +41,7 @@ module SubsidiesHelper
 		return "$#{ number_to_human( amount, :format => "%n%u", :units => {:unit => "USD", :thousand => "k", :million => "M", :billion => "B"} )}"
 	end
 
-	def total_to_category(category)
+	def total_to_category( category )
 		amount = 0
 		Subsidy.live.each do |s|
 			if s.in_category?(category) then amount += s.amount; end

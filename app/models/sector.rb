@@ -29,9 +29,9 @@ class Sector < ActiveRecord::Base
 	end
 	
 	def live_projects
-		Rails.cache.fetch("sectors/#{self.id}-#{self.updated_at}/live_projects") do
+		# Rails.cache.fetch("sectors/#{self.id}-#{self.updated_at}/live_projects") do
 			self.projects.live
-		end
+		# end
 	end
 
 end

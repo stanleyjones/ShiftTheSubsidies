@@ -5,35 +5,35 @@
 $(document).ready(function() {
 
 	// HOME
-	
+
 	if ($('#page.home').length) {
 		draw_mini_graph(data);
 		$('#caption').fadeToggle(3000);
 	}
-	
+
 	// MAP/GRAPH/TABLE
-	
+
 	if ((typeof dataURL != 'undefined') && ($('#graph').length || $('#table').length || $('#map').length )) {
 		draw_elements();
 	}
-	
+
 	$('#start_year, #end_year, #r').change(function(e){
 		popover('range');
 		r = $('#r').val();
 		draw_elements();
 	});
-	
+
 	// PROJECT
-		
+
 	if ($('#page.project').length) {
 		draw_mini_map();
 	}
 
 	// MENUBAR
-	
+
 	if ($('#graph').length || $('#map').length) { viewmode('graph'); }
 	if ($('body.admin').length) { viewmode('table'); }
-	
+
 });
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -41,8 +41,7 @@ $(document).ready(function() {
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 function draw_elements() {
-/* 	var s = $('#start_year').val() || 2008, e = $('#end_year').val() || 2011; */
-	if (typeof data == 'undefined' || data == '') {
+	if (typeof data == 'undefined' || data === '') {
 		loader();
 		$.getJSON(dataURL, function( json ) {
 			data = json;
@@ -69,13 +68,13 @@ function size_element(e) {
 	$(e).width(w).height(h);
 	return {"w":w,"h":h};
 }
-	
+
 function update_legend( r ) {
 	if (r == 'all') { $('.legend_start_year').text( '2008-2012' ); } else { $('.legend_start_year').text( r ); }
 	$('.legend_end_year').text( '' );
 	$('#info, #caption').fadeIn(3000);
 }
-	
+
 function loader() {
 	if ($('#loader').length) {
 		$('#loader').fadeToggle();
@@ -117,44 +116,44 @@ function to_short(n) {
 	http://mbostock.github.com/d3/
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-var spectrum = function(d){ return d3.interpolateRgb('#333','#3f3')( d3.scale.pow().exponent(2)(d) ); }
-var scale = function(d,max){ return d3.scale.linear().domain([0,max]).range([1,5000]).clamp(true).nice()(d); }
+var spectrum = function(d){ return d3.interpolateRgb('#333','#3f3')( d3.scale.pow().exponent(2)(d) ); };
+var scale = function(d,max){ return d3.scale.linear().domain([0,max]).range([1,5000]).clamp(true).nice()(d); };
 
 function draw_bubble_graph( graph,json ) {
 	var size = size_element('#graph');
-	
-  var pack = d3.layout.pack().sort(null).size([size['w'],size['h']])
-  	.value(function(d) { return scale(eval('d.'+graph['value']),graph['max_value']); })
-  	.children(function(d) { return eval('d.'+graph['objects']); });
-		
-  var bubbles = d3.select('#graph').selectAll("div.bubble")
+
+	var pack = d3.layout.pack().sort(null).size([size['w'],size['h']])
+		.value(function(d) { return scale(eval('d.'+graph['value']),graph['max_value']); })
+		.children(function(d) { return eval('d.'+graph['objects']); });
+
+	var bubbles = d3.select('#graph').selectAll("div.bubble")
 		.data( pack( json ).filter(function(d) { return !d.children; }) );
-	
+
 	draw_bubbles( bubbles,graph['label'],graph['color'] );
 }
 
 function draw_bubbles( bubbles,label,color ) {
   bubbles.enter().append('div')
-    .attr('class', function(d) { if (d.data.category) { return 'bubble '+d.data.category; } else { return 'bubble'; }})
+    .attr('class', function(d) { if (d.category) { return 'bubble '+d.category; } else { return 'bubble'; }})
     .html(function(d) { return '<span class="label">'+eval(label)+'</span>'; })
-    .on("click", function(d) { if (d.data.url) { return window.location = d.data.url; }})    
+    .on("click", function(d) { if (d.url) { window.location = d.url; }})
     .style('top', function(d) { return Math.floor(d.y)+'px'; })
     .style('left', function(d) { return Math.floor(d.x)+'px'; })
-		.style('opacity', 0)
+	.style('opacity', 0)
     .style('height', 0)
     .style('width', 0)
     .style('font-size',0);
-  
+
   bubbles.transition().duration(1000)
-    .style('background-image', function(d) { if (d.data.icon) {return 'url('+d.data.icon+')'; }})
-    .style('background-color', function(d) { if (color) {return spectrum( eval(color) ) }})
-		.style('opacity', 1)
+    .style('background-image', function(d) { if (d.icon) {return 'url('+d.icon+')'; }})
+    .style('background-color', function(d) { if (color) { return spectrum( eval(color) ); }})
+	.style('opacity', 1)
     .style('top', function(d) { return Math.floor(d.y-d.r)+'px'; })
     .style('left', function(d) { return Math.floor(d.x-d.r)+'px'; })
     .style('height', function(d) { return Math.floor(d.r-1)*2+'px'; })
     .style('width', function(d) { return Math.floor(d.r-1)*2+'px'; })
     .style('font-size', function(d) { return Math.floor(d.r/3)+'px'; });
-	
+
 	bubbles.filter(function(d) { return d.value == 1; })
 		.transition().duration(1000)
 		.style('opacity', 0)
@@ -228,9 +227,9 @@ jQuery.fn.dataTableExt.oSort['currency-desc'] = function(a,b) {
 function autoconvert() {
 	var amount_original = $('#subsidy_amount_original').val();
 	var original_currency = $('#subsidy_currency').val();
-	
+
 	fx.settings = { from: original_currency, to: 'USD' };
 	var amount_usd = fx.convert( amount_original );
-		
-	$('#subsidy_amount_usd').val(Math.round( amount_usd ));	
+
+	$('#subsidy_amount_usd').val(Math.round( amount_usd ));
 }

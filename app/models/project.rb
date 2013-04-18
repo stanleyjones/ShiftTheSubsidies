@@ -62,9 +62,9 @@ class Project < ActiveRecord::Base
 	end
 	
 	def live_subsidies
-		Rails.cache.fetch("projects/#{self.id}-#{self.updated_at}/live_subsidies") do
+		# Rails.cache.fetch("projects/#{self.id}-#{self.updated_at}/live_subsidies") do
 			self.subsidies.live
-		end
+		# end
 	end
 	
 end

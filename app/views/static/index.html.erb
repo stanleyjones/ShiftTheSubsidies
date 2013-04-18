@@ -47,23 +47,34 @@
 	
 </div>
 <script>
-var data = {'categories': [
-	{"category": "Fossil Fuel", "total": <%= total_to_category("Fossil Fuel") %>, "label": "<%= number_to_short( total_to_category("Fossil Fuel") ) %>", "url":'/institutions'},
-	{"category": "Clean", "total": <%= total_to_category("Clean") %>, "label": "<%= number_to_short( total_to_category("Clean") ) %>", "url":'/institutions'},
-	{"category": "Other", "total": <%= total_to_category("Other") %>, "label": "<%= number_to_short( total_to_category("Other") ) %>", "url":'/institutions'}
-]};
+var data = {
+	'categories': [
+		{"category": "Fossil Fuel", "total": <%= total_to_category("Fossil Fuel") %>, "label": "<%= number_to_short( total_to_category("Fossil Fuel") ) %>", "url":'/institutions'},
+		{"category": "Clean", "total": <%= total_to_category("Clean") %>, "label": "<%= number_to_short( total_to_category("Clean") ) %>", "url":'/institutions'},
+		{"category": "Other", "total": <%= total_to_category("Other") %>, "label": "<%= number_to_short( total_to_category("Other") ) %>", "url":'/institutions'}
+	]
+};
 
 function draw_mini_graph( json ) {
 	var graph = {
 		'objects':		'categories',
-		'value':			'total',
+		'value':		'total',
 		'max_value':	1E12,
-		'label':			'd.data.label'
+		'label':		'd.data.label'
 	}
 
 	$('#graph').width(455).height(500);
-  var pack = d3.layout.pack().sort(null).size([455,455]).value(function(d) { return eval('d.'+graph['value']); }).children(function(d) { return eval('d.'+graph['objects']); });
-  var bubbles = d3.select('#graph').selectAll("div.bubble").data( pack( json ).filter(function(d) { return !d.children; }) );
+	
+	var pack = d3.layout.pack().sort(null).size([455,455]).value(function(d) {
+		return eval('d.'+graph['value']);
+	}).children(function(d) {
+		return eval('d.'+graph['objects']);
+	});
+	var bubbles = d3.select('#graph').selectAll("div.bubble").data(
+  		pack( json ).filter(function(d) {
+  				return !d.children;
+  		})
+  	);
 	
 	draw_bubbles( bubbles,graph['label'],graph['color'] );
 }

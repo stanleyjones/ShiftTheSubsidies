@@ -8,11 +8,7 @@
 <title>Shift The Subsidies</title>
 <meta name="description" content="ShiftTheSubsidies.org is an interactive tool to visually track and analyze the flow of energy subsidies from international, regional and bilateral public financial institutions around the world.">
 <meta name="author" content="Oil Change International">
-<%= stylesheet_link_tag 'style' %>
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="/javascripts/jquery-1.9.1.min.js"><\/script>')</script>
-
+<%= stylesheet_link_tag 'application' %>
 <%= csrf_meta_tag %>
 </head>
 
@@ -28,7 +24,8 @@
 
 </div><!-- #wrapper -->
 
-<%= javascript_include_tag 'rails.js','d3.v3.min.js','jquery.dataTables-1.9.4.min.js','application.js' %>
+<%= javascript_include_tag 'application' %>
+
 <%= render :partial => 'layouts/sharethis' %>
 <%= render :partial => 'layouts/ga' %>
 

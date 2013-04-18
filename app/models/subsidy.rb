@@ -23,7 +23,7 @@ class Subsidy < ActiveRecord::Base
   end
   
   def amount
-  	Rails.cache.fetch("subsidy/#{self.id}-#{self.updated_at}/amount", :expires_in => 24.hours) do
+  	#Rails.cache.fetch("subsidy/#{self.id}-#{self.updated_at}/amount", :expires_in => 24.hours) do
   		if self.amount_usd
   			return self.amount_usd
   		elsif self.amount_original
@@ -38,7 +38,7 @@ class Subsidy < ActiveRecord::Base
   		else
   			return 0
   		end
-  	end
+  	#end
   end
   
   def in_range?(start_date,end_date)
