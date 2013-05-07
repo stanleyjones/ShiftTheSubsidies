@@ -13,11 +13,13 @@ class Subsidy < ActiveRecord::Base
   belongs_to :institution, :touch => true
   belongs_to :entity, :touch => true
   belongs_to :project, :touch => true
+
+  attr_accessible :amount_original, :currency, :amount_usd, :date, :institution_id, :entity_id, :project_id, :kind, :approved, :source
   
   def self.live
   	# TODO: Improve the math for fiscal years
   	Subsidy.joins(:institution).where(
-  		"institutions.visible = true AND approved = true AND date > :start_date AND date < :end_date AND amount_original > 0",
+      "institutions.visible = true AND approved = true AND date > :start_date AND date < :end_date AND amount_original > 0",
   		{:start_date => "#{START_YEAR-1}-01-01", :end_date => "#{END_YEAR}-12-31"}
   	).uniq
   end

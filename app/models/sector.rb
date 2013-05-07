@@ -21,7 +21,7 @@ class Sector < ActiveRecord::Base
 	def icon
 		path = "images/sectors"
 		filename = !self.slug.blank? ? self.slug : self.name.parameterize
-		if FileTest.exists? "#{RAILS_ROOT}/public/#{path}/#{filename}.png"
+		if FileTest.exists? "#{Rails.root}/public/#{path}/#{filename}.png"
 			"/#{path}/#{filename}.png"
 		else
 			"/#{path}/default.png"

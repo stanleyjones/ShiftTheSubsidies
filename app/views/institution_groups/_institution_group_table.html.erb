@@ -1,9 +1,31 @@
 <p id="table_caption">Institutional subsidies for <span class="legend_start_year"><%= @start_date.year %></span><span class="legend_end_year">-<%= @end_date.year %></span></p>
 
 <table id="table">
-	<thead><tr><th>Total</th><th>Institution</th><th>Clean</th><th>%</th><th>Fossil</th><th>%</th><th>Access</th><th>%</th></tr></thead>
+	<thead>
+		<tr>
+			<th>Total</th>
+			<th>Institution</th>
+			<th>Clean</th>
+			<th>%</th>
+			<th>Fossil</th>
+			<th>%</th>
+			<th>Access</th>
+			<th>%</th>
+		</tr>
+	</thead>
 	<tbody></tbody>
-	<tfoot><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
+	<tfoot>
+		<tr>
+			<th></th>
+			<th></th>
+			<th></th>
+			<th></th>
+			<th></th>
+			<th></th>
+			<th></th>
+			<th></th>
+		</tr>
+	</tfoot>
 </table>
 
 <script>
@@ -17,13 +39,10 @@ function draw_table(data) {
 		"aoColumns": [
 			{"sWidth":"100px", "sType":"currency", "fnRender":function(oObj) { return '$'+to_currency(oObj.aData['awarded'][r].total); },"asSorting":["desc","asc"]},
 			{"sWidth":"400px", "fnRender":function(oObj) { return '<a href="'+oObj.aData['url']+'"/>'+oObj.aData['name']+'</a>'; }},
-
 			{"sWidth":"100px", "sType":"currency", "fnRender":function(oObj) { return '$'+to_currency(oObj.aData['awarded'][r].clean); },"asSorting":["desc","asc"]},
 			{"sWidth":"25px", "sType":"percent", "fnRender": function(oObj) { return Math.floor((oObj.aData['awarded'][r].clean / Math.max(oObj.aData['awarded'][r].total,1)) * 100)+"%"; }},
-
 			{"sWidth":"100px", "sType":"currency", "fnRender":function(oObj) { return '$'+to_currency(oObj.aData['awarded'][r].fossil); },"asSorting":["desc","asc"]},
 			{"sWidth":"25px", "sType":"percent", "fnRender": function(oObj) { return Math.floor((oObj.aData['awarded'][r].fossil / Math.max(oObj.aData['awarded'][r].total,1)) * 100)+"%"; }},
-
 			{"sWidth":"100px", "sType":"currency", "fnRender":function(oObj) { return '$'+to_currency(oObj.aData['awarded'][r].access); },"asSorting":["desc","asc"]},
 			{"sWidth":"25px", "sType":"percent", "fnRender": function(oObj) { return Math.floor((oObj.aData['awarded'][r].access / Math.max(oObj.aData['awarded'][r].total,1)) * 100)+"%"; }},
 		],
@@ -45,6 +64,6 @@ function draw_table(data) {
 	$.fn.dataTableExt.afnFiltering.push(function( oSettings, aData, iDataIndex ) {
 		if ( aData[0] != '$0' ) { return true; } else { return false; }
 	});
-	$('button.table').click(function() { oTable.fnAdjustColumnSizing(); });
+	// $('button.table').click(function() { oTable.fnAdjustColumnSizing(); });
 }
 </script>

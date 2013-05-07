@@ -5,10 +5,10 @@
 function draw_graph( json ) {
 	var graph = {
 		'objects':		'institutions',
-		'value':			'awarded["'+r+'"].total',
+		'value':		'awarded["'+r+'"].total',
 		'max_value':	1E12,
-		'label':			'd.data.abbreviation',
-		'color':			'd.data.awarded["'+r+'"].clean / d.data.awarded["'+r+'"].total'
+		'label':		'd.abbreviation',
+		'color':		'd.awarded["'+r+'"].clean / d.awarded["'+r+'"].total'
 	}
 	draw_bubble_graph( graph,json );
 }

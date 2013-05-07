@@ -7,8 +7,8 @@ function draw_graph( json ) {
 		'objects':		'institution_groups',
 		'value':		'awarded["'+r+'"].total',
 		'max_value':	1E12,
-		'label':		'd.abbreviation',
-		'color':		'd.awarded["'+r+'"].clean / d.awarded["'+r+'"].total'
+		'label':		'd.data.abbreviation',
+		'color':		'd.data.awarded["'+r+'"].clean / d.data.awarded["'+r+'"].total'
 	}
 	draw_bubble_graph( graph,json );
 }

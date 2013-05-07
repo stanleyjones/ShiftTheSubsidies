@@ -126,6 +126,9 @@ function draw_bubble_graph( graph,json ) {
 		.value(function(d) { return scale(eval('d.'+graph['value']),graph['max_value']); })
 		.children(function(d) { return eval('d.'+graph['objects']); });
 
+	// var flat = [];
+	// json.forEach( function(i) { flat.push(i); });
+
 	var bubbles = d3.select('#graph').selectAll("div.bubble")
 		.data( pack( json ).filter(function(d) { return !d.children; }) );
 
@@ -134,9 +137,9 @@ function draw_bubble_graph( graph,json ) {
 
 function draw_bubbles( bubbles,label,color ) {
   bubbles.enter().append('div')
-    .attr('class', function(d) { if (d.category) { return 'bubble '+d.category; } else { return 'bubble'; }})
+    .attr('class', function(d) { if (d.data.category) { return 'bubble '+d.data.category; } else { return 'bubble'; }})
     .html(function(d) { return '<span class="label">'+eval(label)+'</span>'; })
-    .on("click", function(d) { if (d.url) { window.location = d.url; }})
+    .on("click", function(d) { if (d.data.url) { window.location = d.data.url; }})
     .style('top', function(d) { return Math.floor(d.y)+'px'; })
     .style('left', function(d) { return Math.floor(d.x)+'px'; })
 	.style('opacity', 0)
@@ -145,7 +148,7 @@ function draw_bubbles( bubbles,label,color ) {
     .style('font-size',0);
 
   bubbles.transition().duration(1000)
-    .style('background-image', function(d) { if (d.icon) {return 'url('+d.icon+')'; }})
+    .style('background-image', function(d) { if (d.data.icon) {return 'url('+d.data.icon+')'; }})
     .style('background-color', function(d) { if (color) { return spectrum( eval(color) ); }})
 	.style('opacity', 1)
     .style('top', function(d) { return Math.floor(d.y-d.r)+'px'; })
