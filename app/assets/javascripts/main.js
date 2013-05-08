@@ -45,12 +45,9 @@ function draw_elements() {
 		loader();
 		$.getJSON(dataURL, function( json ) {
 			data = json;
-			if ($('#graph').length && typeof draw_graph	=== 'function') { draw_graph( data ); }
+			draw_elements_from_data( data );
 			loader();
 			update_legend( r );
-		});
-		$.getJSON(dataURL, function( json ) {
-			if ($('#table').length && typeof draw_table	=== 'function') { draw_table( json ); }
 		});
 	} else {
 		draw_elements_from_data( data );
@@ -59,8 +56,9 @@ function draw_elements() {
 }
 
 function draw_elements_from_data( data ) {
+	var graphdata = $.extend(true, {}, data);
 	if ($('#map').length   && typeof draw_map   === 'function') { draw_map( data ); }
-	if ($('#graph').length && typeof draw_graph	=== 'function') { draw_graph( data ); }
+	if ($('#graph').length && typeof draw_graph	=== 'function') { draw_graph( graphdata ); }
 	if ($('#table').length && typeof draw_table	=== 'function') { draw_table( data ); }
 }
 
