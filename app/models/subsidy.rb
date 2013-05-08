@@ -26,21 +26,24 @@ class Subsidy < ActiveRecord::Base
   
   def amount
   	#Rails.cache.fetch("subsidy/#{self.id}-#{self.updated_at}/amount", :expires_in => 24.hours) do
-  		if self.amount_usd
-  			return self.amount_usd
-  		elsif self.amount_original
-	  		if self.currency == "USD"
-  				return self.amount_original
-	  		elsif self.currency == "UAC"
-  				return self.amount_original * 0.66
-  			elsif Money::Currency.find(self.currency)
-  				original = self.amount_original.to_money(self.currency)
-  				return original.exchange_to('USD').dollars
-	  		end
-  		else
-  			return 0
-  		end
-  	#end
+  		unless self.amount_usd
+  			update_amount_usd
+      end
+      return self.amount_usd
+
+  		# elsif self.amount_original
+	  	# 	if self.currency == "USD"
+  		# 		return self.amount_original
+	  	# 	elsif self.currency == "UAC"
+  		# 		return self.amount_original * 0.66
+  		# 	elsif Money::Currency.find(self.currency)
+  		# 		original = self.amount_original.to_money(self.currency)
+  		# 		return original.exchange_to('USD').dollars
+	  	# 	end
+  		# else
+  		# 	return 0
+  		# end
+  	# end
   end
   
   def in_range?(start_date,end_date)
@@ -75,6 +78,6 @@ class Subsidy < ActiveRecord::Base
 			usd = self.amount_original * 0.66
 		end
 		self.amount_usd = usd.to_i
-		self.save
+		# self.save
 	end
 end

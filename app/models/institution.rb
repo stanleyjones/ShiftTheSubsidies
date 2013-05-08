@@ -5,7 +5,7 @@ class Institution < ActiveRecord::Base
 	validates :kind, :inclusion => {:in => ['Multilateral','Bilateral','Export Credit']}
 	validates :fiscal_year, :numericality => true
 
-	belongs_to :institution_group
+	belongs_to :institution_group, :touch => true
 	has_many :subsidies
 	has_many :projects, :through => :subsidies, :uniq => true
 	has_many :entities, :through => :subsidies, :uniq => true

@@ -5,9 +5,9 @@
 function draw_graph( json ) {
 	var graph = {
 		'objects':		'sectors',
-		'value':			'received["'+r+'"]',
+		'value':		'received["'+r+'"]',
 		'max_value':	1E10,
-		'label':			'd.data.name'
+		'label':		'd.name'
 	}
 	draw_bubble_graph( graph,json );
 }

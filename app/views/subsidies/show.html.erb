@@ -23,6 +23,6 @@
 
 	<hr>
 	<p><b>Approved:</b> <% if @subsidy.date and @subsidy.approved? %><%= @subsidy.date.strftime("%B %e, %Y") %><% else %>Pending<% end %></p>
-	<p><b>Source:</b> <%= auto_link(@subsidy.source) %></p>
+	<p><b>Source:</b> <%= @subsidy.source %></p>
 
 </div>

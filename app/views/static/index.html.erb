@@ -47,6 +47,7 @@
 	
 </div>
 <script>
+<% cache 'homepage_data', :expires_in => 24.hours do %>
 var data = {
 	'categories': [
 		{"category": "Fossil Fuel", "total": <%= total_to_category("Fossil Fuel") %>, "label": "<%= number_to_short( total_to_category("Fossil Fuel") ) %>", "url":'/institutions'},
@@ -54,6 +55,7 @@ var data = {
 		{"category": "Other", "total": <%= total_to_category("Other") %>, "label": "<%= number_to_short( total_to_category("Other") ) %>", "url":'/institutions'}
 	]
 };
+<% end %>
 
 function draw_mini_graph( json ) {
 	var graph = {

@@ -13,7 +13,7 @@ $(document).ready(function() {
 
 	// MAP/GRAPH/TABLE
 
-	if ((typeof dataURL != 'undefined') && ($('#graph').length || $('#table').length || $('#map').length )) {
+	if ((typeof dataURL !== 'undefined') && ($('#graph').length || $('#table').length || $('#map').length )) {
 		draw_elements();
 	}
 
@@ -58,7 +58,7 @@ function draw_elements() {
 function draw_elements_from_data( data ) {
 	if ($('#map').length   && typeof draw_map   === 'function') { draw_map( data ); }
 	if ($('#graph').length && typeof draw_graph	=== 'function') { draw_graph( data ); }
-	if ($('#table').length && typeof draw_table	=== 'function') { draw_table( data ); }
+	// if ($('#table').length && typeof draw_table	=== 'function') { draw_table( data ); }
 }
 
 function size_element(e) {
@@ -119,18 +119,15 @@ function to_short(n) {
 var spectrum = function(d){ return d3.interpolateRgb('#333','#3f3')( d3.scale.pow().exponent(2)(d) ); };
 var scale = function(d,max){ return d3.scale.linear().domain([0,max]).range([1,5000]).clamp(true).nice()(d); };
 
-function draw_bubble_graph( graph,json ) {
+function draw_bubble_graph( graph, data ) {
 	var size = size_element('#graph');
 
 	var pack = d3.layout.pack().sort(null).size([size['w'],size['h']])
 		.value(function(d) { return scale(eval('d.'+graph['value']),graph['max_value']); })
 		.children(function(d) { return eval('d.'+graph['objects']); });
 
-	// var flat = [];
-	// json.forEach( function(i) { flat.push(i); });
-
 	var bubbles = d3.select('#graph').selectAll("div.bubble")
-		.data( pack( json ).filter(function(d) { return !d.children; }) );
+		.data( pack( data ).filter(function(d) { return !d.children; }) );
 
 	draw_bubbles( bubbles,graph['label'],graph['color'] );
 }

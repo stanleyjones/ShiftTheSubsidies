@@ -4,7 +4,7 @@ class Project < ActiveRecord::Base
 	validates :country, :presence => true
 	validates :sector, :presence => true
 	
-	belongs_to :sector
+	belongs_to :sector, :touch => true
 	has_many :subsidies
 	has_many :institutions, :through => :subsidies, :uniq => true
 	has_many :entities, :through => :subsidies, :uniq => true

@@ -1,4 +1,4 @@
-		{
+<% cache institution_group do %>	{
 			"name": "<%= institution_group.name %>",
 			"abbreviation": "<%= institution_group.name %>",
 			"url": "<%= url_for institution_group %>",
@@ -17,4 +17,4 @@
 				}
 			},
 			"institution_group_id":<%= institution_group.id %>
-		}
+		}<% end %>
