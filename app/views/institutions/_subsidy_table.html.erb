@@ -14,21 +14,42 @@ function draw_table(data) {
 		"bPaginate": false,
 		"aaData": data.subsidies,
 		"sScrollY": h+'px',
-		"aoColumns": [
-			{"sWidth":"100px", "fnRender":function(oObj) { return '$'+to_currency(oObj.aData['amount'][r]); }, "sType":"currency", "asSorting":["desc","asc"] },
-			{"fnRender":function(oObj) { return oObj.aData['to']; }},
-			{"fnRender":function(oObj) { return '<a href="'+oObj.aData['project_url']+'">'+oObj.aData['for']+'</a>'; }},
-			{"sWidth":"100px", "mDataProp":"sector"},
-			{"sWidth":"50px", "fnRender":function(oObj) { if (oObj.aData['access?']) { return 'yes'; } else { return 'no'; }}},
-			{"sWidth":"100px", "mDataProp":"date"},
-		],
-		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
-			var total = {'total':0};
-			for (var i=iStart; i<iEnd; i++) {
-				total['total']  += aaData[aiDisplay[i]]['amount'][r]*1.0;
+		'aoColumns': [
+			{
+				'sWidth': '10%', 'sType': 'currency', 'asSorting': ['desc','asc'],
+				'mData': 'amount',
+				'mRender': function( data ) { return '$'+to_currency( data.all ); }
+			},
+			{
+				'mData': 'to'
+			},
+			{
+				'mData': 'for',
+				'mRender': function( data, type, row ) { return '<a href="'+row.project_url+'">'+data+'</a>'; }
+			},
+			{
+				'sWidth': '10%',
+				'mData': 'sector'
+			},
+			{
+				'sWidth': '10%',
+				'mData': 'access?',
+				'mRender': function( data ) { if (data) { return 'yes'; } else { return 'no'; } }
+			},
+			{
+				'sWidth':'10%',
+				'mData': 'date'
 			}
-			var footer = nRow.getElementsByTagName('th');
-			footer[0].innerHTML = '$'+to_currency(total['total']);
+		],
+		'fnRowCallback': function( tr, row, index ) {
+			$('td:eq(0)', tr).html( '$'+to_currency( row.amount[r] ));
+		},
+		'fnFooterCallback': function ( tr, row, start, end, index ) {
+			var total = {'total': 0};
+			for (var i=start; i<end; i++) {
+				total.total  += row[index[i]].amount[r] * 1.0;
+			}
+			$('th:eq(0)', tr).html( '$'+to_currency( total.total ));
 		}
 	});
 	$.fn.dataTableExt.afnFiltering.push(function( oSettings, aData, iDataIndex ) {

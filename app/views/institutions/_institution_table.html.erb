@@ -14,32 +14,69 @@ function draw_table(data) {
 		"bPaginate": false,
 		"aaData": data.institutions,
 		"sScrollY": h+'px',
-		"aoColumns": [
-			{"sWidth":"100px", "sType":"currency", "fnRender":function(oObj) { return '$'+to_currency(oObj.aData['awarded'][r].total); },"asSorting":["desc","asc"]},
-			{"sWidth":"400px", "fnRender":function(oObj) { return '<a href="'+oObj.aData['url']+'"/>'+oObj.aData['name']+'</a> ('+oObj.aData['abbreviation']+')<br><span class="desc">'+oObj.aData['description']+'</span>'; }},
-
-			{"sWidth":"100px", "sType":"currency", "fnRender":function(oObj) { return '$'+to_currency(oObj.aData['awarded'][r].clean); },"asSorting":["desc","asc"]},
-			{"sWidth":"25px", "sType":"percent", "fnRender": function(oObj) { return Math.floor((oObj.aData['awarded'][r].clean / Math.max(oObj.aData['awarded'][r].total,1)) * 100)+"%"; }},
-
-			{"sWidth":"100px", "sType":"currency", "fnRender":function(oObj) { return '$'+to_currency(oObj.aData['awarded'][r].fossil); },"asSorting":["desc","asc"]},
-			{"sWidth":"25px", "sType":"percent", "fnRender": function(oObj) { return Math.floor((oObj.aData['awarded'][r].fossil / Math.max(oObj.aData['awarded'][r].total,1)) * 100)+"%"; }},
-
-			{"sWidth":"100px", "sType":"currency", "fnRender":function(oObj) { return '$'+to_currency(oObj.aData['awarded'][r].access); },"asSorting":["desc","asc"]},
-			{"sWidth":"25px", "sType":"percent", "fnRender": function(oObj) { return Math.floor((oObj.aData['awarded'][r].access / Math.max(oObj.aData['awarded'][r].total,1)) * 100)+"%"; }},
-		],
-		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
-			var total = {'total':0, 'clean':0, 'fossil':0, 'access':0};
-			for (var i=iStart; i<iEnd; i++) {
-				total['total']  += aaData[aiDisplay[i]]['awarded'][r].total*1.0;
-				total['clean']  += aaData[aiDisplay[i]]['awarded'][r].clean*1.0;
-				total['fossil'] += aaData[aiDisplay[i]]['awarded'][r].fossil*1.0;
-				total['access'] += aaData[aiDisplay[i]]['awarded'][r].access*1.0;
+		'aoColumns': [
+			{
+				'sWidth': '10%', 'sType': 'currency', 'asSorting': ['desc','asc'],
+				'mData': 'awarded',
+				'mRender': function( data ) { return '$'+to_currency( data.all.total ); }
+			},
+			{
+				'sWidth': '45%',
+				'mData': 'name',
+				'mRender': function( data, type, row ) { return '<a href="'+row.url+'"/>'+data+'</a>'; }
+			},
+			{
+				'sWidth': '10%', 'sType': 'currency', 'asSorting': ['desc','asc'],
+				'mData': 'awarded.all.clean',
+				'mRender': function( data ) { return '$'+to_currency( data ); }
+			},
+			{
+				'sWidth': '5%', 'sType': 'percent',
+				'mData': 'awarded.all',
+				'mRender': function( data ) { return Math.floor((data.clean / Math.max(data.total,1)) * 100)+'%'; }
+			},
+			{
+				'sWidth': '10%', 'sType': 'currency', 'asSorting': ['desc','asc'],
+				'mData': 'awarded.all.fossil',
+				'mRender': function( data ) { return '$'+to_currency( data ); }
+			},
+			{
+				'sWidth':'5%', 'sType': 'percent',
+				'mData': 'awarded.all',
+				'mRender': function( data ) { return Math.floor((data.fossil / Math.max(data.total,1)) * 100)+"%"; }
+			},
+			{
+				'sWidth': '10%', 'sType': 'currency', 'asSorting': ['desc','asc'],
+				'mData': 'awarded.all.access',
+				'mRender': function( data ) { return '$'+to_currency( data ); }
+			},
+			{
+				'sWidth': '5%', 'sType': 'percent',
+				'mData': 'awarded.all',
+				'mRender': function( data ) { return Math.floor((data.access / Math.max(data.total,1)) * 100)+'%'; }
 			}
-			var footer = nRow.getElementsByTagName('th');
-			footer[0].innerHTML = '$'+to_currency(total['total']);
-			footer[2].innerHTML = '$'+to_currency(total['clean']);
-			footer[4].innerHTML = '$'+to_currency(total['fossil']);
-			footer[6].innerHTML = '$'+to_currency(total['access']);
+		],
+		'fnRowCallback': function( tr, row, index ) {
+			$('td:eq(0)', tr).html( '$'+to_currency( row.awarded[r].total ));
+			$('td:eq(2)', tr).html( '$'+to_currency( row.awarded[r].clean ));
+			$('td:eq(3)', tr).html( Math.floor((row.awarded[r].clean / Math.max(row.awarded[r].total,1)) * 100)+'%' );
+			$('td:eq(4)', tr).html( '$'+to_currency( row.awarded[r].fossil ));
+			$('td:eq(5)', tr).html( Math.floor((row.awarded[r].fossil / Math.max(row.awarded[r].total,1)) * 100)+'%' );
+			$('td:eq(6)', tr).html( '$'+to_currency( row.awarded[r].access ));
+			$('td:eq(7)', tr).html( Math.floor((row.awarded[r].access / Math.max(row.awarded[r].total,1)) * 100)+'%' );
+		},
+		'fnFooterCallback': function ( tr, row, start, end, index ) {
+			var total = {'total': 0, 'clean': 0, 'fossil': 0, 'access': 0};
+			for (var i=start; i<end; i++) {
+				total.total  += row[index[i]].awarded[r].total * 1.0;
+				total.clean  += row[index[i]].awarded[r].clean * 1.0;
+				total.fossil += row[index[i]].awarded[r].fossil * 1.0;
+				total.access += row[index[i]].awarded[r].access * 1.0;
+			}
+			$('th:eq(0)', tr).html( '$'+to_currency( total.total ));
+			$('th:eq(2)', tr).html( '$'+to_currency( total.clean ));
+			$('th:eq(4)', tr).html( '$'+to_currency( total.fossil ));
+			$('th:eq(6)', tr).html( '$'+to_currency( total.access ));
 		}
 	});
 	$.fn.dataTableExt.afnFiltering.push(function( oSettings, aData, iDataIndex ) {
