@@ -1,7 +1,7 @@
 class Admin::EntitiesController < ApplicationController
 
 	layout 'admin'
-	cache_sweeper :entity_sweeper, :only => [:create, :update, :destroy]
+	# cache_sweeper :entity_sweeper, :only => [:create, :update, :destroy]
 
   def index
     respond_to do |format|

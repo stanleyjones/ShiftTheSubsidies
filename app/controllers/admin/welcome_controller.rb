@@ -1,7 +1,7 @@
 class Admin::WelcomeController < ApplicationController
 
 	layout 'admin'
-	caches_action :dashboard
+	# caches_action :dashboard
 
 	def dashboard
 		

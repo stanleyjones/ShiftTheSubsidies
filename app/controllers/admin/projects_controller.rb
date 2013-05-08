@@ -1,7 +1,7 @@
 class Admin::ProjectsController < ApplicationController
 	
 	layout 'admin'
-	cache_sweeper :project_sweeper, :only => [:create, :update, :destroy]
+	# cache_sweeper :project_sweeper, :only => [:create, :update, :destroy]
 
   def index
   	if params[:sector_id] and @sector = Sector.find(params[:sector_id])

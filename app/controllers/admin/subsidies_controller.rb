@@ -1,7 +1,7 @@
 class Admin::SubsidiesController < ApplicationController
 
 	layout 'admin'
-	cache_sweeper :subsidy_sweeper, :only => [:create, :update, :destroy]
+	# cache_sweeper :subsidy_sweeper, :only => [:create, :update, :destroy]
 
   def index
     respond_to do |format|
