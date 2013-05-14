@@ -6,9 +6,9 @@
 function draw_graph( json ) {
 	var graph = {
 		'objects':		'projects',
-		'value':			'received["'+r+'"]',
+		'value':		'received["'+r+'"]',
 		'max_value':	1E10,
-		'label':			'"$"+to_short(d.data.received["'+r+'"])'
+		'label':		'"$"+to_short(d.received["'+r+'"])'
 	}
 	draw_bubble_graph( graph,json );
 }

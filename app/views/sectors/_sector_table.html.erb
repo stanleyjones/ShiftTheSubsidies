@@ -14,19 +14,35 @@ function draw_table(data) {
 		"bPaginate": false,
 		"aaData": data.sectors,
 		"sScrollY": h+'px',
-		"aoColumns": [
-			{"sWidth":"100px", "fnRender":function(oObj) { return '$'+to_currency(oObj.aData['received'][r]); }, "sType":"currency", "asSorting":["desc","asc"] },
-			{"sWidth":"15px", "fnRender":function(oObj) { return '<img src="'+oObj.aData['icon']+'" height="32" width="32" />'; }},
-			{"fnRender":function(oObj) { return '<a href="/sectors/'+oObj.aData['sector_id']+'">'+oObj.aData['name']+'</a>'; }},
-			{"sWidth":"100px", "mDataProp":"category"},
-		],
-		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
-			var total = {'total':0, 'clean':0, 'fossil':0, 'access':0};
-			for (var i=iStart; i<iEnd; i++) {
-				total['total']  += aaData[aiDisplay[i]]['received'][r]*1.0;
+		'aoColumns': [
+			{
+				'sWidth': '10%', 'sType': 'currency', 'asSorting': ['desc','asc'],
+				'mData': 'received',
+				'mRender': function( data ) { return '$'+to_currency( data.all ); }
+			},
+			{
+				'sWidth': '5%',
+				'mData': 'icon',
+				'mRender': function( data ) { return '<img src="'+data+'" height="32" width="32" />'; }
+			},
+			{
+				'mData': 'name',
+				'mRender': function( data, type, row ) { return '<a href="/sectors/'+row.sector_id+'">'+data+'</a>'; }
+			},
+			{
+				'sWidth': '10%',
+				'mData': 'category'
 			}
-			var footer = nRow.getElementsByTagName('th');
-			footer[0].innerHTML = '$'+to_currency(total['total']);
+		],
+		'fnRowCallback': function( tr, row, index ) {
+			$('td:eq(0)', tr).html( '$'+to_currency( row.received[r] ));
+		},
+		'fnFooterCallback': function ( tr, row, start, end, index ) {
+			var total = {'total': 0};
+			for (var i=start; i<end; i++) {
+				total.total  += row[index[i]].received[r] * 1.0;
+			}
+			$('th:eq(0)', tr).html( '$'+to_currency( total.total ));
 		}
 	});
 	$.fn.dataTableExt.afnFiltering.push(function( oSettings, aData, iDataIndex ) {
