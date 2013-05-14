@@ -19,7 +19,7 @@ class InstitutionsController < ApplicationController
     respond_to do |format|
       format.html
       format.json do
-      	@projects = @institution.live_projects
+      	# @projects = @institution.live_projects
 			end
     end
   end
