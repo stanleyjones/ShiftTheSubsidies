@@ -8,7 +8,7 @@ gem 'json_pure'
 gem 'dalli'
 
 # Countries
-gem 'carmen'
+gem 'carmen', '0.2.13'
 
 # Currency conversions
 gem 'money'
