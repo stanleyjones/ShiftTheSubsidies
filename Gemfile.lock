@@ -140,7 +140,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  carmen
+  carmen (= 0.2.13)
   coffee-rails (~> 3.2.1)
   dalli
   google_currency
