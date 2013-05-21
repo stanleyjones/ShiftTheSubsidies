@@ -1,23 +1,60 @@
-#oci_nav {
-	height:45px; padding:5px; font:10px/15px "Helvetica Neue",Helvetica,Arial,sans-serif; background:#eee; background-image:-webkit-gradient(linear,left top,left bottom,from(#fff),to(#ccc)); background-image:-moz-linear-gradient(top,#fff,#ccc);}
-	#oci_nav h1 {float:left; width:150px; height:40px; margin:0 0 0 5px;}
-	#oci_nav h1 a {display:block; width:auto; height:100%; background:url(images/oci_logo.png) no-repeat; text-indent:-9999px;}
-	
-#oci_sites {float:right; width:auto; margin:0 5px 0 0; color:#999; text-align:right;}
-	#oci_sites a {color:#93f; text-decoration:none;}
-	#oci_sites a:hover {color:#60c;}
-	
-#oci_buttons a.button, #oci_subscribe input.button {display:block; float:right; width:auto; margin:0 5px 0 0; padding:5px 10px 5px 25px; font-size:12px; line-height:15px; text-decoration:none; background:#333 5px 5px no-repeat; border:0; border-radius:10px; -moz-border-radius:10px; text-shadow:0 1px 1px rgba(0,0,0,0.5); -webkit-box-shadow:0 1px 1px rgba(255,255,255,0.25); -webkit-transition:0.25s all; -moz-transition:0.25s all;}
+#oci_header {
+	position: relative;
+	margin: 0;
+	padding: 5px;
+	height: 50px;
+	font: 12px/50px "Helvetica Neue",Helvetica,Arial,sans-serif;
+	background: #222;
+	background-image: -webkit-repeating-linear-gradient(-45deg, rgba(0,0,0,0.125) 0%, rgba(0,0,0,0.125) 25%, rgba(0,0,0,0) 25%, rgba(0,0,0,0) 50%);
+	background-image: -moz-repeating-linear-gradient(-45deg, rgba(0,0,0,0.125) 0%, rgba(0,0,0,0.125) 25%, rgba(0,0,0,0) 25%, rgba(0,0,0,0) 50%);
+	background-image: repeating-linear-gradient(-45deg, rgba(0,0,0,0.125) 0%, rgba(0,0,0,0.125) 25%, rgba(0,0,0,0) 25%, rgba(0,0,0,0) 50%);
+	background-size: 10px 10px;
+	box-shadow: 0 0 25px #000 inset;
+	z-index: 999;
+}
+#oci_header .container {
+	margin: 0 auto;
+}
+#oci_logo {
+	float: left;
+	margin: 0;
+	width: 150px;
+	height: 40px;
+	overflow: hidden;
+}
+#oci_logo a {
+	display: block; 
+	width: auto; 
+	height: 100%; 
+	background: url(/assets/oci_logo.png) no-repeat;
+	background-size: 150px 40px;
+	text-indent: 100%;
+	white-space: nowrap;
+}
 
-	#oci_buttons a.button:hover, #oci_subscribe input.button:hover {text-shadow:0 1px 1px rgba(255,255,255,0.5); cursor:pointer;}
-	
-#oci_buttons {float:right; clear:right; width:auto; margin:0;}
-	#oci_buttons a.button.donate {color:#c6f; background-image:url(icons/currency.png);}
-	#oci_buttons a.button.donate:hover {color:#71d; background-color:#daf;}
-	#oci_buttons a.button.act {color:#f33; background-image:url(icons/flag.png);}
-	#oci_buttons a.button.act:hover {color:#a22; background-color:#ebb;}
-
-#oci_subscribe {float:right; width:auto; margin:0;}
-	#oci_subscribe input.text {display:inline; margin:0; padding:5px; width:160px; color:#666; background:#fff; border:0; border-radius:10px 0 0 10px; font-size:12px; line-height:15px; text-align:center; -webkit-border-top-left-radius:10px; -webkit-border-bottom-left-radius:10px; -moz-border-radius:10px 0 0 10px; -webkit-box-shadow:0 1px 1px rgba(0,0,0,0.25) inset; -moz-box-shadow:0 1px 1px rgba(0,0,0,0.25) inset;}
-	#oci_subscribe input.button {display:inline; color:#ccc; background-image:url(icons/mail.png); border-left:0px; border-radius:0 10px 10px 0; -moz-border-radius:0 10px 10px 0;}
-	#oci_subscribe input.button:hover {color:#777; background-color:#ccc;}
+#oci_links {
+	float: right;
+	width: auto;
+	margin: 0;
+	color: #000;
+	text-align: right;
+}
+#oci_links a {
+	color: #666;
+	text-decoration: none;
+	font-weight: lighter;
+	text-shadow: 0 1px #000;
+}
+#oci_links a:hover {color:#fff;}
+#oci_links a:before {
+	content: " | ";
+	color: #000;
+}
+#oci_links a:first-child:before {
+	content: none;
+}
+@media screen and (max-width:480px) {
+	#oci_links a {
+		font-size: 10px;
+	}
+}

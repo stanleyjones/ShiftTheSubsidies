@@ -66,17 +66,47 @@
 
 	/* OCI Universal Header */
 
-	#wrapper {position:relative; min-height:100%; width:970px; margin:0 auto; padding-bottom:0px; background:#fff; box-shadow:0 0 5px rgba(0,0,0,0.5); overflow:visible;}
-	#content {width:970px; min-height:100%;}
-	
-	#masthead {padding:10px; height:60px; background:#333 url(images/masthead.png) bottom repeat-x;}
-	#site-title {margin:0; font:30px/40px normal Diavlo; text-shadow:1px 0 0 #333;}
-	#site-description {margin-top:-10px; color:#960; font-size:14px; line-height:20px;}
+	#wrapper {position:relative; min-height:100%; margin:0 auto; padding-bottom:0; background: #eee url(images/paper.jpg); overflow:hidden;}
+	#content { margin: 0 auto; min-height:100%;}
+	.container { margin: 0 auto; position: relative; }
+	@media screen and (max-width: 480px) { .container { width:100%; padding: 0 1em; }}
+	@media screen and (min-width: 768px) { .container { width:740px; }}
+	@media screen and (min-width: 1024px) { .container { width:960px; }}
+	@media screen and (min-width: 1210px) { .container { width:1200px; }}
+
+	#masthead {
+		margin: 2em auto;
+		text-shadow: 0 1px #fff;
+	}
+	#site-title {
+		display: inline;
+		font: 4em normal Diavlo;
+		letter-spacing: -0.0625em;
+	}
+	#site-tagline {
+		display: inline;
+		padding-left: 0.5em;
+		font: 1.5em normal "Helvetica Neue",Helvetica,Arial,sans-serif;
+		color: #999;
+	}
 
 	/* Menubar */
 	
-	#menubar {position:relative; height:48px; color:#fff; background-color:#333; background:linear-gradient(top,#333 48%,#000 52%); text-align:center; box-shadow:0 10px 10px rgba(0,0,0,0.125);}	
-	#menubar h1 {margin:0; line-height:1.25em; vertical-align:middle;}
+	#menubar {
+		position:relative;
+		color: #fff;
+		background: #333;
+		background-image: linear-gradient(#333 48%, #000 52%);
+		text-align:center;
+		box-shadow:0 1em 1em rgba(0,0,0,0.25);
+		border-top: 1px solid #444;
+		border-top: 1px solid #222;
+		z-index: 99;
+	}	
+	#menubar h1 {
+		margin: 0;
+		line-height:1.25em;
+	}
 	#menubar ul {position:absolute; top:5px; margin:0; padding:5px; list-style:none;}
 	#menubar ul li {position:relative; float:left; margin-right:5px;}
 	#menubar li ul {position:absolute; top:35px; right:-75%; margin:0; padding:0; width:150px; color:#fff; background:#333; border:5px solid #111; border-radius:10px; box-shadow:0 3px 10px rgba(0,0,0,0.75); list-style:none;}
@@ -129,7 +159,7 @@
 	#content #caption b {text-transform:uppercase; font-size:10px;}
 	#content #caption span {font-weight:bold;}
 	
-	.page {padding:20px;}
+	.page {margin-top: 2em;}
 	#content .page h2 {border-bottom:2px solid #ccc; font-weight:bold;}
 	.page p {clear:both;}
 	
@@ -138,7 +168,7 @@
 	#content .block h1 {margin:20px 0; color:#111;}
 	.page p.amount {margin:20px 0; height:100px; font-size:92px; line-height:100px; text-align:center;}
 	
-	#page {background:#fff; border-radius:10px; padding:20px;}
+	#page {}
 	#page h1 {margin-top:0;}
 	#page .entry-title {font-size:24px; font-family:Diavlo;}
 	#post .entry-title {font-size:24px; font-weight:bold; font-family:Diavlo;}
@@ -168,7 +198,7 @@
 		/* Graphs */
 		
 		#graphview {position:relative; top:50; background:url(images/paper.jpg);}
-		#loader, .dataTables_processing {position:absolute; top:0; left:0; height:100%; width:100%; background:#ccc url(images/loader.gif) center no-repeat; text-indent:-9999px; opacity:0.8; z-index:999;}
+		#loader, .dataTables_processing {position:absolute; top:0; left:0; height:100%; width:100%; background:#ccc url(/assets/loader.gif) center no-repeat; text-indent:-9999px; opacity:0.8; z-index:99;}
 
 		#graph circle {fill:#ccc; stroke:#fff; stroke-width:2; transition:fill 0.5s;}
 			#graph circle:hover {fill:#f90 !important; transition:fill 0.5s;}
@@ -233,6 +263,11 @@
 
 		/* Home */
 		
+		#page.home {background: #eee url(images/paper.jpg);}
+		#page.home #globe { padding-bottom: 50px;}
+		#page.home .graticule {fill: none; stroke: #777; stroke-width: .5px; stroke-opacity: .5;}
+		#page.home .countries {fill: #999; stroke: #fff; stroke-width: .5px; stroke-opacity: .5;}
+		#page.home .hero {font-size:3em; line-height:1.5;}
 		#page.home #graph {position:relative; float:left; margin:0 0 20px; background:#eee; border-radius:10px;}
 			#page.home #caption {display:none; margin-top:25px; width:100%; bottom:0; background:rgba(255,255,192,0.66); border-radius:0 0 10px 10px;}
 		#page.home #definition {float:right; padding:10px; width:435px; color:#fff; background:#960; border-radius:10px; font-style:italic;}
@@ -271,11 +306,45 @@
 	#adminlist li a {display:block; width:100%; line-height:30px; color:#600; background:#f33; text-shadow:1px 1px rgba(255,255,255,0.25);}
 	#adminlist li a:hover {background:#e22; box-shadow:0 0 2px rgba(0,0,0,0.5) inset;}
 	
-	#navbar {border-top:1px solid #999; background:#ccc;}
-	#navlist {margin:0 auto; padding:0; width:966px; background:#ccc; overflow:hidden; text-align:center; list-style:none;}
-	#navlist li {float:left; width:161px;}
-	#navlist li a {display:block; width:100%; line-height:30px; color:#666; background:#ccc; text-shadow:1px 1px rgba(255,255,255,0.5);}
-	#navlist li a:hover {color:#555; background:#bbb; box-shadow:0 0 2px rgba(0,0,0,0.5) inset;}
+	#navbar {
+		position: relative;
+		background: #444;
+		background-image: linear-gradient(#888,#444);
+		box-shadow: 0 1em 1em rgba(0,0,0,0.25);
+		border-top: 1px solid #aaa;
+		border-bottom: 1px solid #111;
+		z-index: 100;
+		overflow: auto;
+	}
+	#navlist {
+		margin: 0 auto;
+		text-align: center;
+	}
+	#navlist li {
+		display: block;
+		float: left;
+		list-style: none;
+	}
+	#navlist li a {
+		display: block;
+		width: auto;
+		padding: 0 1em;
+		text-align: center;
+		line-height: 40px;
+		color: #000;
+		text-shadow: 0 1px #777;
+		border-right: 1px solid #444;
+	}
+	#navlist li a:hover {
+		color: #f90;
+		background: #333;
+		box-shadow: 0 5px 5px #000 inset;
+		text-shadow: none;
+	}
+	#navlist li:last-child a {
+		border-right: none;
+	}
+
 
 /* DataTables - http://datatables.net/
 - - - - - - - - - - - - - - - - - - - - */

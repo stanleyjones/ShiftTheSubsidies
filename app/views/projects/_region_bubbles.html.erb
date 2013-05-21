@@ -2,6 +2,7 @@
 <button class="close">&times;</button>
 <script>
 function draw_popup_graph( json ) {
+	if (typeof r === 'undefined') { var r = 'all'; }
 	var graph = {
 		'objects':		'projects',
 		'value':		'received["'+r+'"]',

@@ -7,7 +7,8 @@ $(document).ready(function() {
 	// HOME
 
 	if ($('#page.home').length) {
-		draw_mini_graph(data);
+		// draw_mini_graph(data);
+		draw_globe();
 		$('#caption').fadeToggle(3000);
 	}
 
@@ -120,7 +121,7 @@ function to_short(n) {
 var spectrum = function(d){ return d3.interpolateRgb('#333','#3f3')( d3.scale.pow().exponent(2)(d) ); };
 var scale = function(d,max){ return d3.scale.linear().domain([0,max]).range([1,5000]).clamp(true).nice()(d); };
 
-function draw_bubble_graph( graph, data ) {
+function draw_bubble_graph( graph,data ) {
 	var size = size_element('#graph');
 
 	var pack = d3.layout.pack().sort(null).size([size['w'],size['h']])
@@ -182,6 +183,192 @@ $('button.close').click(function() {
 	$('#popup').fadeOut();
 	$('#popup #graph').html('');
 });
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	Globe (using d3.js)
+	http://mbostock.github.com/d3/
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+function draw_globe() {
+
+	var size = size_element('#globe');
+
+	var projection = d3.geo.orthographic()
+		.scale(size['h']/2)
+		.translate([size['w']/2,size['h']/2])
+		.clipAngle(90);
+
+	var path = d3.geo.path().projection(projection);
+
+	var globe = d3.select('#globe').append('svg')
+		.attr('width', size['w'])
+		.attr('height', size['h'])
+		.on('mousedown', globe_mousedown);
+
+	draw_globe_shadow( globe,projection );
+	draw_globe_shading( globe,projection );
+	draw_globe_graticule( globe,path );
+
+	// INTERACTIONS
+
+	d3.select(window)
+		.on("mousemove", globe_mousemove)
+		.on("mouseup", globe_mouseup);
+
+	$(window).on('hashchange', function() {
+		var view = window.location.hash;
+		switch( view ) {
+			case '#domestic':
+				color_countries( globe, ntnl_data );
+				break;
+			case '#international':
+				color_countries( globe, intl_data );
+				break;
+			default:
+				break;
+		}	
+	});
+
+	var m0 = null;
+
+	function globe_mousedown() {
+		m0 = [d3.event.pageX, d3.event.pageY];
+		o0 = projection.rotate();
+		d3.event.preventDefault();
+	}
+
+	function globe_mousemove() {
+		if (m0) {
+			var m1 = [d3.event.pageX, d3.event.pageY],
+				o1 = [o0[0] + (m1[0] - m0[0]) / 6, o0[1] + (m0[1] - m1[1]) / 6];
+			o1[1] = o1[1] > 30 ? 30 : o1[1] < -30 ? -30 : o1[1];
+			projection.rotate(o1);
+			globe_refresh();
+		}
+	}
+
+	function globe_mouseup() {
+		if (m0) {
+			globe_mousemove();
+			m0 = null;
+		}
+	}
+
+	function globe_refresh() {
+		globe.selectAll('.graticule').attr('d', path);
+		globe.selectAll('.countries').attr('d', path);
+	}
+
+	function globe_zoom(d) {
+		// var country = d3.select(d.id);
+		// var z1 = d3.geo.centroid( country );
+		// projection.rotate(z1);
+	}
+
+	d3.json('/assets/countries.json', function( json ) {
+		globe.selectAll('.countries')
+			.data(json.features)
+			.enter().append('path')
+			.attr('class', 'countries')
+			.attr('id', function(d) { return d.id; })
+			.attr('d', path)
+			.on('click', function(d) { popRegion(String(d.id).toLowerCase()); });
+	});
+
+	// LOAD DATA
+
+	var intl_data = [],
+		ntnl_data = [];
+
+	d3.json('/projects.json', function( json ) {	
+
+		$.each(json.projects, function(index, proj) {
+			if ( typeof intl_data[proj.cc] == "undefined" ) {
+				intl_data[proj.cc] = {'total': 0, 'clean': 0, 'access': 0};
+			}
+			if (proj['clean?'])    { intl_data[proj.cc].clean += proj['received']['all']; }
+			if (proj['access?'])   { intl_data[proj.cc].access += proj['received']['all']; }
+			intl_data[proj.cc].total += proj['received']['all'];
+			intl_data[proj.cc].color = intl_data[proj.cc].clean / Math.max(intl_data[proj.cc].total,1);
+		});
+
+		// color_countries( globe, intl_data );
+
+	});
+
+	Tabletop.init({
+		key: '0AlSpzNcXJg6WdHR1Z1VNN3pLQzBJdV9kM2xXelkyVmc',
+		callback: function(data, tabletop) {
+			var max = 0;
+
+			$.each( data, function( index, row ) {
+				if ( typeof ntnl_data[row.countrycode] == 'undefined' ) {
+					ntnl_data[row.countrycode] = {'domestic_total': 0};
+				}
+				ntnl_data[row.countrycode].domestic_total += parseInt(row.total);
+				if (parseInt(row.total) > max) { max = parseInt(row.total); }
+			});
+
+			$.each( data, function( index, row ) {
+				ntnl_data[row.countrycode].color = parseInt(row.total) / max * 1.0;
+			});
+
+			// color_countries( globe,ntnl_data );
+
+		},
+		simpleSheet: true
+	});
+}
+
+function color_countries( globe, data ) {
+	globe.selectAll('.countries')
+		.transition(500)
+		.style('fill', function(d) {
+			var cc = String(d.id).toLowerCase();
+			if (data[cc]) { return spectrum( data[cc].color ); }
+		});
+}
+
+function draw_globe_shadow( globe, projection ) {
+	var globe_shadow = globe.append('defs').append('radialGradient')
+        .attr('cx', '50%').attr('cy', '50%')
+		.attr('id', 'globe_shadow');
+	globe_shadow.append('stop')
+		.attr('offset','20%')
+		.attr('stop-color', '#000')
+		.attr('stop-opacity','.5');
+	globe_shadow.append('stop')
+		.attr('offset','100%')
+		.attr('stop-color', '#000')
+		.attr('stop-opacity','0');
+	globe.append('ellipse')
+		.attr('cx', '50%').attr('cy', '90%')
+		.attr('rx', projection.scale()*.90)
+		.attr('ry', projection.scale()*.25)
+		.style('fill', 'url(#globe_shadow)');
+}
+
+function draw_globe_shading( globe, projection ) {
+	var globe_shading = globe.append('defs').append('radialGradient')
+		.attr('cx', '50%').attr('cy', '40%')
+		.attr('id', 'globe_shading');
+	globe_shading.append('stop')
+		.attr('offset','50%').attr('stop-color', '#fff');
+	globe_shading.append('stop')
+		.attr('offset','100%').attr('stop-color', '#ccc');
+	globe.append('circle')
+		.attr('cx', '50%').attr('cy', '50%')
+		.attr('r', projection.scale())
+		.attr('fill','url(#globe_shading)');
+}
+
+function draw_globe_graticule( globe, path ) {
+	var graticule = d3.geo.graticule();
+	globe.append('path')
+		.datum(graticule)
+		.attr('class', 'graticule')
+		.attr('d', path);
+}
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	Tables (using dataTables jQuery plugin)

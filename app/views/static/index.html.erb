@@ -1,83 +1,16 @@
-<div id="masthead">
+<div id="masthead" class="container">
 	<h1 id="site-title"><a href="/">Shift the Subsidies</a></h1>
-	<p id="site-description">Tracking the flow of public money to energy projects around the world.</p>
+	<p id="site-tagline">tracks the flow of public money to <a href="#domestic">domestic</a> and <a href="#international">international</a> energy projects.</p>
 </div><!-- #masthead -->
 
-<div id="page" class="home page">
+<div id="page" class="home">
 
-	<div id="graph" style="width:455px; height:500px;">
-		<p id="caption"><b>Above:</b> Subsidies from the World Bank Group (FY2008&ndash;FY2011) and major regional development banks (FY2008&ndash;FY2010) to <span class="clean">clean</span>, <span class="fossil">fossil fuel</span>, and <span class="other">other</span> energy projects.</p>
-	</div>
-	
-	<div id="definition">
-		<h2>subsidy</h2><h3>/ˈsʌbsədi/, noun (pl. subsidies):</h3>
-		<p>According to the World Trade Organization, a subsidy is a transfer of funds or a potential transfer of funds from a government or public body through a grant, loan, equity infusion, or loan guarantee; a government fiscal incentive such as a tax credit; a government-provided good or service other than general infrastructure; or a government payment to a funding mechanism or private body to carry out one or more of the functions illustrated above.</p>
-	</div>
-	
-	<div id="intro">
-		<p>For decades, wealthy countries have been using international aid and other foreign assistance&mdash;through grants, loans, equity and loan guarantees&mdash;to subsidize the expansion of the international fossil fuel industry.</p> 
-		<p>The <b>Shift the Subsidies</b> database is an interactive tool to visually track and analyze the flow of energy subsidies from international, regional and bilateral public financial institutions around the world.</p>
-		<p>The database currently tracks subsidies from the World Bank Group from fiscal year 2008 to fiscal year 2011 and major regional development banks from fiscal year 2008 to fiscal year 2010. In the future, we will also add bilateral aid from major governments.</p>
-	</div>
-	
-	<hr>
-	
-	<div class="institutions block"><h2>Funding Institutions</h2>
-		<p>Development banks say they're going green, but IFC's fossil fuel finance is... <strong>TWO THIRDS OF ITS ENERGY PORTFOLIO?</strong></p>
-		<p><%= link_to "Learn which institutions are funding what projects »", institutions_path %></p>
+	<div id="globe">
+		<div id="popup" class="popup"><%= render :partial => 'projects/region_bubbles' %></div>
 	</div>
 
-	<div class="projects block"><h2>Project Map</h2>
-		<p>Your tax dollars are rebuilding the energy infrastructure... <strong>OF RUSSIA?</strong></p>
-		<p><%= link_to "Learn what they're building with the world's help »", projects_path %></p>
+	<div id="chart">
+		<h2 class="country-name"></h2>
+		<div class="country-bargraph"></div>
 	</div>
-	
-	<div class="sectors block"><h2>Energy Sectors</h2>
-		<p>The future of energy in the developing world is... <strong>COAL?</strong></p>
-		<p><%= link_to "Learn how much more funding it gets than solar »", sectors_path %></p>
-	</div>
-	
-	<div class="subsidies block last"><h2>Energy Subsidies</h2>
-		<p>In the past three years, development banks have subsidized the fossil fuel industry... <strong>OVER $40B?</strong></p>
-		<p><%= link_to "Learn where all that money is going »", subsidies_path %></p>
-	</div>
-		
-	<p>Make the most of your visit to the <strong>Shift the Subsidies</strong> database. <%= link_to "Learn navigation tips and read our methodology»", "/guide" %></p>
-	<p class="credits">&copy;2013 <a href="http://priceofoil.org/">Oil Change International</a>. All rights reserved. Design by <a href="http://staydiligent.com">Diligent</a>.</p>
-	
 </div>
-<script>
-<% cache 'homepage_data', :expires_in => 24.hours do %>
-var data = {
-	'categories': [
-		{"category": "Fossil Fuel", "total": <%= total_to_category("Fossil Fuel") %>, "label": "<%= number_to_short( total_to_category("Fossil Fuel") ) %>", "url":'/institutions'},
-		{"category": "Clean", "total": <%= total_to_category("Clean") %>, "label": "<%= number_to_short( total_to_category("Clean") ) %>", "url":'/institutions'},
-		{"category": "Other", "total": <%= total_to_category("Other") %>, "label": "<%= number_to_short( total_to_category("Other") ) %>", "url":'/institutions'}
-	]
-};
-<% end %>
-
-function draw_mini_graph( json ) {
-	var graph = {
-		'objects':		'categories',
-		'value':		'total',
-		'max_value':	1E12,
-		'label':		'd.label'
-	}
-
-	$('#graph').width(455).height(500);
-	
-	var pack = d3.layout.pack().sort(null).size([455,455]).value(function(d) {
-		return eval('d.'+graph['value']);
-	}).children(function(d) {
-		return eval('d.'+graph['objects']);
-	});
-	var bubbles = d3.select('#graph').selectAll("div.bubble").data(
-  		pack( json ).filter(function(d) {
-  				return !d.children;
-  		})
-  	);
-	
-	draw_bubbles( bubbles,graph['label'],graph['color'] );
-}
-</script>
