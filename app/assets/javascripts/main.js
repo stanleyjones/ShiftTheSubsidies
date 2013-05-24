@@ -66,7 +66,7 @@ function draw_elements_from_data( data ) {
 function size_element(e) {
 	var c = $('#popup '+e).length ? '#popup' : '#wrapper';
 	var w = $(c).width(), h = $(c).height();
-	if (c == '#wrapper') { h -= 135; } // OCI header + navbar + menubar = 135px
+	if (c == '#wrapper') { h -= 220; } // OCI header + navbar + masthead = 135px
 	$(e).width(w).height(h);
 	return {"w":w,"h":h};
 }
@@ -74,7 +74,7 @@ function size_element(e) {
 function update_legend( r ) {
 	if (r == 'all') { $('.legend_start_year').text( '2008-2012' ); } else { $('.legend_start_year').text( r ); }
 	$('.legend_end_year').text( '' );
-	$('#info, #caption').fadeIn(3000);
+	$('#Chart, #caption').fadeIn(3000);
 }
 
 function loader() {
@@ -111,6 +111,11 @@ function to_short(n) {
 	if (n <= 0) return '0';
 	var t2 = Math.min(Math.floor(Math.log(n)/Math.log(1000)), 12);
 	return (Math.round(n * 100 / Math.pow(1000, t2)) / 100) + sizes.charAt(t2).replace(' ', '');
+}
+
+function find_country(id,countries) {
+	var country = countries.filter(function(c) { if (c.id === id) { return true; }});
+	return country[0];
 }
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -164,6 +169,10 @@ function draw_bubbles( bubbles,label,color ) {
 		.style('font-size', 0);
 }
 
+function draw_bar_chart( ) {
+
+}
+
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	Maps (using jVectorMap)
 	http://jvectormap.owl-hollow.net/
@@ -184,6 +193,25 @@ $('button.close').click(function() {
 	$('#popup #graph').html('');
 });
 
+$('#chart').hide();
+
+function regionChart( cc,countries,ntnl_data ) {
+
+	var chart = $('#chart'),
+		country = find_country( cc, countries );
+
+	$('#chart .country-name').html(country.properties.name);
+
+	draw_bar_chart();
+
+	console.log( ntnl_data );
+
+	$('#chart .country-bargraph').html( ntnl_data[String(cc).toLowerCase()].domestic_total );
+
+	chart.slideDown(500);
+	$('#masthead').slideUp(500);
+}
+
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	Globe (using d3.js)
 	http://mbostock.github.com/d3/
@@ -192,11 +220,13 @@ $('button.close').click(function() {
 function draw_globe() {
 
 	var size = size_element('#globe');
+	var viewmode;
 
 	var projection = d3.geo.orthographic()
 		.scale(size['h']/2)
 		.translate([size['w']/2,size['h']/2])
 		.clipAngle(90);
+	projection.rotate([30,-10]);
 
 	var path = d3.geo.path().projection(projection);
 
@@ -204,6 +234,8 @@ function draw_globe() {
 		.attr('width', size['w'])
 		.attr('height', size['h'])
 		.on('mousedown', globe_mousedown);
+
+	var countries;
 
 	draw_globe_shadow( globe,projection );
 	draw_globe_shading( globe,projection );
@@ -216,8 +248,8 @@ function draw_globe() {
 		.on("mouseup", globe_mouseup);
 
 	$(window).on('hashchange', function() {
-		var view = window.location.hash;
-		switch( view ) {
+		viewmode = window.location.hash;
+		switch( viewmode ) {
 			case '#domestic':
 				color_countries( globe, ntnl_data );
 				break;
@@ -259,20 +291,37 @@ function draw_globe() {
 		globe.selectAll('.countries').attr('d', path);
 	}
 
-	function globe_zoom(d) {
-		// var country = d3.select(d.id);
-		// var z1 = d3.geo.centroid( country );
-		// projection.rotate(z1);
+	function globe_highlight(d) {
+		d3.transition().duration(1000)
+			.tween('rotate',function() {
+				var p = d3.geo.centroid( find_country(d.id,countries)),
+					r = d3.interpolate(projection.rotate(), [-p[0],-p[1]]);
+				return function(t) {
+					projection.rotate(r(t));
+					globe_refresh();
+				}
+			});
+		switch( viewmode ) {
+			case '#domestic':
+				regionChart(d.id,countries,ntnl_data);
+				break;
+			case '#international':
+				popRegion(String(d.id).toLowerCase());
+				break;
+		}
 	}
 
-	d3.json('/assets/countries.json', function( json ) {
+	d3.json('/assets/world.json', function( err, json ) {
+
+		countries = topojson.feature(json, json.objects.countries).features;
+
 		globe.selectAll('.countries')
-			.data(json.features)
+			.data(countries)
 			.enter().append('path')
 			.attr('class', 'countries')
 			.attr('id', function(d) { return d.id; })
 			.attr('d', path)
-			.on('click', function(d) { popRegion(String(d.id).toLowerCase()); });
+			.on('click', function(d) { globe_highlight(d); });
 	});
 
 	// LOAD DATA
@@ -280,27 +329,21 @@ function draw_globe() {
 	var intl_data = [],
 		ntnl_data = [];
 
-	d3.json('/projects.json', function( json ) {	
-
+	d3.json('/projects.json', function( json ) {
 		$.each(json.projects, function(index, proj) {
 			if ( typeof intl_data[proj.cc] == "undefined" ) {
 				intl_data[proj.cc] = {'total': 0, 'clean': 0, 'access': 0};
 			}
 			if (proj['clean?'])    { intl_data[proj.cc].clean += proj['received']['all']; }
-			if (proj['access?'])   { intl_data[proj.cc].access += proj['received']['all']; }
 			intl_data[proj.cc].total += proj['received']['all'];
 			intl_data[proj.cc].color = intl_data[proj.cc].clean / Math.max(intl_data[proj.cc].total,1);
 		});
-
-		// color_countries( globe, intl_data );
-
 	});
 
 	Tabletop.init({
 		key: '0AlSpzNcXJg6WdHR1Z1VNN3pLQzBJdV9kM2xXelkyVmc',
 		callback: function(data, tabletop) {
 			var max = 0;
-
 			$.each( data, function( index, row ) {
 				if ( typeof ntnl_data[row.countrycode] == 'undefined' ) {
 					ntnl_data[row.countrycode] = {'domestic_total': 0};
@@ -308,13 +351,9 @@ function draw_globe() {
 				ntnl_data[row.countrycode].domestic_total += parseInt(row.total);
 				if (parseInt(row.total) > max) { max = parseInt(row.total); }
 			});
-
 			$.each( data, function( index, row ) {
 				ntnl_data[row.countrycode].color = parseInt(row.total) / max * 1.0;
 			});
-
-			// color_countries( globe,ntnl_data );
-
 		},
 		simpleSheet: true
 	});

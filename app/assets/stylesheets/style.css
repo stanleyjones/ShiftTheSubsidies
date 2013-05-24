@@ -252,6 +252,10 @@
 		#map path:hover {cursor:pointer;}
 		#page.project #map path:hover {cursor:default;}
 
+		/* Globe */
+
+		
+		
 		/* Editing */
 	
 		#error_explanation {margin:0 0 10px; padding:0; color:#ff0; background:#f66; border-radius:10px;}
@@ -264,9 +268,10 @@
 		/* Home */
 		
 		#page.home {background: #eee url(images/paper.jpg);}
-		#page.home #globe { padding-bottom: 50px;}
+		#page.home #globe { padding-bottom: 50px; cursor: move;}
 		#page.home .graticule {fill: none; stroke: #777; stroke-width: .5px; stroke-opacity: .5;}
-		#page.home .countries {fill: #999; stroke: #fff; stroke-width: .5px; stroke-opacity: .5;}
+		#page.home .countries {fill: #999; stroke: #fff; stroke-width: .5px; stroke-opacity: .5; cursor: pointer;}
+		#page.home .countries:hover {fill: #fc9 !important; stroke:#f90; stroke-width: 2px;}
 		#page.home .hero {font-size:3em; line-height:1.5;}
 		#page.home #graph {position:relative; float:left; margin:0 0 20px; background:#eee; border-radius:10px;}
 			#page.home #caption {display:none; margin-top:25px; width:100%; bottom:0; background:rgba(255,255,192,0.66); border-radius:0 0 10px 10px;}
@@ -286,6 +291,34 @@
 		#page.home .sectors.block h2 {background-image:url(/assets/teasers/sectors.jpg);}
 		#page.home .credits {margin:10px -20px -20px; padding:5px; width:960px; background:#eee; text-align:center; color:#666; font-size:10px;}
 		
+		#chart {
+			position: absolute;
+			bottom: 0;
+			width: 100%;
+			background: rgba(255,255,255,0.6);
+			border-top: 1px solid #fff;
+			z-index: 9999;
+		}
+		#chart .country-name {
+			padding: 0.5em 1em;
+			font-size: 2em;
+		}
+		#chart .close {
+			position: absolute;
+			top: 10px; right: 10px;
+			height: 24px; width: 24px;
+			font-size: 18px;
+			line-height: 20px;
+			text-align: center;
+			font-weight: bold;
+			color: #666;
+			background: #fff;
+			border: 2px solid #666;
+			border-radius: 50%;
+			box-shadow: 0 3px 3px rgba(0,0,0,0.25);
+		}
+
+
 		/* Region Popup */
 		
 		#popup {position:absolute; top:50%; left:50%; padding:20px; width:600px; margin-left:-320px; height:440px; margin-top:-240px; color:#eee; background:#eee; background-color:rgba(255,255,255,0.8); border:1px solid #333; border-radius:10px; box-shadow:0 10px 10px rgba(0,0,0,0.25); z-index:999;}		
@@ -309,10 +342,10 @@
 	#navbar {
 		position: relative;
 		background: #444;
-		background-image: linear-gradient(#888,#444);
+		background-image: linear-gradient(#ccc,#999);
 		box-shadow: 0 1em 1em rgba(0,0,0,0.25);
-		border-top: 1px solid #aaa;
-		border-bottom: 1px solid #111;
+		border-top: 1px solid #eee;
+		border-bottom: 1px solid #777;
 		z-index: 100;
 		overflow: auto;
 	}
@@ -332,8 +365,8 @@
 		text-align: center;
 		line-height: 40px;
 		color: #000;
-		text-shadow: 0 1px #777;
-		border-right: 1px solid #444;
+		text-shadow: 0 1px #ccc;
+		border-right: 1px solid #888;
 	}
 	#navlist li a:hover {
 		color: #f90;
