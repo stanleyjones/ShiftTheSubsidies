@@ -1,17 +1,17 @@
-<div id="masthead" class="container">
+<div id="masthead">
 	<h1 id="site-title"><a href="/">Shift the Subsidies</a></h1>
 	<p id="site-tagline">tracks the flow of public money to <a href="#domestic">domestic</a> and <a href="#international">international</a> energy projects.</p>
 </div><!-- #masthead -->
 
-<div id="page" class="home">
+<div id="globe"></div>
 
-	<div id="globe">
-		<div id="popup" class="popup"><%= render :partial => 'projects/region_bubbles' %></div>
-	</div>
-
-	<div id="chart">
-		<a class="close">&times;</a>
-		<h3 class="country-name">{COUNTRY NAME}</h3>
-		<div class="country-bargraph">{BARGRAPH}</div>
-	</div>
+<div id="info">
+	<a class="close">&times;</a>
+	<h3 class="name"></h3>
+	<h4 class="total"></h4>
+	<div id="chart"></div>
+	<div id="graph"></div>
+	<div class="description"></div>
 </div>
+
+<%= render :partial => 'projects/region_bubbles' %>
