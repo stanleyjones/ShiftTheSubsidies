@@ -267,7 +267,8 @@ function draw_bar_chart( cc ) {
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 function popRegion( cc,countries,intl_data ) {
-	// loader();
+
+	$('#masthead, #info #chart').hide();
 
 	var country = find_country( cc, countries );
 
@@ -280,7 +281,7 @@ function popRegion( cc,countries,intl_data ) {
 		// loader();
 		$('#info #graph').show();
 		$('#info').slideDown(500);
-		$('#masthead').slideUp(500);
+		$('#masthead').fadeOut('fast');
 	});
 
 }
@@ -289,7 +290,7 @@ $('.close').click(function() {
 	$('#info').slideUp(500);
 	$('#graph').html('');
 	$('#chart').html('');
-	$('#masthead').slideDown();
+	$('#masthead').fadeIn(1000);
 	window.location.hash = '';
 });
 
@@ -297,7 +298,7 @@ $('#info').hide();
 
 function regionInfo( cc,countries,ntnl_data ) {
 
-	$('#info #graph').hide();
+	$('#masthead, #info #graph').hide();
 
 	var info = $('#info'),
 		country = find_country( cc, countries );
@@ -309,7 +310,7 @@ function regionInfo( cc,countries,ntnl_data ) {
 	draw_bar_chart( cc );
 
 	info.slideDown(500);
-	$('#masthead').slideUp(500);
+	$('#masthead').fadeOut('fast');
 }
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
