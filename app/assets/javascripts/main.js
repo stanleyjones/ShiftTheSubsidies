@@ -514,6 +514,7 @@ function draw_globe() {
 			});
 
 			switch_view('#national');
+			$('#globe').addClass('ready');
 		});
 }
 

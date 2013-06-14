@@ -289,8 +289,8 @@
 		
 		#globe { cursor: move;}
 		#globe .graticule {fill: none; stroke: #777; stroke-width: .5px; stroke-opacity: .5;}
-		#globe .countries {fill: #999; stroke: #fff; stroke-width: .5px; stroke-opacity: .5; cursor: pointer;}
-		#globe .countries:hover {fill: #fc9 !important; stroke:#f90; stroke-width: 2px;}
+		#globe .countries {fill: #999; stroke: #fff; stroke-width: .5px; stroke-opacity: .5;}
+		#globe.ready .countries:hover {fill: #fc9 !important; stroke:#f90; stroke-width: 2px; cursor: pointer;}
 		
 		#info {
 			position: absolute;
