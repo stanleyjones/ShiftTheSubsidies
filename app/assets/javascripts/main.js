@@ -31,8 +31,8 @@ $(document).ready(function() {
 
 	// MENUBAR
 
-	if ($('#graph').length || $('#map').length) { view('graphview'); }
-	if ($('body.admin').length) { view('tableview'); }
+	if ($('#graph').length || $('#map').length) { view('#graphview'); }
+	if ($('body.admin').length) { view('#tableview'); }
 
 });
 
@@ -270,7 +270,9 @@ $('.close').click(function() {
 	$('#graph').html('');
 	$('#chart').html('');
 	$('#masthead').fadeIn(1000);
-	window.location.hash = '';
+	var viewmode = window.location.hash;
+	viewmode = viewmode.split('-');
+	window.location.hash = viewmode[0];
 });
 
 $('#info').hide();
@@ -401,22 +403,26 @@ function draw_globe() {
 					globe_refresh();
 				}
 			});
+		d3.selectAll('.countries').classed('active',false);
 	}
 	function country_click(d) {
-		switch( viewmode ) {
-			case '#national':
-				country_zoom(d);
-				regionInfo(d.id,countries,ntnl_data);
-				break;
-			case '#international':
-				country_zoom(d);
-				popRegion(d.id,countries,intl_data);
-				break;
+		if (d3.select('.countries#'+d.id).classed('disabled') == false) {
+			switch( viewmode ) {
+				case '#national':
+					country_zoom(d);
+					regionInfo(d.id,countries,ntnl_data);
+					break;
+				case '#international':
+					country_zoom(d);
+					popRegion(d.id,countries,intl_data);
+					break;
+			}
 		}
 	}
 	function country_zoom(d) {
-		window.location.hash = d.id;
+		window.location.hash += '-'+d.id;
 		if (target_country = find_country(d.id,countries)) {
+			d3.select('.countries'+'#'+d.id).classed('active',true);
 			d3.transition().duration(1000)
 				.tween('rotate',function() {
 					var p = d3.geo.centroid( target_country ),
@@ -459,6 +465,7 @@ function draw_globe() {
 	var intl_data = [],
 		ntnl_data = [];
 
+	loader();
 	$.when( national_data(), international_data )
 		.done(function(ntnl,intl){
 
@@ -486,14 +493,12 @@ function draw_globe() {
 							fuels[row.industry]['y'+y] += parseInt(row['y'+y]) || 0;
 						}
 					});
-					console.log( fuels );
 					var fuel_data = [];
 					for ( var fuel in fuels ) {
 						for (var y = 2005; y < 2013; y++) {
 							fuel_data.push({'fuel': fuel, 'year': y, 'amount': fuels[fuel]['y'+y]});
 						}
 					}
-					console.log( fuel_data );
 
 					ntnl_data[cc].fuel_data = fuel_data;
 				}
@@ -515,19 +520,19 @@ function draw_globe() {
 
 			switch_view('#national');
 			$('#globe').addClass('ready');
+			loader();
 		});
 }
 
 function color_countries( globe, data ) {
 	globe.selectAll('.countries')
+		.classed('disabled',true);
+	globe.selectAll('.countries')
+		.filter(function(d) { if (data[d.id]) return true; })
+		.classed('disabled',false)
 		.transition(500)
 		.style('fill', function(d) {
-			if ( data ) {
-				var cc = String(d.id);
-				if (data[cc]) { return spectrum( data[cc].color ); }
-			} else {
-				return '#999';
-			}
+			if (data[d.id]) { return spectrum( data[d.id].color ); }
 		});
 }
 

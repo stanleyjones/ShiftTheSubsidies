@@ -81,50 +81,55 @@
 		text-shadow: 0 1px #fff;
 	}
 	#site-title {
+		position: relative;
 		display: inline;
 		font: 3.5em normal Diavlo, "Helvetica Neue",Helvetica,Arial,sans-serif;
 		letter-spacing: -0.0625em;
+		z-index: 100;
 	}
 	#site-tagline {
+		position: relative;
 		display: inline;
 		padding-left: 0.5em;
 		font: 1.25em normal "Helvetica Neue",Helvetica,Arial,sans-serif;
 		color: #999;
+		z-index: 100;
 	}
 
 	/* Menubar */
 	
 	#menubar {
+		margin-top: 60px;
 		position:relative;
-		color: #fff;
-		background: #333;
-		background-image: linear-gradient(#333 48%, #000 52%);
+		background: #999;
+		background-image: linear-gradient(#fff 48%, #ddd 52%);
 		text-align:center;
 		box-shadow:0 1em 1em rgba(0,0,0,0.25);
-		border-top: 1px solid #444;
-		border-top: 1px solid #222;
+		border-top: 0px solid #444;
+		border-bottom: 1px solid #999;
 		z-index: 99;
 	}	
 	#menubar h1 {
 		margin: 0;
-		line-height:1.25em;
+		line-height:1.5em;
+		text-shadow: 0 1px 1px #fff;
 	}
-	#menubar ul {position:absolute; top:5px; margin:0; padding:5px; list-style:none;}
-	#menubar ul li {position:relative; float:left; margin-right:5px;}
+	#menubar ul {position:absolute; top:16px; margin:0; padding:0; list-style:none;}
+	#menubar ul li {position:relative; float:left; margin:0;}
 	#menubar li ul {position:absolute; top:35px; right:-75%; margin:0; padding:0; width:150px; color:#fff; background:#333; border:5px solid #111; border-radius:10px; box-shadow:0 3px 10px rgba(0,0,0,0.75); list-style:none;}
 	#menubar li li {height:50px; width:100%; color:#333; background:#ccc; line-height:50px;}
 	#menubar li li:first-child {border-radius:5px 5px 0 0;}
 	#menubar li li:last-child {border-radius:0 0 5px 5px;}
 	#menubar li li:nth-child(odd) {background:#ddd;}
-	#menubar button {display:block; height:25px; width:50px; color:#999; background:#333; border:1px solid #000; border-radius:5px; box-shadow:0 1px 1px rgba(255,255,255,0.25);}
-	#menubar button:hover {color:#fff; background:#666;}
-	#menubar button.active {color:#d72;}
+	#menubar button {display:block; height:25px; width:50px; color:#999; background:#ccc; border: none; border-radius:5px; box-shadow:0 1px 1px #fff, 0 1px 1px #999 inset;}
+	#menubar button:hover {color:#333; background:#fff;}
+	#menubar button.active {color:#666; text-shadow:0 0 2px #ffc; background: #f96;}
 		
 	#menubar ul#mode li:first-child {margin-right:0;}
-		#menubar ul#mode li:first-child button {border-right:1px solid #000; border-radius:5px 0 0 5px;}
+		#menubar ul#mode li:first-child button {border-right:1px solid #999; border-radius:5px 0 0 5px;}
 		#menubar ul#mode li:last-child button {border-left:0; border-radius:0 5px 5px 0;}
 	#menubar ul#modals {left:5px;}
-	#menubar ul#popovers {left:105px; z-index:98;}
+	#menubar ul#popovers {right:0; z-index:98;}
 		#menubar ul#popovers button {width:auto;}
 		#menubar ul#popovers ul {display:none; background:#000;}
 		#menubar ul#popovers h2 {margin:0; padding:0; line-height:25px; color:#ccc; font-weight:bold;}
@@ -200,7 +205,7 @@
 		/* Graphs */
 		
 		#graphview {height: 100%;}
-		#loader, .dataTables_processing {position:absolute; top:0; left:0; height:100%; width:100%; background:#ccc url(/assets/loader.gif) center no-repeat; text-indent:-9999px; opacity:0.8; z-index:99;}
+		#loader, .dataTables_processing {position:absolute; top:0; left:0; height:100%; width:100%; background:rgba(255,255,255,0.5) url(/assets/loader.gif) center no-repeat; text-indent:-9999px; opacity:1; z-index:99;}
 
 		#graph circle {fill:#ccc; stroke:#fff; stroke-width:2; transition:fill 0.5s;}
 			#graph circle:hover {fill:#f90 !important; transition:fill 0.5s;}
@@ -231,6 +236,9 @@
 			text-shadow:0 2px 2px #333;
 			opacity: 0;
 			transition: opacity 0.5s;
+		}
+		.institutions #graph .label {
+			opacity: 1 !important;
 		}
 		#graph .bubble {
 			position: absolute;
@@ -290,8 +298,9 @@
 		#globe { cursor: move;}
 		#globe .graticule {fill: none; stroke: #777; stroke-width: .5px; stroke-opacity: .5;}
 		#globe .countries {fill: #999; stroke: #fff; stroke-width: .5px; stroke-opacity: .5;}
-		#globe.ready .countries:hover {fill: #fc9 !important; stroke:#f90; stroke-width: 2px; cursor: pointer;}
-		
+		#globe.ready .countries:hover, #globe .countries.active {fill: #fc9 !important; stroke:#f90; stroke-width: 2px; cursor: pointer;}
+		#globe .countries.disabled, #globe .countries.disabled:hover {fill: #999 !important; stroke: #fff; stroke-width: .5px;cursor: default;}
+
 		#info {
 			position: absolute;
 			bottom: 0;
