@@ -46,7 +46,7 @@ class Project < ActiveRecord::Base
 	end
 	
 	def country_code
-		if cc = Carmen.country_code(self.country) then cc.downcase else ""; end
+		if cc = Carmen.country_code(self.country) then cc else ""; end
 	end
 
 	def sector_name

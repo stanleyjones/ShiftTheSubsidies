@@ -1,6 +1,6 @@
 class ProjectsController < ApplicationController
 	skip_before_filter :authorize, :only => [:index, :show]
-	caches_action :show
+	# caches_action :show
 	
   def index
 		respond_to do |format|

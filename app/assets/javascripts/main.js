@@ -31,8 +31,8 @@ $(document).ready(function() {
 
 	// MENUBAR
 
-	if ($('#graph').length || $('#map').length) { viewmode('graph'); }
-	if ($('body.admin').length) { viewmode('table'); }
+	if ($('#graph').length || $('#map').length) { view('graphview'); }
+	if ($('body.admin').length) { view('tableview'); }
 
 });
 
@@ -83,11 +83,13 @@ function loader() {
 	}
 }
 
-function viewmode(v) {
-	$('div.view').hide();
-	$('#mode button').removeClass('active');
-	$('#'+v+'view').show();
-	$('button.'+v).addClass('active');
+function view(v) {
+	if (typeof(v) === undefined) {v = window.location.hash;}
+	$('.view').hide();
+	$('.view'+v).show();
+	$('.button.mode').removeClass('active');
+	$('.button'+v+'mode').addClass('active');
+	return v;
 }
 
 function popover(e) {
@@ -167,7 +169,7 @@ function draw_bubbles( bubbles,label,color ) {
 		.style('font-size', 0);
 }
 
-function draw_bar_chart( cc ) {
+function draw_bar_chart( cc,ntnl_data ) {
 
 	var size = size_element('#chart'),
 		margin = 30;
@@ -207,58 +209,35 @@ function draw_bar_chart( cc ) {
 		.ticks(3)
 		.tickFormat( d3.format('1s'));
 
-	Tabletop.init({
-		key: '0AlSpzNcXJg6WdHR1Z1VNN3pLQzBJdV9kM2xXelkyVmc',
-		parseNumbers: true,
-		callback: function(data, tabletop) {
+	fuel_data = ntnl_data[cc].fuel_data;
 
-			var fuel_data = [];
-			$.each( data[cc].elements, function( index,row ) {
-				fuel_data.push(
-					{'fuel': row.fuel, 'year': 2005, 'amount': row.y2005},
-					{'fuel': row.fuel, 'year': 2006, 'amount': row.y2006},
-					{'fuel': row.fuel, 'year': 2007, 'amount': row.y2007},
-					{'fuel': row.fuel, 'year': 2008, 'amount': row.y2008},
-					{'fuel': row.fuel, 'year': 2009, 'amount': row.y2009},
-					{'fuel': row.fuel, 'year': 2010, 'amount': row.y2010},
-					{'fuel': row.fuel, 'year': 2011, 'amount': row.y2011}
-					// {'fuel': row.fuel, 'year': 2012, 'amount': row.y2012},
-					// {'fuel': row.fuel, 'year': 2013, 'amount': row.y2013}
-				);
-			});
+	var fuels = stack(nest.entries( fuel_data ));
 
-			var fuels = stack(nest.entries( fuel_data ));
+	x.domain(d3.extent(fuel_data, function(d) { return d.year; }));
+	y.domain([0, d3.max(fuel_data, function(d) { return d.y0 + d.y; })]);
 
-			x.domain(d3.extent(fuel_data, function(d) { return d.year; }));
-			y.domain([0, d3.max(fuel_data, function(d) { return d.y0 + d.y; })]);
-
-			var fuel = chart.selectAll('.fuel')
-				.data(fuels)
-				.enter().append('g')
-					.attr('class','fuel')
-					.attr('transform','translate('+margin*2+',0)');
-
-			fuel.append('path')
-				.attr('class',function(d) { return 'area ' + d.key.replace(/\s/g,'').toLowerCase(); })
+	var fuel = chart.selectAll('.fuel')
+		.data(fuels)
+		.enter().append('g')
+			.attr('class','fuel')
+			.attr('transform','translate('+margin*2+',0)');
+		fuel.append('path')
+				.attr('class',function(d) { return 'area ' + d.key.replace(/\s/g,''); })
 				.attr('d', function(d) { return area(d.values); });
+		fuel.append('text')
+			.attr('class','label')
+			.datum(function(d) { return {key: d.key, value: d.values[parseInt(d.values.length / 2)]}; })
+			.text(function(d) { return d.key; })
+			.attr('transform', function(d) { return 'translate('+(w / 2)+','+y(d.value.y/2 + d.value.y0)+')'; });
 
-			fuel.append('text')
-				.attr('class','label')
-				.datum(function(d) { return {key: d.key, value: d.values[parseInt(d.values.length / 2)]}; })
-				.text(function(d) { return d.key; })
-				.attr('transform', function(d) { return 'translate('+(w / 2)+','+y(d.value.y/2 + d.value.y0)+')'; });
-
-			chart.append('g')
-				.attr('class', 'x axis')
-				.attr('transform', 'translate('+margin*2+',' + h + ')')
-				.call(xAxis);
-
-			chart.append('g')
-				.attr('class', 'y axis')
-				.attr('transform', 'translate('+margin*2+',0)')
-				.call(yAxis);
-		}
-	});
+	chart.append('g')
+		.attr('class', 'x axis')
+		.attr('transform', 'translate('+margin*2+',' + h + ')')
+		.call(xAxis);
+	chart.append('g')
+		.attr('class', 'y axis')
+		.attr('transform', 'translate('+margin*2+',0)')
+		.call(yAxis);
 }
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -273,7 +252,7 @@ function popRegion( cc,countries,intl_data ) {
 	var country = find_country( cc, countries );
 
 	$('#info .name').html(country.properties.name);
-	$('#info .total').html( '$' + to_currency(intl_data[String(cc).toLowerCase()].total) + ' in international subsidies' );
+	$('#info .total').html( '$' + to_currency(intl_data[String(cc)].total) + ' in international subsidies' );
 	$('#info .description').html('');
 
 	$.getJSON('/regions/'+cc+'/projects.json', function( json ) {
@@ -304,10 +283,10 @@ function regionInfo( cc,countries,ntnl_data ) {
 		country = find_country( cc, countries );
 
 	$('#info .name').html(country.properties.name);
-	$('#info .total').html( '$' + to_currency(ntnl_data[String(cc).toLowerCase()].total) + ' in domestic subsidies' );
-	$('#info .description').html(ntnl_data[String(cc).toLowerCase()].description);
+	$('#info .total').html( '$' + to_currency(ntnl_data[String(cc)].total) + ' in domestic subsidies' );
+	$('#info .description').html(ntnl_data[String(cc)].description);
 
-	draw_bar_chart( cc );
+	draw_bar_chart( cc,ntnl_data );
 
 	info.slideDown(500);
 	$('#masthead').fadeOut('fast');
@@ -325,8 +304,6 @@ function draw_globe() {
 	var initial_scale = size['h']/2.5,
 		zoom_scale = size['h']/1.0,
 		initial_rotate = [30,-10];
-
-	var viewmode;
 
 	var projection = d3.geo.orthographic()
 		.scale(initial_scale)
@@ -347,24 +324,31 @@ function draw_globe() {
 	draw_globe_shading( globe,projection );
 	draw_globe_graticule( globe,path );
 
+	var viewmode;
+
 	// INTERACTIONS
 
 	d3.select(window)
 		.on("mousemove", globe_mousemove)
 		.on("mouseup", globe_mouseup);
 
-	$(window).on('hashchange', function() {
-		viewmode = window.location.hash;
+	$(window).on('hashchange', switch_view);
+
+	function switch_view(v) {
+		if (typeof(v) == 'string') {viewmode = v;} else {viewmode = window.location.hash;}
+		view(viewmode);
 		switch( viewmode ) {
-			case '#domestic':
+			case '#national':
 				$('#navbar').slideUp();
 				globe_reset();
 				color_countries( globe, ntnl_data );
+				window.location.hash = viewmode;
 				break;
 			case '#international':
 				$('#navbar').slideDown();
 				globe_reset();
 				color_countries( globe, intl_data );
+				window.location.hash = viewmode;
 				break;
 			case '':
 				globe_reset();
@@ -373,7 +357,7 @@ function draw_globe() {
 			default:
 				break;
 		}	
-	});
+	}
 
 	var m0 = null;
 
@@ -420,7 +404,7 @@ function draw_globe() {
 	}
 	function country_click(d) {
 		switch( viewmode ) {
-			case '#domestic':
+			case '#national':
 				country_zoom(d);
 				regionInfo(d.id,countries,ntnl_data);
 				break;
@@ -462,38 +446,75 @@ function draw_globe() {
 
 	// LOAD DATA
 
+	var	international_data = $.getJSON('/projects.json');
+	var national_data = function() {
+		var d = $.Deferred();
+		Tabletop.init({
+			key: '0AlSpzNcXJg6WdHR1Z1VNN3pLQzBJdV9kM2xXelkyVmc',
+			callback: function(data) { d.resolve(data); }
+		});
+		return d.promise();
+	};
+
 	var intl_data = [],
 		ntnl_data = [];
 
-	d3.json('/projects.json', function( json ) {
-		$.each(json.projects, function(index, proj) {
-			if ( typeof intl_data[proj.cc] == "undefined" ) {
-				intl_data[proj.cc] = {'total': 0, 'clean': 0, 'access': 0};
-			}
-			if (proj['clean?'])    { intl_data[proj.cc].clean += proj['received']['all']; }
-			intl_data[proj.cc].total += proj['received']['all'];
-			intl_data[proj.cc].color = intl_data[proj.cc].clean / Math.max(intl_data[proj.cc].total,1);
-		});
-	});
+	$.when( national_data(), international_data )
+		.done(function(ntnl,intl){
 
-	Tabletop.init({
-		key: '0AlSpzNcXJg6WdHR1Z1VNN3pLQzBJdV9kM2xXelkyVmc',
-		callback: function(data, tabletop) {
 			var max = 0;
-			$.each( data['Country Totals'].elements, function( index, row ) {
-				var cc = String(row.countrycode).toLowerCase();
+			$.each( ntnl['Totals'].elements, function( index, row ) {
+				var cc = String(row.code);
 				if ( typeof ntnl_data[cc] == 'undefined' ) {
 					ntnl_data[cc] = {'total': 0, 'description': row.description};
 				}
 				ntnl_data[cc].total += parseInt(row.total);
-				if (parseInt(row.total) > max) { max = parseInt(row.total); }
+				ntnl_data[cc].totalusd += parseInt(row.totalusd);
+				if (parseInt(row.totalusd) > max) { max = parseInt(row.totalusd); }
+
+				if ( ntnl[row.name] ) {
+
+					var fuels = [];
+					$.each( ntnl[row.name].elements, function( index,row ) {
+						if ( typeof fuels[row.industry] == 'undefined' ) {
+							fuels[row.industry] = {};
+							for (var y = 2005; y < 2013; y++) {
+								fuels[row.industry]['y'+y] = 0;
+							}
+						}
+						for (var y = 2005; y < 2013; y++) {
+							fuels[row.industry]['y'+y] += parseInt(row['y'+y]) || 0;
+						}
+					});
+					console.log( fuels );
+					var fuel_data = [];
+					for ( var fuel in fuels ) {
+						for (var y = 2005; y < 2013; y++) {
+							fuel_data.push({'fuel': fuel, 'year': y, 'amount': fuels[fuel]['y'+y]});
+						}
+					}
+					console.log( fuel_data );
+
+					ntnl_data[cc].fuel_data = fuel_data;
+				}
+
 			});
-			$.each( data['Country Totals'].elements, function( index, row ) {
-				var cc = String(row.countrycode).toLowerCase();
-				ntnl_data[cc].color = parseInt(row.total) / max * 1.0;
+			$.each( ntnl['Totals'].elements, function( index, row ) {
+				var cc = String(row.code);
+				ntnl_data[cc].color = parseInt(row.totalusd) / max * 1.0;
 			});
-		}
-	});
+
+			$.each(intl[0].projects, function(index, proj) {
+				if ( typeof intl_data[proj.cc] == "undefined" ) {
+					intl_data[proj.cc] = {'total': 0, 'clean': 0, 'access': 0};
+				}
+				if (proj['clean?'])    { intl_data[proj.cc].clean += proj['received']['all']; }
+				intl_data[proj.cc].total += proj['received']['all'];
+				intl_data[proj.cc].color = intl_data[proj.cc].clean / Math.max(intl_data[proj.cc].total,1);
+			});
+
+			switch_view('#national');
+		});
 }
 
 function color_countries( globe, data ) {
@@ -501,7 +522,7 @@ function color_countries( globe, data ) {
 		.transition(500)
 		.style('fill', function(d) {
 			if ( data ) {
-				var cc = String(d.id).toLowerCase();
+				var cc = String(d.id);
 				if (data[cc]) { return spectrum( data[cc].color ); }
 			} else {
 				return '#999';
