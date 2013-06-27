@@ -7,7 +7,7 @@ $(document).ready(function() {
 	// HOME
 
 	if ($('#globe').length) {
-		$('#navbar').hide();
+		$('#navbar, #tips').hide();
 		draw_globe();
 	}
 
@@ -247,7 +247,7 @@ function draw_bar_chart( cc,ntnl_data ) {
 
 function popRegion( cc,countries,intl_data ) {
 
-	$('#masthead, #info #chart').hide();
+	$('#masthead, #info #chart, #tips').hide();
 
 	var country = find_country( cc, countries );
 
@@ -279,10 +279,12 @@ $('#info').hide();
 
 function regionInfo( cc,countries,ntnl_data ) {
 
-	$('#masthead, #info #graph').hide();
+	$('#masthead, #info #graph, #tips').hide();
 
 	var info = $('#info'),
 		country = find_country( cc, countries );
+
+	$('#info #chart').show();
 
 	$('#info .name').html(country.properties.name);
 	$('#info .total').html( '$' + to_currency(ntnl_data[String(cc)].total) + ' in domestic subsidies' );
@@ -303,7 +305,7 @@ function draw_globe() {
 
 	var size = size_element('#globe');
 
-	var initial_scale = size['h']/2.5,
+	var initial_scale = size['h']/3.333,
 		zoom_scale = size['h']/1.0,
 		initial_rotate = [30,-10];
 
@@ -342,12 +344,17 @@ function draw_globe() {
 		switch( viewmode ) {
 			case '#national':
 				$('#navbar').slideUp();
+				$('#tips').fadeIn(2000);
+				$('.national-tips').show().siblings().hide();
+				$('#center').show();
 				globe_reset();
 				color_countries( globe, ntnl_data );
 				window.location.hash = viewmode;
 				break;
 			case '#international':
 				$('#navbar').slideDown();
+				$('#tips').fadeIn(2000);
+				$('.international-tips').show().siblings().hide();
 				globe_reset();
 				color_countries( globe, intl_data );
 				window.location.hash = viewmode;
@@ -367,6 +374,7 @@ function draw_globe() {
 		m0 = [d3.event.pageX, d3.event.pageY];
 		o0 = projection.rotate();
 		d3.event.preventDefault();
+		globe_rotate('stop');
 	}
 
 	function globe_mousemove() {
@@ -402,11 +410,35 @@ function draw_globe() {
 					projection.scale(z(t));
 					globe_refresh();
 				}
-			});
+			})
+		.each('end',function() {
+			globe_rotate();
+		});
 		d3.selectAll('.countries').classed('active',false);
+	}
+	function globe_rotate(state) {
+		var rotations = 2,
+			seconds = 90;
+		switch( state || 'start' ) {
+			case 'start':
+				d3.transition().ease('linear').duration(seconds*1000)
+					.tween('rotate',function() {
+						var current = projection.rotate();
+							r = d3.interpolate(current, [current[0] + (rotations*360), current[1]]);
+						return function(t) {
+							projection.rotate(r(t));
+							globe_refresh();
+						}
+					});
+					break;
+			case 'stop':
+				d3.transition().duration(0);
+				break;
+		}
 	}
 	function country_click(d) {
 		if (d3.select('.countries#'+d.id).classed('disabled') == false) {
+			globe_rotate('stop');
 			switch( viewmode ) {
 				case '#national':
 					country_zoom(d);
@@ -436,6 +468,30 @@ function draw_globe() {
 				});
 		}
 	}
+
+	// SHORTCUT TIPS
+
+	function distributeTips() {
+		var fields = $('#tips a'), container = $('#content'),
+			width = container.width(), height = container.height(),
+			radius = container.height() / 2.4,
+			angle = 0, step = (2*Math.PI) / 6;
+		console.log('center is: '+width/2+','+height/2);
+		fields.each(function() {
+			var x = Math.round(width/2 + radius * Math.cos(angle) - $(this).width()/2);
+			var y = Math.round(height/2 + radius * Math.sin(angle) - $(this).height()/2);
+			$(this).css({
+				left: x + 'px',
+				top: y + 'px'
+			});
+			angle -= step;
+    	});
+	}
+	$('#tips a').click(function(){
+		var target_country = $(this).data('region');
+		var country = find_country(target_country,countries);
+		country_click(country);
+	})
 
 	// LOAD WORLD MAP
 
@@ -520,6 +576,7 @@ function draw_globe() {
 
 			switch_view('#national');
 			$('#globe').addClass('ready');
+			distributeTips();
 			loader();
 		});
 }
@@ -549,7 +606,7 @@ function draw_globe_shadow( globe, projection ) {
 		.attr('stop-color', '#000')
 		.attr('stop-opacity','0');
 	globe.append('ellipse')
-		.attr('cx', '50%').attr('cy', '90%')
+		.attr('cx', '50%').attr('cy', '75%')
 		.attr('rx', projection.scale()*.90)
 		.attr('ry', projection.scale()*.25)
 		.style('fill', 'url(#globe_shadow)');
