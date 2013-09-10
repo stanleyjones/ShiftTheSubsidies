@@ -12,21 +12,45 @@ function draw_table( data ) {
 		"aaData": data.subsidies,
 		"sScrollY": h+'px',
 		"aoColumns": [
-			{"sWidth":"100px", "fnRender":function(oObj) { return '$'+to_currency(oObj.aData['amount']); }, "sType":"currency", "asSorting":["desc","asc"] },
-			{"fnRender":function(oObj) { return '<a href="/admin/institutions/'+oObj.aData['institution_id']+'">'+oObj.aData['from']+'</a>'; }},
-			{"fnRender":function(oObj) { return '<a href="/admin/entities/'+oObj.aData['entity_id']+'">'+oObj.aData['to']+'</a>'; }},
-			{"fnRender":function(oObj) { return '<a href="/admin/projects/'+oObj.aData['project_id']+'">'+oObj.aData['for']+'</a>'; }},
-			{"mDataProp":"date", "sWidth":"75px" },
-			{"sWidth":"15px", "fnRender":function(oObj) { if (oObj.aData['valid'] != true) { return '<span class="error icon">Errors</span>'; } else { return "&nbsp;"; }}},
-			{"bSortable":false, "sWidth":"15px", "fnRender":function(oObj) { return '<a class="edit icon" href="/admin/subsidies/'+oObj.aData['subsidy_id']+'/edit/">Edit</a>'; }}
-		],
-		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
-			var total = {'total':0};
-			for (var i=iStart; i<iEnd; i++) {
-				total['total']  += aaData[aiDisplay[i]]['amount']*1.0;
+			{
+				'sWidth': '10%', 'sType': 'currency', 'asSorting': ['desc','asc'],
+				'mData': 'amount',
+				'mRender': function( data ) { return '$'+to_currency( data ); }
+			},
+			{
+				'mData': 'from',
+				'mRender': function( data, type, row ) { return '<a href="'+row.institution_url+'">'+data+'</a>'; }
+			},
+			{
+				'mData': 'to',
+				'mRender': function( data, type, row ) { return '<a href="'+row.entity_url+'">'+data+'</a>'; }
+			},
+			{
+				'mData': 'for',
+				'mRender': function( data, type, row ) { return '<a href="'+row.project_url+'">'+data+'</a>'; }
+			},
+			{
+				'sWidth': '10%',
+				'mData': 'date'
+			},
+			{
+				'sWidth': '15px',
+				'mData': 'valid',
+				'mRender': function( data ) { if ( data != true ) { return '<span class="error icon">Errors</span>'; } else { return '&nbsp;'; }}
+			},
+			{
+				'sWidth': '15px',
+				'bSortable': false,
+				'mData': 'subsidy_id',
+				'mRender': function( data ) { return '<a class="edit icon" href="/admin/subsidies/'+data+'/edit/">Edit</a>'; }
 			}
-			var footer = nRow.getElementsByTagName('th');
-			footer[0].innerHTML = '$'+to_currency(total['total']);
+		],
+		'fnFooterCallback': function ( tr, row, start, end, index ) {
+			var total = {'total': 0};
+			for (var i=start; i<end; i++) {
+				total.total  += row[index[i]].amount[r] * 1.0;
+			}
+			$('th:eq(0)', tr).html( '$'+to_currency( total.total ));
 		}
 	});
 };
