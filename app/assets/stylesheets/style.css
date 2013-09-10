@@ -37,8 +37,8 @@
 	/* Buttons */
 	
 	p.buttons {clear:both;}
-	a.button, input.button, ul.buttons a {padding:4px; color:#eee; background:#999; background-position:5px; background-repeat:no-repeat; border:1px solid rgba(255,255,255,0.125); border-radius:10px; text-shadow:0 1px 1px transparent; text-decoration:none;}
-	a.button:hover, input.button:hover, ul.buttons a:hover {color:#fff; background-color:#888; cursor:pointer; box-shadow:0 1px 1px rgba(0,0,0,0.5) inset;}
+	a.button, input.button, ul.buttons a, a.DTTT_button {padding:4px; color:#eee; background:#999; background-position:5px; background-repeat:no-repeat; border:1px solid rgba(255,255,255,0.125); border-radius:10px; text-shadow:0 1px 1px transparent; text-decoration:none;}
+	a.button:hover, input.button:hover, ul.buttons a:hover, a.DTTT_button:hover {color:#fff; background-color:#888; cursor:pointer; box-shadow:0 1px 1px rgba(0,0,0,0.5) inset;}
 	a.button.active {background: #d72;}
 	a.button.active:hover {background: #c61;}
 	
@@ -270,7 +270,7 @@
 		#tableview th, #tableview td {padding:10px;}
 		#tableview th {color:#eee; cursor:pointer;}
 		#tableview td {padding:10px;}
-		#tableview .buttons {position:absolute; top:48px; left:10px;}
+		#tableview .buttons {position:absolute; top:58px; left:10px;}
 		
 		#tableview span.access {color:#33f;}
 		
@@ -618,3 +618,16 @@
 	table.display tr.gradeU{background-color:#ddd;}
 	div.box{height:100px;padding:10px;overflow:auto;border:1px solid #8080FF;background-color:#E5E5FF;}
 	table td span.desc{color:#999;font-style:italic;}
+
+	/* TableTools */
+
+	div.DTTT_container {
+		position: absolute !important;
+		margin: 0;
+		bottom: 5px;
+		right: 10px;
+	}
+	a.DTTT_button {
+		box-shadow: none;
+		margin-right: 5px;
+	}

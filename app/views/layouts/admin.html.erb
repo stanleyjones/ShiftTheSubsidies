@@ -5,8 +5,8 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-<title>Shift The Subsidies [ADMIN]</title>
-<%= stylesheet_link_tag 'application' %>
+<title>[ADMIN] <%= controller_name.capitalize %> | ShiftTheSubsidies.org - Oil Change International</title>
+<%= stylesheet_link_tag 'jquery.dataTables.tableTools.css','application' %>
 <%= csrf_meta_tag %>
 </head>
 
@@ -14,8 +14,6 @@
 <div id="wrapper">
 
 <%= render :partial => 'layouts/adminbar' %>
-<%= render :partial => 'layouts/header' %>
-<%= render :partial => 'layouts/navbar' %>
 
 <div id="content">
 <%= yield %>
@@ -23,7 +21,7 @@
 
 </div><!-- #wrapper -->
 
-<%= javascript_include_tag 'application' %>
+<%= javascript_include_tag 'application','jquery.dataTables.tableTools.min.js' %>
 
 </body>
 </html>

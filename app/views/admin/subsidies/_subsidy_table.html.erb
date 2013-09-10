@@ -13,33 +13,36 @@ function draw_table( data ) {
 		"sScrollY": h+'px',
 		"aoColumns": [
 			{
-				'sWidth': '10%', 'sType': 'currency', 'asSorting': ['desc','asc'],
+				'sWidth': '15%', 'sType': 'currency', 'asSorting': ['desc','asc'],
 				'mData': 'amount',
 				'mRender': function( data ) { return '$'+to_currency( data ); }
 			},
 			{
+				'sWidth': '20%',
 				'mData': 'from',
 				'mRender': function( data, type, row ) { return '<a href="'+row.institution_url+'">'+data+'</a>'; }
 			},
 			{
+				'sWidth': '20%',
 				'mData': 'to',
 				'mRender': function( data, type, row ) { return '<a href="'+row.entity_url+'">'+data+'</a>'; }
 			},
 			{
+				'sWidth': '20%',
 				'mData': 'for',
 				'mRender': function( data, type, row ) { return '<a href="'+row.project_url+'">'+data+'</a>'; }
 			},
 			{
-				'sWidth': '10%',
+				'sWidth': '15%',
 				'mData': 'date'
 			},
 			{
-				'sWidth': '15px',
+				'sWidth': '5%',
 				'mData': 'valid',
 				'mRender': function( data ) { if ( data != true ) { return '<span class="error icon">Errors</span>'; } else { return '&nbsp;'; }}
 			},
 			{
-				'sWidth': '15px',
+				'sWidth': '5%',
 				'bSortable': false,
 				'mData': 'subsidy_id',
 				'mRender': function( data ) { return '<a class="edit icon" href="/admin/subsidies/'+data+'/edit/">Edit</a>'; }
@@ -48,9 +51,19 @@ function draw_table( data ) {
 		'fnFooterCallback': function ( tr, row, start, end, index ) {
 			var total = {'total': 0};
 			for (var i=start; i<end; i++) {
-				total.total  += row[index[i]].amount[r] * 1.0;
+				total.total  += row[index[i]].amount * 1.0;
 			}
 			$('th:eq(0)', tr).html( '$'+to_currency( total.total ));
+		},
+
+		// TableTools
+		'sDom': 'T<"clear">lfrtip',
+		'oTableTools': {
+			'aButtons': [{
+				'sExtends': 'csv',
+				'sButtonText': 'Download as CSV'
+			}],
+			'sSwfPath': '/assets/jquery.dataTables.tableTools.swf'
 		}
 	});
 };
