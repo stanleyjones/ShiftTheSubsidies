@@ -672,16 +672,12 @@ jQuery.fn.dataTableExt.oSort['currency-desc'] = function(a,b) {
 };
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Currency Conversion (using money.js/fx)
-	http://josscrowcroft.github.com/money.js/
+	Currency Conversion
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-function autoconvert() {
+$("#subsidy_exchange_rate").change(function() {
 	var amount_original = $('#subsidy_amount_original').val();
-	var original_currency = $('#subsidy_currency').val();
+	var exchange_rate = $('#subsidy_exchange_rate').val();
 
-	fx.settings = { from: original_currency, to: 'USD' };
-	var amount_usd = fx.convert( amount_original );
-
-	$('#subsidy_amount_usd').val(Math.round( amount_usd ));
-}
+	$('#subsidy_amount_usd').val(Math.round( amount_original * exchange_rate * 1.0 ));
+});

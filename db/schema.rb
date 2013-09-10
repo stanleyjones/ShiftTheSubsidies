@@ -1,3 +1,4 @@
+# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -10,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110919182251) do
+ActiveRecord::Schema.define(:version => 20130910200705) do
 
   create_table "entities", :force => true do |t|
     t.string   "name",       :null => false
@@ -66,17 +67,18 @@ ActiveRecord::Schema.define(:version => 20110919182251) do
 
   create_table "subsidies", :force => true do |t|
     t.integer  "amount_usd",      :limit => 8
-    t.string   "currency",                     :default => "USD"
-    t.date     "date",                                            :null => false
+    t.string   "currency",                                                    :default => "USD"
+    t.date     "date"
     t.integer  "institution_id"
     t.integer  "entity_id"
     t.integer  "project_id"
     t.string   "kind"
-    t.boolean  "approved",                     :default => false
+    t.boolean  "approved",                                                    :default => false
     t.string   "source"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "amount_original", :limit => 8
+    t.decimal  "exchange_rate",                :precision => 10, :scale => 5, :default => 1.0
   end
 
   create_table "users", :force => true do |t|

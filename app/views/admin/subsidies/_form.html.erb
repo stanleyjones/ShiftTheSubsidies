@@ -9,11 +9,14 @@
   <div class="field">
     <%= f.label :currency %><br />
     <%= f.select :currency, currency_options_for_select( @subsidy.currency ), {:include_blank => "Select original currency"} %>
-    <button id="autoconvert">Auto-Convert</button>
+  </div>
+  <div class="field">
+    <%= f.label :exchange_rate, "Exchange Rate" %><br />
+    <%= f.text_field :exchange_rate %>
   </div>
   <div class="field">
   	<%= f.label :amount_usd, "Amount (USD)" %><br />
-  	<%= f.text_field :amount_usd %>
+  	<%= f.text_field :amount_usd, :disabled => true %>
   </div>
   
   <div class="field">
@@ -51,20 +54,3 @@
     <%= f.submit %> or <%= link_to "Cancel", admin_subsidies_path %>
   </div>
 <% end %>
-
-<script>
-$(function(){
-	$.getJSON('http://openexchangerates.org/latest.json?app_id=b0c4c804f0f04c7c9a26f9db3a52f08c',function(data) {
-		if ( typeof fx !== "undefined" && fx.rates ) {
-			fx.rates = data.rates;
-			fx.base = data.base;
-		} else {
-			var fxSetup = {rates: data.rates, base: data.base}
-		}
-	});
-	$("#autoconvert").click(function(event) {
-		event.preventDefault();
-		autoconvert();
-	});
-})
-</script>

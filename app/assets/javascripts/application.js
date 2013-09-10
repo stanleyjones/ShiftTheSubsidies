@@ -7,7 +7,6 @@
 //= require jquery.vector-map-0.1.min.js
 //= require jquery.vector-map.world.js
 
-//= require money.min.js
 //= require tabletop.js
 
 //= require main.js

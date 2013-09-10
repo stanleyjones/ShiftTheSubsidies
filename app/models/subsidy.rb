@@ -5,6 +5,7 @@ class Subsidy < ActiveRecord::Base
 	validates :amount_usd, :numericality => { :greater_than_or_equal_to => 0 }, :allow_nil => true
 	validates :amount_original, :numericality => { :greater_than_or_equal_to => 0 }
 	validates :currency, :presence => true
+  validates :exchange_rate, :presence => true, :numericality => true
 	validates :institution, :presence => true
 	validates :entity, :presence => true
 	validates :project, :presence => true
