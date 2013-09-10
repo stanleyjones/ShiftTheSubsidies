@@ -300,9 +300,9 @@
 		
 		#globe { cursor: move;}
 		#globe .graticule {fill: none; stroke: #777; stroke-width: .5px; stroke-opacity: .5;}
-		#globe .countries {fill: #999; stroke: #fff; stroke-width: .5px; stroke-opacity: .5;}
+		#globe .countries {fill: #ccc; stroke: #fff; stroke-width: .5px; stroke-opacity: .5;}
 		#globe.ready .countries:hover, #globe .countries.active {fill: #fc9 !important; stroke:#f90; stroke-width: 2px; cursor: pointer;}
-		#globe .countries.disabled, #globe .countries.disabled:hover {fill: #999 !important; stroke: #fff; stroke-width: .5px;cursor: default;}
+		#globe .countries.disabled, #globe .countries.disabled:hover {fill: #ccc !important; stroke: #fff; stroke-width: .5px;cursor: default;}
 
 		#info {
 			position: absolute;
@@ -444,7 +444,7 @@
 	footer {position:absolute; bottom:0; min-height:0px; width:950px; padding:10px; clear:both; color:#666; background:#333; border-top:1px solid #555; text-align:center;}
 
 	#adminbar {position:relative; top:0; border-bottom:1px solid #999; background:#f00;}
-	#adminlist {margin:0; padding:0; width:970px; overflow:hidden; text-align:center;}
+	#adminlist {margin:0; padding:0; width:100%; overflow:hidden; text-align:center;}
 	#adminlist li {float:left; width:20%;}
 	#adminlist li a {display:block; width:100%; line-height:30px; color:#600; background:#f33; text-shadow:1px 1px rgba(255,255,255,0.25);}
 	#adminlist li a:hover {background:#e22; box-shadow:0 0 2px rgba(0,0,0,0.5) inset;}

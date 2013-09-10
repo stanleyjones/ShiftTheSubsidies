@@ -123,7 +123,8 @@ function find_country(id,countries) {
 	http://mbostock.github.com/d3/
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-var spectrum = function(d){ return d3.interpolateRgb('#333','#3f3')( d3.scale.pow().exponent(2)(d) ); };
+var spectrum_intl = function(d){ return d3.interpolateRgb('#333','#3f3')( d3.scale.pow().exponent(2)(d) ); };
+var spectrum_ntnl = function(d){ return d3.interpolateRgb('#cc9','#333')( d3.scale.pow().exponent(1)(d) ); };
 var scale = function(d,max){ return d3.scale.linear().domain([0,max]).range([1,5000]).clamp(true).nice()(d); };
 
 function draw_bubble_graph( graph,data ) {
@@ -153,7 +154,7 @@ function draw_bubbles( bubbles,label,color ) {
 
   bubbles.transition().duration(1000)
     .style('background-image', function(d) { if (d.icon) {return 'url('+d.icon+')'; }})
-    .style('background-color', function(d) { if (color) { return spectrum( eval(color) ); }})
+    .style('background-color', function(d) { if (color) { return spectrum_intl( eval(color) ); }})
 	.style('opacity', 1)
     .style('top', function(d) { return Math.floor(d.y-d.r)+'px'; })
     .style('left', function(d) { return Math.floor(d.x-d.r)+'px'; })
@@ -348,7 +349,7 @@ function draw_globe() {
 				$('.national-tips').show().siblings().hide();
 				$('#center').show();
 				globe_reset();
-				color_countries( globe, ntnl_data );
+				color_countries( globe, ntnl_data, 'ntnl' );
 				window.location.hash = viewmode;
 				break;
 			case '#international':
@@ -356,7 +357,7 @@ function draw_globe() {
 				$('#tips').fadeIn(2000);
 				$('.international-tips').show().siblings().hide();
 				globe_reset();
-				color_countries( globe, intl_data );
+				color_countries( globe, intl_data, 'intl' );
 				window.location.hash = viewmode;
 				break;
 			case '':
@@ -541,17 +542,17 @@ function draw_globe() {
 					$.each( ntnl[row.name].elements, function( index,row ) {
 						if ( typeof fuels[row.industry] == 'undefined' ) {
 							fuels[row.industry] = {};
-							for (var y = 2005; y < 2013; y++) {
+							for (var y = 2005; y < 2012; y++) {
 								fuels[row.industry]['y'+y] = 0;
 							}
 						}
-						for (var y = 2005; y < 2013; y++) {
+						for (var y = 2005; y < 2012; y++) {
 							fuels[row.industry]['y'+y] += parseInt(row['y'+y]) || 0;
 						}
 					});
 					var fuel_data = [];
 					for ( var fuel in fuels ) {
-						for (var y = 2005; y < 2013; y++) {
+						for (var y = 2005; y < 2012; y++) {
 							fuel_data.push({'fuel': fuel, 'year': y, 'amount': fuels[fuel]['y'+y]});
 						}
 					}
@@ -581,7 +582,7 @@ function draw_globe() {
 		});
 }
 
-function color_countries( globe, data ) {
+function color_countries( globe, data, mode ) {
 	globe.selectAll('.countries')
 		.classed('disabled',true);
 	globe.selectAll('.countries')
@@ -589,7 +590,7 @@ function color_countries( globe, data ) {
 		.classed('disabled',false)
 		.transition(500)
 		.style('fill', function(d) {
-			if (data[d.id]) { return spectrum( data[d.id].color ); }
+			if (data[d.id]) { return (mode == 'ntnl') ? spectrum_ntnl( data[d.id].color ) : spectrum_intl( data[d.id].color ); }
 		});
 }
 
