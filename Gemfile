@@ -5,6 +5,7 @@ gem 'jquery-rails', '>= 1.0.3'
 gem 'json_pure'
 
 # Caching
+gem 'memcachier'
 gem 'dalli'
 
 # Countries
