@@ -1,5 +1,7 @@
 source 'http://rubygems.org'
 
+ruby '1.9.2'
+
 gem 'rails', '3.0.19'
 gem 'jquery-rails', '>= 1.0.3'
 gem 'json_pure'
