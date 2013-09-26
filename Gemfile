@@ -9,7 +9,8 @@ gem 'memcachier'
 gem 'dalli'
 
 # Countries
-gem 'carmen'
+gem 'carmen', '0.2.13'
+# gem 'country_select'
 
 # Currency conversions
 gem 'money'
