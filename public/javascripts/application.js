@@ -41,7 +41,7 @@ $(document).ready(function() {
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 function draw_elements() {
-/* 	var s = $('#start_year').val() || 2008, e = $('#end_year').val() || 2011; */
+/* 	var s = $('#start_year').val() || 2008, e = $('#end_year').val() || 2013; */
 	if (typeof data == 'undefined' || data == '') {
 		loader();
 		$.getJSON(dataURL, function( json ) {
@@ -71,7 +71,7 @@ function size_element(e) {
 }
 	
 function update_legend( r ) {
-	if (r == 'all') { $('.legend_start_year').text( '2008-2012' ); } else { $('.legend_start_year').text( r ); }
+	if (r == 'all') { $('.legend_start_year').text( '2008-2013' ); } else { $('.legend_start_year').text( r ); }
 	$('.legend_end_year').text( '' );
 	$('#info, #caption').fadeIn(3000);
 }
