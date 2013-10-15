@@ -1,5 +1,5 @@
 <table id="table">
-	<thead><tr><th>Amount</th><th>From</th><th>To</th><th>For</th><th>Date</th><th>Kind</th><th><span class="error icon">Errors?</span></th><th></th></tr></thead>
+	<thead><tr><th>Amount</th><th>From</th><th>To</th><th>For</th><th>Date</th><th>Sector</th><th>Kind</th><th><span class="error icon">Errors?</span></th><th></th></tr></thead>
 	<tbody></tbody>
 	<tfoot><tr><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
 </table>
@@ -33,11 +33,15 @@ function draw_table( data ) {
 				'mRender': function( data, type, row ) { return '<a href="'+row.project_url+'">'+data+'</a>'; }
 			},
 			{
-				'sWidth': '7.5%',
+				'sWidth': '5%',
 				'mData': 'date'
 			},
 			{
-				'sWidth': '7.5%',
+				'sWidth': '5%',
+				'mData': 'sector'
+			},
+			{
+				'sWidth': '5%',
 				'mData': 'kind'
 			},
 			{

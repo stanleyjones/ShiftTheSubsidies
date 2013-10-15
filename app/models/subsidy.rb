@@ -15,6 +15,8 @@ class Subsidy < ActiveRecord::Base
   belongs_to :entity, :touch => true
   belongs_to :project, :touch => true
 
+  has_one :sector, :through => :project
+
   attr_accessible :amount_original, :currency, :amount_usd, :date, :institution_id, :entity_id, :project_id, :kind, :approved, :source
   
   def self.live
