@@ -36,7 +36,7 @@ class Subsidy < ActiveRecord::Base
   			# 	original = self.amount_original.to_money(self.currency)
   			# 	return original.exchange_to('USD').dollars
         elsif self.exchange_rate != nil
-          return self.amount_original * self.exchange_rate
+          return self.amount_original * self.exchange_rate * 1.0
         else
           return 0
 	  		end
