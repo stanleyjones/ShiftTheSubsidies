@@ -5,6 +5,7 @@ class Subsidy < ActiveRecord::Base
 	validates :amount_usd, :numericality => { :greater_than_or_equal_to => 0 }, :allow_nil => true
 	validates :amount_original, :numericality => { :greater_than_or_equal_to => 0 }
 	validates :currency, :presence => true
+  validates :exchange_rate, :presence => true, :numericality => true
 	validates :institution, :presence => true
 	validates :entity, :presence => true
 	validates :project, :presence => true
@@ -31,9 +32,13 @@ class Subsidy < ActiveRecord::Base
   				return self.amount_original
 	  		elsif self.currency == "UAC"
   				return self.amount_original * 0.66
-  			elsif Money::Currency.find(self.currency)
-  				original = self.amount_original.to_money(self.currency)
-  				return original.exchange_to('USD').dollars
+  			# elsif Money::Currency.find(self.currency)
+  			# 	original = self.amount_original.to_money(self.currency)
+  			# 	return original.exchange_to('USD').dollars
+        elsif self.exchange_rate != nil
+          return self.amount_original * self.exchange_rate
+        else
+          return 0
 	  		end
   		else
   			return 0

@@ -22,7 +22,7 @@ end
 
 group :development do
 	gem 'mysql2', '0.2.6'
-#	gem 'rake', '0.8.7'
+	gem 'rake', '10.1.0'
 	gem 'ruby-prof'
 
 	# Deploy to Heroku
