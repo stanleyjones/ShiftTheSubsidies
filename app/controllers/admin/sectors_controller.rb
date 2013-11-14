@@ -43,7 +43,7 @@ class Admin::SectorsController < ApplicationController
     respond_to do |format|
       if @sector.save
       	expire_action :action => :index
-        format.html { redirect_to(admin_sectors_url, :notice => 'Sector was successfully created.') }
+        format.html { redirect_to(admin_root_url, :notice => 'Sector was successfully created.') }
         format.xml  { render :xml => @sector, :status => :created, :location => @sector }
       else
         format.html { render :action => "new" }
@@ -60,7 +60,7 @@ class Admin::SectorsController < ApplicationController
     respond_to do |format|
       if @sector.update_attributes(params[:sector])
       	expire_action :action => :index
-        format.html { redirect_to(admin_sectors_url, :notice => 'Sector was successfully updated.') }
+        format.html { redirect_to(admin_root_url, :notice => 'Sector was successfully updated.') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -76,7 +76,7 @@ class Admin::SectorsController < ApplicationController
     @sector.destroy
    	expire_action :action => :index
     respond_to do |format|
-      format.html { redirect_to(admin_sectors_url) }
+      format.html { redirect_to(admin_root_url) }
       format.xml  { head :ok }
     end
   end

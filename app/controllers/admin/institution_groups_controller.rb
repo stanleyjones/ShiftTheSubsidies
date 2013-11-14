@@ -47,7 +47,7 @@ class Admin::InstitutionGroupsController < ApplicationController
 
     respond_to do |format|
       if @institution_group.save
-        format.html { redirect_to([:admin, @institution_group], :notice => 'Institution group was successfully created.') }
+        format.html { redirect_to(admin_root_url, :notice => 'Institution group was successfully created.') }
         format.xml  { render :xml => @institution_group, :status => :created, :location => @institution_group }
       else
         format.html { render :action => "new" }
@@ -63,7 +63,7 @@ class Admin::InstitutionGroupsController < ApplicationController
 
     respond_to do |format|
       if @institution_group.update_attributes(params[:institution_group])
-        format.html { redirect_to([:admin, @institution_group], :notice => 'Institution group was successfully updated.') }
+        format.html { redirect_to(admin_root_url, :notice => 'Institution group was successfully updated.') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -79,7 +79,7 @@ class Admin::InstitutionGroupsController < ApplicationController
     @institution_group.destroy
 
     respond_to do |format|
-      format.html { redirect_to(admin_institution_groups_url) }
+      format.html { redirect_to(admin_root_url) }
       format.xml  { head :ok }
     end
   end
