@@ -1,7 +1,7 @@
 <p id="table_caption">Subsidies awarded by <%= @institution.shortname %> for <span class="legend_start_year"><%= @start_date.year %></span><span class="legend_end_year">-<%= @end_date.year %></span>.</p>
 
 <table id="table">
-	<thead><tr><th>Amount</th><th>To Entity</th><th>For Project</th><th>Sector</th><th>Access?</th><th>Date</th></tr></thead>
+	<thead><tr><th>Amount</th><th>To Entity</th><th>For Project</th><th>Region</th><th>Sector</th><th>Access?</th><th>Date</th></tr></thead>
 	<tbody></tbody>
 	<tfoot><tr><th></th></tr></tfoot>
 </table>
@@ -26,6 +26,9 @@ function draw_table(data) {
 			{
 				'mData': 'for',
 				'mRender': function( data, type, row ) { return '<a href="'+row.project_url+'">'+data+'</a>'; }
+			},
+			{
+				'mData': 'region'
 			},
 			{
 				'sWidth': '10%',

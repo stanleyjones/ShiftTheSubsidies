@@ -6,4 +6,4 @@ ShiftTheSubsidies::Application.initialize!
 
 # Global Constants
 START_YEAR = 2008
-END_YEAR = 2012
+END_YEAR = 2013

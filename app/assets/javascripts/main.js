@@ -70,7 +70,7 @@ function size_element(e) {
 }
 
 function update_legend( r ) {
-	if (r == 'all') { $('.legend_start_year').text( '2008-2012' ); } else { $('.legend_start_year').text( r ); }
+	if (r == 'all') { $('.legend_start_year').text( '2008-2013' ); } else { $('.legend_start_year').text( r ); }
 	$('.legend_end_year').text( '' );
 	$('#info, #caption').fadeIn(3000);
 }
@@ -542,17 +542,17 @@ function draw_globe() {
 					$.each( ntnl[row.name].elements, function( index,row ) {
 						if ( typeof fuels[row.industry] == 'undefined' ) {
 							fuels[row.industry] = {};
-							for (var y = 2005; y < 2012; y++) {
+							for (var y = 2005; y < 2013; y++) {
 								fuels[row.industry]['y'+y] = 0;
 							}
 						}
-						for (var y = 2005; y < 2012; y++) {
+						for (var y = 2005; y < 2013; y++) {
 							fuels[row.industry]['y'+y] += parseInt(row['y'+y]) || 0;
 						}
 					});
 					var fuel_data = [];
 					for ( var fuel in fuels ) {
-						for (var y = 2005; y < 2012; y++) {
+						for (var y = 2005; y < 2013; y++) {
 							fuel_data.push({'fuel': fuel, 'year': y, 'amount': fuels[fuel]['y'+y]});
 						}
 					}

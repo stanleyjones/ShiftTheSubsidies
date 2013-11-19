@@ -488,6 +488,18 @@
 		border-right: none;
 	}
 
+/* Admin */
+
+	body.sessions.new #content form {
+		margin-top: 100px;
+	}
+	body.sessions.new #content form .field {
+		border-bottom: none;
+	}
+	body.sessions.new #content form input {
+		width: 290px; padding: 5px;
+	}
+
 /* DataTables - http://datatables.net/
 - - - - - - - - - - - - - - - - - - - - */
 

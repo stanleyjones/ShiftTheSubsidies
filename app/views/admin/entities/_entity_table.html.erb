@@ -1,32 +1,77 @@
 <table id="table">
-	<thead><tr><th>Received</th><th>Projects</th><th>Name</th><th>% Clean</th><th>% Access</th><th><span class="error icon">Errors?</span></th><th></th></tr></thead>
+	<thead><tr>
+		<th>Received</th>
+		<th>Projects</th>
+		<th>Name</th>
+		<th>% Clean</th>
+		<th>% Access</th>
+		<th><span class="error icon">Errors?</span></th>
+		<th></th>
+	</tr></thead>
 	<tbody></tbody>
 	<tfoot><tr><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
 </table>
 
 <script>
 function draw_table( data ) {
-	var h = $('#wrapper').height() - 328;
+	var h = $('#wrapper').height() - 250;
 	$('#table').dataTable({
 		"bPaginate": false,
 		"aaData": data.entities,
 		"sScrollY": h+'px',
 		"aoColumns": [
-			{"sWidth":"100px", "sType":"currency", "fnRender":function(oObj) { return '$'+to_currency(oObj.aData['total']); },"asSorting":["desc","asc"]},
-			{"sWidth":"100px", "mDataProp":"projects"},
-			{"fnRender":function(oObj) { return '<b>'+oObj.aData['name']+'</b>'; }},
-			{"sWidth":"100px", "sType":"percent", "fnRender": function(oObj) { return Math.floor((oObj.aData['clean'] / Math.max(oObj.aData['total'],1)) * 100)+"%"; }},
-			{"sWidth":"100px", "sType":"percent", "fnRender": function(oObj) { return Math.floor((oObj.aData['access'] / Math.max(oObj.aData['total'],1)) * 100)+"%"; }},
-			{ "sWidth":"25px", "fnRender":function(oObj) { if (oObj.aData['valid'] != true) { return '<span class="error icon">Errors</span>'; } else { return "&nbsp;"; }}},
-			{"bSortable":false, "sWidth":"25px", "fnRender":function(oObj) { return '<a class="edit icon" href="/admin/entities/'+oObj.aData['entity_id']+'/edit/">Edit</a>'; }}
-		],
-		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
-			var total = {'total':0};
-			for (var i=iStart; i<iEnd; i++) {
-				total['total']  += aaData[aiDisplay[i]]['total']*1.0;
+			{
+				'sWidth': '10%', 'sType': 'currency', 'asSorting': ['desc','asc'],
+				'mData': 'total',
+				'mRender': function( data ) { return '$'+to_currency( data ); }
+			},
+			{
+				'sWidth': '5%',
+				'mData': 'projects'
+			},
+			{
+				'mData': 'name',
+				'mRender': function( data, type, row ) { return '<a href="'+row.url+'"/>'+data+'</a>'; }
+
+			},
+			{
+				'sWidth': '5%', 'sType': 'percent',
+				'mData': 'clean',
+				'mRender': function( data, type, row ) { return Math.floor((data / Math.max(row.total,1)) * 100)+'%'; }
+			},
+			{
+				'sWidth': '5%', 'sType': 'percent',
+				'mData': 'access',
+				'mRender': function( data, type, row ) { return Math.floor((data / Math.max(row.total,1)) * 100)+'%'; }
+			},			
+			{
+				'sWidth': '5%',
+				'mData': 'valid',
+				'mRender': function( data ) { if ( data != true ) { return '<span class="error icon">Errors</span>'; } else { return '&nbsp;'; }}
+			},
+			{
+				'sWidth': '5%',
+				'bSortable': false,
+				'mData': 'entity_id',
+				'mRender': function( data ) { return '<a class="edit icon" href="/admin/entities/'+data+'/edit/">Edit</a>'; }
 			}
-			var footer = nRow.getElementsByTagName('th');
-			footer[0].innerHTML = '$'+to_currency(total['total']);
+		],
+		'fnFooterCallback': function ( tr, row, start, end, index ) {
+			var total = {'total': 0};
+			for (var i=start; i<end; i++) {
+				total.total  += row[index[i]].total * 1.0;
+			}
+			$('th:eq(0)', tr).html( '$'+to_currency( total.total ));
+		},
+
+		// TableTools
+		'sDom': 'T<"clear">lfrtip',
+		'oTableTools': {
+			'aButtons': [{
+				'sExtends': 'csv',
+				'sButtonText': 'Download as CSV'
+			}],
+			'sSwfPath': '/assets/jquery.dataTables.tableTools.swf'
 		}
 	});
 }

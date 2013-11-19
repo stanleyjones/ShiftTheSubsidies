@@ -1,14 +1,14 @@
 <p id="table_caption">Subsidies awarded for <span class="legend_start_year"><%= @start_date.year %></span><span class="legend_end_year">-<%= @end_date.year %></span>.</p>
 
 <table id="table">
-	<thead><tr><th>Amount</th><th>From</th><th>To Entity</th><th>For Project</th><th>Date</th></tr></thead>
+	<thead><tr><th>Amount</th><th>From Institution</th><th>To Entity</th><th>For Project</th><th>Region</th><th>Sector</th><th>Access?</th><th>Date</th></tr></thead>
 	<tbody></tbody>
 	<tfoot><tr><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
 </table>
 
 <script>
 function draw_table(data) {
-	var h = $('#graph').height() - 162; /* thead (86px) + tfoot (78px) */
+	var h = $('#graph').height() - 345; /* thead (86px) + tfoot (78px) */
 	var oTable = $('#table').dataTable({
 		"bDestroy": true,
 		"bPaginate": false,
@@ -33,6 +33,16 @@ function draw_table(data) {
 				'mRender': function( data, type, row ) { return '<a href="'+row.project_url+'">'+data+'</a>'; }
 			},
 			{
+				'mData': 'region'
+			},
+			{
+				'mData': 'sector'
+			},
+			{
+				'mData': 'access?',
+				'mRender': function( data ) { if (data) { return 'yes'; } else { return 'no'; } }
+			},
+			{
 				'sWidth':'10%',
 				'mData': 'date'
 			}
@@ -46,6 +56,16 @@ function draw_table(data) {
 				total.total  += row[index[i]].amount[r] * 1.0;
 			}
 			$('th:eq(0)', tr).html( '$'+to_currency( total.total ));
+		},
+
+		// TableTools
+		'sDom': 'T<"clear">lfrtip',
+		'oTableTools': {
+			'aButtons': [{
+				'sExtends': 'csv',
+				'sButtonText': 'Download as CSV'
+			}],
+			'sSwfPath': '/assets/jquery.dataTables.tableTools.swf'
 		}
 	});
 	$.fn.dataTableExt.afnFiltering.push(function( oSettings, aData, iDataIndex ) {

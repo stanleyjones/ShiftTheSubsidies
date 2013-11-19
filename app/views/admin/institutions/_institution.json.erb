@@ -1,1 +1,14 @@
-<% cache("admin/institutions/#{institution.id}-#{institution.updated_at}/#{start_year}/#{end_year}/show") do %>{"name": "<%= institution.name %>", "abbreviation": "<%= institution.abbreviation %>","description": "<%= institution.description %>","url": "<%= url_for institution %>","valid": <%= institution.valid? %>,"total": <%= institution.awarded(@start_date,@end_date) %>, "clean": <%= institution.awarded_to_category('Clean',@start_date,@end_date) %>, "fossil": <%= institution.awarded_to_category('Fossil Fuel',@start_date,@end_date) %>, "access": <%= institution.awarded_to_energy_access(@start_date,@end_date) %>,"institution_id":<%= institution.id %>}<% end %>
+<% cache("admin/institutions/#{institution.id}-#{institution.updated_at}/#{start_year}/#{end_year}/show") do %>{
+	"name": "<%= institution.name %>",
+	"abbreviation": "<%= institution.abbreviation %>",
+	"description": "<%= institution.description %>",
+	"url": "<%= url_for institution %>",
+	"valid": <%= institution.valid? %>,
+
+	"total": <%= institution.awarded(@start_date,@end_date) %>,
+	"clean": <%= institution.awarded_to_category('Clean',@start_date,@end_date) %>,
+	"fossil": <%= institution.awarded_to_category('Fossil Fuel',@start_date,@end_date) %>,
+	"access": <%= institution.awarded_to_energy_access(@start_date,@end_date) %>,
+	
+	"institution_id":<%= institution.id %>
+}<% end %>
