@@ -43,7 +43,7 @@ class Admin::SubsidiesController < ApplicationController
   def create
     @subsidy = Subsidy.new(params[:subsidy])
     if @subsidy.save
-    	redirect_to(admin_subsidies_url, :notice => 'Subsidy was successfully created.')
+    	redirect_to(admin_root_url, :notice => 'Subsidy was successfully created.')
     else
       render :action => "new"
     end
@@ -53,7 +53,7 @@ class Admin::SubsidiesController < ApplicationController
     @subsidy = Subsidy.find(params[:id])
 
 		if @subsidy.update_attributes(params[:subsidy])
-     	redirect_to(admin_subsidies_url, :notice => 'Subsidy was successfully updated.')
+     	redirect_to(admin_root_url, :notice => 'Subsidy was successfully updated.')
     else
     	render :action => "edit"
     end
@@ -62,7 +62,7 @@ class Admin::SubsidiesController < ApplicationController
   def destroy
     @subsidy = Subsidy.find(params[:id])
     @subsidy.destroy
-    redirect_to(admin_subsidies_url)
+    redirect_to(admin_root_url)
   end
   
   
