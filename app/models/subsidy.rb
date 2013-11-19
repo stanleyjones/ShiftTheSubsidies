@@ -34,11 +34,10 @@ class Subsidy < ActiveRecord::Base
   		elsif self.amount_original
 	  		if self.currency == "USD"
   				return self.amount_original
-	  		elsif self.currency == "UAC"
-  				return self.amount_original * 0.66
-  			elsif Money::Currency.find(self.currency)
-  				original = self.amount_original.to_money(self.currency)
-  				return original.exchange_to('USD').dollars
+        elsif self.exchange_rate != nil
+          return self.amount_original * self.exchange_rate
+        else
+          return 0
 	  		end
   		else
   			return 0
