@@ -44,6 +44,12 @@ $(document).ready(function() {
 			if ($('body.admin').length) { view('#tableview'); }
 	}
 
+	if ($('#more').length) {
+		$('#view_title').click(function(){
+			$('#more').slideToggle();
+		});
+	}
+
 });
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -594,6 +600,7 @@ function draw_globe() {
 			$('#globe').addClass('ready');
 			distributeTips();
 			loader();
+			$('html,body').animate({ scrollTop: $('#content').offset().top },1000);
 		});
 }
 

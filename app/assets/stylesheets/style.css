@@ -68,7 +68,7 @@
 	/* OCI Universal Header */
 
 	#wrapper {position: relative; height: 100%; margin: 0 auto;}
-	body.admin #wrapper, body.static #wrapper {overflow: auto;}
+	body.admin #wrapper, body.static #wrapper, body.static #content {overflow: auto;}
 	#content { margin: 0 auto 0; height: 100%; overflow: hidden; position:relative;}
 	.container { margin: 0 auto; position: relative; }
 	@media screen and (max-width: 480px) { .container { width:100%; padding: 0 1em; }}
@@ -104,7 +104,7 @@
 		position:relative;
 		background: #fff;
 		text-align:center;
-		box-shadow:0 1em 2em rgba(0,0,0,0.25);
+		box-shadow:0 1em 2em rgba(0,0,0,0.125);
 		z-index: 99;
 	}	
 	#menubar h1 {
@@ -119,7 +119,7 @@
 	#menubar li li:first-child {border-radius:5px 5px 0 0;}
 	#menubar li li:last-child {border-radius:0 0 5px 5px;}
 	#menubar li li:nth-child(odd) {background:#ddd;}
-	#menubar button {display:block; height:25px; width:50px; color:#999; background:#eee; border: none; border-radius:5px; box-shadow: 0 1px 1px #ccc inset;}
+	#menubar button {display:block; height:25px; width:50px; color:#999; background:#eee; border: none; border-radius:5px; box-shadow: 0 1px 1px #ddd inset;}
 	#menubar button:hover {color:#333; background:#fff;}
 	#menubar button.active {color:#fff; background: #f96;}
 		
@@ -355,8 +355,8 @@
 			background: rgba(255,255,255,0.8);
 			border-top: 1px solid #fff;
 			z-index: 9999;
-			/*height: 50%;*/
-			height: auto;
+			height: 50%;
+			/*height: auto;*/
 			overflow: visible;
 		}
 		#info .name {
