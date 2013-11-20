@@ -1,9 +1,8 @@
 require 'money'
-require 'money/bank/google_currency'
 
 module SubsidiesHelper
 
-	Money.default_bank = Money::Bank::GoogleCurrency.new
+	# Money.default_bank = Money::Bank::GoogleCurrency.new
 
 # 	Money::Currency::TABLE[:UAC] = {	
 # 		:iso_code        => "UAC",

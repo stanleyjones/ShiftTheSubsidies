@@ -12,7 +12,6 @@ gem 'carmen', '0.2.13'
 
 # Currency conversions
 gem 'money'
-gem 'google_currency'
 
 # Asset pipeline
 group :assets do

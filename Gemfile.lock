@@ -36,8 +36,6 @@ GEM
     erubis (2.7.0)
     excon (0.25.3)
     execjs (2.0.2)
-    google_currency (3.0.0)
-      money (~> 5.1.1)
     heroku (3.0.1)
       heroku-api (~> 0.3.7)
       launchy (>= 0.3.2)
@@ -127,7 +125,6 @@ PLATFORMS
 DEPENDENCIES
   carmen (= 0.2.13)
   dalli
-  google_currency
   heroku
   jquery-rails
   json_pure

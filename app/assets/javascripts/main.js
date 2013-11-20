@@ -4,20 +4,9 @@
 
 $(document).ready(function() {
 
-
-	// 	var view = window.location.hash;
-	// 	if (view === '#mapview' || view === '#gridview') {
-	// 		toggle_view(view);
-	// 	}
-
-	// 	$('.btn-mapview').click(function() { toggle_view('#mapview'); });
-	// 	$('.btn-gridview').click(function() { toggle_view('#gridview'); });
-
-
-
 	// HOME
 
-	if ($('#globe').length) {
+	if ($('#globe').length) { // On the homepage
 		$('#navbar, #tips').hide();
 		draw_globe();
 	}
@@ -99,6 +88,7 @@ function update_legend( r ) {
 function loader() {
 	if ($('#loader').length) {
 		$('#loader').fadeToggle();
+		$('html,body').animate({ scrollTop: $('#content').offset().top },1000);
 	} else {
 		$('#wrapper').append('<div id="loader">Loading...</div>');
 	}
@@ -288,7 +278,7 @@ function popRegion( cc,countries,intl_data ) {
 
 }
 
-$('.close').click(function() {
+$('#info .close').click(function() {
 	$('#info').slideUp(500);
 	$('#graph').html('');
 	$('#chart').html('');
@@ -296,6 +286,9 @@ $('.close').click(function() {
 	var viewmode = window.location.hash;
 	viewmode = viewmode.split('-');
 	window.location.hash = viewmode[0];
+});
+$('#more .close').click(function() {
+	$('#more').slideUp(500);
 });
 
 $('#info').hide();

@@ -67,9 +67,9 @@
 
 	/* OCI Universal Header */
 
-	#wrapper {position: relative; height: 100%; margin: 0 auto; overflow: hidden;}
+	#wrapper {position: relative; height: 100%; margin: 0 auto;}
 	body.admin #wrapper, body.static #wrapper {overflow: auto;}
-	#content { margin: -60px auto 0; height: 100%; overflow: visible; position:relative;}
+	#content { margin: 0 auto 0; height: 100%; overflow: hidden; position:relative;}
 	.container { margin: 0 auto; position: relative; }
 	@media screen and (max-width: 480px) { .container { width:100%; padding: 0 1em; }}
 	@media screen and (min-width: 768px) { .container { width:740px; }}
@@ -77,7 +77,7 @@
 	@media screen and (min-width: 1210px) { .container { width:1200px; }}
 
 	#masthead {
-		margin: 75px 0 -75px;
+		margin: 1em 0 -75px;
 		padding: 0;
 		text-shadow: 0 1px #fff;
 	}
@@ -100,14 +100,11 @@
 	/* Menubar */
 	
 	#menubar {
-		margin-top: 60px;
+		/*margin-top: 60px;*/
 		position:relative;
-		background: #999;
-		background-image: linear-gradient(#fff 48%, #ddd 52%);
+		background: #fff;
 		text-align:center;
-		box-shadow:0 1em 1em rgba(0,0,0,0.25);
-		border-top: 0px solid #444;
-		border-bottom: 1px solid #999;
+		box-shadow:0 1em 2em rgba(0,0,0,0.25);
 		z-index: 99;
 	}	
 	#menubar h1 {
@@ -122,12 +119,12 @@
 	#menubar li li:first-child {border-radius:5px 5px 0 0;}
 	#menubar li li:last-child {border-radius:0 0 5px 5px;}
 	#menubar li li:nth-child(odd) {background:#ddd;}
-	#menubar button {display:block; height:25px; width:50px; color:#999; background:#ccc; border: none; border-radius:5px; box-shadow:0 1px 1px #fff, 0 1px 1px #999 inset;}
+	#menubar button {display:block; height:25px; width:50px; color:#999; background:#eee; border: none; border-radius:5px; box-shadow: 0 1px 1px #ccc inset;}
 	#menubar button:hover {color:#333; background:#fff;}
-	#menubar button.active {color:#666; text-shadow:0 0 2px #ffc; background: #f96;}
+	#menubar button.active {color:#fff; background: #f96;}
 		
 	#menubar ul#mode li:first-child {margin-right:0;}
-		#menubar ul#mode li:first-child button {border-right:1px solid #999; border-radius:5px 0 0 5px;}
+		#menubar ul#mode li:first-child button {border-right:1px solid #f90; border-radius:5px 0 0 5px;}
 		#menubar ul#mode li:last-child button {border-left:0; border-radius:0 5px 5px 0;}
 	#menubar ul#modals {left:5px;}
 	#menubar ul#popovers {right:0; z-index:98;}
@@ -161,7 +158,54 @@
 	#content a.button.delete:hover {background:#900;}
 	
 	/*#content #info {display:none; position:absolute; top:0; left:0; padding:20px; width:25%; color:#fff; background:rgba(0,0,0,0.5); border-bottom-right-radius:10px; z-index:2;}*/
-	#content #caption {position:absolute; bottom:0; width:100%; margin:0; padding:20px 0; color:#666; background:rgba(223,223,223,0.5); border-top:1px solid #fff; font-size:12px; text-align:center; z-index:3;}
+	#more {
+		position: absolute;
+		top: 58px;
+		background: rgba(255,255,255,0.8);
+		left: 0;
+		width: 100%;
+		z-index: 99;
+		font-size: 16px;
+		padding: 1em 0;
+	}
+	#more h1 {
+		font-size: 1.5em;
+		margin: 0;
+	}
+	#more p {
+	}
+	#more .close {
+		position: absolute;
+		bottom: -18px; right: 15px;
+		height: 36px; width: 36px;
+		font-size: 18px;
+		line-height: 32px;
+		text-align: center;
+		font-weight: bold;
+		color: #666;
+		background: #fff;
+		border-radius: 50%;
+		border: 2px solid #eee;
+		cursor: pointer;
+	}
+	#more .close:hover {
+		color: #fff;
+		background: #f90;
+	}
+
+	#content #caption {
+		position: absolute;
+		bottom: 0; left: 0;
+		width: 100%;
+		margin: 0; padding: 0;
+		color: #666;
+		background: rgba(255,255,255,0.8);
+		font-size: 10px;
+		text-align: center;
+		z-index:3;
+		height: 30px;
+		line-height: 30px;
+	}
 	#content #caption .fossil {color:#000;}
 	#content #caption .clean {color:#0f0;}
 	#content #caption .other {color:#999;}
@@ -311,7 +355,8 @@
 			background: rgba(255,255,255,0.8);
 			border-top: 1px solid #fff;
 			z-index: 9999;
-			height: 50%;
+			/*height: 50%;*/
+			height: auto;
 			overflow: visible;
 		}
 		#info .name {
@@ -453,11 +498,16 @@
 		position: relative;
 		background: #444;
 		background-image: linear-gradient(#ccc,#999);
-		box-shadow: 0 1em 1em rgba(0,0,0,0.25);
+		/*box-shadow: 0 1em 1em rgba(0,0,0,0.25);*/
 		border-top: 1px solid #eee;
 		border-bottom: 1px solid #777;
 		z-index: 100;
 		overflow: auto;
+	}
+	#navbar:after {
+		content: "";
+		display: table;
+		clear: both;
 	}
 	#navlist {
 		margin: 0 auto;
