@@ -4,6 +4,17 @@
 
 $(document).ready(function() {
 
+
+	// 	var view = window.location.hash;
+	// 	if (view === '#mapview' || view === '#gridview') {
+	// 		toggle_view(view);
+	// 	}
+
+	// 	$('.btn-mapview').click(function() { toggle_view('#mapview'); });
+	// 	$('.btn-gridview').click(function() { toggle_view('#gridview'); });
+
+
+
 	// HOME
 
 	if ($('#globe').length) {
@@ -31,8 +42,18 @@ $(document).ready(function() {
 
 	// MENUBAR
 
-	if ($('#graph').length || $('#map').length) { view('#graphview'); }
-	if ($('body.admin').length) { view('#tableview'); }
+	var hash = window.location.hash;
+	switch (hash) {
+		case '#international':
+		case '#national':
+		case '#graphview':
+		case '#tableview':
+			view(hash);
+			break;
+		default:	
+			if ($('#graph').length || $('#map').length) {view('#graphview'); }
+			if ($('body.admin').length) { view('#tableview'); }
+	}
 
 });
 
@@ -90,6 +111,7 @@ function view(v) {
 	$('.button.mode').removeClass('active');
 	$('.button'+v+'mode').addClass('active');
 	return v;
+	window.location.hash = v;
 }
 
 function popover(e) {
@@ -575,7 +597,7 @@ function draw_globe() {
 				intl_data[proj.cc].color = intl_data[proj.cc].clean / Math.max(intl_data[proj.cc].total,1);
 			});
 
-			switch_view('#national');
+			if (!window.location.hash) {switch_view('#national');}
 			$('#globe').addClass('ready');
 			distributeTips();
 			loader();

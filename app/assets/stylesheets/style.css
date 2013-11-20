@@ -68,7 +68,7 @@
 	/* OCI Universal Header */
 
 	#wrapper {position: relative; height: 100%; margin: 0 auto; overflow: hidden;}
-	body.admin #wrapper {overflow: auto;}
+	body.admin #wrapper, body.static #wrapper {overflow: auto;}
 	#content { margin: -60px auto 0; height: 100%; overflow: visible; position:relative;}
 	.container { margin: 0 auto; position: relative; }
 	@media screen and (max-width: 480px) { .container { width:100%; padding: 0 1em; }}
