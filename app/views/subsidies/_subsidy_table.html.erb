@@ -8,7 +8,7 @@
 
 <script>
 function draw_table(data) {
-	var h = $('#graph').height() - 345; /* thead (86px) + tfoot (78px) */
+	var h = $('#graph').height() - 250;
 	var oTable = $('#table').dataTable({
 		"bDestroy": true,
 		"bPaginate": false,
@@ -16,29 +16,35 @@ function draw_table(data) {
 		"sScrollY": h+'px',
 		'aoColumns': [
 			{
-				'sWidth': '10%', 'sType': 'currency', 'asSorting': ['desc','asc'],
+				'sWidth': '15%', 'sType': 'currency', 'asSorting': ['desc','asc'],
 				'mData': 'amount',
 				'mRender': function( data ) { return '$'+to_currency( data.all ); }
 			},
 			{
+				'sWidth': '20%',
 				'mData': 'from',
 				'mRender': function( data, type, row ) { return '<a href="'+row.institution_url+'">'+data+'</a>'; }
 			},
 			{
+				'sWidth': '20%',
 				'mData': 'to',
 				'mRender': function( data, type, row ) { return '<a href="'+row.entity_url+'">'+data+'</a>'; }
 			},
 			{
+				'sWidth': '20%',
 				'mData': 'for',
 				'mRender': function( data, type, row ) { return '<a href="'+row.project_url+'">'+data+'</a>'; }
 			},
 			{
+				'sWidth': '5%',
 				'mData': 'region'
 			},
 			{
+				'sWidth': '5%',
 				'mData': 'sector'
 			},
 			{
+				'sWidth': '5%',
 				'mData': 'access?',
 				'mRender': function( data ) { if (data) { return 'yes'; } else { return 'no'; } }
 			},
@@ -56,16 +62,6 @@ function draw_table(data) {
 				total.total  += row[index[i]].amount[r] * 1.0;
 			}
 			$('th:eq(0)', tr).html( '$'+to_currency( total.total ));
-		},
-
-		// TableTools
-		'sDom': 'T<"clear">lfrtip',
-		'oTableTools': {
-			'aButtons': [{
-				'sExtends': 'csv',
-				'sButtonText': 'Download as CSV'
-			}],
-			'sSwfPath': '/assets/jquery.dataTables.tableTools.swf'
 		}
 	});
 	$.fn.dataTableExt.afnFiltering.push(function( oSettings, aData, iDataIndex ) {

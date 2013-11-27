@@ -49,6 +49,10 @@ $(document).ready(function() {
 			$('#more').slideToggle();
 		});
 	}
+	$('#pull').click(function(e){
+		$('#navlist').slideToggle();
+		e.preventDefault();
+	});
 
 });
 
@@ -195,6 +199,55 @@ function draw_bar_chart( cc,ntnl_data ) {
 		w = size['w']-margin*3;
 		h = size['h']/2 - margin;
 
+	var chart = d3.select('#chart').append('svg')
+		.attr('height', h+margin*2).attr('width', size['w']);
+
+	var x = d3.scale.linear().range([0, w]),
+		y = d3.scale.linear().range([h, 0]),
+		z = d3.scale.category20c();
+
+	var stack = d3.layout.stack()
+		.values(function(d) { return d.values; })
+		.x(function(d) { return d.year; })
+		.y(function(d) { return d.amount; });
+
+	var fuel = chart.selectAll('.fuel');
+
+	fuel_data = ntnl_data[cc].fuel_data;
+	var fuels = stack(fuel_data);
+
+	y.domain([0, d3.max(fuel_data, function(d) { return d.y0 + d.y; })]);
+
+	var t = g.transition()
+		.duration(duration / 2);
+
+	t.select("text")
+		.delay(fuel[0].values.length * 10)
+		.attr("transform", function(d) { d = d.values[d.values.length - 1]; return "translate(" + (w - 60) + "," + y(d.amount / 2 + d.amount0) + ")"; });
+
+  t.selectAll("rect")
+      .delay(function(d, i) { return i * 10; })
+      .attr("y", function(d) { return y(d.amount0 + d.amount); })
+      .attr("height", function(d) { return h - y(d.amount); })
+      .each("end", function() {
+        d3.select(this)
+            .style("stroke", "#fff")
+            .style("stroke-opacity", 1e-6)
+          .transition()
+            .duration(duration / 2)
+            .attr("x", function(d) { return x(d.date); })
+            .attr("width", x.rangeBand())
+            .style("stroke-opacity", 1);
+      });
+}
+
+function draw_line_chart( cc,ntnl_data ) {
+
+	var size = size_element('#chart'),
+		margin = 30;
+		w = size['w']-margin*3;
+		h = size['h']/2 - margin;
+
 	var x = d3.scale.linear().range([0, w]),
 		y = d3.scale.linear().range([h, 0]),
 		z = d3.scale.category20c();
@@ -241,8 +294,8 @@ function draw_bar_chart( cc,ntnl_data ) {
 			.attr('class','fuel')
 			.attr('transform','translate('+margin*2+',0)');
 		fuel.append('path')
-				.attr('class',function(d) { return 'area ' + d.key.replace(/\s/g,''); })
-				.attr('d', function(d) { return area(d.values); });
+			.attr('class',function(d) { return 'area ' + d.key.replace(/\s/g,''); })
+			.attr('d', function(d) { return area(d.values); });
 		fuel.append('text')
 			.attr('class','label')
 			.datum(function(d) { return {key: d.key, value: d.values[parseInt(d.values.length / 2)]}; })
@@ -309,10 +362,12 @@ function regionInfo( cc,countries,ntnl_data ) {
 	$('#info #chart').show();
 
 	$('#info .name').html(country.properties.name);
-	$('#info .total').html( '$' + to_currency(ntnl_data[String(cc)].total) + ' in domestic subsidies' );
+	$('#info .total').html( to_short(ntnl_data[String(cc)].totalusd) + ' USD <small>' + to_short(ntnl_data[String(cc)].total) + ' ' + ntnl_data[String(cc)].currency + '</small>' );
 	$('#info .description').html(ntnl_data[String(cc)].description);
 
-	draw_bar_chart( cc,ntnl_data );
+	$('#info .action-link').html(function() { return ntnl_data[String(cc)].actionurl ? '<a class="action-link" href="'+ntnl_data[String(cc)].actionurl+'">Take Action</a>' : ''; });
+
+	draw_line_chart( cc,ntnl_data );
 
 	info.slideDown(500);
 	$('#masthead').fadeOut('fast');
@@ -498,7 +553,6 @@ function draw_globe() {
 			width = container.width(), height = container.height(),
 			radius = container.height() / 2.4,
 			angle = 0, step = (2*Math.PI) / 6;
-		console.log('center is: '+width/2+','+height/2);
 		fields.each(function() {
 			var x = Math.round(width/2 + radius * Math.cos(angle) - $(this).width()/2);
 			var y = Math.round(height/2 + radius * Math.sin(angle) - $(this).height()/2);
@@ -535,6 +589,7 @@ function draw_globe() {
 		var d = $.Deferred();
 		Tabletop.init({
 			key: '0AlSpzNcXJg6WdHR1Z1VNN3pLQzBJdV9kM2xXelkyVmc',
+			// wanted: 'Totals',
 			callback: function(data) { d.resolve(data); }
 		});
 		return d.promise();
@@ -551,10 +606,17 @@ function draw_globe() {
 			$.each( ntnl['Totals'].elements, function( index, row ) {
 				var cc = String(row.code);
 				if ( typeof ntnl_data[cc] == 'undefined' ) {
-					ntnl_data[cc] = {'total': 0, 'description': row.description};
+					ntnl_data[cc] = {
+						'total': 0, 
+						'totalusd': 0,
+						'description': row.description, 
+						'currency': row.currency,
+						'actionurl': row.actionurl
+					};
 				}
 				ntnl_data[cc].total += parseInt(row.total);
 				ntnl_data[cc].totalusd += parseInt(row.totalusd);
+
 				if (parseInt(row.totalusd) > max) { max = parseInt(row.totalusd); }
 
 				if ( ntnl[row.name] ) {
