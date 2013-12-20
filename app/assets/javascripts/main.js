@@ -175,7 +175,8 @@ function draw_bubbles( bubbles,label,color ) {
     .style('font-size',0);
 
   bubbles.transition().duration(1000)
-    .style('background-image', function(d) { if (d.icon) {return 'url('+d.icon+')'; }})
+  	.delay(function(d,i){ return i*100; })
+  	.style('background-image', function(d) { if (d.icon) {return 'url('+d.icon+')'; }})
     .style('background-color', function(d) { if (color) { return spectrum_intl( eval(color) ); }})
 	.style('opacity', 1)
     .style('top', function(d) { return Math.floor(d.y-d.r)+'px'; })
@@ -194,51 +195,80 @@ function draw_bubbles( bubbles,label,color ) {
 
 function draw_bar_chart( cc,ntnl_data ) {
 
+	// Set up the chart
+
 	var size = size_element('#chart'),
 		margin = 30;
 		w = size['w']-margin*3;
 		h = size['h']/2 - margin;
 
+	var x = d3.scale.ordinal().rangeRoundBands([0, w], .1),
+		y = d3.scale.linear().rangeRound([h, 0]);
+
 	var chart = d3.select('#chart').append('svg')
 		.attr('height', h+margin*2).attr('width', size['w']);
 
-	var x = d3.scale.linear().range([0, w]),
-		y = d3.scale.linear().range([h, 0]),
-		z = d3.scale.category20c();
+	// Raw data
+
+	var fuel_data = ntnl_data[cc].fuel_data;
+	console.log( 'fuel_data:' );
+	console.log( fuel_data );
+
+	var fuels_by_year = [];
+
+	$.each(fuel_data, function(i, f) {
+		if ( typeof fuels_by_year[f.year] == 'undefined' ) {
+			fuels_by_year[f.year] = [];
+		}
+		if ( typeof fuels_by_year[f.year][f.fuel] == 'undefined' ) {
+			fuels_by_year[f.year][f.fuel] = 0;
+		}
+		fuels_by_year[f.year][f.fuel] += f.amount;
+	});
+	console.log('fuels_by_year:');
+	console.log(fuels_by_year);
+
+	// Stack data
 
 	var stack = d3.layout.stack()
 		.values(function(d) { return d.values; })
 		.x(function(d) { return d.year; })
 		.y(function(d) { return d.amount; });
 
-	var fuel = chart.selectAll('.fuel');
 
-	fuel_data = ntnl_data[cc].fuel_data;
-	var fuels = stack(fuel_data);
+	var nest = d3.nest()
+		.key(function(d) { return d.year; });
 
+	var xAxis = d3.svg.axis()
+		.scale(x)
+		.orient('bottom')
+		.ticks(7)
+		.tickFormat( d3.format('2000') );
+
+	var yAxis = d3.svg.axis()
+		.scale(y)
+		.orient('left')
+		.ticks(3)
+		.tickFormat( d3.format('1s'));
+
+	x.domain(d3.extent(fuel_data, function(d) { return d.year; }));
 	y.domain([0, d3.max(fuel_data, function(d) { return d.y0 + d.y; })]);
 
-	var t = g.transition()
-		.duration(duration / 2);
-
-	t.select("text")
-		.delay(fuel[0].values.length * 10)
-		.attr("transform", function(d) { d = d.values[d.values.length - 1]; return "translate(" + (w - 60) + "," + y(d.amount / 2 + d.amount0) + ")"; });
-
-  t.selectAll("rect")
-      .delay(function(d, i) { return i * 10; })
-      .attr("y", function(d) { return y(d.amount0 + d.amount); })
-      .attr("height", function(d) { return h - y(d.amount); })
-      .each("end", function() {
-        d3.select(this)
-            .style("stroke", "#fff")
-            .style("stroke-opacity", 1e-6)
-          .transition()
-            .duration(duration / 2)
-            .attr("x", function(d) { return x(d.date); })
-            .attr("width", x.rangeBand())
-            .style("stroke-opacity", 1);
-      });
+	var fuel = chart.selectAll('.fuel')
+		.data(fuel_data)
+		.enter().append('g')
+			.attr('class','fuel')
+			.attr('transform',function(d){ return 'translate('+ x(d.year) + ',0)'; });
+		fuel.data(function(d){ return d.fuels; }).append('rect')
+			.attr('class',function(d) { return 'area ' + d.fuel.replace(/\s/g,''); })
+			.attr('y', function(d) { return y(d.y1); })
+			.attr('height', function(d) { return y(d.y0) - y(d.y1); })
+			.attr('width', x.rangeBand());		
+		fuel.append('text')
+			.attr('class','label')
+			.datum(function(d) { return {key: d.key, value: d.values[parseInt(d.values.length / 2)]}; })
+			.text(function(d) { return d.key; })
+			.attr('transform', function(d) { return 'translate('+(w / 2)+','+y(d.value.y/2 + d.value.y0)+')'; });
 }
 
 function draw_line_chart( cc,ntnl_data ) {
@@ -368,6 +398,7 @@ function regionInfo( cc,countries,ntnl_data ) {
 	$('#info .action-link').html(function() { return ntnl_data[String(cc)].actionurl ? '<a class="action-link" href="'+ntnl_data[String(cc)].actionurl+'">Take Action</a>' : ''; });
 
 	draw_line_chart( cc,ntnl_data );
+	// draw_bar_chart( cc,ntnl_data );
 
 	info.slideDown(500);
 	$('#masthead').fadeOut('fast');
@@ -584,26 +615,35 @@ function draw_globe() {
 
 	// LOAD DATA
 
-	var	international_data = $.getJSON('/projects.json');
-	var national_data = function() {
-		var d = $.Deferred();
-		Tabletop.init({
-			key: '0AlSpzNcXJg6WdHR1Z1VNN3pLQzBJdV9kM2xXelkyVmc',
-			// wanted: 'Totals',
-			callback: function(data) { d.resolve(data); }
-		});
-		return d.promise();
-	};
+	var	international_data = $.getJSON('/projects.json',
+		function(data) { data_loaded(data,'intl'); }
+	);
+
+	Tabletop.init({key: '0AlSpzNcXJg6WdHR1Z1VNN3pLQzBJdV9kM2xXelkyVmc', callback:
+		function(data) { data_loaded(data,'ntnl'); }
+	});
 
 	var intl_data = [],
 		ntnl_data = [];
 
-	loader();
-	$.when( national_data(), international_data )
-		.done(function(ntnl,intl){
+	function data_loaded(data,dataset) {
+		switch (dataset) {
 
+		case 'intl':
+			$.each(data.projects, function(index, proj) {
+				if ( typeof intl_data[proj.cc] == "undefined" ) {
+					intl_data[proj.cc] = {'total': 0, 'clean': 0, 'access': 0};
+				}
+				if (proj['clean?'])    { intl_data[proj.cc].clean += proj['received']['all']; }
+				intl_data[proj.cc].total += proj['received']['all'];
+				intl_data[proj.cc].color = intl_data[proj.cc].clean / Math.max(intl_data[proj.cc].total,1);
+			});
+
+			break;
+
+		case 'ntnl':
 			var max = 0;
-			$.each( ntnl['Totals'].elements, function( index, row ) {
+			$.each( data['Totals'].elements, function( index, row ) {
 				var cc = String(row.code);
 				if ( typeof ntnl_data[cc] == 'undefined' ) {
 					ntnl_data[cc] = {
@@ -619,51 +659,51 @@ function draw_globe() {
 
 				if (parseInt(row.totalusd) > max) { max = parseInt(row.totalusd); }
 
-				if ( ntnl[row.name] ) {
+				if ( data[row.name] ) {
 
 					var fuels = [];
-					$.each( ntnl[row.name].elements, function( index,row ) {
+					$.each( data[row.name].elements, function( index,row ) {
 						if ( typeof fuels[row.industry] == 'undefined' ) {
 							fuels[row.industry] = {};
-							for (var y = 2005; y < 2013; y++) {
+							for (var y = 2005; y < 2012; y++) {
 								fuels[row.industry]['y'+y] = 0;
 							}
 						}
-						for (var y = 2005; y < 2013; y++) {
+						for (var y = 2005; y < 2012; y++) {
 							fuels[row.industry]['y'+y] += parseInt(row['y'+y]) || 0;
 						}
 					});
 					var fuel_data = [];
 					for ( var fuel in fuels ) {
-						for (var y = 2005; y < 2013; y++) {
+						for (var y = 2005; y < 2012; y++) {
 							fuel_data.push({'fuel': fuel, 'year': y, 'amount': fuels[fuel]['y'+y]});
 						}
 					}
-
 					ntnl_data[cc].fuel_data = fuel_data;
 				}
-
 			});
-			$.each( ntnl['Totals'].elements, function( index, row ) {
+			$.each( data['Totals'].elements, function( index, row ) {
 				var cc = String(row.code);
 				ntnl_data[cc].color = parseInt(row.totalusd) / max * 1.0;
 			});
+			break;
+		}
+		$('.data-select.'+dataset).attr('disabled',false).click({data: data, dataset: dataset},show_dataset);
+	}
 
-			$.each(intl[0].projects, function(index, proj) {
-				if ( typeof intl_data[proj.cc] == "undefined" ) {
-					intl_data[proj.cc] = {'total': 0, 'clean': 0, 'access': 0};
-				}
-				if (proj['clean?'])    { intl_data[proj.cc].clean += proj['received']['all']; }
-				intl_data[proj.cc].total += proj['received']['all'];
-				intl_data[proj.cc].color = intl_data[proj.cc].clean / Math.max(intl_data[proj.cc].total,1);
-			});
-
-			if (!window.location.hash) {switch_view('#national');}
-			$('#globe').addClass('ready');
-			distributeTips();
-			loader();
-			$('html,body').animate({ scrollTop: $('#content').offset().top },1000);
-		});
+	function show_dataset(event) {
+		switch (event.data.dataset) {
+			case 'intl':
+				switch_view('#international');
+				break;
+			case 'ntnl':
+				switch_view('#national');
+				break;
+		}
+		$('#globe').addClass('ready');
+		distributeTips();
+		$('#intro').slideUp(1000);
+	}
 }
 
 function color_countries( globe, data, mode ) {
