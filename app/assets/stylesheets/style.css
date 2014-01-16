@@ -492,13 +492,13 @@
 			stroke-width: 1px;
 			fill-opacity: 0.75;
 		}
-		#chart .area.naturalgas {
+		#chart .area.naturalgas, #chart .area.Gas {
 			fill: #012;
 		}
-		#chart .area.oil {
+		#chart .area.oil, #chart .area.Oil {
 			fill: #202;
 		}
-		#chart .area.coal {
+		#chart .area.coal, #chart .area.Coal {
 			fill: #111;
 		}
 

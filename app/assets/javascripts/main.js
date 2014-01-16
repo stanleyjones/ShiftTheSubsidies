@@ -175,7 +175,7 @@ function draw_bubbles( bubbles,label,color ) {
     .style('font-size',0);
 
   bubbles.transition().duration(1000)
-  	.delay(function(d,i){ return i*100; })
+  	.delay(function(d,i){ return i*50; })
   	.style('background-image', function(d) { if (d.icon) {return 'url('+d.icon+')'; }})
     .style('background-color', function(d) { if (color) { return spectrum_intl( eval(color) ); }})
 	.style('opacity', 1)
@@ -198,51 +198,44 @@ function draw_bar_chart( cc,ntnl_data ) {
 	// Set up the chart
 
 	var size = size_element('#chart'),
-		margin = 30;
-		w = size['w']-margin*3;
-		h = size['h']/2 - margin;
+		margin = 20;
+		w = size['w'] - margin * 3;
+		h = size['h'] * 0.66 - margin;
 
 	var x = d3.scale.ordinal().rangeRoundBands([0, w], .1),
-		y = d3.scale.linear().rangeRound([h, 0]);
+		y = d3.scale.linear().rangeRound([h, 0]),
+		z = d3.scale.category10();
 
 	var chart = d3.select('#chart').append('svg')
 		.attr('height', h+margin*2).attr('width', size['w']);
 
 	// Raw data
-
 	var fuel_data = ntnl_data[cc].fuel_data;
-	console.log( 'fuel_data:' );
-	console.log( fuel_data );
 
-	var fuels_by_year = [];
+	// Nest by fuel type
+	var fuels_nested = d3.nest()
+		.key(function(d){ return d.fuel; })
+		.entries(fuel_data);
 
-	$.each(fuel_data, function(i, f) {
-		if ( typeof fuels_by_year[f.year] == 'undefined' ) {
-			fuels_by_year[f.year] = [];
-		}
-		if ( typeof fuels_by_year[f.year][f.fuel] == 'undefined' ) {
-			fuels_by_year[f.year][f.fuel] = 0;
-		}
-		fuels_by_year[f.year][f.fuel] += f.amount;
+	// Remap to x,y preparing for stack
+	var fuels_mapped = fuels_nested.map(function(d,i){
+		return {
+			name: d.key,
+			values: d.values.map(function(dd,ii){ return {x: dd.year, y: dd.amount}; })
+		};
 	});
-	console.log('fuels_by_year:');
-	console.log(fuels_by_year);
-
-	// Stack data
 
 	var stack = d3.layout.stack()
 		.values(function(d) { return d.values; })
-		.x(function(d) { return d.year; })
-		.y(function(d) { return d.amount; });
+		.offset('zero');
 
+	var fuels_stacked = stack(fuels_mapped);
 
-	var nest = d3.nest()
-		.key(function(d) { return d.year; });
+	// Layout
 
 	var xAxis = d3.svg.axis()
 		.scale(x)
 		.orient('bottom')
-		.ticks(7)
 		.tickFormat( d3.format('2000') );
 
 	var yAxis = d3.svg.axis()
@@ -251,24 +244,49 @@ function draw_bar_chart( cc,ntnl_data ) {
 		.ticks(3)
 		.tickFormat( d3.format('1s'));
 
-	x.domain(d3.extent(fuel_data, function(d) { return d.year; }));
-	y.domain([0, d3.max(fuel_data, function(d) { return d.y0 + d.y; })]);
+	x.domain(fuels_stacked[0].values.map(function(d) { return d.x; }));
+	y.domain([0, d3.max(fuels_stacked[fuels_stacked.length - 1].values, function(d) { return d.y0 + d.y; })]);
 
-	var fuel = chart.selectAll('.fuel')
-		.data(fuel_data)
+	var fuels = chart.selectAll('g.fuels')
+		.data(fuels_stacked)
 		.enter().append('g')
-			.attr('class','fuel')
-			.attr('transform',function(d){ return 'translate('+ x(d.year) + ',0)'; });
-		fuel.data(function(d){ return d.fuels; }).append('rect')
-			.attr('class',function(d) { return 'area ' + d.fuel.replace(/\s/g,''); })
-			.attr('y', function(d) { return y(d.y1); })
-			.attr('height', function(d) { return y(d.y0) - y(d.y1); })
-			.attr('width', x.rangeBand());		
-		fuel.append('text')
-			.attr('class','label')
-			.datum(function(d) { return {key: d.key, value: d.values[parseInt(d.values.length / 2)]}; })
-			.text(function(d) { return d.key; })
-			.attr('transform', function(d) { return 'translate('+(w / 2)+','+y(d.value.y/2 + d.value.y0)+')'; });
+			.attr('class',function(d) { return 'area'; })// ' + d.name.replace(/\s/g,''); })
+			.attr('fill',function(d,i) { return z(i); });
+
+	var bars = fuels.selectAll('rect')
+		.data(function(d){ return d.values; })
+		.enter().append('rect')
+			.attr('x', function(d) { return 2 * margin + x(d.x); })
+			.attr('y', function(d) { return y(d.y0) - (h - y(d.y)); })
+			.attr('height', function(d) { return h - y(d.y); })
+			.attr('width', x.rangeBand());
+
+	chart.append('g')
+		.attr('class', 'x axis')
+		.attr('transform', 'translate('+margin*2+',' + h + ')')
+		.call(xAxis);
+	chart.append('g')
+		.attr('class', 'y axis')
+		.attr('transform', 'translate('+margin*2+',0)')
+		.call(yAxis);
+
+	var legend = chart.selectAll(".legend")
+		.data(z.domain().slice().reverse())
+		.enter().append("g")
+			.attr("class", "legend")
+			.attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+		legend.append("rect")
+			.attr("x", w - 18)
+			.attr("width", 18)
+			.attr("height", 18)
+			.style("fill", z);
+		legend.append("text")
+			.attr("x", w - 24)
+			.attr("y", 9)
+			.attr("dy", ".35em")
+			.style("text-anchor", "end")
+			.text(function(d,i) { return fuels_stacked[i].name; });
+
 }
 
 function draw_line_chart( cc,ntnl_data ) {
@@ -397,8 +415,8 @@ function regionInfo( cc,countries,ntnl_data ) {
 
 	$('#info .action-link').html(function() { return ntnl_data[String(cc)].actionurl ? '<a class="action-link" href="'+ntnl_data[String(cc)].actionurl+'">Take Action</a>' : ''; });
 
-	draw_line_chart( cc,ntnl_data );
-	// draw_bar_chart( cc,ntnl_data );
+	// draw_line_chart( cc,ntnl_data );
+	draw_bar_chart( cc,ntnl_data );
 
 	info.slideDown(500);
 	$('#masthead').fadeOut('fast');
