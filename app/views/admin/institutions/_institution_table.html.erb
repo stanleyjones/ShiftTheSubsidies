@@ -24,9 +24,10 @@ function draw_table( data ) {
 		"bPaginate": false,
 		"aaData": data.institutions,
 		"sScrollY": h+'px',
+		'aaSorting': [[0,'desc']],
 		'aoColumns': [
 			{
-				'sWidth': '10%', 'sType': 'currency', 'asSorting': ['desc','asc'],
+				'sWidth': '10%', 'sType': 'currency',
 				'mData': 'total',
 				'mRender': function( data ) { return '$'+to_currency( data ); }
 			},
@@ -36,7 +37,7 @@ function draw_table( data ) {
 				'mRender': function( data, type, row ) { return '<a href="'+row.url+'"/>'+data+'</a>'; }
 			},
 			{
-				'sWidth': '10%', 'sType': 'currency', 'asSorting': ['desc','asc'],
+				'sWidth': '10%', 'sType': 'currency',
 				'mData': 'clean',
 				'mRender': function( data ) { return '$'+to_currency( data ); }
 			},
@@ -46,7 +47,7 @@ function draw_table( data ) {
 				'mRender': function( data, type, row ) { return Math.floor((data / Math.max(row.total,1)) * 100)+'%'; }
 			},
 			{
-				'sWidth': '10%', 'sType': 'currency', 'asSorting': ['desc','asc'],
+				'sWidth': '10%', 'sType': 'currency',
 				'mData': 'fossil',
 				'mRender': function( data ) { return '$'+to_currency( data ); }
 			},
@@ -56,7 +57,7 @@ function draw_table( data ) {
 				'mRender': function( data, type, row ) { return Math.floor((data / Math.max(row.total,1)) * 100)+"%"; }
 			},
 			{
-				'sWidth': '10%', 'sType': 'currency', 'asSorting': ['desc','asc'],
+				'sWidth': '10%', 'sType': 'currency',
 				'mData': 'access',
 				'mRender': function( data ) { return '$'+to_currency( data ); }
 			},

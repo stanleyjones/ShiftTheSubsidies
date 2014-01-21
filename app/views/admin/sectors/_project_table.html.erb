@@ -12,6 +12,7 @@ $(document).ready(function() {
 		"bPaginate": false,
 		"sAjaxSource": "<%= admin_sector_projects_url( @sector ) %>.json",
 		"sAjaxDataProp": "projects",
+		'aaSorting': [[0,'desc']],
 		"sScrollY": h+'px',
 		"aoColumns": [
 			{"sWidth":"100px", "fnRender":function(oObj) { return '$'+to_currency(oObj.aData['received']); }, "sType":"currency", "asSorting":["desc","asc"] },

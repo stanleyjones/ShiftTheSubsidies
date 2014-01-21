@@ -13,10 +13,11 @@ function draw_table(data) {
 		"bPaginate": false,
 		"bDestroy": true,
 		"aaData": data.projects,
+		'aaSorting': [[0,'desc']],
 		"sScrollY": h+'px',
 		'aoColumns': [
 			{
-				'sWidth': '10%', 'sType': 'currency', 'asSorting': ['desc','asc'],
+				'sWidth': '10%', 'sType': 'currency',
 				'mData': 'received',
 				'mRender': function( data ) { return '$'+to_currency( data.all ); }
 			},
