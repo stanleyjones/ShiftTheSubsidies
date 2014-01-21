@@ -18,10 +18,11 @@ function draw_table( data ) {
 	$('#table').dataTable({
 		"bPaginate": false,
 		"aaData": data.entities,
+		'aaSorting': [[0,'desc']],
 		"sScrollY": h+'px',
 		"aoColumns": [
 			{
-				'sWidth': '10%', 'sType': 'currency', 'asSorting': ['desc','asc'],
+				'sWidth': '10%', 'sType': 'currency',
 				'mData': 'total',
 				'mRender': function( data ) { return '$'+to_currency( data ); }
 			},
