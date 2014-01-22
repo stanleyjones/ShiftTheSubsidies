@@ -34,7 +34,7 @@ function draw_table( data ) {
 			{
 				'sWidth': '45%',
 				'mData': 'name',
-				'mRender': function( data, type, row ) { return '<a href="'+row.url+'"/>'+data+'</a>'; }
+				'mRender': function( data, type, row ) { return '<a href="/admin/institutions/'+row.institution_id+'">'+data+'</a>'; }
 			},
 			{
 				'sWidth': '10%', 'sType': 'currency',

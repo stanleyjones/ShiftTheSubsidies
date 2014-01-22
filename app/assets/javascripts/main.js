@@ -98,7 +98,6 @@ function update_legend( r ) {
 function loader() {
 	if ($('#loader').length) {
 		$('#loader').fadeToggle();
-		$('html,body').animate({ scrollTop: $('#content').offset().top },1000);
 	} else {
 		$('#wrapper').append('<div id="loader">Loading...</div>');
 	}
@@ -233,6 +232,9 @@ function draw_bar_chart( cc,ntnl_data ) {
 
 	// Layout
 
+	var si = d3.format('s'),
+		siMod = function(val) { return si(val).replace(/G/, 'B') };
+
 	var xAxis = d3.svg.axis()
 		.scale(x)
 		.orient('bottom')
@@ -242,7 +244,7 @@ function draw_bar_chart( cc,ntnl_data ) {
 		.scale(y)
 		.orient('left')
 		.ticks(3)
-		.tickFormat( d3.format('1s'));
+		.tickFormat( function(d) { return '$' + to_short(d); });
 
 	x.domain(fuels_stacked[0].values.map(function(d) { return d.x; }));
 	y.domain([0, d3.max(fuels_stacked[fuels_stacked.length - 1].values, function(d) { return d.y0 + d.y; })]);
@@ -372,7 +374,7 @@ function popRegion( cc,countries,intl_data ) {
 	var country = find_country( cc, countries );
 
 	$('#info .name').html(country.properties.name);
-	$('#info .total').html( '$' + to_currency(intl_data[String(cc)].total) + ' in international subsidies' );
+	$('#info .total').html('Has received $' + to_currency(intl_data[String(cc)].total) + ' in international energy subsidies since 2008.');
 	$('#info .description').html('');
 
 	$.getJSON('/regions/'+cc+'/projects.json', function( json ) {
@@ -410,7 +412,11 @@ function regionInfo( cc,countries,ntnl_data ) {
 	$('#info #chart').show();
 
 	$('#info .name').html(country.properties.name);
-	$('#info .total').html( to_short(ntnl_data[String(cc)].totalusd) + ' USD <small>' + to_short(ntnl_data[String(cc)].total) + ' ' + ntnl_data[String(cc)].currency + '</small>' );
+	$('#info .total').html(
+
+	 to_short(ntnl_data[String(cc)].totalusd) + ' USD <small>' + to_short(ntnl_data[String(cc)].total) + ' ' + ntnl_data[String(cc)].currency + '</small>' 
+
+	 	);
 	$('#info .description').html(ntnl_data[String(cc)].description);
 
 	$('#info .action-link').html(function() { return ntnl_data[String(cc)].actionurl ? '<a class="action-link" href="'+ntnl_data[String(cc)].actionurl+'">Take Action</a>' : ''; });
@@ -633,16 +639,31 @@ function draw_globe() {
 
 	// LOAD DATA
 
-	var	international_data = $.getJSON('/projects.json',
-		function(data) { data_loaded(data,'intl'); }
-	);
-
-	Tabletop.init({key: '0AlSpzNcXJg6WdHR1Z1VNN3pLQzBJdV9kM2xXelkyVmc', callback:
-		function(data) { data_loaded(data,'ntnl'); }
-	});
-
 	var intl_data = [],
 		ntnl_data = [];
+
+	var intl_cached = JSON.parse(localStorage.getItem('INTL'));
+	if (intl_cached) {
+		data_loaded(intl_cached,'intl');
+	} else {
+		$.getJSON('/projects.json', function(data) {
+			data_loaded(data,'intl');
+			localStorage.setItem('INTL',JSON.stringify(data));
+		});
+	}
+
+	var ntnl_cached = JSON.parse(localStorage.getItem('NTNL'));
+	if (ntnl_cached) {
+		data_loaded(ntnl_cached,'ntnl');
+	} else {
+		Tabletop.init({
+			key: '0AlSpzNcXJg6WdHR1Z1VNN3pLQzBJdV9kM2xXelkyVmc',
+			callback: function(data) {
+				data_loaded(data,'ntnl');
+				localStorage.setItem('NTNL',JSON.stringify(data));
+			}
+		});
+	}
 
 	function data_loaded(data,dataset) {
 		switch (dataset) {
@@ -660,7 +681,8 @@ function draw_globe() {
 			break;
 
 		case 'ntnl':
-			var max = 0;
+			var max = 0,
+				mult = 1000000; // Spreadsheet has data in Ms
 			$.each( data['Totals'].elements, function( index, row ) {
 				var cc = String(row.code);
 				if ( typeof ntnl_data[cc] == 'undefined' ) {
@@ -672,10 +694,10 @@ function draw_globe() {
 						'actionurl': row.actionurl
 					};
 				}
-				ntnl_data[cc].total += parseInt(row.total);
-				ntnl_data[cc].totalusd += parseInt(row.totalusd);
+				ntnl_data[cc].total += parseInt(row.total * mult);
+				ntnl_data[cc].totalusd += parseInt(row.totalusd * mult);
 
-				if (parseInt(row.totalusd) > max) { max = parseInt(row.totalusd); }
+				if (parseInt(row.totalusd) > max) { max = parseInt(row.totalusd * mult); }
 
 				if ( data[row.name] ) {
 
@@ -688,7 +710,7 @@ function draw_globe() {
 							}
 						}
 						for (var y = 2005; y < 2012; y++) {
-							fuels[row.industry]['y'+y] += parseInt(row['y'+y]) || 0;
+							fuels[row.industry]['y'+y] += parseInt(row['y'+y]) * mult || 0;
 						}
 					});
 					var fuel_data = [];
@@ -702,7 +724,7 @@ function draw_globe() {
 			});
 			$.each( data['Totals'].elements, function( index, row ) {
 				var cc = String(row.code);
-				ntnl_data[cc].color = parseInt(row.totalusd) / max * 1.0;
+				ntnl_data[cc].color = parseInt(row.totalusd * mult) / max * 1.0;
 			});
 			break;
 		}
@@ -721,6 +743,7 @@ function draw_globe() {
 		$('#globe').addClass('ready');
 		distributeTips();
 		$('#intro').slideUp(1000);
+		$('#wrapper').animate({ scrollTop: $('#content').offset().top },1000);
 	}
 }
 

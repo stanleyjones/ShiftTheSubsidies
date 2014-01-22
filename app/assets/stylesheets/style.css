@@ -482,6 +482,7 @@
 		#chart .axis text {
 			fill: #666;
 			text-anchor: right;
+			font-size: 10px;
 		}
 		#chart .axis path, #chart .axis line {
 			fill: none;

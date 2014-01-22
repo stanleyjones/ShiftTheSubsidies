@@ -20,17 +20,17 @@ function draw_table( data ) {
 			{
 				'sWidth': '20%',
 				'mData': 'from',
-				'mRender': function( data, type, row ) { return '<a href="'+row.institution_url+'">'+data+'</a>'; }
+				'mRender': function( data, type, row ) { return '<a href="/admin/institutions/'+row.institution_id+'">'+data+'</a>'; }
 			},
 			{
 				'sWidth': '20%',
 				'mData': 'to',
-				'mRender': function( data, type, row ) { return '<a href="'+row.entity_url+'">'+data+'</a>'; }
+				'mRender': function( data, type, row ) { return '<a href="/admin/entities/'+row.entity_id+'">'+data+'</a>'; }
 			},
 			{
 				'sWidth': '20%',
 				'mData': 'for',
-				'mRender': function( data, type, row ) { return '<a href="'+row.project_url+'">'+data+'</a>'; }
+				'mRender': function( data, type, row ) { return '<a href="/admin/projects/'+row.project_id+'">'+data+'</a>'; }
 			},
 			{
 				'sWidth': '5%',
