@@ -62,6 +62,8 @@
 	form.search input[type="text"] {height:20px; width:auto; font-size:10px; border:1px solid rgba(255,255,255,0.25); border-radius:10px 0 0 10px;}
 	form.search input[type="submit"] {height:30px; line-height:20px; border-radius:0 10px 10px 0;}
 
+	.hide {display: none;}
+
 /*	Elements by ID
 - - - - - - - - - - - - - - - - - - - - */
 
@@ -453,7 +455,7 @@
 			position: absolute;
 			bottom: 15px; right: 15px;
 		}
-		#info .close {
+		#info .close, #info .toggle {
 			position: absolute;
 			top: -18px; right: 15px;
 			height: 36px; width: 36px;
@@ -467,9 +469,20 @@
 			border: 2px solid #eee;
 			cursor: pointer;
 		}
-		#info .close:hover {
+		#info .close:hover, #info .toggle:hover {
 			color: #fff;
 			background: #f90;
+		}
+		#info .toggle {
+			font-size: 36px;
+			line-height: 30px;
+			right: 64px;
+			transition: all 0.5s;
+		}
+		#info .toggle.active {
+			-webkit-transform: rotate(180deg);
+			-moz-transform: rotate(180deg);
+			transform: rotate(180deg);
 		}
 		#chart {
 			margin: 75px 0 15px;

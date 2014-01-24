@@ -192,7 +192,7 @@ function draw_bubbles( bubbles,label,color ) {
 		.style('font-size', 0);
 }
 
-function draw_bar_chart( cc,ntnl_data ) {
+function draw_bar_chart( cc,ntnl_data,data_field ) {
 
 	// Set up the chart
 
@@ -203,17 +203,21 @@ function draw_bar_chart( cc,ntnl_data ) {
 
 	var x = d3.scale.ordinal().rangeRoundBands([0, w], .1),
 		y = d3.scale.linear().rangeRound([h, 0]),
-		z = d3.scale.ordinal().range(['#8c6d31','#bd9e39','#e7ba52','#e7cb94']);//category10();
+		z = d3.scale.ordinal().range(['#8c6d31','#bd9e39','#e7ba52','#e7cb94'])
+		z2 = d3.scale.category10();
 
 	var chart = d3.select('#chart').append('svg')
+		.attr('class',data_field)
 		.attr('height', h+margin*2).attr('width', size['w']);
 
+	var field = data_field || 'fuel';
+
 	// Raw data
-	var fuel_data = ntnl_data[cc].fuel_data;
+	var fuel_data = ntnl_data[cc][field+'_data'];
 
 	// Nest by fuel type
 	var fuels_nested = d3.nest()
-		.key(function(d){ return d.fuel; })
+		.key(function(d){ return d[field]; })
 		.entries(fuel_data);
 
 	// Remap to x,y preparing for stack
@@ -232,9 +236,6 @@ function draw_bar_chart( cc,ntnl_data ) {
 
 	// Layout
 
-	var si = d3.format('s'),
-		siMod = function(val) { return si(val).replace(/G/, 'B') };
-
 	var xAxis = d3.svg.axis()
 		.scale(x)
 		.orient('bottom')
@@ -252,16 +253,30 @@ function draw_bar_chart( cc,ntnl_data ) {
 	var fuels = chart.selectAll('g.fuels')
 		.data(fuels_stacked)
 		.enter().append('g')
+			.style('fill',function(d,i){ return (field == 'fuel') ? z(i) : z2(i); })
 			.attr('class',function(d) { return 'bar ' + d.name.replace(/\W/g,''); });
-			// .attr('fill',function(d,i) { return z(i); });
 
 	var bars = fuels.selectAll('rect')
-		.data(function(d){ return d.values; })
-		.enter().append('rect')
+		.data(function(d){ return d.values; });
+
+		bars.enter()
+			.append('rect')
 			.attr('x', function(d) { return 2 * margin + x(d.x); })
-			.attr('y', function(d) { return y(d.y0) - (h - y(d.y)); })
-			.attr('height', function(d) { return h - y(d.y); })
+			.attr('y', h)
+			.attr('height', 0)
 			.attr('width', x.rangeBand());
+
+		bars.transition()
+		  	.delay(function(d,i){ return 1000 + i*100; })
+			.duration(1000)
+			.attr('y', function(d) { return y(d.y0) - (h - y(d.y)); })
+			.attr('height', function(d) { return h - y(d.y); });
+
+		bars.exit()
+			.transition()
+				.duration(200)
+				.attr('height', 0)
+				.remove();
 
 	chart.append('g')
 		.attr('class', 'x axis')
@@ -273,18 +288,34 @@ function draw_bar_chart( cc,ntnl_data ) {
 		.call(yAxis);
 
 	var legend = chart.selectAll(".legend")
-		.data(fuels_stacked)
-		.enter().append("g")
+		.data(fuels_stacked);
+
+		legend.enter()
+			.append("g")
 			.attr("class", "legend")
-			.attr("transform", function(d, i) { return "translate(" + 2 * margin + "," + (h + margin) + ")"; });
+			.attr("transform", function(d, i) { return "translate(" + 2 * margin + "," + (h + margin) + ")"; })
+			.style('opacity',0);
+
+		legend.transition()
+			.delay(2000)
+			.duration(500)
+			.style('opacity',1);
+
+		legend.exit()
+			.transition()
+			.duration(500)
+			.style('opacity',0)
+			.remove();
+
 		legend.append("rect")
-			.attr("x", function(d,i) { return i * 60; })
+			.attr("x", function(d,i) { return (field == 'fuel') ? i * 60 : i * 120; })
 			.attr("width", 18)
 			.attr("height", 18)
-			.attr('class', function(d) { return 'legend ' + d.name.replace(/\W/g,''); });
-			// .style("fill", function(d,i) { return z(i); });
+			.attr('class', function(d) { return 'legend ' + d.name.replace(/\W/g,''); })
+			.style('fill', function(d,i) { return (field == 'fuel') ? z(i) : z2(i); });
+
 		legend.append("text")
-			.attr("x", function(d,i) { return i * 60 + 24; })
+			.attr("x", function(d,i) { return (field == 'fuel') ? 24 + i * 60 : 24 + i * 120; })
 			.attr("y", 9)
 			.attr("dy", ".35em")
 			.style("text-anchor", "left")
@@ -379,7 +410,7 @@ function popRegion( cc,countries,intl_data ) {
 	$('#info .description').html('');
 
 	$.getJSON('/regions/'+cc+'/projects.json', function( json ) {
-		// draw_popup_graph( json );
+		draw_popup_graph( json );
 		// loader();
 		$('#info #graph').show();
 		$('#info').slideDown(500);
@@ -397,6 +428,11 @@ $('#info .close').click(function() {
 	viewmode = viewmode.split('-');
 	window.location.hash = viewmode[0];
 });
+$('#info .toggle').click(function() {
+	$('#chart svg:visible').hide().siblings().show();
+	$(this).toggleClass('active');
+});
+
 $('#more .close').click(function() {
 	$('#more').slideUp(500);
 });
@@ -429,7 +465,10 @@ function regionInfo( cc,countries,ntnl_data ) {
 	$('#info .action-link').html(function() { return ntnl_data[String(cc)].actionurl ? '<a class="action-link" href="'+ntnl_data[String(cc)].actionurl+'">Take Action</a>' : ''; });
 
 	// draw_line_chart( cc,ntnl_data );
-	draw_bar_chart( cc,ntnl_data );
+	draw_bar_chart( cc,ntnl_data,'fuel' );
+	draw_bar_chart( cc,ntnl_data,'target' );
+
+	$('#chart .target').hide();
 
 	info.slideDown(500);
 	$('#masthead').fadeOut('fast');
@@ -718,6 +757,7 @@ function draw_globe() {
 
 				if ( data[row.name] ) {
 
+					// First fuels (oil, gas, coal, etc.)
 					var fuels = [];
 					$.each( data[row.name].elements, function( index,row ) {
 						if ( typeof fuels[row.industry] == 'undefined' ) {
@@ -737,6 +777,28 @@ function draw_globe() {
 						}
 					}
 					ntnl_data[cc].fuel_data = fuel_data;
+
+					// Then targets (production, consumption, etc.)
+
+					var targets = [];
+					$.each( data[row.name].elements, function( index,row ) {
+						if ( typeof targets[row.target] == 'undefined' ) {
+							targets[row.target] = {};
+							for (var y = 2005; y < 2012; y++) {
+								targets[row.target]['y'+y] = 0;
+							}
+						}
+						for (var y = 2005; y < 2012; y++) {
+							targets[row.target]['y'+y] += parseInt(row['y'+y]) * mult || 0;
+						}
+					});
+					var target_data = [];
+					for ( var target in targets ) {
+						for (var y = 2005; y < 2012; y++) {
+							target_data.push({'target': target, 'year': y, 'amount': targets[target]['y'+y]});
+						}
+					}
+					ntnl_data[cc].target_data = target_data;
 				}
 			});
 			$.each( data['Totals'].elements, function( index, row ) {
