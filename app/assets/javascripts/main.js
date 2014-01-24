@@ -174,7 +174,7 @@ function draw_bubbles( bubbles,label,color ) {
     .style('font-size',0);
 
   bubbles.transition().duration(1000)
-  	.delay(function(d,i){ return i*50; })
+  	.delay(function(d,i){ return i*25; })
   	.style('background-image', function(d) { if (d.icon) {return 'url('+d.icon+')'; }})
     .style('background-color', function(d) { if (color) { return spectrum_intl( eval(color) ); }})
 	.style('opacity', 1)
@@ -203,7 +203,7 @@ function draw_bar_chart( cc,ntnl_data ) {
 
 	var x = d3.scale.ordinal().rangeRoundBands([0, w], .1),
 		y = d3.scale.linear().rangeRound([h, 0]),
-		z = d3.scale.category10();
+		z = d3.scale.ordinal().range(['#8c6d31','#bd9e39','#e7ba52','#e7cb94']);//category10();
 
 	var chart = d3.select('#chart').append('svg')
 		.attr('height', h+margin*2).attr('width', size['w']);
@@ -252,8 +252,8 @@ function draw_bar_chart( cc,ntnl_data ) {
 	var fuels = chart.selectAll('g.fuels')
 		.data(fuels_stacked)
 		.enter().append('g')
-			.attr('class',function(d) { return 'area'; })// ' + d.name.replace(/\s/g,''); })
-			.attr('fill',function(d,i) { return z(i); });
+			.attr('class',function(d) { return 'bar ' + d.name.replace(/\W/g,''); });
+			// .attr('fill',function(d,i) { return z(i); });
 
 	var bars = fuels.selectAll('rect')
 		.data(function(d){ return d.values; })
@@ -273,21 +273,22 @@ function draw_bar_chart( cc,ntnl_data ) {
 		.call(yAxis);
 
 	var legend = chart.selectAll(".legend")
-		.data(z.domain().slice().reverse())
+		.data(fuels_stacked)
 		.enter().append("g")
 			.attr("class", "legend")
-			.attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+			.attr("transform", function(d, i) { return "translate(" + 2 * margin + "," + (h + margin) + ")"; });
 		legend.append("rect")
-			.attr("x", w - 18)
+			.attr("x", function(d,i) { return i * 60; })
 			.attr("width", 18)
 			.attr("height", 18)
-			.style("fill", z);
+			.attr('class', function(d) { return 'legend ' + d.name.replace(/\W/g,''); });
+			// .style("fill", function(d,i) { return z(i); });
 		legend.append("text")
-			.attr("x", w - 24)
+			.attr("x", function(d,i) { return i * 60 + 24; })
 			.attr("y", 9)
 			.attr("dy", ".35em")
-			.style("text-anchor", "end")
-			.text(function(d,i) { return fuels_stacked[i].name; });
+			.style("text-anchor", "left")
+			.text(function(d,i) { return d.name; });
 
 }
 
@@ -378,7 +379,7 @@ function popRegion( cc,countries,intl_data ) {
 	$('#info .description').html('');
 
 	$.getJSON('/regions/'+cc+'/projects.json', function( json ) {
-		draw_popup_graph( json );
+		// draw_popup_graph( json );
 		// loader();
 		$('#info #graph').show();
 		$('#info').slideDown(500);
@@ -409,14 +410,20 @@ function regionInfo( cc,countries,ntnl_data ) {
 	var info = $('#info'),
 		country = find_country( cc, countries );
 
+	averageusd = ntnl_data[String(cc)].totalusd / (2012-2005+1.0);
+	average = ntnl_data[String(cc)].total / (2012-2005+1.0);
+
+	var	total = to_short(ntnl_data[String(cc)].totalusd / (2012-2005+1.0)) + ' USD';
+
+	if (ntnl_data[String(cc)].currency != 'USD') {
+		total += ' <small>(' + to_short(ntnl_data[String(cc)].total / (2012-2005+1.0)) + ' ' + ntnl_data[String(cc)].currency + ')</small>';
+	}
+		total += ' per year';
+
 	$('#info #chart').show();
 
 	$('#info .name').html(country.properties.name);
-	$('#info .total').html(
-
-	 to_short(ntnl_data[String(cc)].totalusd) + ' USD <small>' + to_short(ntnl_data[String(cc)].total) + ' ' + ntnl_data[String(cc)].currency + '</small>' 
-
-	 	);
+	$('#info .total').html(total);
 	$('#info .description').html(ntnl_data[String(cc)].description);
 
 	$('#info .action-link').html(function() { return ntnl_data[String(cc)].actionurl ? '<a class="action-link" href="'+ntnl_data[String(cc)].actionurl+'">Take Action</a>' : ''; });
@@ -475,7 +482,8 @@ function draw_globe() {
 		view(viewmode);
 		switch( viewmode ) {
 			case '#national':
-				$('#navbar').slideUp();
+				$('#navbar').slideDown();
+				$('#ntnl-nav').show().siblings().hide();
 				$('#tips').fadeIn(2000);
 				$('.national-tips').show().siblings().hide();
 				$('#center').show();
@@ -485,6 +493,7 @@ function draw_globe() {
 				break;
 			case '#international':
 				$('#navbar').slideDown();
+				$('#intl-nav').show().siblings().hide();
 				$('#tips').fadeIn(2000);
 				$('.international-tips').show().siblings().hide();
 				globe_reset();
@@ -643,23 +652,31 @@ function draw_globe() {
 		ntnl_data = [];
 
 	var intl_cached = JSON.parse(localStorage.getItem('INTL'));
-	if (intl_cached) {
+	if (intl_cached && (Date.now() - intl_cached.last_retrieved < (1000 * 3600 * 24))) {
+		// console.log('Loading INTL from localStorage.');
 		data_loaded(intl_cached,'intl');
 	} else {
+		// console.log('Loading INTL from JSON.');
 		$.getJSON('/projects.json', function(data) {
 			data_loaded(data,'intl');
+			data.last_retrieved = Date.now();
+			// console.log('Saving INTL to localStorage.');
 			localStorage.setItem('INTL',JSON.stringify(data));
 		});
 	}
 
 	var ntnl_cached = JSON.parse(localStorage.getItem('NTNL'));
-	if (ntnl_cached) {
+	if (ntnl_cached && (Date.now() - ntnl_cached.last_retrieved < (1000 * 3600 * 24))) {
+		// console.log('Loading NTNL from localStorage.');
 		data_loaded(ntnl_cached,'ntnl');
 	} else {
+		// console.log('Loading NTNL from Tabletop.');
 		Tabletop.init({
 			key: '0AlSpzNcXJg6WdHR1Z1VNN3pLQzBJdV9kM2xXelkyVmc',
 			callback: function(data) {
 				data_loaded(data,'ntnl');
+				data.last_retrieved = Date.now();
+				// console.log('Saving NTNL to localStorage.');
 				localStorage.setItem('NTNL',JSON.stringify(data));
 			}
 		});
@@ -677,7 +694,7 @@ function draw_globe() {
 				intl_data[proj.cc].total += proj['received']['all'];
 				intl_data[proj.cc].color = intl_data[proj.cc].clean / Math.max(intl_data[proj.cc].total,1);
 			});
-
+			// console.log(intl_data);
 			break;
 
 		case 'ntnl':

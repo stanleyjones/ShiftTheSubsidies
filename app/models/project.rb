@@ -19,7 +19,7 @@ class Project < ActiveRecord::Base
 	def self.live_by_region(cc)
 		Project.joins(:institutions,:subsidies).where(
 			"country = :region AND institutions.visible = true AND subsidies.approved = true AND subsidies.date > :start_date AND subsidies.date < :end_date AND subsidies.amount_original > 0",
-			{:region => Carmen.country_name(cc), :start_date => "#{START_YEAR}-01-01", :end_date => "#{END_YEAR}-12-31"}
+			{:region => Carmen::country_name(cc), :start_date => "#{START_YEAR}-01-01", :end_date => "#{END_YEAR}-12-31"}
 		).uniq
 	end
 				

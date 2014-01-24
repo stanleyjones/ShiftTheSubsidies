@@ -34,4 +34,13 @@ class Sector < ActiveRecord::Base
 		# end
 	end
 
+	comma do
+
+		name
+		projects { |projects| projects.size }
+		received
+		category
+
+	end
+
 end

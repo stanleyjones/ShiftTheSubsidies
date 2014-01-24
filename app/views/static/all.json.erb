@@ -1,0 +1,43 @@
+<%# cache do %>{
+	"all": [<% @subsidies.each_with_index do |subsidy,index| %>
+		{
+
+			"amount": <%= subsidy.amount_original %>,
+			"amountUSD": <%= subsidy.amount_usd %>,
+			"currency": "<%= subsidy.currency %>",
+			"date": "<%= subsidy.date.strftime("%Y-%m-%d") %>",
+			"kind": "<%= subsidy.kind %>",
+
+<% if subsidy.institution %>
+			"institution": {
+				"id": <%= subsidy.institution.id %>,
+				"name": "<%= subsidy.institution.name %>",
+				"abbr": "<%= subsidy.institution.abbreviation %>",
+				"kind": "<%= subsidy.institution.kind %>"
+			},
+<% end %>
+
+<% if subsidy.entity %>
+			"entity": {
+				"id": <%= subsidy.entity.id %>,
+				"name": "<%= subsidy.entity.name %>",
+				"kind": "<%= subsidy.entity.kind %>"
+			},
+<% end %>
+
+<% if subsidy.project %>
+			"project": {
+				"id": <%= subsidy.project.id %>,
+				"name": "<%= subsidy.project.name %>",
+				"country": "<%= subsidy.project.country %>",
+				"cc": "<%= subsidy.project.country_code %>",
+				"sector": "<%= subsidy.project.sector_name %>",
+				"icon": "<%= subsidy.project.icon %>",
+				"category": "<%= subsidy.project.category %>",
+				"access": <%= subsidy.project.access? %>
+			}
+<% end %>
+		}<%= ',' unless index == @subsidies.size - 1 %>
+<% end %>
+	]
+}<%# end %>

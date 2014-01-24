@@ -62,6 +62,32 @@ class Subsidy < ActiveRecord::Base
 		end
 	end
 
+	# Export CSV via Comma gem
+
+	comma do
+
+		amount_original 'Amount'
+		amount_usd 'AmountUSD'
+		currency
+		date
+		kind
+
+		institution :name => 'Institution'
+		institution :abbreviation
+		institution :kind => 'Institution Kind'
+
+		entity :name => 'Entity'
+		entity :kind => 'Entity Kind'
+
+		project :name => 'Project'
+		project :country
+		project :country_code
+		project :sector_name
+		project :category
+		project :access? => 'Energy Access?'
+
+	end
+
 	private
 	
 	def update_amount_usd

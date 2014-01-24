@@ -13,6 +13,7 @@ class SubsidiesController < ApplicationController
   				@subsidies = Subsidy.live
   		  end
       end # index.json.erb
+      format.csv { render :csv => Subsidy.live, :filename => 'subsidies' }
     end
   end
 

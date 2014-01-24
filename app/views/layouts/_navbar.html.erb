@@ -1,10 +1,15 @@
 <nav id="navbar">
-	<ul id="navlist" class="container">
-		<li><%= link_to "Home", "/#international" %></li>
+	<ul id="intl-nav" class="navlist container">
+		<li><%= link_to "Home", "/" %></li>
 		<li><%= link_to "Funding Institutions", institutions_path %></li>
 		<li><%= link_to "Energy Sectors", sectors_path %></li>
 		<li><%= link_to "Energy Subsidies", subsidies_path %></li>
 		<li><%= link_to "Guide", "/guide" %></li>
+	</ul>
+	<ul id="ntnl-nav" class="navlist container">
+		<li><%= link_to "Home", "/" %></li>
+		<li><%= link_to "Guide", "/#about" %></li>
+		<li><%= link_to "Exploration Subsidies", "/#exploration" %></li>
 	</ul>
 	<a href="#" id="pull">Menu</a>
 </nav>

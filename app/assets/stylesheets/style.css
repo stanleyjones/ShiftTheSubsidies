@@ -446,9 +446,12 @@
 			padding-right: 15px;
 		}
 		#info .action-link {
-			float: left;
-			width: 50%;
-			padding-left: 15px;
+			position: absolute;
+			bottom: 15px; left: 15px;
+		}
+		#info .source {
+			position: absolute;
+			bottom: 15px; right: 15px;
 		}
 		#info .close {
 			position: absolute;
@@ -494,14 +497,17 @@
 			stroke-width: 1px;
 			fill-opacity: 0.75;
 		}
-		#chart .area.naturalgas, #chart .area.Gas {
-			fill: #012;
+		#chart .area.naturalgas, #chart .bar.Gas, #chart .legend.Gas {
+			fill: #066;
 		}
-		#chart .area.oil, #chart .area.Oil {
-			fill: #202;
+		#chart .area.oil, #chart .bar.Oil, #chart .legend.Oil {
+			fill: #606;
 		}
-		#chart .area.coal, #chart .area.Coal {
-			fill: #111;
+		#chart .area.coal, #chart .bar.Coal, #chart .legend.Coal {
+			fill: #333;
+		}
+		#chart .area.coal, #chart .bar.OilGas, #chart .legend.OilGas {
+			fill: #660;
 		}
 
 		/* Globe Tips */
@@ -585,16 +591,16 @@
 		display: table;
 		clear: both;
 	}
-	#navlist {
+	.navlist {
 		margin: 0 auto;
 		text-align: center;
 	}
-	#navlist li {
+	.navlist li {
 		display: block;
 		float: left;
 		list-style: none;
 	}
-	#navlist li a {
+	.navlist li a {
 		display: block;
 		width: auto;
 		padding: 0 1em;
@@ -604,13 +610,13 @@
 		text-shadow: 0 1px #ccc;
 		border-right: 1px solid #888;
 	}
-	#navlist li a:hover {
+	.navlist li a:hover {
 		color: #f90;
 		background: #333;
 		box-shadow: 0 5px 5px #000 inset;
 		text-shadow: none;
 	}
-	#navlist li:last-child a {
+	.navlist li:last-child a {
 		border-right: none;
 	}
 
@@ -632,16 +638,16 @@
 			padding: 0;
 			border: 0;
 		}
-		#navbar #navlist {
+		#navbar .navlist {
 			display: none;
 		}
-		#navbar #navlist li {
+		#navbar .navlist li {
 			float: none;
 			width: 100%;
 			text-align: center;
 			border-bottom: 1px solid #999;
 		}
-		#navbar #navlist li:hover ul {
+		#navbar .navlist li:hover ul {
 			display: none !important;
 		}
 		#navbar #pull {
@@ -794,7 +800,7 @@
 
 	/* TableTools */
 
-	div.DTTT_container {
+	div.DTTT_container, .csv.button {
 		position: absolute !important;
 		margin: 0;
 		bottom: 5px;

@@ -10,4 +10,12 @@ class StaticController < ApplicationController
 	def methodology
 	end
 
+	def all
+		respond_to do |format|
+			format.json do
+				@subsidies = Subsidy.live.limit(3)
+			end
+		end
+	end
+
 end

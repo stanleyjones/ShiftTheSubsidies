@@ -13,6 +13,9 @@ gem 'carmen', '0.2.13'
 # Currency conversions
 gem 'money'
 
+# Download CSVs
+gem "comma", "~> 3.1.0"
+
 # Asset pipeline
 group :assets do
   # gem 'sass-rails',   '~> 3.2.3'
@@ -28,7 +31,7 @@ end
 
 group :development do
 	gem 'mysql2'
-	gem 'ruby-prof'
+	# gem 'ruby-prof'
 
 	# Deploy to Heroku
 	gem 'heroku'

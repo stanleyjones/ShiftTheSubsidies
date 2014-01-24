@@ -6,6 +6,7 @@ ShiftTheSubsidies::Application.routes.draw do
 		get 'index'
 		get 'guide'
 		get 'methodology'
+    get 'all'
 	end
 
 	# Frontend - no login, no editing, cached
