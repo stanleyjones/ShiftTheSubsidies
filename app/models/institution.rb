@@ -99,6 +99,12 @@ class Institution < ActiveRecord::Base
 		projects.uniq
 	end
 
+	def fiscal_year_end(year=nil)
+		fiscal_year_begins = Date.new(year || Date.current().year,self.fiscal_year,1)
+		fiscal_year_ends = fiscal_year_begins - 1.day
+		return fiscal_year_ends.month.to_s + "-" + fiscal_year_ends.day.to_s
+	end
+
 	# Export CSV via Comma gem
 
 	comma do

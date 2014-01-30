@@ -490,7 +490,9 @@ function draw_globe() {
 	var projection = d3.geo.orthographic()
 		.scale(initial_scale)
 		.translate([size['w']/2,size['h']/2])
+		.precision(0.5)
 		.clipAngle(90)
+
 		.rotate(initial_rotate);
 
 	var path = d3.geo.path().projection(projection);
@@ -575,8 +577,9 @@ function draw_globe() {
 	}
 
 	function globe_refresh() {
-		globe.selectAll('.graticule').attr('d', path);
-		globe.selectAll('.countries').attr('d', path);
+		globe.selectAll('path').attr('d', path);
+		// globe.selectAll('.graticule').attr('d', path);
+		// globe.selectAll('.countries').attr('d', path);
 		globe.selectAll('.globe_shading').attr('r', projection.scale());
 	}
 
@@ -598,7 +601,7 @@ function draw_globe() {
 	}
 	function globe_rotate(state) {
 		var rotations = 2,
-			seconds = 90;
+			seconds = 120;
 		switch( state || 'start' ) {
 			case 'start':
 				d3.transition().ease('linear').duration(seconds*1000)
@@ -654,7 +657,7 @@ function draw_globe() {
 	function distributeTips() {
 		var fields = $('#tips a'), container = $('#content'),
 			width = container.width(), height = container.height(),
-			radius = container.height() / 2.4,
+			radius = container.height() / 2.6,
 			angle = 0, step = (2*Math.PI) / 6;
 		fields.each(function() {
 			var x = Math.round(width/2 + radius * Math.cos(angle) - $(this).width()/2);
@@ -679,10 +682,11 @@ function draw_globe() {
 		globe.selectAll('.countries')
 			.data(countries)
 			.enter().append('path')
-			.attr('class', 'countries')
-			.attr('id', function(d) { return d.id; })
-			.attr('d', path)
-			.on('click', function(d) { country_click(d); });
+				.attr('class', 'countries')
+				.attr('id', function(d) { return d.id; })
+				.attr('d', path)
+				.on('click', function(d) { country_click(d); });
+
 	});
 
 	// LOAD DATA
@@ -861,10 +865,10 @@ function draw_globe_shading( globe, projection ) {
 	var globe_shading = globe.append('defs').append('radialGradient')
 		.attr('cx', '50%').attr('cy', '40%')
 		.attr('id', 'globe_shading');
-	globe_shading.append('stop')
-		.attr('offset','50%').attr('stop-color', '#fff');
-	globe_shading.append('stop')
-		.attr('offset','100%').attr('stop-color', '#ccc');
+		globe_shading.append('stop')
+			.attr('offset','50%').attr('stop-color', '#fff');
+		globe_shading.append('stop')
+			.attr('offset','100%').attr('stop-color', '#ccc');
 	globe.append('circle').attr('class','globe_shading')
 		.attr('cx', '50%').attr('cy', '50%')
 		.attr('r', projection.scale())

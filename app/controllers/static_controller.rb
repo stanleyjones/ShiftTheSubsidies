@@ -13,7 +13,7 @@ class StaticController < ApplicationController
 	def all
 		respond_to do |format|
 			format.json do
-				@subsidies = Subsidy.live.limit(3)
+				@subsidies = Subsidy.live.limit(10)
 			end
 		end
 	end

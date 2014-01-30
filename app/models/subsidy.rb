@@ -53,6 +53,14 @@ class Subsidy < ActiveRecord::Base
 			false
 		end
 	end
+
+	def fiscal_year
+		year = self.date.year
+		if self.date < Date.new(year,self.institution.fiscal_year,1)
+			year -= 1
+		end
+		year
+	end
 	
 	def in_category?(category)
 		if self.project and self.project.sector and self.project.sector.category

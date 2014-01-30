@@ -7,13 +7,15 @@
 			"currency": "<%= subsidy.currency %>",
 			"date": "<%= subsidy.date.strftime("%Y-%m-%d") %>",
 			"kind": "<%= subsidy.kind %>",
+			"fiscal_year": <%= subsidy.fiscal_year %>,
 
 <% if subsidy.institution %>
 			"institution": {
 				"id": <%= subsidy.institution.id %>,
 				"name": "<%= subsidy.institution.name %>",
 				"abbr": "<%= subsidy.institution.abbreviation %>",
-				"kind": "<%= subsidy.institution.kind %>"
+				"kind": "<%= subsidy.institution.kind %>",
+				"fye": "<%= subsidy.institution.fiscal_year_end %>"
 			},
 <% end %>
 
