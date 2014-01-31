@@ -401,9 +401,9 @@
 
 		/* Tables */
 		
-		#tableview {display:none; padding:0; color:#fff; background:#666;}
+		#tableview {display:none; position: relative; top: 60px; padding:0; color:#fff; background:#666;}
 
-		#tableview #table_caption {position:absolute; top:52px; left:0; margin:0; padding:10px; width:465px; z-index:2;}
+		#tableview #table_caption {position: absolute; top: 0; left:0; margin:0; padding:10px; width:465px; z-index:2;}
 		
 		#tableview table {clear:both; margin:0; width:100% !important; color:#222;}
 		#tableview thead, #tableview tfoot {height:25px; background:#777;}
@@ -439,10 +439,10 @@
 		/* Globe */
 		
 		#globe { cursor: move;}
-		#globe .graticule {fill: none; stroke: #777; stroke-width: .5px; stroke-opacity: .5;}
-		#globe .countries {fill: #ccc; stroke: #fff; stroke-width: .5px; stroke-opacity: .5;}
+		#globe .graticule {fill: none; stroke: #fff; stroke-width: .5px; stroke-opacity: 0.5;}
+		#globe .countries {fill: #fff; stroke: #fff; stroke-width: 1px; stroke-opacity: 0.5;}
 		#globe.ready .countries:hover, #globe .countries.active {fill: #fc9 !important; stroke:#f90; stroke-width: 2px; cursor: pointer;}
-		#globe .countries.disabled, #globe .countries.disabled:hover {fill: #ccc !important; stroke: #fff; stroke-width: .5px;cursor: default;}
+		#globe .countries.disabled, #globe .countries.disabled:hover {fill: #ccc !important; stroke: #fff; stroke-width: 0px;cursor: default;}
 
 		#info {
 			position: absolute;
@@ -477,6 +477,7 @@
 			bottom: 15px; left: 15px;
 		}
 		#info .source {
+			display: none;
 			position: absolute;
 			bottom: 15px; right: 15px;
 		}
@@ -499,6 +500,7 @@
 			background: #f90;
 		}
 		#info .toggle {
+			display: none;
 			font-size: 36px;
 			line-height: 30px;
 			right: 64px;
@@ -535,18 +537,14 @@
 			stroke-width: 1px;
 			fill-opacity: 0.75;
 		}
-		#chart .area.naturalgas, #chart .bar.Gas, #chart .legend.Gas {
-			fill: #066;
-		}
-		#chart .area.oil, #chart .bar.Oil, #chart .legend.Oil {
-			fill: #606;
-		}
-		#chart .area.coal, #chart .bar.Coal, #chart .legend.Coal {
-			fill: #333;
-		}
-		#chart .area.coal, #chart .bar.OilGas, #chart .legend.OilGas {
-			fill: #660;
-		}
+		#chart .coal 		{ fill: #963; }
+		#chart .oil 		{ fill: #c93; }
+		#chart .gas			{ fill: #fc3; }
+		#chart .oil-gas		{ fill: #fc6; }
+		#chart .production	{ fill: #639; }
+		#chart .consumption	{ fill: #93c; }
+		#chart .exploration	{ fill: #c3f; }
+		#chart .other		{ fill: #999; }
 
 		/* Globe Tips */
 

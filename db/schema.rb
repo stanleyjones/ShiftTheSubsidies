@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130910200705) do
+ActiveRecord::Schema.define(:version => 20140130182154) do
 
   create_table "entities", :force => true do |t|
     t.string   "name",       :null => false
@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(:version => 20130910200705) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "energy_access", :default => false
+    t.string   "country_code"
   end
 
   create_table "sectors", :force => true do |t|

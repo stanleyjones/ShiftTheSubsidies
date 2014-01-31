@@ -8,7 +8,7 @@
 
 <script>
 function draw_table(data) {
-	var h = $('#graph').height() - 162; /* thead (86px) + tfoot (78px) */
+	var h = $(window).height() - $('#graphview').offset().top - $('#menubar').height() - 80*2;
 	var oTable = $('#table').dataTable({
 		"bDestroy": true,
 		"bPaginate": false,

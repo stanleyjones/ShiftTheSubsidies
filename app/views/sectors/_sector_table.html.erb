@@ -8,7 +8,7 @@
 
 <script>
 function draw_table(data) {
-	var h = $('#graph').height() - 162; /* thead (86px) + tfoot (78px) */
+	var h = $(window).height() - $('#graphview').offset().top - $('#menubar').height() - 80*2;
 	var oTable = $('#table').dataTable({
 		"bDestroy": true,
 		"bPaginate": false,
@@ -19,7 +19,8 @@ function draw_table(data) {
 			{
 				'sWidth': '10%', 'sType': 'currency',
 				'mData': 'received',
-				'mRender': function( data ) { return '$'+to_currency( data.all ); }
+				// 'mRender': function( data ) { return '$'+to_currency( data.all ); }
+				'mRender': function( data, type, row ) { return (r && row.received[r]) ? '$'+to_currency( row.received[r] ) : '0'; }
 			},
 			{
 				'sWidth': '5%',
@@ -36,7 +37,7 @@ function draw_table(data) {
 			}
 		],
 		'fnRowCallback': function( tr, row, index ) {
-			$('td:eq(0)', tr).html( '$'+to_currency( row.received[r] ));
+			// $('td:eq(0)', tr).html( '$'+to_currency( row.received[r] ));
 		},
 		'fnFooterCallback': function ( tr, row, start, end, index ) {
 			var total = {'total': 0};
@@ -46,8 +47,8 @@ function draw_table(data) {
 			$('th:eq(0)', tr).html( '$'+to_currency( total.total ));
 		}
 	});
-	$.fn.dataTableExt.afnFiltering.push(function( oSettings, aData, iDataIndex ) {
-		if ( aData[0] != '$0' ) { return true; } else { return false; }
+	$.fn.dataTableExt.afnFiltering.push(function( settings, row, index ) {
+		return (row[0] === '0') ? false : true;
 	});
 	$('button.table').click(function() { oTable.fnAdjustColumnSizing(); });	
 };

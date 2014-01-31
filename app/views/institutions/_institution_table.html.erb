@@ -8,7 +8,7 @@
 
 <script>
 function draw_table(data) {
-	var h = $('#graph').height() - 350;
+	var h = $(window).height() - $('#graphview').offset().top - $('#menubar').height() - 80*2;
 	var oTable = $('#table').dataTable({
 		"bDestroy": true,
 		"bPaginate": false,
@@ -19,7 +19,9 @@ function draw_table(data) {
 			{
 				'sWidth': '10%', 'sType': 'currency',
 				'mData': 'awarded',
-				'mRender': function( data ) { return '$'+to_currency( data.all.total ); }
+				// 'mRender': function( data ) { return '$'+to_currency( data.all.total ); }
+				'mRender': function( data, type, row ) { return (r && row.awarded[r].total) ? '$'+to_currency( row.awarded[r].total ) : '0'; }
+
 			},
 			{
 				'sWidth': '45%',
@@ -58,7 +60,7 @@ function draw_table(data) {
 			}
 		],
 		'fnRowCallback': function( tr, row, index ) {
-			$('td:eq(0)', tr).html( '$'+to_currency( row.awarded[r].total ));
+			// $('td:eq(0)', tr).html( '$'+to_currency( row.awarded[r].total ));
 			$('td:eq(2)', tr).html( '$'+to_currency( row.awarded[r].clean ));
 			$('td:eq(3)', tr).html( Math.floor((row.awarded[r].clean / Math.max(row.awarded[r].total,1)) * 100)+'%' );
 			$('td:eq(4)', tr).html( '$'+to_currency( row.awarded[r].fossil ));
@@ -80,8 +82,8 @@ function draw_table(data) {
 			$('th:eq(6)', tr).html( '$'+to_currency( total.access ));
 		}
 	});
-	$.fn.dataTableExt.afnFiltering.push(function( oSettings, aData, iDataIndex ) {
-		if ( aData[0] != '$0' ) { return true; } else { return false; }
+	$.fn.dataTableExt.afnFiltering.push(function( settings, row, index ) {
+		return (row[0] === '0') ? false : true;
 	});
 	$('button.table').click(function() { oTable.fnAdjustColumnSizing(); });
 }
