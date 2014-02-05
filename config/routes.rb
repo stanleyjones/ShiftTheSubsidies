@@ -4,8 +4,10 @@ ShiftTheSubsidies::Application.routes.draw do
 	
 	controller :static do
 		get 'index'
-		get 'guide'
+    get 'national'
+		get 'international'
 		get 'methodology'
+    get 'exploration'
     get 'all'
 	end
 

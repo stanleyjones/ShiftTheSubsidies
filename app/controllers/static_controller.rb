@@ -4,9 +4,15 @@ class StaticController < ApplicationController
 	def index
 	end
 
-	def about
+	def national
 	end
-	
+
+	def international
+	end
+
+	def exploration
+	end
+
 	def methodology
 	end
 
