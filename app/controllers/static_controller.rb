@@ -21,6 +21,9 @@ class StaticController < ApplicationController
 			format.json do
 				@subsidies = Subsidy.live.limit(10)
 			end
+			format.csv do
+				render :csv => Subsidy.all, :filename => 'all', :style => :all
+			end
 		end
 	end
 

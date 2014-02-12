@@ -1,14 +1,14 @@
 <%# cache do %>{
 	"all": [<% @subsidies.each_with_index do |subsidy,index| %>
 		{
-
+			"visible": <%= subsidy.approved %>,
 			"amount": <%= subsidy.amount_original %>,
-			"amountUSD": <%= subsidy.amount_usd %>,
 			"currency": "<%= subsidy.currency %>",
+			"exchange_rate": <%= subsidy.exchange_rate %>,
+			"amountUSD": <%= subsidy.amount_usd %>,
 			"date": "<%= subsidy.date.strftime("%Y-%m-%d") %>",
-			"kind": "<%= subsidy.kind %>",
 			"fiscal_year": <%= subsidy.fiscal_year %>,
-
+			"kind": "<%= subsidy.kind %>",
 <% if subsidy.institution %>
 			"institution": {
 				"id": <%= subsidy.institution.id %>,
@@ -18,7 +18,6 @@
 				"fye": "<%= subsidy.institution.fiscal_year_end %>"
 			},
 <% end %>
-
 <% if subsidy.entity %>
 			"entity": {
 				"id": <%= subsidy.entity.id %>,
@@ -26,7 +25,6 @@
 				"kind": "<%= subsidy.entity.kind %>"
 			},
 <% end %>
-
 <% if subsidy.project %>
 			"project": {
 				"id": <%= subsidy.project.id %>,
@@ -36,10 +34,10 @@
 				"sector": "<%= subsidy.project.sector_name %>",
 				"icon": "<%= subsidy.project.icon %>",
 				"category": "<%= subsidy.project.category %>",
-				"access": <%= subsidy.project.access? %>
+				"access": <%= subsidy.project.access? %>,
+				"description": "<%= subsidy.project.description %>"
 			}
 <% end %>
-		}<%= ',' unless index == @subsidies.size - 1 %>
-<% end %>
+		}<%= ',' unless index == @subsidies.size - 1 %><% end %>
 	]
 }<%# end %>

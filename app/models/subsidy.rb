@@ -17,6 +17,7 @@ class Subsidy < ActiveRecord::Base
 
 	has_one :sector, :through => :project
 	has_one :region, :through => :project
+	has_one :institution_group, :through => :institution
 
 	attr_accessible :amount_original, :currency, :amount_usd, :date, :institution_id, :entity_id, :project_id, :kind, :approved, :source
 	
@@ -55,11 +56,15 @@ class Subsidy < ActiveRecord::Base
 	end
 
 	def fiscal_year
-		year = self.date.year
-		if self.date < Date.new(year,self.institution.fiscal_year,1)
-			year -= 1
+		if self.date
+			year = self.date.year
+			if self.date < Date.new(year,self.institution.fiscal_year,1)
+				year -= 1
+			end
+			year
+		else
+			0
 		end
-		year
 	end
 	
 	def in_category?(category)
@@ -93,6 +98,39 @@ class Subsidy < ActiveRecord::Base
 		project :sector_name
 		project :category
 		project :access? => 'Energy Access?'
+
+	end
+
+	comma :all do
+
+		approved 'Visible'
+		amount_original 'Amount'
+		currency
+		exchange_rate
+		amount_usd 'AmountUSD'
+		date
+		fiscal_year
+		kind
+
+		institution :name => 'Institution'
+		institution :abbreviation => 'Institution Abbreviation'
+		institution_group :name => 'Institution Group'
+		institution :kind => 'Institution Kind'
+
+		entity :name => 'Entity'
+		entity :kind => 'Entity Kind'
+
+		project :name => 'Project Name'
+		project :name => 'Project Name (Institution)'
+		project :country => 'Project Country'
+		project :country_code => 'Project Country Code'
+		project :category => 'Project Category'
+		project :sector_name => 'Project Sector'
+		project :sector_name => 'Project Subsector'
+		project :access? => 'Project Energy Access'
+		project :description => 'Project Description'
+
+		source
 
 	end
 
