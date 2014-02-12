@@ -4,25 +4,13 @@ gem 'rails', '3.2.13'
 gem 'jquery-rails'
 gem 'json_pure'
 
-# Caching
-gem 'dalli'
+gem 'dalli'				# Caching
+gem 'carmen', '0.2.13'	# Countries
+gem 'money'				# Currency conversions
+gem 'comma', '~> 3.2.0'	# Download CSVs
 
-# Countries
-gem 'carmen', '0.2.13'
-
-# Currency conversions
-gem 'money'
-
-# Download CSVs
-gem "comma", "~> 3.1.0"
-
-# Asset pipeline
 group :assets do
-  # gem 'sass-rails',   '~> 3.2.3'
-  # gem 'therubyracer'
-  # gem 'less'
-  # gem 'coffee-rails', '~> 3.2.1'
-  gem 'uglifier',     '>= 1.0.3'
+  gem 'uglifier', '>= 1.0.3'
 end
 
 group :test do
@@ -30,10 +18,5 @@ group :test do
 end
 
 group :development do
-	gem 'mysql2'
-	# gem 'ruby-prof'
-
-	# Deploy to Heroku
-	gem 'heroku'
-	gem 'taps'
+	gem 'pg'
 end
