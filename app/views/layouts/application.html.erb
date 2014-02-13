@@ -2,27 +2,29 @@
 <html lang="en">
 
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title><% if controller_name != 'static' %><%= controller_name.capitalize %> | <% end %>ShiftTheSubsidies.org - Oil Change International</title>
-<meta name="description" content="ShiftTheSubsidies.org is an interactive tool to visually track and analyze the flow of energy subsidies from international, regional and bilateral public financial institutions around the world.">
-<meta name="author" content="Oil Change International">
-<%= stylesheet_link_tag 'application' %>
-<%= csrf_meta_tag %>
+	<title><% if controller_name != 'static' %><%= controller_name.capitalize %> | <% end %>ShiftTheSubsidies.org - Oil Change International</title>
+	<meta name="description" content="ShiftTheSubsidies.org is an interactive tool to visually track and analyze the flow of energy subsidies from international, regional and bilateral public financial institutions around the world.">
+	<meta name="author" content="Oil Change International">
+
+	<%= stylesheet_link_tag 'application' %>
+	<%= csrf_meta_tag %>
 </head>
 
 <body class="<%= controller_name %> <%= controller.action_name %>">
 <div id="wrapper">
 
-<%= render :partial => 'layouts/header' %>
-<%= render :partial => 'layouts/navbar' %>
+	<%= render :partial => 'layouts/header' %>
+	<%= render :partial => 'layouts/navbar' %>
 
-<div id="content">
-<%= yield %>
-</div><!-- #content -->
+	<div id="content">
+		<%= yield %>
+	</div>
 
-</div><!-- #wrapper -->
+</div>
 
 <%= javascript_include_tag 'application' %>
 

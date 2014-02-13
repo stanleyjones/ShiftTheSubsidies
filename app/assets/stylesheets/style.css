@@ -18,7 +18,7 @@
 /*	Standard HTML Elements
 - - - - - - - - - - - - - - - - - - - - */
 
-	html,body { height: 100%; margin: 0; padding: 0; background: #eee url(images/paper.jpg); overflow: hidden;}
+	html,body { height: 100%; margin: 0; padding: 0; background: #eee url(images/paper.jpg); overflow: hidden; }
 	
 	a {color:#d72; text-decoration:none;}
 	a:hover {color:#f96;}
@@ -37,7 +37,7 @@
 	/* Buttons */
 	
 	p.buttons {clear:both;}
-	a.button, input.button, ul.buttons a, a.DTTT_button, button.button {padding:4px; color:#eee; background:#999; background-position:5px; background-repeat:no-repeat; border:1px solid rgba(255,255,255,0.125); border-radius:10px; text-shadow:0 1px 1px transparent; text-decoration:none;}
+	a.button, input.button, ul.buttons a, a.DTTT_button, button.button {padding:4px; color:#eee; background:#999; background-position:5px; background-repeat:no-repeat; border-radius:5px; text-shadow:0 1px 1px transparent; text-decoration:none;}
 	a.button:hover, input.button:hover, ul.buttons a:hover, a.DTTT_button:hover {color:#fff; background-color:#888; cursor:pointer; box-shadow:0 1px 1px rgba(0,0,0,0.5) inset;}
 	a.button.active {background: #d72;}
 	a.button.active:hover {background: #c61;}
@@ -71,35 +71,38 @@
 
 	#wrapper {
 		position: relative;
-		height: 100%;
+		height: auto;
 		margin: 0;
 		-webkit-box-sizing: border-box;
 		-moz-box-sizing: border-box;
 		box-sizing: border-box;
-		overflow: hidden !important;
+		overflow: hidden;
 	}
 	#content {
 		position: relative;
-		height: 100%;
+		height: 100vh;
 		width: 100%;
-		margin: -100px auto 0;
-		padding-top: 100px;
+		margin: 0 auto;
+		padding-top: 70px;
 		-webkit-box-sizing: border-box;
 		-moz-box-sizing: border-box;
 		box-sizing: border-box;
-		overflow: hidden !important;
-	}
-	body.static.index #content {
-		margin-top: 0;
-		padding-top: 0;
+		overflow: hidden;
 	}
 
-	body.admin #wrapper, body.static #content, body.static #content {overflow: auto;}
+	body.admin #wrapper {overflow: auto;}
 	.container { margin: 0 auto; position: relative; }
 	@media screen and (max-width: 480px) { .container { width:100%; padding: 0 1em; }}
 	@media screen and (min-width: 768px) { .container { width:740px; }}
 	@media screen and (min-width: 1024px) { .container { width:960px; }}
 	@media screen and (min-width: 1210px) { .container { width:1200px; }}
+
+	#oci_header { position: fixed; top: 0; left: 0; width: 100%; }
+	#navbar { position: fixed; top: 40px; left: 0; width: 100%; }
+
+	body.static.index #content { padding-top: 40px; }
+	body.static:not(.index), body.subsidies.show, body.projects.show { overflow: auto; }
+	body.static:not(.index) #content, body.subsidies.show #content, body.projects.show #content { height: auto; padding-top: 100px; }
 
 	/* Intro Screen */
 
@@ -194,12 +197,12 @@
 	
 	#menubar {
 		position: absolute;
-		top: 100px;
+		top: 70px;
 		left: 0;
 		width: 100%;
 		background: rgba(255,255,255,0.8);
 		text-align:center;
-		box-shadow:0 1em 2em rgba(0,0,0,0.125);
+		/*box-shadow:0 1em 2em rgba(0,0,0,0.125);*/
 		z-index: 99;
 	}	
 	#menubar h1 {
@@ -219,6 +222,7 @@
 	#menubar button.active {color:#fff; background: #f96;}
 		
 	#menubar ul#mode li:first-child {margin-right:0;}
+		#menubar ul#mode li button {outline: none;}
 		#menubar ul#mode li:first-child button {border-right:1px solid #f90; border-radius:5px 0 0 5px;}
 		#menubar ul#mode li:last-child button {border-left:0; border-radius:0 5px 5px 0;}
 	#menubar ul#modals {left:5px;}
@@ -254,13 +258,13 @@
 	/*#content #info {display:none; position:absolute; top:0; left:0; padding:20px; width:25%; color:#fff; background:rgba(0,0,0,0.5); border-bottom-right-radius:10px; z-index:2;}*/
 	#more {
 		position: absolute;
-		top: 58px;
+		top: 128px;
 		background: rgba(255,255,255,0.8);
 		left: 0;
 		width: 100%;
 		z-index: 99;
 		font-size: 16px;
-		padding: 1em 0;
+		padding: 0 0 1em;
 	}
 	#more h1 {
 		font-size: 1.5em;
@@ -307,20 +311,17 @@
 	#content #caption b {text-transform:uppercase; font-size:10px;}
 	#content #caption span {font-weight:bold;}
 	
-	.page {margin-top: 2em; padding-bottom: 5em;}
-	#content .page h2 {border-bottom:2px solid #ccc; font-weight:bold;}
-	.page p {clear:both;}
+	#page { height: auto; margin-top: 2em; padding-bottom: 5em; }
+	#page h1 { margin-top: 0; }
+	#page h2 { border-bottom: 2px solid #ccc; font-weight: bold; }
+	#page p { clear: both; }
+	#page hr { clear:both; }
+	#page .entry-title { font-size: 24px; font-family: 'Diavlo'; }
 	
-	.page .block {position:relative; float:left; width:300px; height:auto; margin:0 10px 20px 0;}
-	.home.page .block {width:450px;}
-	#content .block h1 {margin:20px 0; color:#111;}
-	.page p.amount {margin:20px 0; height:100px; font-size:92px; line-height:100px; text-align:center;}
+
+	p.amount {margin:20px 0; height:100px; font-size:92px; line-height:100px; text-align:center;}
 	
-	#page { height: 100%; overflow-y: scroll;}
-	#page h1 {margin-top:0;}
-	#page .entry-title {font-size:24px; font-family:Diavlo;}
-	#post .entry-title {font-size:24px; font-weight:bold; font-family:Diavlo;}
-	#page hr {clear:both;}
+	#post .entry-title {font-size:24px; font-weight:bold; font-family: 'Diavlo';}
 	
 	#sharebar {margin:-20px -20px 20px; padding:10px; background:#ddd; text-align:right;}
 	#sharebar a {padding-right:20px; background:url(lib/css/icons/share.png) right no-repeat;}
@@ -329,11 +330,11 @@
 	
 		/* Project */
 		
-		.project.page h1 {margin-right:128px;}
-		.project.page #map {float:left; height:400px; width:460px;}
+		.project.page h1 {padding-top: 20px; margin-right: 128px; color: #666; font-size: 2em;}
+		.project.page #map {float:left; height:400px; width: 65%;}
 		#map path {transition:all 0.5s;}
-		#description {float:right; width:460px;}
-		img.sector-icon {position:absolute; top:70px; right:20px; display:block;}
+		#description {float:right; width: 33%;}
+		img.sector-icon {position:absolute; top:20px; right:0; display:block;}
 		
 		ul.entity-list {margin:-20px 0 0 0; padding:0; list-style:none;}
 		ul.entity-list li {display:inline; margin-left:10px; padding-right:10px; border-right:1px solid #ccc;}
@@ -346,7 +347,7 @@
 		/* Graphs */
 		
 		#graphview {height: 100%;}
-		#graph { position: relative; }
+		#graphview #graph { position: relative; margin-top: 0;}
 		#loader, .dataTables_processing {position:absolute; top:0; left:0; height:100%; width:100%; background:rgba(255,255,255,0.5) url(/assets/loader.gif) center no-repeat; text-indent:-9999px; opacity:1; z-index:99;}
 
 		#graph circle {fill:#ccc; stroke:#fff; stroke-width:2; transition:fill 0.5s;}
@@ -379,8 +380,8 @@
 			opacity: 0;
 			transition: opacity 0.5s;
 		}
-		.institutions #graph .label,
-		.institution_groups #graph .label {
+		.institutions.index #graph .label,
+		.institution_groups.index #graph .label {
 			opacity: 1 !important;
 		}
 		#graph .bubble {
@@ -414,19 +415,6 @@
 		
 		#tableview span.access {color:#33f;}
 		
-		
-		/* Maps */
-				
-		.jvectormap-label {position:absolute; display:none; padding:5px; color:#333; background:#ccc; border:solid 1px #fff; border-radius:10px; font-family:Diavlo; font-size:16px; line-height:1em; box-shadow:0 5px 5px rgba(0,0,0,0.25);}
-			.jvectormap-label span {color:#666; font-size:.75em;}
-			.jvectormap-label span.clean {color:#0c0; font-size:.75em;}
-			.jvectormap-label span.access {color:#66c; font-size:.75em;}
-			
-		.jvectormap-zoomin, .jvectormap-zoomout {display:none;}
-		
-		#map path:hover {cursor:pointer;}
-		#page.project #map path:hover {cursor:default;}
-
 		/* Editing */
 	
 		#error_explanation {margin:0 0 10px; padding:0; color:#ff0; background:#f66; border-radius:10px;}
@@ -446,40 +434,45 @@
 
 		#info {
 			position: absolute;
+			left: 0;
 			bottom: 0;
 			width: 100%;
+			padding: 20px;
 			background: rgba(255,255,255,0.8);
 			border-top: 1px solid #fff;
 			z-index: 9999;
-			height: 50%;
-			/*height: auto;*/
+			height: 50vh;
+			min-height: 50%;
 			overflow: visible;
+			-webkit-box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
 		}
 		#info .name {
 			position: absolute;
-			top: 15px; left: 15px;
+			top: 20px; left: 20px;
 			margin: 0;
 			font-size: 2em;
 		}
 		#info .total {
 			position: absolute;
-			top: 45px; left: 15px;
+			top: 50px; left: 20px;
 			margin: 0;
 			color: green;
 		}
 		#info .description {
 			float: right;
 			width: 50%;
-			padding-right: 15px;
+			padding-right: 20px;
 		}
 		#info .action-link {
 			position: absolute;
-			bottom: 15px; left: 15px;
+			bottom: 20px; left: 20px;
 		}
 		#info .source {
 			display: none;
 			position: absolute;
-			bottom: 15px; right: 15px;
+			bottom: 20px; right: 20px;
 		}
 		#info .close, #info .toggle {
 			position: absolute;
@@ -501,19 +494,31 @@
 		}
 		#info .toggle {
 			display: none;
-			font-size: 36px;
-			line-height: 30px;
+			width: 64px;
+			font-size: 14px;
+			line-height: 36px;
 			right: 64px;
 			transition: all 0.5s;
+			border-radius: 32px;
 		}
-		#info .toggle.active {
-			-webkit-transform: rotate(180deg);
-			-moz-transform: rotate(180deg);
-			transform: rotate(180deg);
+		#info .toggle:before {
+			content: "Fuel";
 		}
-		#chart {
-			margin: 75px 0 15px;
-			max-height: 50%;
+		#info .toggle.alt:before {
+			content: "Type";
+		}
+		#info #chart {
+			position: absolute;
+			top: 50%; left: 50%;
+			margin-top: 80px;
+			-webkit-transform: translate(-50%,-50%);
+			-moz-transform: translate(-50%,-50%);
+			transform: translate(-50%,-50%);
+			-webkit-box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
+/*			margin: 80px 20px 20px;
+			max-height: 50%;*/
 		}
 		#chart .label {
 			fill: #fff;
@@ -545,6 +550,18 @@
 		#chart .consumption	{ fill: #93c; }
 		#chart .exploration	{ fill: #c3f; }
 		#chart .other		{ fill: #999; }
+
+		#info #graph, #graphview #graph {
+			position: absolute;
+			top: 50%; left: 50%;
+			margin-top: 36px;
+			-webkit-transform: translate(-50%,-50%);
+			-moz-transform: translate(-50%,-50%);
+			transform: translate(-50%,-50%);
+			-webkit-box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
+		}
 
 		/* Globe Tips */
 
@@ -597,7 +614,7 @@
 		#popup {position:absolute; top:50%; left:50%; padding:20px; width:600px; margin-left:-320px; height:440px; margin-top:-240px; color:#eee; background:#eee; background-color:rgba(255,255,255,0.8); border:1px solid #333; border-radius:10px; box-shadow:0 10px 10px rgba(0,0,0,0.25); z-index:999;}		
 		#popup h2 {position:absolute; top:10px; left:10px;}
 		#popup button {position:absolute; top:-10px; right:-10px; height:24px; width:24px; font-size:14px; line-height:12px; text-align:center; font-weight:bold; background:#fff; border:2px solid #111; border-radius:50%; box-shadow:0 3px 3px rgba(0,0,0,0.25);}
-		#popup #graph {position:absolute; top:0; left:0;}
+		#popup #graph { position: relative; margin: 80px 20px 20px; }
 		
 		#popup #graph circle {stroke:#000;}
 		#popup #graph image:hover {cursor:pointer;}
@@ -613,12 +630,7 @@
 	#adminlist li a:hover {background:#e22; box-shadow:0 0 2px rgba(0,0,0,0.5) inset;}
 	
 	#navbar {
-		position: relative;
-		background: #444;
-		background-image: linear-gradient(#ccc,#999);
-		/*box-shadow: 0 1em 1em rgba(0,0,0,0.25);*/
-		border-top: 1px solid #eee;
-		border-bottom: 1px solid #777;
+		background: #999;
 		z-index: 100;
 		overflow: auto;
 	}
@@ -641,16 +653,14 @@
 		width: auto;
 		padding: 0 1em;
 		text-align: center;
-		line-height: 40px;
-		color: #000;
-		text-shadow: 0 1px #ccc;
+		font-size: 11px;
+		line-height: 30px;
+		color: #333;
 		border-right: 1px solid #888;
 	}
 	.navlist li a:hover {
 		color: #f90;
 		background: #333;
-		box-shadow: 0 5px 5px #000 inset;
-		text-shadow: none;
 	}
 	.navlist li:last-child a {
 		border-right: none;
@@ -837,10 +847,10 @@
 	/* TableTools */
 
 	div.DTTT_container, .csv.button {
-		position: absolute !important;
-		margin: 0;
-		bottom: 5px;
-		right: 10px;
+		color: #666;
+		background: #aaa;
+		font-size: 0.8em;
+		margin-left: 5px;
 	}
 	a.DTTT_button {
 		box-shadow: none;

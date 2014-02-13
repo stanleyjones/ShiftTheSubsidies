@@ -57,8 +57,7 @@ function view(v) {
 			if ($('#globe').hasClass(new_view+'-ready')) {
 				$('#intro').slideUp();
 				$('#navbar').slideDown();
-				$('#tips').delay(1000).fadeIn();
-				$('#wrapper').animate({ scrollTop: $('#content').offset().top },1000);
+				$('#tips').fadeIn(2000);
 				$('#globe').addClass('ready').trigger('reset');
 			}
 			break;
@@ -68,6 +67,12 @@ function view(v) {
 			$('.button.mode').removeClass('active');
 			$('.button'+new_hash+'mode').addClass('active');
 			break;
+		default:
+			var split_hash = new_hash.split('-');
+			if (split_hash[0] == '#national' || split_hash[0] == '#international') {
+				$('#wrapper').attr('data-cc',split_hash[1]);
+				view(split_hash[0]);
+			}
 	}
 	window.location.hash = new_hash;
 	return new_hash;

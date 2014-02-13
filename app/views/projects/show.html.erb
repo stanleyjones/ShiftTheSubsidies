@@ -7,9 +7,9 @@
 	<%= image_tag @project.icon, :size => "64x64", :class => "sector-icon" %>
 	<ul class="entity-list"><% @project.entities.each do |e| %><li><%= e.name %></li><% end %></ul>
 	
-	<div id="map"><h2>Region</h2></div>
+	<div id="map" class="half"><h2>Region</h2></div>
 
-	<div id="description">
+	<div id="description" class="half">
 		<h2>Description</h2>
 		<%= simple_format(@project.description) %>
 	</div>

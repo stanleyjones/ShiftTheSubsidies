@@ -11,6 +11,8 @@ $(function() {
 	} else {
 		if ($('body.admin').length) {
 			view('#table');
+		} else if ($('body:not(.static)').length) {
+			view('#graph');
 		}
 	}
 
@@ -53,5 +55,8 @@ $(function() {
 		$('#navlist').slideToggle();
 		e.preventDefault();
 	});
+	if ($('.national-page').length) {
+		$('#ntnl-nav').show().siblings().hide();
+	}
 
 });

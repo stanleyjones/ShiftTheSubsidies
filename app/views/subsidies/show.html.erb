@@ -1,8 +1,7 @@
 <%= render :partial => "layouts/menubar", :locals => {:title => "Subsidy", :modes => false} %>
 
-<div id="page" class="subsidy page container">
+<div id="page" class="container">
 
-	<h2>Amount</h2>
 	<p class="amount"><%= number_to_currency( @subsidy.amount ) %></p>	
 
 	<div class="block">

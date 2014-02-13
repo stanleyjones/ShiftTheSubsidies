@@ -2,8 +2,8 @@
 	position: relative;
 	margin: 0;
 	padding: 5px;
-	height: 50px;
-	font: 12px/50px "Helvetica Neue",Helvetica,Arial,sans-serif;
+	height: 30px;
+	font: 12px/30px "Helvetica Neue",Helvetica,Arial,sans-serif;
 	background: #222;
 	background-image: -webkit-repeating-linear-gradient(-45deg, rgba(0,0,0,0.125) 0%, rgba(0,0,0,0.125) 25%, rgba(0,0,0,0) 25%, rgba(0,0,0,0) 50%);
 	background-image: -moz-repeating-linear-gradient(-45deg, rgba(0,0,0,0.125) 0%, rgba(0,0,0,0.125) 25%, rgba(0,0,0,0) 25%, rgba(0,0,0,0) 50%);
@@ -18,16 +18,16 @@
 #oci_logo {
 	float: left;
 	margin: 0;
-	width: 150px;
-	height: 40px;
+	width: 75px;
+	height: 30px;
 	overflow: hidden;
 }
 #oci_logo a {
 	display: block; 
 	width: auto; 
 	height: 100%; 
-	background: url(/assets/oci_logo.png) no-repeat;
-	background-size: 150px 40px;
+	background: url(/assets/oci_logo.png) center no-repeat;
+	background-size: 75px 20px;
 	text-indent: 100%;
 	white-space: nowrap;
 }
@@ -40,9 +40,9 @@
 	text-align: right;
 }
 #oci_links a {
-	color: #999;
+	color: #666;
 	text-decoration: none;
-	font-weight: lighter;
+	font-weight: 200;
 	text-shadow: 0 1px #000;
 }
 #oci_links a:hover {color:#fff;}

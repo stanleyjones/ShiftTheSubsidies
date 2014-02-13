@@ -1,11 +1,10 @@
-<div id="graph">
-	<div id="more">
-		<a class="close">&times;</a>
-		<div class="container">
-			<h1><%= @institution.name %></h1>
-			<p><%= @institution.description %></p>
-		</div>
+<div id="more">
+	<a class="close">&times;</a>
+	<div class="container">
+		<p><%= @institution.description %></p>
 	</div>
+</div>	
+<div id="graph">
 	<p id="caption"><b>Above:</b> <span class="clean">clean</span>, <span class="fossil">fossil fuel</span>, and <span class="other">other</span> energy subsidies by <%= @institution.shortname %>, scaled by dollar amount.</p>
 </div>
 <script>

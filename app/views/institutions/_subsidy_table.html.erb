@@ -1,4 +1,4 @@
-<p id="table_caption">Subsidies awarded by <%= @institution.name %> for <span class="legend_start_year"><%= @start_date.year %></span><span class="legend_end_year">-<%= @end_date.year %></span>.</p>
+<p id="table_caption">Subsidies awarded by <%= @institution.name %> for <span class="legend_start_year"><%= @start_date.year %></span><span class="legend_end_year">-<%= @end_date.year %></span>. <a href="/institutions/<%= @institution.id %>/subsidies.csv" class="csv button">Download CSV</a></p>
 
 <table id="table">
 	<thead><tr><th>Amount</th><th>To Entity</th><th>For Project</th><th>Region</th><th>Sector</th><th>Access?</th><th>Date</th></tr></thead>

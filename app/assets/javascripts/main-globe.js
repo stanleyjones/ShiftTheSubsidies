@@ -125,7 +125,11 @@ function draw_globe() {
 		}
 	}
 	function country_zoom(d) {
-		window.location.hash += '-'+d.id;
+		var viewmode = $('#wrapper').data('view'),
+			country_view = '#' + viewmode + '-' + d.id;
+		window.location.hash = country_view;
+
+		d3.selectAll('.countries').classed('active',false);
 		if (target_country = find_country(d.id,countries)) {
 			d3.select('.countries'+'#'+d.id).classed('active',true);
 			d3.transition().duration(1000)
@@ -210,7 +214,8 @@ function draw_globe() {
 	}
 
 	function data_loaded(data,dataset) {
-		var viewmode = $('#wrapper').data('view') || '';
+		var dataView = $('#wrapper').data('view') || '',
+			dataCC = $('#wrapper').data('cc') || '';
 
 		switch (dataset) {
 
@@ -308,10 +313,13 @@ function draw_globe() {
 			});
 			$('#globe').addClass(dataset+'-ready');
 	
-			if (viewmode && viewmode.split('-')[0] === dataset) {
-				show_dataset(dataset);
-			}		
-		},3000);
+			if (dataView && dataView.split('-')[0] === dataset) {
+				show_dataset(dataset);		
+				if (country = find_country(dataCC,countries)) {
+					country_click(country);
+				}
+			}
+		},2000);
 	}
 
 	function show_dataset(dataset) {

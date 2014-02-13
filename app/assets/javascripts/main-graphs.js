@@ -8,9 +8,12 @@ var spectrum_ntnl = function(d){ return d3.interpolateRgb('#cc9','#333')( d3.sca
 var scale = function(d,max){ return d3.scale.linear().domain([0,max]).range([1,5000]).clamp(true).nice()(d); };
 
 function draw_bubble_graph( graph,data ) {
-	var size = size_element('#graph');
+	var size = size_element('#graph'),
+		margin = 20,
+		w = size.w - margin * 2,
+		h = size.h - margin * 2;
 
-	var pack = d3.layout.pack().sort(null).size([size.w,size.h])
+	var pack = d3.layout.pack().sort(null).size([w,h])
 		.value(function(d) { return scale(eval('d.'+graph.value),graph.max_value); })
 		.children(function(d) { return eval('d.'+graph.objects); });
 
@@ -59,6 +62,7 @@ function draw_bar_chart( cc,ntnl_data,data_field ) {
 		margin = 20;
 		w = size.w - margin * 3;
 		h = size.h * 0.66 - margin;
+		console.log(size);
 
 	var x = d3.scale.ordinal().rangeRoundBands([0, w], 0.1),
 		y = d3.scale.linear().rangeRound([h, 0]);
@@ -165,14 +169,14 @@ function draw_bar_chart( cc,ntnl_data,data_field ) {
 			.remove();
 
 		legend.append("rect")
-			.attr("x", function(d,i) { return (field == 'fuel') ? i * 60 : i * 120; })
+			.attr("x", function(d,i) { return i * 100; })
 			.attr("width", 18)
 			.attr("height", 18)
 			.attr('class', function(d) { return 'legend ' + to_dash(d.name); });
 			// .style('fill', function(d,i) { return (field == 'fuel') ? z(i) : z2(i); });
 
 		legend.append("text")
-			.attr("x", function(d,i) { return (field == 'fuel') ? 24 + i * 60 : 24 + i * 120; })
+			.attr("x", function(d,i) { return 24 + i * 100; })
 			.attr("y", 9)
 			.attr("dy", ".35em")
 			.style("text-anchor", "left")
