@@ -1,5 +1,5 @@
-<% cache 'institutions' do %>{
+<%# cache 'institutions' do %>{
 	"institutions": [
 <%= render :partial => "institution", :collection => @institutions, :locals => {:start_year => @start_date.year, :end_year => @end_date.year}, :spacer_template => "layouts/comma_return" %>
 	]
-}<% end %>
+}<%# end %>
