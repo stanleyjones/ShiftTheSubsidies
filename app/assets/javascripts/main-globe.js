@@ -126,7 +126,7 @@ function draw_globe() {
 	}
 	function country_zoom(d) {
 		var dataView = $('#wrapper').data('view'),
-			country_view = '#' + viewmode + '-' + d.id;
+			country_view = '#' + dataView + '-' + d.id;
 		window.location.hash = country_view;
 
 		d3.selectAll('.countries').classed('active',false);
