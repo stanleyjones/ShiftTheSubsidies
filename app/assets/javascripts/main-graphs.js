@@ -62,7 +62,6 @@ function draw_bar_chart( cc,ntnl_data,data_field ) {
 		margin = 20;
 		w = size.w - margin * 3;
 		h = size.h * 0.66 - margin;
-		console.log(size);
 
 	var x = d3.scale.ordinal().rangeRoundBands([0, w], 0.1),
 		y = d3.scale.linear().rangeRound([h, 0]);

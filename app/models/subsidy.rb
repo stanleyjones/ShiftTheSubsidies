@@ -83,10 +83,12 @@ class Subsidy < ActiveRecord::Base
 		amount_usd 'AmountUSD'
 		currency
 		date
+		fiscal_year
 		kind
 
 		institution :name => 'Institution'
-		institution :abbreviation
+		institution :abbreviation => 'Institution Abbreviation'
+		institution_group :name => 'Institution Group'
 		institution :kind => 'Institution Kind'
 
 		entity :name => 'Entity'
@@ -99,6 +101,7 @@ class Subsidy < ActiveRecord::Base
 		project :category
 		project :access? => 'Energy Access?'
 
+		source
 	end
 
 	comma :all do

@@ -48,4 +48,11 @@ module SubsidiesHelper
 		amount
 	end
 
+	def total_to_sector( sector )
+		amount = 0
+		Subsidy.live.each do |s|
+			if s.sector and s.sector.name == sector then amount += s.amount; end
+		end
+		amount
+	end
 end

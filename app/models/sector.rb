@@ -17,6 +17,14 @@ class Sector < ActiveRecord::Base
 		end
 		amount
 	end
+
+	def received_for_energy_access(start_date=nil,end_date=nil,collection=self.projects)
+		projects = []
+		collection.each do |p|
+			if p.energy_access then projects << p; end
+		end
+		received(start_date,end_date,projects)
+	end
 	
 	def icon
 		path = "assets/sectors"

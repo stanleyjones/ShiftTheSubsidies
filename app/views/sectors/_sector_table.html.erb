@@ -1,7 +1,7 @@
 <p id="table_caption">Energy sectors for <span class="legend_start_year"><%= @start_date.year %></span><span class="legend_end_year">-<%= @end_date.year %></span> <a href="/sectors.csv" class="csv button">Download CSV</a></p>
 
 <table id="table">
-	<thead><tr><th>Received</th><th></th><th>Name</th><th>Category</th></tr></thead>
+	<thead><tr><th>Received</th><th></th><th>Name</th><th>Category</th><th>Access</th><th>%</th></tr></thead>
 	<tbody></tbody>
 	<tfoot><tr><th></tr></tfoot>
 </table>
@@ -19,7 +19,6 @@ function draw_table(data) {
 			{
 				'sWidth': '10%', 'sType': 'currency',
 				'mData': 'received',
-				// 'mRender': function( data ) { return '$'+to_currency( data.all ); }
 				'mRender': function( data, type, row ) { return (r && row.received[r]) ? '$'+to_currency( row.received[r] ) : '0'; }
 			},
 			{
@@ -34,11 +33,18 @@ function draw_table(data) {
 			{
 				'sWidth': '10%',
 				'mData': 'category'
+			},
+			{
+				'sWidth': '10%', 'sType': 'currency',
+				'mData': 'access',
+				'mRender': function( data, type, row ) { return (r && row.access[r]) ? '$'+to_currency( row.access[r] ) : '$0'; }
+			},
+			{
+				'sWidth': '5%', 'sType': 'percent',
+				'mData': 'access',
+				'mRender': function( data, type, row ) { return (r && row.access[r]) ? Math.floor((row.access[r] / Math.max(row.received[r],1)) * 100)+'%' : '0%'; }
 			}
 		],
-		'fnRowCallback': function( tr, row, index ) {
-			// $('td:eq(0)', tr).html( '$'+to_currency( row.received[r] ));
-		},
 		'fnFooterCallback': function ( tr, row, start, end, index ) {
 			var total = {'total': 0};
 			for (var i=start; i<end; i++) {

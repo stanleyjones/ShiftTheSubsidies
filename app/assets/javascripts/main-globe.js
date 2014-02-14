@@ -109,10 +109,10 @@ function draw_globe() {
 		}
 	}
 	function country_click(d) {
-		var dataset = $('#wrapper').data('view');
+		var dataView = $('#wrapper').data('view');
 		if (d3.select('.countries#'+d.id).classed('disabled') === false) {
 			globe_rotate('stop');
-			switch( dataset ) {
+			switch( dataView ) {
 				case 'national':
 					country_zoom(d);
 					regionInfo(d.id,countries,ntnl_data);
@@ -125,7 +125,7 @@ function draw_globe() {
 		}
 	}
 	function country_zoom(d) {
-		var viewmode = $('#wrapper').data('view'),
+		var dataView = $('#wrapper').data('view'),
 			country_view = '#' + viewmode + '-' + d.id;
 		window.location.hash = country_view;
 
@@ -247,8 +247,12 @@ function draw_globe() {
 						'totalusd': 0,
 						'description': row.description, 
 						'currency': row.currency,
-						'actionurl': row.actionurl
+						'actionurl': row.actionurl,
+						'xr': {}
 					};
+					for (var y = 2005; y < 2012; y++) {
+						ntnl_data[cc].xr['y'+y] = row['y'+y+'xr'] || 1;
+					}
 				}
 				ntnl_data[cc].total += parseInt(row.total * mult);
 				ntnl_data[cc].totalusd += parseInt(row.totalusd * mult);
@@ -267,7 +271,7 @@ function draw_globe() {
 							}
 						}
 						for (var y = 2005; y < 2012; y++) {
-							fuels[row.industry]['y'+y] += parseInt(row['y'+y]) * mult || 0;
+							fuels[row.industry]['y'+y] += parseInt(row['y'+y] * ntnl_data[cc].xr['y'+y]) * mult || 0;
 						}
 					});
 					var fuel_data = [];
@@ -289,7 +293,7 @@ function draw_globe() {
 							}
 						}
 						for (var y = 2005; y < 2012; y++) {
-							targets[row.target]['y'+y] += parseInt(row['y'+y]) * mult || 0;
+							targets[row.target]['y'+y] += parseInt(row['y'+y] * ntnl_data[cc].xr['y'+y]) * mult || 0;
 						}
 					});
 					var target_data = [];
