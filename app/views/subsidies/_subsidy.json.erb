@@ -17,7 +17,7 @@
 	"category": "<% if subsidy.project %><%= subsidy.project.category %><% end %>", 
 	"region": "<% if subsidy.project %><%= subsidy.project.region %><% end %>",
 
-	"access?": <% if subsidy.project %><%= subsidy.project.access? %><% end %>, 
+	"access?": <% if subsidy.project %><%= subsidy.project.access? %><% else %>false<% end %>,
 
 	"institution_url": "<% if subsidy.institution %><%= url_for subsidy.institution %><% end %>", 
 	"entity_url": "<% if subsidy.entity %><%= url_for subsidy.entity %><% end %>", 
