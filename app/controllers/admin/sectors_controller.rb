@@ -7,6 +7,7 @@ class Admin::SectorsController < ApplicationController
     respond_to do |format|
       format.html
       format.json { @sectors = Sector.all }
+      format.csv { render :csv => Sector.all, :filename => 'sectors' }
     end
   end
 

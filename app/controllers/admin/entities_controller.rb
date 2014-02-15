@@ -7,6 +7,8 @@ class Admin::EntitiesController < ApplicationController
     respond_to do |format|
       format.html
       format.json { @entities = Entity.all }
+      format.csv { render :csv => Entity.all, :filename => 'entities' }
+
     end
   end
 

@@ -5,6 +5,8 @@ class Sector < ActiveRecord::Base
 	
 	has_many :projects
 
+	attr_accessible :name, :category, :description, :slug
+
 	def self.live
 		# TODO: Only return sectors with live projects
 		Sector.all(:include => [:projects])

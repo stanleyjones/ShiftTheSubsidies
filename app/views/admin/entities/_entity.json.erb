@@ -1,4 +1,4 @@
-<% cache("admin/entities/#{entity.id}-#{entity.updated_at}/#{start_year}/#{end_year}/show") do %>{
+<% cache ['admin', entity] do %>{
 	"name": "<%= entity.name %>",
 	"kind": "<%= entity.kind %>",
 	"url": "<%= url_for entity %>",

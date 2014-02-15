@@ -9,6 +9,8 @@ class Project < ActiveRecord::Base
 	has_many :institutions, :through => :subsidies, :uniq => true
 	has_many :entities, :through => :subsidies, :uniq => true
 
+	attr_accessible :name, :country, :description, :notes, :energy_access, :sector_id
+
 	def self.live
 		Project.joins(:institutions,:subsidies).where(
 			"institutions.visible = true AND subsidies.approved = true AND subsidies.date > :start_date AND subsidies.date < :end_date AND subsidies.amount_original > 0",
@@ -62,9 +64,20 @@ class Project < ActiveRecord::Base
 	end
 	
 	def live_subsidies
-		# Rails.cache.fetch("projects/#{self.id}-#{self.updated_at}/live_subsidies") do
-			self.subsidies.live
-		# end
+		self.subsidies.live
+	end
+
+	comma do
+
+		name 'Project Name'
+		country 'Project Country'
+		country_code 'Project Country Code'
+		category 'Project Category'
+		sector_name 'Project Sector'
+		sector_name 'Project Subsector'
+		access? 'Project Energy Access'
+		description 'Project Description'
+
 	end
 	
 end

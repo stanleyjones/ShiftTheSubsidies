@@ -1,4 +1,4 @@
-<p id="table_caption">Subsidies awarded for <span class="legend_start_year"><%= @start_date.year %></span><span class="legend_end_year">-<%= @end_date.year %></span>.</p>
+<p id="table_caption">Subsidies awarded for <span class="legend_start_year"><%= @start_date.year %></span><span class="legend_end_year">-<%= @end_date.year %></span>. <a href="/subsidies.csv" class="csv button">Download CSV</a></p>
 
 <table id="table">
 	<thead><tr><th>Amount</th><th>From Institution</th><th>To Entity</th><th>For Project</th><th>Region</th><th>Sector</th><th>Access?</th><th>Date</th></tr></thead>
@@ -73,5 +73,3 @@ function draw_table(data) {
 	$('button.table').click(function() { oTable.fnAdjustColumnSizing(); });	
 };
 </script>
-
-<a href="/subsidies.csv" class="csv button">Download CSV</a>

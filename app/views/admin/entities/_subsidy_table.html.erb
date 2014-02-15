@@ -1,5 +1,5 @@
 <table id="table">
-	<thead><tr><th>Amount</th><th>From</th><th>To</th><th>For</th><th>Date</th><th></th></tr></thead>
+	<thead><tr><th>Amount</th><th>From</th><th>To</th><th>For</th><th>Date</th><th>Sector</th><th>Kind</th><th></th><th></th></tr></thead>
 	<tbody></tbody>
 	<tfoot><tr><th></th></tr></tfoot>
 </table>
@@ -18,39 +18,36 @@ function draw_table( data ) {
 				'mRender': function( data ) { return '$'+to_currency( data ); }
 			},
 			{
-				'sWidth': '20%',
+				'sWidth': '15%',
 				'mData': 'from',
 				'mRender': function( data, type, row ) { return '<a href="/admin/institutions/'+row.institution_id+'">'+data+'</a>'; }
 			},
 			{
-				'sWidth': '20%',
+				'sWidth': '15%',
 				'mData': 'to',
 				'mRender': function( data, type, row ) { return '<a href="/admin/entities/'+row.entity_id+'">'+data+'</a>'; }
 			},
 			{
-				'sWidth': '20%',
+				'sWidth': '15%',
 				'mData': 'for',
 				'mRender': function( data, type, row ) { return '<a href="/admin/projects/'+row.project_id+'">'+data+'</a>'; }
 			},
 			{
-				'sWidth': '5%',
 				'mData': 'date'
 			},
 			{
-				'sWidth': '5%',
 				'mData': 'sector'
 			},
 			{
-				'sWidth': '5%',
 				'mData': 'kind'
 			},
 			{
-				'sWidth': '5%',
+				'sWidth': '25px',
 				'mData': 'valid',
 				'mRender': function( data ) { if ( data != true ) { return '<span class="error icon">Errors</span>'; } else { return '&nbsp;'; }}
 			},
 			{
-				'sWidth': '5%',
+				'sWidth': '25px',
 				'bSortable': false,
 				'mData': 'subsidy_id',
 				'mRender': function( data ) { return '<a class="edit icon" href="/admin/subsidies/'+data+'/edit/">Edit</a>'; }
@@ -62,16 +59,6 @@ function draw_table( data ) {
 				total.total  += row[index[i]].amount * 1.0;
 			}
 			$('th:eq(0)', tr).html( '$'+to_currency( total.total ));
-		},
-
-		// TableTools
-		'sDom': 'T<"clear">lfrtip',
-		'oTableTools': {
-			'aButtons': [{
-				'sExtends': 'csv',
-				'sButtonText': 'Download as CSV'
-			}],
-			'sSwfPath': '/assets/jquery.dataTables.tableTools.swf'
 		}
 	});
 }
@@ -79,4 +66,5 @@ function draw_table( data ) {
 
 <% if @user %><p class="buttons">
 	<%= link_to 'New Subsidy', new_admin_subsidy_path, :class => "new button" %>
+	<a href="/admin/entities/<%= @entity.id %>/subsidies.csv" class="csv button">Download CSV</a>
 </p><% end %>

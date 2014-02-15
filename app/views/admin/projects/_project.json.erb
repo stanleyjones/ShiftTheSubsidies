@@ -1,1 +1,9 @@
-<% cache("admin/projects/#{project.id}-#{project.updated_at}/#{start_year}/#{end_year}/show") do %>{"name": "<%= project.name %>", "sector": "<%= project.sector_name %>", "region": "<%= project.region %>", "valid": <%= project.valid? %>, "access?": <%= project.access? %>, "received": <%= project.received %>, "project_id": <%= project.id %>}<% end %>
+<% cache ['admin', project] do %>{
+	"name": "<%= project.name %>",
+	"sector": "<%= project.sector_name %>",
+	"region": "<%= project.region %>",
+	"valid": <%= project.valid? %>,
+	"access?": <%= project.access? %>,
+	"received": <%= project.received %>,
+	"project_id": <%= project.id %>
+}<% end %>

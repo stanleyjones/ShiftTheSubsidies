@@ -79,4 +79,5 @@ function draw_table( data ) {
 </script>
 <% if @user %><p class="buttons">
 	<%= link_to 'New Subsidy', new_admin_subsidy_path, :class => "new button" %>
+	<a href="/admin/institutions/<%= @institution.id %>/subsidies.csv" class="csv button">Download CSV</a>
 </p><% end %>

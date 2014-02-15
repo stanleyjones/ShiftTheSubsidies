@@ -79,4 +79,5 @@ function draw_table( data ) {
 
 <% if @user %><p class="buttons">
 	<%= link_to 'New Sector', new_admin_sector_path, :class => "new button" %>
+	<a href="/admin/sectors.csv" class="csv button">Download CSV</a>
 </p><% end %>

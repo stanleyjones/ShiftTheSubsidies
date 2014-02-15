@@ -19,7 +19,7 @@ class Subsidy < ActiveRecord::Base
 	has_one :region, :through => :project
 	has_one :institution_group, :through => :institution
 
-	attr_accessible :amount_original, :currency, :amount_usd, :date, :institution_id, :entity_id, :project_id, :kind, :approved, :source
+	attr_accessible :amount_original, :currency, :amount_usd, :date, :institution_id, :entity_id, :project_id, :kind, :approved, :source, :exchange_rate
 	
 	def self.live
 		# TODO: Improve the math for fiscal years
@@ -28,7 +28,7 @@ class Subsidy < ActiveRecord::Base
 			{:start_date => "#{START_YEAR-1}-01-01", :end_date => "#{END_YEAR}-12-31"}
 		).uniq
 	end
-	
+
 	def amount
 		Rails.cache.fetch("subsidy/#{self.id}-#{self.updated_at}/amount") do
 			if self.amount_usd

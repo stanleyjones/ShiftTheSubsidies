@@ -1,34 +1,28 @@
 <header id="menubar"><h1>Project</h1></header>
 
-<p id="notice"><%= notice %></p>
 
-<h3><%= @project.name %></h3>
+<div id="page" class="project page container">
+  <h1><%= @project.name %></h1>
+  <%= image_tag @project.icon, :size => "64x64", :class => "sector-icon" %>
+  <ul class="entity-list"><% @project.entities.each do |e| %><li><%= e.name %></li><% end %></ul>
+  
+    <h2>Region</h2>
+    <%= @project.country %>
+ 
+    <h2>Description</h2>
+    <%= simple_format(@project.description) %>
 
-<p>
-  <b>Country:</b>
-  <%= @project.country %>
-</p>
+  <pre>
+   <b>Notes:</b>
+   <%= @project.notes %>
+  </pre>
 
-<p>
-  <b>Description:</b>
-  <%= @project.description %>
-</p>
-
-<p>
-  <b>Notes:</b>
-  <%= @project.notes %>
-</p>
-
-<p>
-  <b>Sector:</b>
-  <%= @project.sector.name %>
-</p>
-
-<p>
-	<b>Institutions funding this project</b>
-	<ul>
-	<% @project.institutions.each do |i| %>
-	<li><%= link_to i.name, admin_institution_url(i) %></li>
-	<% end %>
-	</ul>
-</p>
+  <p>
+    <h2>Funding for this project</h2>
+    <ul class="subsidy-list">
+    <% @project.live_subsidies.each do |s| %>
+    <li><%= link_to "#{number_to_short( s.amount )} #{s.kind.downcase}", admin_subsidy_url(s) %> from <%= link_to s.institution.name, admin_institution_url(s.institution) %><% if s.date %> in <%= s.date.strftime('%Y') %><% end %></li>
+    <% end %>
+    </ul>
+  </p>
+</div>

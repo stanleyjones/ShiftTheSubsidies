@@ -10,6 +10,8 @@ class Entity < ActiveRecord::Base
 	has_and_belongs_to_many :groups, :class_name => "Entity", :join_table => "entity_groups", :foreign_key => "group_id", :association_foreign_key => "member_id"
 	has_and_belongs_to_many :members, :class_name => "Entity", :join_table => "entity_groups", :foreign_key => "member_id", :association_foreign_key => "group_id"
 
+	attr_accessible :name, :kind, :group_ids
+
 	def self.live
 		Entity.joins(:institutions,:subsidies).where(
 			"institutions.visible = true AND subsidies.approved = true AND subsidies.date > :start_date AND subsidies.date < :end_date AND subsidies.amount_original > 0",
@@ -41,6 +43,15 @@ class Entity < ActiveRecord::Base
 		received(start_date,end_date,subsidies)
 	end
 	
+	comma do
+
+		name
+		kind
+		received
+		projects :size => 'Projects'
+
+	end
+
 	def live_subsidies
 # 		Rails.cache.fetch("entities/#{self.id}-#{self.updated_at}/live_subsidies") do
 			# All approved subsidies received by this entity from a visible institution

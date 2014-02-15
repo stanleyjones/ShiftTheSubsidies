@@ -1,12 +1,13 @@
 class Admin::InstitutionsController < ApplicationController
 
 	layout 'admin'
-	# cache_sweeper :institution_sweeper, :only => [:create, :update, :destroy]
 
   def index
     respond_to do |format|
  	    format.html
       format.json { @institutions = Institution.all(:include => [:projects]) }
+      format.csv { render :csv => Institution.all, :filename => 'institutions' }
+
    	end
   end
 

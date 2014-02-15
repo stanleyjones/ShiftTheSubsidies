@@ -13,6 +13,7 @@ class Admin::ProjectsController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.json # index.json.erb
+      format.csv { render :csv => Project.all, :filename => 'projects' }
     end
   end
 

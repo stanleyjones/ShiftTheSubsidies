@@ -1,6 +1,10 @@
 <header id="menubar"><h1>Admin Dashboard</h1></header>
 
-<div class="page container">
+<% if flash[:notice] %>
+    <div class="notice"><%= flash[:notice] %></div>
+<% end %>
+
+<div id="page" class="page container">
 
 	<div class="block"><h2>Subsidies</h2>
 	<p>
@@ -26,14 +30,6 @@
 	</p>
 	</div>
 
-	<div class="block"><h2>Projects</h2>
-	<p>
-		<b>Total:</b> <%= Project.all.count %><br>
-		<b>Live:</b> <%= Project.live.count %><br>
-		<%= link_to "new", new_admin_project_path %> | <%= link_to "list", admin_projects_url %>
-	</p>
-	</div>
-	
 	<div class="block"><h2>Sectors</h2>
 	<p>
 		<b>Total:</b> <%= Sector.all.count %><br>
@@ -41,7 +37,13 @@
 		<%= link_to "new", new_admin_sector_path %> | <%= link_to "list", admin_sectors_url %>
 	</p>
 	</div>
-	
-	<p class="buttons"><%= link_to "Clear Cache", admin_clear_url, :class => "button" %></p>
+
+	<div class="block"><h2>Projects</h2>
+	<p>
+		<b>Total:</b> <%= Project.all.count %><br>
+		<b>Live:</b> <%= Project.live.count %><br>
+		<%= link_to "new", new_admin_project_path %> | <%= link_to "list", admin_projects_url %>
+	</p>
+	</div>
 
 </div>

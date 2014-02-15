@@ -622,12 +622,6 @@
 	/* Footer */
 	
 	footer {position:absolute; bottom:0; min-height:0px; width:950px; padding:10px; clear:both; color:#666; background:#333; border-top:1px solid #555; text-align:center;}
-
-	#adminbar {position:relative; top:0; border-bottom:1px solid #999; background:#f00;}
-	#adminlist {margin:0; padding:0; width:100%; overflow:hidden; text-align:center;}
-	#adminlist li {float:left; width:20%;}
-	#adminlist li a {display:block; width:100%; line-height:30px; color:#600; background:#f33; text-shadow:1px 1px rgba(255,255,255,0.25);}
-	#adminlist li a:hover {background:#e22; box-shadow:0 0 2px rgba(0,0,0,0.5) inset;}
 	
 	#navbar {
 		background: #999;
@@ -654,6 +648,7 @@
 		padding: 0 1em;
 		text-align: center;
 		font-size: 11px;
+		font-weight: 400;
 		line-height: 30px;
 		color: #333;
 		border-right: 1px solid #888;
@@ -703,6 +698,29 @@
 
 /* Admin */
 
+	body.admin #menubar {
+		top: 30px;
+	}
+	body.admin #tableview {
+		top: 0;
+	}
+	body.admin #content {
+		padding-top: 90px;
+	}
+	body.admin .block {
+		float: left;
+		width: 18%;
+		background: #fff;
+		margin: 1%;
+		padding: 0 20px;
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+	}
+	body.admin #tableview .buttons {
+		top: 0;
+	}
+
 	body.sessions.new #content form {
 		margin-top: 100px;
 	}
@@ -712,6 +730,25 @@
 	body.sessions.new #content form input {
 		width: 290px; padding: 5px;
 	}
+
+	#adminbar { position: absolute; top: 0; left: 0; width: 100%; background: #900; z-index: 10;}
+	#adminlist {margin: 0; padding: 0; width: 100%; overflow: hidden; text-align: center;}
+	#adminlist li {float:left; width:14.2857%;}
+	#adminlist li a {display:block; width:100%; line-height:30px; color:#f99; background:#c00;}
+	#adminlist li:first-child a, #adminlist li:last-child a { color: #c66;background: #900;}
+	#adminlist li a:hover {color:#fff; background:#f00;}
+
+	body.admin.edit { overflow: auto; }
+	body.admin.edit #content { height: auto; padding-top: 100px; }
+
+.notice {
+	margin: 20px auto;
+	padding: 20px;
+	width: 50%;
+	min-width: 320px;
+	background: #ffc;
+	text-align: center;
+}
 
 /* DataTables - http://datatables.net/
 - - - - - - - - - - - - - - - - - - - - */

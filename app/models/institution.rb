@@ -10,6 +10,8 @@ class Institution < ActiveRecord::Base
 	has_many :projects, :through => :subsidies, :uniq => true
 	has_many :entities, :through => :subsidies, :uniq => true
 	
+	attr_accessible :name, :abbreviation, :description, :institution_group_id, :kind, :fiscal_year, :visible
+
 	def self.live
 		Institution.where(:visible => true)
 	end
