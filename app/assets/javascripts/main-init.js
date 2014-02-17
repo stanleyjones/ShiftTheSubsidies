@@ -51,9 +51,9 @@ $(function() {
 
 	// RESPONSIVE NAV
 
-	$('#pull').click(function(e){
-		$('#navlist').slideToggle();
-		e.preventDefault();
+
+	$('#pull').click(function(){
+		$('.navlists').slideToggle();
 	});
 	if ($('.national-page').length) {
 		$('#ntnl-nav').show().siblings().hide();
