@@ -2,16 +2,6 @@ require 'money'
 
 module SubsidiesHelper
 
-	# Money.default_bank = Money::Bank::GoogleCurrency.new
-
-# 	Money::Currency::TABLE[:UAC] = {	
-# 		:iso_code        => "UAC",
-# 		:name            => "Units of Account",
-# 		:symbol          => "UA",
-# 		:separator       => ".",
-# 		:delimiter       => ","
-# 	}
-
 	uac = {
 		:priority        => 1,
 		:iso_code        => "UAC",
@@ -49,10 +39,7 @@ module SubsidiesHelper
 	end
 
 	def total_to_sector( sector )
-		amount = 0
-		Subsidy.live.each do |s|
-			if s.sector and s.sector.name == sector then amount += s.amount; end
-		end
-		amount
+		sector = Sector.find_by_name(sector)
+		sector.received(Date.civil(START_YEAR.to_i,1,1),Date.civil(END_YEAR.to_i,12,31),sector.live_projects)
 	end
 end

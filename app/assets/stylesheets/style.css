@@ -381,7 +381,7 @@
 			transition: opacity 0.5s;
 		}
 		.institutions.index #graph .label,
-		.institution_groups.index #graph .label {
+		.institution_groups.show #graph .label {
 			opacity: 1 !important;
 		}
 		#graph .bubble {
