@@ -1,7 +1,6 @@
 class Admin::SubsidiesController < ApplicationController
 
 	layout 'admin'
-	cache_sweeper :subsidy_sweeper, :only => [:create, :update, :destroy]
 
   def index
     respond_to do |format|
@@ -14,7 +13,17 @@ class Admin::SubsidiesController < ApplicationController
   			else
 	    		@subsidies = Subsidy.all(:include => [:institution,:entity,:project])
   		  end
-			end
+      end
+      format.csv do
+        if params[:institution_id] and @institution = Institution.find(params[:institution_id])
+          @subsidies = @institution.subsidies
+        elsif params[:entity_id] and @entity = Entity.find(params[:entity_id])
+          @subsidies = @entity.subsidies
+        else
+          @subsidies = Subsidy.all(:include => [:institution,:entity,:project])
+        end
+        render :csv => @subsidies, :filename => 'subsidies'
+      end
 		end
   end
 

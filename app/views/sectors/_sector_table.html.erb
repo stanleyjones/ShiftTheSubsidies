@@ -1,36 +1,60 @@
-<p id="table_caption">Energy sectors for <span class="legend_start_year"><%= @start_date.year %></span><span class="legend_end_year">-<%= @end_date.year %></span></p>
+<p id="table_caption">Energy sectors for <span class="legend_start_year"><%= @start_date.year %></span><span class="legend_end_year">-<%= @end_date.year %></span> <a href="/sectors.csv" class="csv button">Download CSV</a></p>
 
 <table id="table">
-	<thead><tr><th>Received</th><th></th><th>Name</th><th>Category</th></tr></thead>
+	<thead><tr><th>Received</th><th></th><th>Name</th><th>Category</th><th>Access</th><th>%</th></tr></thead>
 	<tbody></tbody>
 	<tfoot><tr><th></tr></tfoot>
 </table>
 
 <script>
 function draw_table(data) {
-	var h = $('#graph').height() - 162; /* thead (86px) + tfoot (78px) */
+	var h = $('#content').height() - $('#menubar').height() - 80*2;
 	var oTable = $('#table').dataTable({
 		"bDestroy": true,
 		"bPaginate": false,
 		"aaData": data.sectors,
+		'aaSorting': [[0,'desc']],
 		"sScrollY": h+'px',
-		"aoColumns": [
-			{"sWidth":"100px", "fnRender":function(oObj) { return '$'+to_currency(oObj.aData['received'][r]); }, "sType":"currency", "asSorting":["desc","asc"] },
-			{"sWidth":"15px", "fnRender":function(oObj) { return '<img src="'+oObj.aData['icon']+'" height="32" width="32" />'; }},
-			{"fnRender":function(oObj) { return '<a href="/sectors/'+oObj.aData['sector_id']+'">'+oObj.aData['name']+'</a>'; }},
-			{"sWidth":"100px", "mDataProp":"category"},
-		],
-		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
-			var total = {'total':0, 'clean':0, 'fossil':0, 'access':0};
-			for (var i=iStart; i<iEnd; i++) {
-				total['total']  += aaData[aiDisplay[i]]['received'][r]*1.0;
+		'aoColumns': [
+			{
+				'sWidth': '10%', 'sType': 'currency',
+				'mData': 'received',
+				'mRender': function( data, type, row ) { return (r && row.received[r]) ? '$'+to_currency( row.received[r] ) : '0'; }
+			},
+			{
+				'sWidth': '5%',
+				'mData': 'icon',
+				'mRender': function( data ) { return '<img src="'+data+'" height="32" width="32" />'; }
+			},
+			{
+				'mData': 'name',
+				'mRender': function( data, type, row ) { return '<a href="/sectors/'+row.sector_id+'">'+data+'</a>'; }
+			},
+			{
+				'sWidth': '10%',
+				'mData': 'category'
+			},
+			{
+				'sWidth': '10%', 'sType': 'currency',
+				'mData': 'access',
+				'mRender': function( data, type, row ) { return (r && row.access[r]) ? '$'+to_currency( row.access[r] ) : '$0'; }
+			},
+			{
+				'sWidth': '5%', 'sType': 'percent',
+				'mData': 'access',
+				'mRender': function( data, type, row ) { return (r && row.access[r]) ? Math.floor((row.access[r] / Math.max(row.received[r],1)) * 100)+'%' : '0%'; }
 			}
-			var footer = nRow.getElementsByTagName('th');
-			footer[0].innerHTML = '$'+to_currency(total['total']);
+		],
+		'fnFooterCallback': function ( tr, row, start, end, index ) {
+			var total = {'total': 0};
+			for (var i=start; i<end; i++) {
+				total.total  += row[index[i]].received[r] * 1.0;
+			}
+			$('th:eq(0)', tr).html( '$'+to_currency( total.total ));
 		}
 	});
-	$.fn.dataTableExt.afnFiltering.push(function( oSettings, aData, iDataIndex ) {
-		if ( aData[0] != '$0' ) { return true; } else { return false; }
+	$.fn.dataTableExt.afnFiltering.push(function( settings, row, index ) {
+		return (row[0] === '0') ? false : true;
 	});
 	$('button.table').click(function() { oTable.fnAdjustColumnSizing(); });	
 };

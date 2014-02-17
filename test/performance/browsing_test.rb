@@ -7,7 +7,7 @@ class BrowsingTest < ActionDispatch::PerformanceTest
     get '/'
   end
   def test_aboutpage
-  	get '/about'
+  	get '/guide'
   end
   def test_methodologypage
   	get '/methodology'

@@ -1,17 +1,6 @@
 require 'money'
-require 'money/bank/google_currency'
 
 module SubsidiesHelper
-
-	Money.default_bank = Money::Bank::GoogleCurrency.new
-
-# 	Money::Currency::TABLE[:UAC] = {	
-# 		:iso_code        => "UAC",
-# 		:name            => "Units of Account",
-# 		:symbol          => "UA",
-# 		:separator       => ".",
-# 		:delimiter       => ","
-# 	}
 
 	uac = {
 		:priority        => 1,
@@ -41,7 +30,7 @@ module SubsidiesHelper
 		return "$#{ number_to_human( amount, :format => "%n%u", :units => {:unit => "USD", :thousand => "k", :million => "M", :billion => "B"} )}"
 	end
 
-	def total_to_category(category)
+	def total_to_category( category )
 		amount = 0
 		Subsidy.live.each do |s|
 			if s.in_category?(category) then amount += s.amount; end
@@ -49,4 +38,8 @@ module SubsidiesHelper
 		amount
 	end
 
+	def total_to_sector( sector )
+		sector = Sector.find_by_name(sector)
+		sector.received(Date.civil(START_YEAR.to_i,1,1),Date.civil(END_YEAR.to_i,12,31),sector.live_projects)
+	end
 end

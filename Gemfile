@@ -1,31 +1,22 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.19'
-gem 'jquery-rails', '>= 1.0.3'
+gem 'rails', '3.2.13'
+gem 'jquery-rails'
 gem 'json_pure'
 
-# Caching
-gem 'memcachier'
-gem 'dalli'
+gem 'dalli'				# Caching
+gem 'carmen', '0.2.13'	# Countries
+gem 'money'				# Currency conversions
+gem 'comma', '~> 3.2.0'	# Download CSVs
 
-# Countries
-gem 'carmen', '0.2.13'
-# gem 'country_select'
-
-# Currency conversions
-gem 'money'
-gem 'google_currency'
+group :assets do
+	gem 'uglifier', '>= 1.0.3'
+end
 
 group :test do
 	gem 'sqlite3-ruby', :require => 'sqlite3'
 end
 
 group :development do
-	gem 'mysql2', '0.2.6'
-	gem 'rake', '10.1.0'
-	gem 'ruby-prof'
-
-	# Deploy to Heroku
-	gem 'heroku'
-	gem 'taps'
+	gem 'pg'
 end

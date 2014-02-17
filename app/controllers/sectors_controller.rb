@@ -7,6 +7,7 @@ class SectorsController < ApplicationController
       format.json do
       	@sectors = Sector.live
 			end # index.json.erb
+      format.csv { render :csv => Sector.live, :filename => 'sectors' }
     end
   end
 

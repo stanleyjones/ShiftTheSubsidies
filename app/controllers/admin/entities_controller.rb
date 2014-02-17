@@ -1,12 +1,14 @@
 class Admin::EntitiesController < ApplicationController
 
 	layout 'admin'
-	cache_sweeper :entity_sweeper, :only => [:create, :update, :destroy]
+	# cache_sweeper :entity_sweeper, :only => [:create, :update, :destroy]
 
   def index
     respond_to do |format|
       format.html
       format.json { @entities = Entity.all }
+      format.csv { render :csv => Entity.all, :filename => 'entities' }
+
     end
   end
 

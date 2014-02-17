@@ -20,6 +20,7 @@ function drawTable(data) {
 		"bPaginate": false,
 		"bDestroy": true,
 		"aaData": data,
+		'aaSorting': [[0,'desc']],
 		"aoColumns": [
 			{"sWidth":"100px", "sType":"currency", "fnRender":function(oObj) { return '$'+to_currency(oObj.aData['live_total']); },"asSorting":["desc","asc"]},
 			{"sWidth":"50px", "mDataProp":"live_projects"},

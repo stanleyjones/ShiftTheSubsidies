@@ -1,46 +1,105 @@
-<table id="table">
-	<thead><tr><th>Total</th><th>Institution</th><th>Clean</th><th>%</th><th>Fossil</th><th>%</th><th>Access</th><th>%</th><th><span class="error icon">Errors?</span></th><th></th></tr></thead>
+	<table id="table">
+	<thead>
+		<tr>
+			<th>Total</th>
+			<th>Institution</th>
+			<th>Clean</th>
+			<th>%</th>
+			<th>Fossil</th>
+			<th>%</th>
+			<th>Access</th>
+			<th>%</th>
+			<th><span class="error icon">Errors?</span></th>
+			<th></th>
+		</tr>
+	</thead>
 	<tbody></tbody>
 	<tfoot><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
 </table>
 
 <script>
 function draw_table( data ) {
-	var h = $('#wrapper').height() - 328;
+	var h = $('#wrapper').height() - 250;
 	$('#table').dataTable({
 		"bPaginate": false,
 		"aaData": data.institutions,
 		"sScrollY": h+'px',
-		"aoColumns": [
-			{"sWidth":"100px", "sType":"currency", "fnRender":function(oObj) { return '$'+to_currency(oObj.aData['total']); },"asSorting":["desc","asc"]},
-
-			{"sWidth":"400px", "fnRender":function(oObj) { return '<a href="/admin/institutions/'+oObj.aData['institution_id']+'">'+oObj.aData['name']+'</a> ('+oObj.aData['abbreviation']+')<br><span class="desc">'+oObj.aData['description']+'</span>'; }},
-
-			{"sWidth":"100px", "sType":"currency", "fnRender":function(oObj) { return '$'+to_currency(oObj.aData['clean']); },"asSorting":["desc","asc"]},
-			{"sWidth":"25px", "sType":"percent", "fnRender": function(oObj) { return Math.floor((oObj.aData['clean'] / Math.max(oObj.aData['total'],1)) * 100)+"%"; }},
-
-			{"sWidth":"100px", "sType":"currency", "fnRender":function(oObj) { return '$'+to_currency(oObj.aData['fossil']); },"asSorting":["desc","asc"]},
-			{"sWidth":"25px", "sType":"percent", "fnRender": function(oObj) { return Math.floor((oObj.aData['fossil'] / Math.max(oObj.aData['total'],1)) * 100)+"%"; }},
-
-			{"sWidth":"100px", "sType":"currency", "fnRender":function(oObj) { return '$'+to_currency(oObj.aData['access']); },"asSorting":["desc","asc"]},
-			{"sWidth":"25px", "sType":"percent", "fnRender": function(oObj) { return Math.floor((oObj.aData['access'] / Math.max(oObj.aData['total'],1)) * 100)+"%"; }},
-
-			{"sWidth":"25px", "fnRender":function(oObj) { if (oObj.aData['valid'] != true) { return '<span class="error icon">Errors</span>'; } else { return "&nbsp;"; }},"asSorting":["desc","asc"]},
-			{"sWidth":"25px", "bSortable":false, "fnRender":function(oObj) { return '<a class="edit icon" href="/admin/institutions/'+oObj.aData['institution_id']+'/edit">Edit</a>';<% else %>return ""; }}
-		],
-		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
-			var total = {'total':0, 'clean':0, 'fossil':0, 'access':0};
-			for (var i=iStart; i<iEnd; i++) {
-				total['total']  += aaData[aiDisplay[i]]['total']*1;
-				total['clean']  += aaData[aiDisplay[i]]['clean']*1;
-				total['fossil'] += aaData[aiDisplay[i]]['fossil']*1;
-				total['access'] += aaData[aiDisplay[i]]['access']*1;
+		'aaSorting': [[0,'desc']],
+		'aoColumns': [
+			{
+				'sWidth': '10%', 'sType': 'currency',
+				'mData': 'total',
+				'mRender': function( data ) { return '$'+to_currency( data ); }
+			},
+			{
+				'sWidth': '45%',
+				'mData': 'name',
+				'mRender': function( data, type, row ) { return '<a href="/admin/institutions/'+row.institution_id+'">'+data+'</a>'; }
+			},
+			{
+				'sWidth': '10%', 'sType': 'currency',
+				'mData': 'clean',
+				'mRender': function( data ) { return '$'+to_currency( data ); }
+			},
+			{
+				'sWidth': '5%', 'sType': 'percent',
+				'mData': 'clean',
+				'mRender': function( data, type, row ) { return Math.floor((data / Math.max(row.total,1)) * 100)+'%'; }
+			},
+			{
+				'sWidth': '10%', 'sType': 'currency',
+				'mData': 'fossil',
+				'mRender': function( data ) { return '$'+to_currency( data ); }
+			},
+			{
+				'sWidth':'5%', 'sType': 'percent',
+				'mData': 'fossil',
+				'mRender': function( data, type, row ) { return Math.floor((data / Math.max(row.total,1)) * 100)+"%"; }
+			},
+			{
+				'sWidth': '10%', 'sType': 'currency',
+				'mData': 'access',
+				'mRender': function( data ) { return '$'+to_currency( data ); }
+			},
+			{
+				'sWidth': '5%', 'sType': 'percent',
+				'mData': 'access',
+				'mRender': function( data, type, row ) { return Math.floor((data / Math.max(row.total,1)) * 100)+'%'; }
+			},
+			{
+				'sWidth': '5%',
+				'mData': 'valid',
+				'mRender': function( data ) { if ( data != true ) { return '<span class="error icon">Errors</span>'; } else { return '&nbsp;'; }}
+			},
+			{
+				'sWidth': '5%',
+				'bSortable': false,
+				'mData': 'institution_id',
+				'mRender': function( data ) { return '<a class="edit icon" href="/admin/institutions/'+data+'/edit/">Edit</a>'; }
 			}
-			var footer = nRow.getElementsByTagName('th');
-			footer[0].innerHTML = '$'+to_currency(total['total']);
-			footer[2].innerHTML = '$'+to_currency(total['clean']);
-			footer[4].innerHTML = '$'+to_currency(total['fossil']);
-			footer[6].innerHTML = '$'+to_currency(total['access']);
+		],
+		'fnFooterCallback': function ( tr, row, start, end, index ) {
+			var total = {'total': 0, 'clean': 0, 'fossil': 0, 'access': 0};
+			for (var i=start; i<end; i++) {
+				total.total  += row[index[i]].total * 1.0;
+				total.clean  += row[index[i]].clean * 1.0;
+				total.fossil += row[index[i]].fossil * 1.0;
+				total.access += row[index[i]].access * 1.0;
+			}
+			$('th:eq(0)', tr).html( '$'+to_currency( total.total ));
+			$('th:eq(2)', tr).html( '$'+to_currency( total.clean ));
+			$('th:eq(4)', tr).html( '$'+to_currency( total.fossil ));
+			$('th:eq(6)', tr).html( '$'+to_currency( total.access ));
+		},
+
+		// TableTools
+		'sDom': 'T<"clear">lfrtip',
+		'oTableTools': {
+			'aButtons': [{
+				'sExtends': 'csv',
+				'sButtonText': 'Download as CSV'
+			}],
+			'sSwfPath': '/assets/jquery.dataTables.tableTools.swf'
 		}
 	});
 };
@@ -48,4 +107,5 @@ function draw_table( data ) {
 
 <p class="buttons">
 	<%= link_to 'New Institution', new_admin_institution_path, :class => "new button" %>
+	<a href="/admin/institutions.csv" class="csv button">Download CSV</a>
 </p>

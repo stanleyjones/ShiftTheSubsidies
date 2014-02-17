@@ -1,33 +1,27 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]><html class="no-js ie6 oldie" lang="en"><![endif]-->
-<!--[if IE 7]><html class="no-js ie7 oldie" lang="en"><![endif]-->
-<!--[if IE 8]><html class="no-js ie8 oldie" lang="en"><![endif]-->
-<!--[if gt IE 8]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<html lang="en">
 
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-<title>Shift The Subsidies [ADMIN]</title>
-
-<meta name="viewport" content="width=device-width,initial-scale=1">
-
-<%= stylesheet_link_tag 'style' %>
-<%= javascript_include_tag 'modernizr-2.0.6.min.js','prefixfree-1.0.4.min.js','jquery-1.7.min.js','rails.min.js','jquery.datatables-1.8.2.min.js','d3-2.5.0/d3.min.js','application' %>
-<%= csrf_meta_tag %>
+	<title>[ADMIN] <%= controller_name.capitalize %> | ShiftTheSubsidies.org - Oil Change International</title>
+	<%= stylesheet_link_tag 'application' %>
+	<%= csrf_meta_tag %>
 </head>
 
-<body class="admin <%= controller_name %> <%= controller.action_name %>"><div id="wrapper">
+<body class="admin <%= controller_name %> <%= controller.action_name %>">
+<div id="wrapper">
 
 <%= render :partial => 'layouts/adminbar' %>
-<%= render :partial => 'layouts/header' %>
-<%= render :partial => 'layouts/navbar' %>
 
-<div id="content" class="container">
+<div id="content">
 <%= yield %>
-</div><!-- #content -->
+</div>
 
-</div><!-- #wrapper -->
+</div>
+
+<%= javascript_include_tag 'application' %>
 
 </body>
 </html>

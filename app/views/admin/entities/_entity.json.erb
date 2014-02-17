@@ -1,1 +1,12 @@
-<% cache("admin/entities/#{entity.id}-#{entity.updated_at}/#{start_year}/#{end_year}/show") do %>{"name": "<%= entity.name %>", "kind": "<%= entity.kind %>", "url": "<%= url_for entity %>", "valid": <%= entity.valid? %>, "total": <%= entity.received(@start_date,@end_date)  %>, "fossil": <%= entity.received_to_category("Fossil Fuel",@start_date,@end_date)  %>, "clean": <%= entity.received_to_category("Clean",@start_date,@end_date)  %>, "access": <%= entity.received_to_energy_access(@start_date,@end_date)  %>, "projects": <%= entity.projects.size %>, "entity_id":<%= entity.id %>}<% end %>
+<% cache ['admin', entity] do %>{
+	"name": "<%= entity.name %>",
+	"kind": "<%= entity.kind %>",
+	"url": "<%= url_for entity %>",
+	"valid": <%= entity.valid? %>,
+	"total": <%= entity.received(@start_date,@end_date)  %>,
+	"fossil": <%= entity.received_to_category("Fossil Fuel",@start_date,@end_date)  %>,
+	"clean": <%= entity.received_to_category("Clean",@start_date,@end_date)  %>,
+	"access": <%= entity.received_to_energy_access(@start_date,@end_date)  %>,
+	"projects": <%= entity.projects.size %>,
+	"entity_id":<%= entity.id %>
+}<% end %>

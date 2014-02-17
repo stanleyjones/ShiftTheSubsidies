@@ -1,14 +1,19 @@
+<div id="more">
+	<a class="close">&times;</a>
+	<div class="container">
+		<p><%= @institution.description %></p>
+	</div>
+</div>	
 <div id="graph">
-	<div id="info"><h1><%= @institution.name %></h1><p><%= @institution.description %></p></div>
 	<p id="caption"><b>Above:</b> <span class="clean">clean</span>, <span class="fossil">fossil fuel</span>, and <span class="other">other</span> energy subsidies by <%= @institution.shortname %>, scaled by dollar amount.</p>
 </div>
 <script>
 function draw_graph( json ) {
 	var graph = {
 		'objects':		'subsidies',
-		'value':			'amount["'+r+'"]',
+		'value':		'amount["'+r+'"]',
 		'max_value':	1E10,
-		'label':			'"$"+to_short(d.data.amount["'+r+'"])'
+		'label':		'"$"+to_short(d.amount["'+r+'"])'
 	}
 	draw_bubble_graph( graph,json );
 }

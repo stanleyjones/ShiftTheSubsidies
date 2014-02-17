@@ -5,11 +5,13 @@ class Institution < ActiveRecord::Base
 	validates :kind, :inclusion => {:in => ['Multilateral','Bilateral','Export Credit']}
 	validates :fiscal_year, :numericality => true
 
-	belongs_to :institution_group
+	belongs_to :institution_group, :touch => true
 	has_many :subsidies
 	has_many :projects, :through => :subsidies, :uniq => true
 	has_many :entities, :through => :subsidies, :uniq => true
 	
+	attr_accessible :name, :abbreviation, :description, :institution_group_id, :kind, :fiscal_year, :visible
+
 	def self.live
 		Institution.where(:visible => true)
 	end
@@ -41,6 +43,14 @@ class Institution < ActiveRecord::Base
 		awarded(start_date,end_date,subsidies)
 	end
 
+	def awarded_to_clean(start_date=nil,end_date=nil,collection=self.subsidies)
+		awarded_to_category('Clean',start_date,end_date,subsidies)
+	end
+
+	def awarded_to_fossil_fuel(start_date=nil,end_date=nil,collection=self.subsidies)
+		awarded_to_category('Fossil Fuel',start_date,end_date,subsidies)
+	end
+
 	def awarded_to_energy_access(start_date=nil,end_date=nil,collection=self.subsidies)
 		subsidies = []
 		collection.each do |s|
@@ -56,17 +66,29 @@ class Institution < ActiveRecord::Base
 		end
 		awarded(start_date,end_date,subsidies)
 	end
+
+	def percent_awarded_to_category(category,start_date=nil,end_date=nil,collection=self.subsidies)
+		(1.0 * self.awarded_to_category(category,start_date,end_date,collection) / self.awarded(start_date,end_date,collection)).round(3)
+	end
+
+	def percent_awarded_to_clean(start_date=nil,end_date=nil,collection=self.subsidies)
+		self.percent_awarded_to_category('Clean',start_date,end_date,collection)
+	end
 	
+	def percent_awarded_to_fossil_fuel(start_date=nil,end_date=nil,collection=self.subsidies)
+		self.percent_awarded_to_category('Fossil Fuel',start_date,end_date,collection)
+	end
+
+	def percent_awarded_to_energy_access(start_date=nil,end_date=nil,collection=self.subsidies)
+		(1.0 * self.awarded_to_energy_access(start_date,end_date,collection) / self.awarded(start_date,end_date,collection)).round(3)
+	end
+
 	def live_subsidies
- 		Rails.cache.fetch("institutions/#{self.id}-#{self.updated_at}/live_subsidies") do
-			self.subsidies.live
-		end
+		self.subsidies.live
 	end
 	
 	def live_projects
- 		Rails.cache.fetch("institutions/#{self.id}-#{self.updated_at}/live_projects") do
-			self.projects.live
-		end
+		self.projects.live
 	end
 
 	def projects_from_subsidies(start_date=nil, end_date=nil, collection=self.subsidies)
@@ -78,4 +100,29 @@ class Institution < ActiveRecord::Base
 		end
 		projects.uniq
 	end
+
+	def fiscal_year_end(year=nil)
+		fiscal_year_begins = Date.new(year || Date.current().year,self.fiscal_year,1)
+		fiscal_year_ends = fiscal_year_begins - 1.day
+		return fiscal_year_ends.month.to_s + "-" + fiscal_year_ends.day.to_s
+	end
+
+	# Export CSV via Comma gem
+
+	comma do
+
+		name
+		abbreviation
+		kind
+
+		awarded
+		awarded_to_clean
+		awarded_to_fossil_fuel
+		awarded_to_energy_access
+		percent_awarded_to_clean '% Clean'
+		percent_awarded_to_fossil_fuel '% Fossil Fuel'
+		percent_awarded_to_energy_access '% Energy Access'
+
+	end
+
 end

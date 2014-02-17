@@ -1,36 +1,34 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]><html class="no-js ie6 oldie" lang="en"><![endif]-->
-<!--[if IE 7]><html class="no-js ie7 oldie" lang="en"><![endif]-->
-<!--[if IE 8]><html class="no-js ie8 oldie" lang="en"><![endif]-->
-<!--[if gt IE 8]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<html lang="en">
 
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>ShiftTheSubsidies.org - Oil Change International</title>
-<meta name="description" content="ShiftTheSubsidies.org is an interactive tool to visually track and analyze the flow of energy subsidies from international, regional and bilateral public financial institutions around the world.">
-<meta name="author" content="Oil Change International">
-<%= stylesheet_link_tag 'style' %>
-<%= javascript_include_tag 'modernizr-2.0.6.min.js','prefixfree-1.0.4.min.js' %>
-<%= csrf_meta_tag %>
+	<title><% if controller_name != 'static' %><%= controller_name.capitalize %> | <% end %>ShiftTheSubsidies.org - Oil Change International</title>
+	<meta name="description" content="ShiftTheSubsidies.org is an interactive tool to visually track and analyze the flow of energy subsidies from international, regional and bilateral public financial institutions around the world.">
+	<meta name="author" content="Oil Change International">
+
+	<%= stylesheet_link_tag 'application' %>
+	<%= csrf_meta_tag %>
 </head>
 
 <body class="<%= controller_name %> <%= controller.action_name %>">
 <div id="wrapper">
 
-<%= render :partial => 'layouts/header' %>
-<%= render :partial => 'layouts/navbar' %>
+	<%= render :partial => 'layouts/header' %>
+	<%= render :partial => 'layouts/navbar' %>
 
-<div id="content" class="container">
-<%= yield %>
-</div><!-- #content -->
+	<div id="content">
+		<%= yield %>
+	</div>
 
-</div><!-- #wrapper -->
+</div>
 
-<%= javascript_include_tag 'load' %>
-<%= render :partial => 'layouts/sharethis' %>
-<%= render :partial => 'layouts/chromeframe' %>
+<%= javascript_include_tag 'application' %>
+
+<%= render :partial => 'layouts/addthis' %>
 <%= render :partial => 'layouts/ga' %>
 
 </body>

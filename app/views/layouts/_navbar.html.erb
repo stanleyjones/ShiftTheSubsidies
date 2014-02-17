@@ -1,8 +1,16 @@
-<nav id="navbar"><ul id="navlist">
-	<li><%= link_to "Home", "/" %></li>
-	<li><%= link_to "Funding Institutions", institutions_path %></li>
-	<li><%= link_to "Project Map", projects_path %></li>
-	<li><%= link_to "Energy Sectors", sectors_path %></li>
-	<li><%= link_to "Energy Subsidies", subsidies_path %></li>
-	<li><%= link_to "Guide", "/guide" %></li>
-</ul></nav>
+<nav id="navbar">
+	<ul id="intl-nav" class="navlist container">
+		<li><%= link_to "Home", "/" %></li>
+		<li><%= link_to "Funding Institutions", institutions_path %></li>
+		<li><%= link_to "Energy Sectors", sectors_path %></li>
+		<li><%= link_to "Energy Subsidies", subsidies_path %></li>
+		<li><%= link_to "Guide", "/international" %></li>
+		<li><%= link_to "Methodology", "/methodology" %></li>
+	</ul>
+	<ul id="ntnl-nav" class="navlist container hide">
+		<li><%= link_to "Home", "/" %></li>
+		<li><%= link_to "Guide", "/national" %></li>
+		<li><%= link_to "Exploration Subsidies", "/exploration" %></li>
+	</ul>
+	<a href="#" id="pull">Menu</a>
+</nav>

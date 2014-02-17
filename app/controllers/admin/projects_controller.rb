@@ -1,7 +1,7 @@
 class Admin::ProjectsController < ApplicationController
 	
 	layout 'admin'
-	cache_sweeper :project_sweeper, :only => [:create, :update, :destroy]
+	# cache_sweeper :project_sweeper, :only => [:create, :update, :destroy]
 
   def index
   	if params[:sector_id] and @sector = Sector.find(params[:sector_id])
@@ -13,6 +13,7 @@ class Admin::ProjectsController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.json # index.json.erb
+      format.csv { render :csv => Project.all, :filename => 'projects' }
     end
   end
 

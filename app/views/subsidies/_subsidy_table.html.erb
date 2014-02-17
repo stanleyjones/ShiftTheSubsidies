@@ -1,37 +1,73 @@
-<p id="table_caption">Subsidies awarded for <span class="legend_start_year"><%= @start_date.year %></span><span class="legend_end_year">-<%= @end_date.year %></span>.</p>
+<p id="table_caption">Subsidies awarded for <span class="legend_start_year"><%= @start_date.year %></span><span class="legend_end_year">-<%= @end_date.year %></span>. <a href="/subsidies.csv" class="csv button">Download CSV</a></p>
 
 <table id="table">
-	<thead><tr><th>Amount</th><th>From</th><th>To</th><th>For</th><th>Date</th></tr></thead>
+	<thead><tr><th>Amount</th><th>From Institution</th><th>To Entity</th><th>For Project</th><th>Region</th><th>Sector</th><th>Access?</th><th>Date</th></tr></thead>
 	<tbody></tbody>
 	<tfoot><tr><th></th><th></th><th></th><th></th><th></th></tr></tfoot>
 </table>
 
 <script>
 function draw_table(data) {
-	var h = $('#graph').height() - 162; /* thead (86px) + tfoot (78px) */
+	var h = $('#content').height() - $('#menubar').height() - 80*2;
 	var oTable = $('#table').dataTable({
 		"bDestroy": true,
 		"bPaginate": false,
 		"aaData": data.subsidies,
+		'aaSorting': [[0,'desc']],
 		"sScrollY": h+'px',
-		"aoColumns": [
-			{"sWidth":"100px", "fnRender":function(oObj) { return '$'+to_currency(oObj.aData['amount'][r]); }, "sType":"currency", "asSorting":["desc","asc"] },
-			{"sWidth":"200px", "fnRender":function(oObj) { return '<a href="'+oObj.aData['institution_url']+'">'+oObj.aData['from']+'</a>'; }},
-			{"sWidth":"200px", "fnRender":function(oObj) { return '<a href="'+oObj.aData['entity_url']+'">'+oObj.aData['to']+'</a>'; }},
-			{"sWidth":"200px", "fnRender":function(oObj) { return '<a href="'+oObj.aData['project_url']+'">'+oObj.aData['for']+'</a>'; }},
-			{"sWidth":"100px", "mDataProp":"date"},
-		],
-		"fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
-			var total = {'total':0};
-			for (var i=iStart; i<iEnd; i++) {
-				total['total']  += aaData[aiDisplay[i]]['amount'][r]*1.0;
+		'aoColumns': [
+			{
+				'sWidth': '15%', 'sType': 'currency',
+				'mData': 'amount',
+				// 'mRender': function( data ) { return '$'+to_currency( data.all ); }
+				'mRender': function( data, type, row ) { return (r && row.amount[r]) ? '$'+to_currency( row.amount[r] ) : '0'; }
+			},
+			{
+				'sWidth': '20%',
+				'mData': 'from',
+				'mRender': function( data, type, row ) { return '<a href="'+row.institution_url+'">'+data+'</a>'; }
+			},
+			{
+				'sWidth': '20%',
+				'mData': 'to',
+				'mRender': function( data, type, row ) { return '<a href="'+row.entity_url+'">'+data+'</a>'; }
+			},
+			{
+				'sWidth': '20%',
+				'mData': 'for',
+				'mRender': function( data, type, row ) { return '<a href="'+row.project_url+'">'+data+'</a>'; }
+			},
+			{
+				'sWidth': '5%',
+				'mData': 'region'
+			},
+			{
+				'sWidth': '5%',
+				'mData': 'sector'
+			},
+			{
+				'sWidth': '5%',
+				'mData': 'access?',
+				'mRender': function( data ) { if (data) { return 'yes'; } else { return 'no'; } }
+			},
+			{
+				'sWidth':'10%',
+				'mData': 'date'
 			}
-			var footer = nRow.getElementsByTagName('th');
-			footer[0].innerHTML = '$'+to_currency(total['total']);
+		],
+		'fnRowCallback': function( tr, row, index ) {
+			$('td:eq(0)', tr).html( '$'+to_currency( row.amount[r] ));
+		},
+		'fnFooterCallback': function ( tr, row, start, end, index ) {
+			var total = {'total': 0};
+			for (var i=start; i<end; i++) {
+				total.total  += row[index[i]].amount[r] * 1.0;
+			}
+			$('th:eq(0)', tr).html( '$'+to_currency( total.total ));
 		}
 	});
-	$.fn.dataTableExt.afnFiltering.push(function( oSettings, aData, iDataIndex ) {
-		if ( aData[0] != '$0' ) { return true; } else { return false; }
+	$.fn.dataTableExt.afnFiltering.push(function( settings, row, index ) {
+		return (row[0] === '0') ? false : true;
 	});
 	oTable.fnDraw();
 	$('button.table').click(function() { oTable.fnAdjustColumnSizing(); });	

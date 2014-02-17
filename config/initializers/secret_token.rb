@@ -4,4 +4,4 @@
 # If you change this key, all old signed cookies will become invalid!
 # Make sure the secret is at least 30 characters and all random,
 # no regular words or you'll be exposed to dictionary attacks.
-ShiftTheSubsidies::Application.config.secret_token = 'dd9ea09cdeb6d54bb52c8266bfa28aeb2476e9011b88f54ebfeb81bd855cd0f5aad5bee84d577f42f65ed358e08209f0b309bb111d2a093f2ae09d9874d6d15b'
+ShiftTheSubsidies::Application.config.secret_token = '3aa5a70c99f020017b12d2863074e723133f30419ee1cfd059e71db05336468e410e3d2fbcb1a15b1948179db9fae2416daf04e8eda285f1100efa0c69c58969'

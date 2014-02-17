@@ -1,28 +1,27 @@
 <%= render :partial => "layouts/menubar", :locals => {:title => "Subsidy", :modes => false} %>
 
-<div id="page" class="subsidy page">
+<div id="page" class="container">
 
-	<h2>Amount</h2>
 	<p class="amount"><%= number_to_currency( @subsidy.amount ) %></p>	
 
 	<div class="block">
 		<h2>From</h2>
 		<h1><%= link_to @subsidy.institution.name, @subsidy.institution %></h1>
-<!-- 		<p><%= @subsidy.kind %></p> -->
+		<p><%= @subsidy.kind %></p>
 	</div>
 	<div class="block">
 		<h2>To</h2>
 		<h1><%= @subsidy.entity.name %></h1>
-<!-- 		<p><%= @subsidy.entity.kind %></p> -->
+		<p><%= @subsidy.entity.kind %></p>
 	</div>
 	<div class="block">
 		<h2>For</h2>
 		<h1><%= link_to @subsidy.project.name, @subsidy.project %></h1>
-<!-- 		<p><%= @subsidy.project.country %></p> -->
+		<p><%= @subsidy.project.country %></p>
 	</div>
 
 	<hr>
 	<p><b>Approved:</b> <% if @subsidy.date and @subsidy.approved? %><%= @subsidy.date.strftime("%B %e, %Y") %><% else %>Pending<% end %></p>
-	<p><b>Source:</b> <%= auto_link(@subsidy.source) %></p>
+	<p><b>Source:</b> <%= @subsidy.source %></p>
 
 </div>

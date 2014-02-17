@@ -1,4 +1,4 @@
-<% cache(subsidy) do %>{
+<% cache subsidy do %>{
 
 	"amount": {<% (START_YEAR..END_YEAR).each do |y| %>
 		"<%= y %>": <%= subsidy.in_range?(Date.civil(y.to_i,1,1),Date.civil(y.to_i,12,31)) ? subsidy.amount : 0 %>,<% end %>
@@ -15,8 +15,9 @@
 	"sector": "<% if subsidy.project %><%= subsidy.project.sector_name %><% end %>", 
 	"icon": "<% if subsidy.project %><%= subsidy.project.icon %><% end %>", 
 	"category": "<% if subsidy.project %><%= subsidy.project.category %><% end %>", 
+	"region": "<% if subsidy.project %><%= subsidy.project.region %><% end %>",
 
-	"access?": <% if subsidy.project %><%= subsidy.project.access? %><% end %>, 
+	"access?": <% if subsidy.project %><%= subsidy.project.access? %><% else %>false<% end %>,
 
 	"institution_url": "<% if subsidy.institution %><%= url_for subsidy.institution %><% end %>", 
 	"entity_url": "<% if subsidy.entity %><%= url_for subsidy.entity %><% end %>", 

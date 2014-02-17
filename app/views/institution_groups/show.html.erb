@@ -7,5 +7,5 @@
 	var dataURL = '<%= request.url %>/institutions.json';
 </script>
 
-<div id="graphview" class="view"><%= render :partial => "institution_bubbles", :object => @institutions %></div>
-<div id="tableview" class="view"><%= render :partial => "institution_table" %></div>
+<div id="graphview" class="view"><%= render :partial => "institutions/institution_bubbles", :object => @institutions %></div>
+<div id="tableview" class="view"><%= render :partial => "institutions/institution_table" %></div>

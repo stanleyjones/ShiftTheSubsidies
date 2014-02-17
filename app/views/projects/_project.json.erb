@@ -1,4 +1,4 @@
-<% cache(project) do %>{
+<% cache project do %>{
 	"name": "<%= project.name %>",
 	"sector": "<%= project.sector_name %>",
 	"category": "<%= project.category %>",
@@ -8,12 +8,10 @@
 	"url": "<%= url_for project %>",
 	"clean?": <%= project.clean? %>,
 	"access?": <%= project.access? %>,
-	
 	"received": {<% (START_YEAR..END_YEAR).each do |y| %>
 		"<%= y %>": <%= project.received(Date.civil(y.to_i,1,1),Date.civil(y.to_i,12,31),project.live_subsidies) %>,<% end %>
 		"all":  <%= project.received(Date.civil(START_YEAR.to_i,1,1),Date.civil(END_YEAR.to_i,12,31),project.live_subsidies) %>
 	},
-	
 	"live_received": <%= project.received(@start_date,@end_date,project.live_subsidies) %>,
 	"project_id": <%= project.id %>
 }<% end %>

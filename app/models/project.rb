@@ -4,10 +4,12 @@ class Project < ActiveRecord::Base
 	validates :country, :presence => true
 	validates :sector, :presence => true
 	
-	belongs_to :sector
+	belongs_to :sector, :touch => true
 	has_many :subsidies
 	has_many :institutions, :through => :subsidies, :uniq => true
 	has_many :entities, :through => :subsidies, :uniq => true
+
+	attr_accessible :name, :country, :description, :notes, :energy_access, :sector_id
 
 	def self.live
 		Project.joins(:institutions,:subsidies).where(
@@ -18,8 +20,8 @@ class Project < ActiveRecord::Base
 	
 	def self.live_by_region(cc)
 		Project.joins(:institutions,:subsidies).where(
-			"country = :region AND institutions.visible = true AND subsidies.approved = true AND subsidies.date > :start_date AND subsidies.date < :end_date AND subsidies.amount_original > 0",
-			{:region => Carmen.country_name(cc), :start_date => "#{START_YEAR}-01-01", :end_date => "#{END_YEAR}-12-31"}
+			"country_code = :region AND institutions.visible = true AND subsidies.approved = true AND subsidies.date > :start_date AND subsidies.date < :end_date AND subsidies.amount_original > 0",
+			{:region => cc, :start_date => "#{START_YEAR}-01-01", :end_date => "#{END_YEAR}-12-31"}
 		).uniq
 	end
 				
@@ -46,7 +48,7 @@ class Project < ActiveRecord::Base
 	end
 	
 	def country_code
-		if cc = Carmen.country_code(self.country) then cc.downcase else ""; end
+		if cc = Carmen.country_code(self.country) then cc else ""; end
 	end
 
 	def sector_name
@@ -62,9 +64,20 @@ class Project < ActiveRecord::Base
 	end
 	
 	def live_subsidies
-		Rails.cache.fetch("projects/#{self.id}-#{self.updated_at}/live_subsidies") do
-			self.subsidies.live
-		end
+		self.subsidies.live
+	end
+
+	comma do
+
+		name 'Project Name'
+		country 'Project Country'
+		country_code 'Project Country Code'
+		category 'Project Category'
+		sector_name 'Project Sector'
+		sector_name 'Project Subsector'
+		access? 'Project Energy Access'
+		description 'Project Description'
+
 	end
 	
 end

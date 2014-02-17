@@ -2,14 +2,14 @@
 	<p id="caption"><b>Above:</b> Institution groups sized by funding and shaded by <span class="clean">clean</span> vs <span class="fossil">fossil fuel</span> energy projects in their portfolio for <span class="legend_start_year"><%= @start_date.year %></span><span class="legend_end_year">-<%= @end_date.year %></span>.</p>
 </div>
 <script>
-function draw_graph( json ) {
+function draw_graph( data ) {
 	var graph = {
 		'objects':		'institution_groups',
-		'value':			'awarded["'+r+'"].total',
+		'value':		'awarded["'+r+'"].total',
 		'max_value':	1E12,
-		'label':			'd.data.abbreviation',
-		'color':			'd.data.awarded["'+r+'"].clean / d.data.awarded["'+r+'"].total'
+		'label':		'd.abbreviation',
+		'color':		'd.awarded["'+r+'"].clean / d.awarded["'+r+'"].total'
 	}
-	draw_bubble_graph( graph,json );
+	draw_bubble_graph( graph,data );
 }
 </script>

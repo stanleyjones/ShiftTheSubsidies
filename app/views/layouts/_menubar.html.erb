@@ -1,22 +1,20 @@
 <div id="menubar">
-	<h1 id="view_title"><%= title ||= controller.controller_name.capitalize %></h1>
-	<% unless defined? modes and !modes %><ul id="mode">
-		<li><button class="graph" onclick="viewmode('graph');">Graph</button></li>
-		<li><button class="table" onclick="viewmode('table');">Table</button></li>
-	</ul><% end -%>
-	<ul id="popovers">
-		<% if defined? start_date %><li>
-			<button class="range" onclick="popover('range');">Timeline</button>
-			<ul id="range" class="popover">
-				<h2>Years</h2>
-				<li><select id="r">
-					<%= options_for_select (START_YEAR..END_YEAR).to_a << 'all', :selected => 'all' %>
-				</select></li>
-<!--
-				<li><b>Start:</b> <%= select_year start_date.year, {:start_year => START_YEAR, :end_year => END_YEAR}, {:id => "start_year"} %></li>
-				<li><b>End:</b> <%= select_year end_date.year || start_date.year, {:start_year => START_YEAR, :end_year => END_YEAR}, {:id => "end_year"} %></li>
--->
-			</ul>
-		</li><% end -%>
-	</ul>
+	<div class="container">
+		<h1 id="view_title"><%= title ||= controller.controller_name.capitalize %></h1>
+		<% unless defined? modes and !modes %><ul id="mode">
+			<li><button id="graphmode" class="graph mode button" onclick="view('#graph');">Graph</button></li>
+			<li><button id="tablemode" class="table mode button" onclick="view('#table');">Table</button></li>
+		</ul><% end -%>
+		<ul id="popovers">
+			<% if defined? start_date %><li>
+				<button class="range" onclick="popover('range');">Timeline</button>
+				<ul id="range" class="popover">
+					<h2>Years</h2>
+					<li><select id="r">
+						<%= options_for_select (START_YEAR..END_YEAR).to_a << 'all', :selected => 'all' %>
+					</select></li>
+				</ul>
+			</li><% end -%>
+		</ul>
+	</div>
 </div><!-- #menubar -->

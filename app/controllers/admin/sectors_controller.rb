@@ -1,12 +1,13 @@
 class Admin::SectorsController < ApplicationController
 	
 	layout 'admin'
-	cache_sweeper :sector_sweeper, :only => [:create, :update, :destroy]
+	# cache_sweeper :sector_sweeper, :only => [:create, :update, :destroy]
 	
   def index
     respond_to do |format|
       format.html
       format.json { @sectors = Sector.all }
+      format.csv { render :csv => Sector.all, :filename => 'sectors' }
     end
   end
 

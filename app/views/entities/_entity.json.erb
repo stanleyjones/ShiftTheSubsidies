@@ -1,1 +1,12 @@
-<% cache("entities/#{entity.id}-#{entity.updated_at}/#{start_year}/#{end_year}/show") do %>{"name": "<%= entity.name %>", "kind": "<%= entity.kind %>","url": "<%= url_for entity %>","live_total": <%= entity.received(@start_date,@end_date,entity.live_subsidies) %>, "live_fossil": <%= entity.received_to_category("Fossil Fuel",@start_date,@end_date,entity.live_subsidies) %>, "live_clean": <%= entity.received_to_category("Clean",@start_date,@end_date,entity.live_subsidies) %>, "live_access": <%= entity.received_to_energy_access(@start_date,@end_date,entity.live_subsidies) %>, "live_label": "<%= number_to_short( entity.received(@start_date,@end_date,entity.live_subsidies) ) %>", "live_projects": <%= entity.live_projects.size %>, "entity_id":<%= entity.id %>}<% end %>
+<% cache entity do %>{
+	"name": "<%= entity.name %>",
+	"kind": "<%= entity.kind %>",
+	"url": "<%= url_for entity %>",
+	"live_total": <%= entity.received(@start_date,@end_date,entity.live_subsidies) %>,
+	"live_fossil": <%= entity.received_to_category("Fossil Fuel",start_date,@end_date,entity.live_subsidies) %>,
+	"live_clean": <%= entity.received_to_category("Clean",@start_date,end_date,entity.live_subsidies) %>,
+	"live_access": <%= entity.received_to_energy_access(@start_date,end_date,entity.live_subsidies) %>,
+	"live_label": "<%= number_to_short( entity.received(@start_date,end_date,entity.live_subsidies) ) %>",
+	"live_projects": <%= entity.live_projects.size %>,
+	"entity_id":<%= entity.id %>
+}<% end %>

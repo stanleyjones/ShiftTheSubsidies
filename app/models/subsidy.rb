@@ -5,56 +5,69 @@ class Subsidy < ActiveRecord::Base
 	validates :amount_usd, :numericality => { :greater_than_or_equal_to => 0 }, :allow_nil => true
 	validates :amount_original, :numericality => { :greater_than_or_equal_to => 0 }
 	validates :currency, :presence => true
-  validates :exchange_rate, :presence => true, :numericality => true
+	validates :exchange_rate, :presence => true, :numericality => true
 	validates :institution, :presence => true
 	validates :entity, :presence => true
 	validates :project, :presence => true
 	validates :kind, :inclusion => {:in => ['Equity','Grant','Guarantee','Loan']}
 
-  belongs_to :institution, :touch => true
-  belongs_to :entity, :touch => true
-  belongs_to :project, :touch => true
-  
-  def self.live
-  	# TODO: Improve the math for fiscal years
-  	Subsidy.joins(:institution).where(
-  		"institutions.visible = true AND approved = true AND date > :start_date AND date < :end_date AND amount_original > 0",
-  		{:start_date => "#{START_YEAR-1}-01-01", :end_date => "#{END_YEAR}-12-31"}
-  	).uniq
-  end
-  
-  def amount
-  	Rails.cache.fetch("subsidy/#{self.id}-#{self.updated_at}/amount", :expires_in => 24.hours) do
-  		if self.amount_usd
-  			return self.amount_usd
-  		elsif self.amount_original
-	  		if self.currency == "USD"
-  				return self.amount_original
-	  		elsif self.currency == "UAC"
-  				return self.amount_original * 0.66
-  			# elsif Money::Currency.find(self.currency)
-  			# 	original = self.amount_original.to_money(self.currency)
-  			# 	return original.exchange_to('USD').dollars
-        elsif self.exchange_rate != nil
-          return self.amount_original * self.exchange_rate * 1.0
-        else
-          return 0
-	  		end
-  		else
-  			return 0
-  		end
-  	end
-  end
-  
-  def in_range?(start_date,end_date)
-  	if self.date 
-  		return (self.date >= start_date and self.date <= end_date)
-  	else
-  		false
-  	end
-  end
-  
-  def in_category?(category)
+	belongs_to :institution, :touch => true
+	belongs_to :entity, :touch => true
+	belongs_to :project, :touch => true
+
+	has_one :sector, :through => :project
+	has_one :region, :through => :project
+	has_one :institution_group, :through => :institution
+
+	attr_accessible :amount_original, :currency, :amount_usd, :date, :institution_id, :entity_id, :project_id, :kind, :approved, :source, :exchange_rate
+	
+	def self.live
+		# TODO: Improve the math for fiscal years
+		Subsidy.joins(:institution).where(
+			"institutions.visible = true AND approved = true AND date > :start_date AND date < :end_date AND amount_original > 0",
+			{:start_date => "#{START_YEAR-1}-01-01", :end_date => "#{END_YEAR}-12-31"}
+		).uniq
+	end
+
+	def amount
+		Rails.cache.fetch("subsidy/#{self.id}-#{self.updated_at}/amount") do
+			if self.amount_usd
+				self.amount_usd
+			elsif self.amount_original
+				if self.currency == "USD"
+					return self.amount_original
+				elsif self.exchange_rate != nil
+					return self.amount_original * self.exchange_rate * 1.0
+				else
+					return 0
+				end
+			else
+				return 0
+			end
+		end
+	end
+	
+	def in_range?(start_date,end_date)
+		if self.date 
+			return (self.date >= start_date and self.date <= end_date)
+		else
+			false
+		end
+	end
+
+	def fiscal_year
+		if self.date
+			year = self.date.year
+			if self.date < Date.new(year,self.institution.fiscal_year,1)
+				year -= 1
+			end
+			year
+		else
+			0
+		end
+	end
+	
+	def in_category?(category)
 		if self.project and self.project.sector and self.project.sector.category
 			return self.project.sector.category == category
 		else
@@ -62,8 +75,70 @@ class Subsidy < ActiveRecord::Base
 		end
 	end
 
-  private
-  
+	# Export CSV via Comma gem
+
+	comma do
+
+		amount_original 'Amount'
+		amount_usd 'AmountUSD'
+		currency
+		date
+		fiscal_year
+		kind
+
+		institution :name => 'Institution'
+		institution :abbreviation => 'Institution Abbreviation'
+		institution_group :name => 'Institution Group'
+		institution :kind => 'Institution Kind'
+
+		entity :name => 'Entity'
+		entity :kind => 'Entity Kind'
+
+		project :name => 'Project'
+		project :country
+		project :country_code
+		project :sector_name
+		project :category
+		project :access? => 'Energy Access?'
+
+		source
+	end
+
+	comma :all do
+
+		approved 'Visible'
+		amount_original 'Amount'
+		currency
+		exchange_rate
+		amount_usd 'AmountUSD'
+		date
+		fiscal_year
+		kind
+
+		institution :name => 'Institution'
+		institution :abbreviation => 'Institution Abbreviation'
+		institution_group :name => 'Institution Group'
+		institution :kind => 'Institution Kind'
+
+		entity :name => 'Entity'
+		entity :kind => 'Entity Kind'
+
+		project :name => 'Project Name'
+		project :name => 'Project Name (Institution)'
+		project :country => 'Project Country'
+		project :country_code => 'Project Country Code'
+		project :category => 'Project Category'
+		project :sector_name => 'Project Sector'
+		project :sector_name => 'Project Subsector'
+		project :access? => 'Project Energy Access'
+		project :description => 'Project Description'
+
+		source
+
+	end
+
+	private
+	
 	def update_amount_usd
 		usd = self.amount_usd # Keep the original value safe!
 		if self.amount_original and self.currency == "USD"
@@ -78,6 +153,6 @@ class Subsidy < ActiveRecord::Base
 			usd = self.amount_original * 0.66
 		end
 		self.amount_usd = usd.to_i
-		self.save
+		# self.save
 	end
 end

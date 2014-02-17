@@ -1,70 +1,58 @@
-<div id="masthead">
-	<h1 id="site-title"><a href="/">Shift the Subsidies</a></h1>
-	<p id="site-description">Tracking the flow of public money to energy projects around the world.</p>
-</div><!-- #masthead -->
+<!-- Intro Screen -->
 
-<div id="page" class="home page">
+<div id="intro">
+	<div class="container">
 
-	<div id="graph" style="width:455px; height:500px;">
-		<p id="caption"><b>Above:</b> Subsidies from the World Bank Group (FY2008&ndash;FY2011) and major regional development banks (FY2008&ndash;FY2010) to <span class="clean">clean</span>, <span class="fossil">fossil fuel</span>, and <span class="other">other</span> energy projects.</p>
-	</div>
-	
-	<div id="definition">
-		<h2>subsidy</h2><h3>/ˈsʌbsədi/, noun (pl. subsidies):</h3>
-		<p>According to the World Trade Organization, a subsidy is a transfer of funds or a potential transfer of funds from a government or public body through a grant, loan, equity infusion, or loan guarantee; a government fiscal incentive such as a tax credit; a government-provided good or service other than general infrastructure; or a government payment to a funding mechanism or private body to carry out one or more of the functions illustrated above.</p>
-	</div>
-	
-	<div id="intro">
-		<p>For decades, wealthy countries have been using international aid and other foreign assistance&mdash;through grants, loans, equity and loan guarantees&mdash;to subsidize the expansion of the international fossil fuel industry.</p> 
-		<p>The <b>Shift the Subsidies</b> database is an interactive tool to visually track and analyze the flow of energy subsidies from international, regional and bilateral public financial institutions around the world.</p>
-		<p>The database currently tracks subsidies from the World Bank Group from fiscal year 2008 to fiscal year 2011 and major regional development banks from fiscal year 2008 to fiscal year 2010. In the future, we will also add bilateral aid from major governments.</p>
-	</div>
-	
-	<hr>
-	
-	<div class="institutions block"><h2>Funding Institutions</h2>
-		<p>Development banks say they're going green, but IFC's fossil fuel finance is... <strong>TWO THIRDS OF ITS ENERGY PORTFOLIO?</strong></p>
-		<p><%= link_to "Learn which institutions are funding what projects »", institutions_path %></p>
-	</div>
+		<div id="masthead">
+			<h1 id="site-title"><a href="/">Shift the Subsidies</a></h1>
+			<p id="site-tagline">is an interactive tool to visually track and analyze the flow of public money&mdash;subsidies<sup>*</sup>&mdash;to the fossil fuel industry.</p>
+		</div><!-- #masthead -->
 
-	<div class="projects block"><h2>Project Map</h2>
-		<p>Your tax dollars are rebuilding the energy infrastructure... <strong>OF RUSSIA?</strong></p>
-		<p><%= link_to "Learn what they're building with the world's help »", projects_path %></p>
+		<div id="datasets">
+			<button class="data-select international" disabled>International<small>Grants, loans, equity, and loan guarantees to energy projects from international, regional, and bilateral public institutions.</small></button>
+			<button class="data-select national" disabled>National<small>Tax credits, incentives and other types of support from national governments to oil, gas and coal.</small></button>
+		</div>
+
+		<p class="definition"><sup>*</sup> According to the World Trade Organization, a subsidy is a transfer of funds or a potential transfer of funds from a government or public body through a grant, loan, equity infusion, or loan guarantee; a government fiscal incentive such as a tax credit; a government-provided good or service other than general infrastructure; or a government payment to a funding mechanism or private body to carry out one or more of the functions illustrated above.</p>
+
 	</div>
-	
-	<div class="sectors block"><h2>Energy Sectors</h2>
-		<p>The future of energy in the developing world is... <strong>COAL?</strong></p>
-		<p><%= link_to "Learn how much more funding it gets than solar »", sectors_path %></p>
-	</div>
-	
-	<div class="subsidies block last"><h2>Energy Subsidies</h2>
-		<p>In the past three years, development banks have subsidized the fossil fuel industry... <strong>OVER $40B?</strong></p>
-		<p><%= link_to "Learn where all that money is going »", subsidies_path %></p>
-	</div>
-		
-	<p>Make the most of your visit to the <strong>Shift the Subsidies</strong> database. <%= link_to "Learn navigation tips and read our methodology»", "/guide" %></p>
-	<p class="credits">&copy;2011 <a href="http://priceofoil.org/">Oil Change International</a>. All rights reserved. Design by <a href="http://diligentcreative.com">Diligent Creative</a>.</p>
-	
 </div>
-<script>
-var data = {'categories': [
-	{"category": "Fossil Fuel", "total": <%= total_to_category("Fossil Fuel") %>, "label": "<%= number_to_short( total_to_category("Fossil Fuel") ) %>", "url":'/institutions'},
-	{"category": "Clean", "total": <%= total_to_category("Clean") %>, "label": "<%= number_to_short( total_to_category("Clean") ) %>", "url":'/institutions'},
-	{"category": "Other", "total": <%= total_to_category("Other") %>, "label": "<%= number_to_short( total_to_category("Other") ) %>", "url":'/institutions'}
-]};
 
-function draw_mini_graph( json ) {
-	var graph = {
-		'objects':		'categories',
-		'value':			'total',
-		'max_value':	1E12,
-		'label':			'd.data.label'
-	}
+<!-- Main App -->
 
-	$('#graph').width(455).height(500);
-  var pack = d3.layout.pack().sort(null).size([455,455]).value(function(d) { return eval('d.'+graph['value']); }).children(function(d) { return eval('d.'+graph['objects']); });
-  var bubbles = d3.select('#graph').selectAll("div.bubble").data( pack( json ).filter(function(d) { return !d.children; }) );
-	
-	draw_bubbles( bubbles,graph['label'],graph['color'] );
-}
-</script>
+<div id="globe"></div>
+
+<div id="tips">
+	<div class="national-tips">
+		<a data-region="US" href="#national-US">The United States government has given as much as $30B in a year to oil, gas and coal?</a>
+		<a data-region="AU" href="#national-AU">Australia's oil subsidies are over $6B a year?</a>
+		<a data-region="GB" href="#national-GB">The United Kingdom's gas subsidies are increasing?</a>
+		<a data-region="DE" href="#national-DE">Germany gives over $2B a year in coal subsidies?</a>
+		<a data-region="TR" href="#national-TR">Turkey’s fossil fuel subsidies have risen each year since 2005?</a>
+	</div>
+	<div class="international-tips">
+		<a href="/sectors/44">We're funding exploration when known reserves must be left in the ground to avoid climate change?</a>
+		<a href="/institution_groups/2">Over 40% of World Bank Group funding since 2008 has been to fossil fuels?</a>
+		<a href="#international-EG" data-region="EG">Egypt has received over $4B in international funding for fossil fuel development?</a>
+		<a href="/projects/46">A single South African coal plant has received over $5B?</a>
+		<a href="/institutions#tableview">Only 8% of World Bank Group energy projects provide energy access for the poor?</a>
+		<a href="/sectors#tableview">Fossil fuels don’t support energy access for the poor?</a>
+	</div>
+	<div id="center"></div>
+</div>
+
+<!-- Info Bar -->
+
+<div id="info" class="hide">
+	<a class="close">&times;</a>
+	<a class="toggle"></a>
+	<h3 class="name"></h3>
+	<h4 class="total"></h4>
+	<div id="chart"></div>
+	<div id="graph"></div>
+	<div class="action-link"></div>
+	<div class="description"></div>
+	<a class="source" href="https://docs.google.com/spreadsheet/ccc?key=0AlSpzNcXJg6WdHR1Z1VNN3pLQzBJdV9kM2xXelkyVmc&usp=sharing">Source</a>
+</div>
+
+<%= render :partial => 'projects/region_bubbles' %>

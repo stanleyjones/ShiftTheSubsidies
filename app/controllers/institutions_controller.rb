@@ -11,6 +11,7 @@ class InstitutionsController < ApplicationController
 	  		  @institutions = Institution.live
 				end
 			end
+      format.csv { render :csv => Institution.live, :filename => 'institutions' }
    	end
   end
 

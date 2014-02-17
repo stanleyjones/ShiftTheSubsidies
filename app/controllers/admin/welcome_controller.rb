@@ -1,7 +1,8 @@
 class Admin::WelcomeController < ApplicationController
+	skip_before_filter :authorize, :only => [:clear]
 
 	layout 'admin'
-	caches_action :dashboard
+	# caches_action :dashboard
 
 	def dashboard
 		
