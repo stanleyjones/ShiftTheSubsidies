@@ -12,7 +12,8 @@ task :curl do
 		'/admin/sectors.json',
 		'/admin/projects.json'
 	]
-  paths.each do |path|
-  `curl http://shiftthesubsidies.org/#{path}`
-  end
+	paths.each do |path|
+		url = 'http://shiftthesubsidies.org' + path
+		puts `curl -sL -w "[%{http_code}] %{url_effective} - %{time_total}s\\n" #{url} -o /dev/null`
+	end
 end
