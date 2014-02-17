@@ -193,7 +193,7 @@ function draw_globe() {
 		data_loaded(intl_cached,'international');
 	} else {
 		$.getJSON('/projects.json', function(data) {
-			data_loaded(data,'intl');
+			data_loaded(data,'international');
 			data.last_retrieved = Date.now();
 			localStorage.setItem('INTL',JSON.stringify(data));
 		});
@@ -206,7 +206,7 @@ function draw_globe() {
 		Tabletop.init({
 			key: '0AlSpzNcXJg6WdHR1Z1VNN3pLQzBJdV9kM2xXelkyVmc',
 			callback: function(data) {
-				data_loaded(data,'ntnl');
+				data_loaded(data,'national');
 				data.last_retrieved = Date.now();
 				localStorage.setItem('NTNL',JSON.stringify(data));
 			}
