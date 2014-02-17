@@ -17,6 +17,11 @@ group :test do
 	gem 'sqlite3-ruby', :require => 'sqlite3'
 end
 
+group :production do
+	gem 'memcachier'
+	gem 'dalli'
+end
+
 group :development do
 	gem 'pg'
 end
