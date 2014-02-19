@@ -1233,8 +1233,8 @@ div.DTTT_collection a.DTTT_button {
 	#adminlist li:first-child a, #adminlist li:last-child a { color: #c66;background: #900;}
 	#adminlist li a:hover {color:#fff; background:#f00;}
 
-	body.admin.edit { overflow: auto; }
-	body.admin.edit #content { height: auto; padding-top: 100px; }
+	body.admin.edit, body.admin.new { overflow: auto; }
+	body.admin.edit #content, body.admin.new #content { height: auto; padding-top: 100px; }
 
 .notice {
 	margin: 20px auto;

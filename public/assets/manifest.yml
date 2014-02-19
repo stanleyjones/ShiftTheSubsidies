@@ -55,8 +55,8 @@ world-country-names.tsv: world-country-names-787cbeb9737e3bb17e0941fcad4d01b3.ts
 world-country-names/index.tsv: world-country-names-787cbeb9737e3bb17e0941fcad4d01b3.tsv
 world.json: world-adbc23135152d8e6d2d9c386a5853cd8.json
 world/index.json: world-adbc23135152d8e6d2d9c386a5853cd8.json
-application.css: application-4d9cfab840c35d8de554238ca6986093.css
-application/index.css: application-4d9cfab840c35d8de554238ca6986093.css
+application.css: application-19fc695e11b250c3581315175395cbf8.css
+application/index.css: application-19fc695e11b250c3581315175395cbf8.css
 fonts/diavlo_bold_ii_37-webfont.eot: fonts/diavlo_bold_ii_37-webfont-b585a323cb6e9d56c54894d0bf8c801b.eot
 fonts/diavlo_bold_ii_37-webfont/index.eot: fonts/diavlo_bold_ii_37-webfont-b585a323cb6e9d56c54894d0bf8c801b.eot
 fonts/diavlo_bold_ii_37-webfont.svg: fonts/diavlo_bold_ii_37-webfont-cd2cf12cf186ccc3b628d98d50474864.svg
