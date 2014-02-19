@@ -1,5 +1,4 @@
-<%# cache 'institutions' do %>{
-	"institutions": [
+<% cache("institutions/#{request.fullpath}/index", :expires_in => 24.hour) do %>{ "institutions": [
 <%= render :partial => "institution", :collection => @institutions, :locals => {:start_year => @start_date.year, :end_year => @end_date.year}, :spacer_template => "layouts/comma_return" %>
 	]
-}<%# end %>
+}<% end %>

@@ -53,32 +53,23 @@ class Entity < ActiveRecord::Base
 	end
 
 	def live_subsidies
-# 		Rails.cache.fetch("entities/#{self.id}-#{self.updated_at}/live_subsidies") do
-			# All approved subsidies received by this entity from a visible institution
-			self.subsidies.live
-# 		end
+		self.subsidies.live
 	end
 	
 	def live_projects
-# 		Rails.cache.fetch("entities/#{self.id}-#{self.updated_at}/live_projects") do
-			# All projects receiving funding through one of this entity's live subsidies (see above)
-			projects = []
-			self.live_subsidies.each do |s|
-				projects << s.project
-			end
-			projects.uniq
-# 		end
+		projects = []
+		self.live_subsidies.each do |s|
+			projects << s.project
+		end
+		projects.uniq
 	end
 	
 	def live_institutions
-# 		Rails.cache.fetch("entities/#{self.id}-#{self.updated_at}/live_institutions") do
-			# All live institutions funding one of this entity's live projects
-			institutions = []
-			self.live_subsidies.each do |s|
-				if institutions << s.institution; end
-			end
-			institutions.uniq
-# 		end
+		institutions = []
+		self.live_subsidies.each do |s|
+			if institutions << s.institution; end
+		end
+		institutions.uniq
 	end
 		
 end

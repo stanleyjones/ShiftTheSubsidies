@@ -35,9 +35,7 @@ class InstitutionGroup < ActiveRecord::Base
 	end
 	
 	def live_institutions
-# 		Rails.cache.fetch("institution_groups/#{self.id}-#{self.updated_at}/live_institutions") do
-			self.institutions.live
-#		end
+		self.institutions.live
 	end
 	
 end

@@ -102,6 +102,7 @@ class Subsidy < ActiveRecord::Base
 		project :access? => 'Energy Access?'
 
 		source
+
 	end
 
 	comma :all do

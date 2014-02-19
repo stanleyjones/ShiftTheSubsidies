@@ -42,4 +42,11 @@ module SubsidiesHelper
 		sector = Sector.find_by_name(sector)
 		sector.received(Date.civil(START_YEAR.to_i,1,1),Date.civil(END_YEAR.to_i,12,31),sector.live_projects)
 	end
+
+	def cache_key_for_subsidies # Not used (yet?)
+		count = Subsidy.count
+		max_updated_at = Subsidy.maximum(:updated_at).try(:utc).try(:to_s, :number)
+		"subsidies/all-#{count}-#{max_updated_at}"
+	end
+
 end
