@@ -5,6 +5,9 @@
 
 function draw_globe() {
 
+	var START_YEAR = 2008,
+		END_YEAR = 2012;
+
 	var size = size_element('#globe');
 
 	var initial_scale = size.h / 3.333,
@@ -192,25 +195,35 @@ function draw_globe() {
 	if (intl_cached && (Date.now() - intl_cached.last_retrieved < (1000 * 3600 * 24))) {
 		data_loaded(intl_cached,'international');
 	} else {
-		$.getJSON('/projects.json', function(data) {
-			data_loaded(data,'international');
-			data.last_retrieved = Date.now();
-			localStorage.setItem('INTL',JSON.stringify(data));
-		});
+		try {
+			$.getJSON('/projects.json', function(data) {
+				data_loaded(data,'international');
+				data.last_retrieved = Date.now();
+				localStorage.setItem('INTL',JSON.stringify(data));
+			});
+		}
+		catch (err) {
+			console.log('Error loading INTL data: ' + err.message);
+		}
 	}
 
 	var ntnl_cached = JSON.parse(localStorage.getItem('NTNL'));
 	if (ntnl_cached && (Date.now() - ntnl_cached.last_retrieved < (1000 * 3600 * 24))) {
 		data_loaded(ntnl_cached,'national');
 	} else {
-		Tabletop.init({
-			key: '0AlSpzNcXJg6WdHR1Z1VNN3pLQzBJdV9kM2xXelkyVmc',
-			callback: function(data) {
-				data_loaded(data,'national');
-				data.last_retrieved = Date.now();
-				localStorage.setItem('NTNL',JSON.stringify(data));
-			}
-		});
+		try {
+			Tabletop.init({
+				key: '0AlSpzNcXJg6WdHR1Z1VNN3pLQzBJdV9kM2xXelkyVmc',
+				callback: function(data) {
+					data_loaded(data,'national');
+					data.last_retrieved = Date.now();
+					localStorage.setItem('NTNL',JSON.stringify(data));
+				}
+			});
+		}
+		catch (err) {
+			console.log('Error loading NTL data: ' + err.message);			
+		}
 	}
 
 	function data_loaded(data,dataset) {
@@ -250,7 +263,7 @@ function draw_globe() {
 						'actionurl': row.actionurl,
 						'xr': {}
 					};
-					for (var y = 2005; y < 2012; y++) {
+					for (var y = START_YEAR; y < END_YEAR; y++) {
 						ntnl_data[cc].xr['y'+y] = row['y'+y+'xr'] || 1;
 					}
 				}
@@ -266,17 +279,17 @@ function draw_globe() {
 					$.each( data[row.name].elements, function( index,row ) {
 						if ( typeof fuels[row.industry] == 'undefined' ) {
 							fuels[row.industry] = {};
-							for (var y = 2005; y < 2012; y++) {
+							for (var y = START_YEAR; y < END_YEAR; y++) {
 								fuels[row.industry]['y'+y] = 0;
 							}
 						}
-						for (var y = 2005; y < 2012; y++) {
+						for (var y = START_YEAR; y < END_YEAR; y++) {
 							fuels[row.industry]['y'+y] += parseInt(row['y'+y] * ntnl_data[cc].xr['y'+y]) * mult || 0;
 						}
 					});
 					var fuel_data = [];
 					for ( var fuel in fuels ) {
-						for (var y = 2005; y < 2012; y++) {
+						for (var y = START_YEAR; y < END_YEAR; y++) {
 							fuel_data.push({'fuel': fuel, 'year': y, 'amount': fuels[fuel]['y'+y]});
 						}
 					}
@@ -288,17 +301,17 @@ function draw_globe() {
 					$.each( data[row.name].elements, function( index,row ) {
 						if ( typeof targets[row.target] == 'undefined' ) {
 							targets[row.target] = {};
-							for (var y = 2005; y < 2012; y++) {
+							for (var y = START_YEAR; y < END_YEAR; y++) {
 								targets[row.target]['y'+y] = 0;
 							}
 						}
-						for (var y = 2005; y < 2012; y++) {
+						for (var y = START_YEAR; y < END_YEAR; y++) {
 							targets[row.target]['y'+y] += parseInt(row['y'+y] * ntnl_data[cc].xr['y'+y]) * mult || 0;
 						}
 					});
 					var target_data = [];
 					for ( var target in targets ) {
-						for (var y = 2005; y < 2012; y++) {
+						for (var y = START_YEAR; y < END_YEAR; y++) {
 							target_data.push({'target': target, 'year': y, 'amount': targets[target]['y'+y]});
 						}
 					}
