@@ -1,5 +1,6 @@
 //= require vendor/jquery-1.9.1.js
 //= require vendor/jquery.dataTables-1.9.4.js
+//= require jquery_ujs
 
 //= require vendor/d3.v3.js
 //= require vendor/topojson.v1.js
