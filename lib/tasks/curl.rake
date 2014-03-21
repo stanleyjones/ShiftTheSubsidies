@@ -13,7 +13,7 @@ task :curl do
 		'/admin/projects.json'
 	]
 	paths.each do |path|
-		url = 'http://shiftthesubsidies.org' + path
-		puts `curl -sL -w "[%{http_code}] %{url_effective} - %{time_total}s\\n" #{url} -o /dev/null`
+		url = (ENV['RAILS_ENV'] == 'production') ? 'http://shiftthesubsidies.org' : 'http://shiftthesubsidies.dev'
+		puts `curl -sL -w "[%{http_code}] %{url_effective} - %{time_total}s\\n" #{url + path} -o /dev/null`
 	end
 end
