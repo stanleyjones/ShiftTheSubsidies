@@ -58,7 +58,10 @@ class Subsidy < ActiveRecord::Base
 	def fiscal_year
 		if self.date
 			year = self.date.year
-			if self.date >= Date.new(year,self.institution.fiscal_year,1)
+
+			fiscalDate = Date.new(year,self.institution.fiscal_year,1) - 1.day
+			fiscalDate = fiscalDate.change(:year => year)
+			if self.date > fiscalDate
 				year += 1
 			end
 			year
