@@ -110,34 +110,33 @@ class Subsidy < ActiveRecord::Base
 
 	comma :all do
 
-		approved 'Visible'
-		amount_original 'Amount'
-		currency
-		exchange_rate
-		amount_usd 'AmountUSD'
-		date
-		fiscal_year
-		kind
+		approved 'visible'
+		date 'date'
+		amount_original 'amountOriginal'
+		amount_usd 'amountUSD'
+		currency 'currency'
+		exchange_rate 'XR'
+		fiscal_year 'FY'
+		kind 'kind'
 
-		institution :name => 'Institution'
-		institution :abbreviation => 'Institution Abbreviation'
-		institution_group :name => 'Institution Group'
-		institution :kind => 'Institution Kind'
+		institution :name => 'institution'
+		institution :abbreviation => 'institutionAbbr'
+		institution_group :name => 'institutionGroup'
+		institution :kind => 'institutionKind'
 
-		entity :name => 'Entity'
-		entity :kind => 'Entity Kind'
+		project :name => 'project'
+		project :name => 'projectInstitutionName'
+		project :description => 'projectDesc'
 
-		project :name => 'Project Name'
-		project :name => 'Project Name (Institution)'
-		project :country => 'Project Country'
-		project :country_code => 'Project Country Code'
-		project :category => 'Project Category'
-		project :sector_name => 'Project Sector'
-		project :sector_name => 'Project Subsector'
-		project :access? => 'Project Energy Access'
-		project :description => 'Project Description'
+		project :country => 'region'
+		project :country_code => 'regionCC'
 
-		source
+		project :category => 'category'
+		project :sector_name => 'sector'
+		project :sector_name => 'stage'
+		project :access? => 'access'
+
+		source 'source'
 
 	end
 
