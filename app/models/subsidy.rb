@@ -20,7 +20,7 @@ class Subsidy < ActiveRecord::Base
 	has_one :institution_group, :through => :institution
 
 	attr_accessible :amount_original, :currency, :amount_usd, :date, :institution_id, :entity_id, :project_id, :kind, :approved, :source, :exchange_rate
-	
+
 	def self.live
 		# TODO: Improve the math for fiscal years
 		Subsidy.joins(:institution).where(
@@ -46,9 +46,9 @@ class Subsidy < ActiveRecord::Base
 			end
 		end
 	end
-	
+
 	def in_range?(start_date,end_date)
-		if self.date 
+		if self.date
 			return (self.date >= start_date and self.date <= end_date)
 		else
 			false
@@ -69,7 +69,7 @@ class Subsidy < ActiveRecord::Base
 			0
 		end
 	end
-	
+
 	def in_category?(category)
 		if self.project and self.project.sector and self.project.sector.category
 			return self.project.sector.category == category
@@ -117,7 +117,7 @@ class Subsidy < ActiveRecord::Base
 		currency 'currency'
 		exchange_rate 'XR'
 		fiscal_year 'FY'
-		kind 'kind'
+		kind 'mechanism'
 
 		institution :name => 'institution'
 		institution :abbreviation => 'institutionAbbr'
@@ -136,12 +136,15 @@ class Subsidy < ActiveRecord::Base
 		project :sector_name => 'stage'
 		project :access? => 'access'
 
+		entity :name => 'entity'
+		entity :kind => 'entityKind'
+
 		source 'source'
 
 	end
 
 	private
-	
+
 	def update_amount_usd
 		usd = self.amount_usd # Keep the original value safe!
 		if self.amount_original and self.currency == "USD"
