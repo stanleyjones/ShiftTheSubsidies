@@ -1,3 +1,7 @@
+__NOTICE:__ This project was deprecated in favor of [Shift](https://github.com/stanleyjones/shift) in 2013.
+
+---
+
 # Shift the Subsidies
 
 The __Shift the Subsidies - International__ database is an interactive tool to visually track and analyze the flow of energy subsidies from international, regional and bilateral public financial institutions around the world.
